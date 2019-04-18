@@ -4,7 +4,7 @@
   "description": "Immersive storyboard viewer",
   "main": "index.js",
   "scripts": {
-    "start": "watch:sass && cd public; serve -s"
+    "start": "gulp | http-server"
   },
   "author": "chachasikes@gmail.com",
   "dependencies": {},
