@@ -12,8 +12,8 @@ export class StoryBoxBuilder {
     });
     this.totalTimeElapsed = 0;
     this.totalDuration = totalDuration;
-    this.numberScenes = storybox.length
-
+    this.numberScenes = storybox.length;
+    this.timer = null;
   }
 
   firstScene() {
@@ -29,10 +29,31 @@ export class StoryBoxBuilder {
 
   playScene() {
     console.log('playScene', this);
+
+    let blox = new Blox(storybox[this.currentScene]);
+
+    if (storybox[this.currentScene].duration) {
+      this.timer = window.setTimeout(function(){
+
+        if(blox) document.body.removeChild(blox.renderer.domElement) // HACK
+        clearTimeout(this.timer);
+        this.nextScene();
+        this.playScene();
+        // console.log(scene);
+
+      }.bind(this), storybox[this.currentScene].duration);
+    }
+
   }
 
   pauseScene() {
     console.log('pauseScene', this);
+    clearTimeout(this.timer);
+  }
+
+  stopScene() {
+    console.log('stopScene', this);
+    clearTimeout(this.timer);
   }
 
   previousScene() {
@@ -50,20 +71,14 @@ export class StoryBoxBuilder {
 
   render() {
     storybox.forEach(scene => {
-      if (scene.duration) {
-        window.setTimeout(function(){
-
-        }, scene.duration);
-      }
 
 
-      // let blox = new Blox(scene);
-      // if(blox) document.body.removeChild(blox.renderer.domElement) // HACK
-      // console.log(scene);
+
+
     });
 
     return (`
-      <div class="buttons">
+      <div class="buttons" style="z-index: 9999">
         <div>Current Scene: ${this.currentScene}</div>
         <div>Total Duration: ${this.totalDuration}</div>
         <button onClick="window.StoryBoxBuilder.firstScene()">First Scene</button>

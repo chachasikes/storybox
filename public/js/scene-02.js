@@ -50,9 +50,9 @@ export let Scene = {
         {
           name: "flower",
           mesh: {
+            art: "https://dl.dropboxusercontent.com/s/574jrne8cb60mtp/scene.gltf",
+            bin: "https://dl.dropboxusercontent.com/s/1mr52php5mdtipj/scene.bin",
             scale: {
-              art: "https://dl.dropboxusercontent.com/s/574jrne8cb60mtp/scene.gltf",
-              bin: "https://dl.dropboxusercontent.com/s/1mr52php5mdtipj/scene.bin",
               x: 3,
               y: 3,
               z: 3
