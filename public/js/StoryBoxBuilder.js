@@ -19,18 +19,21 @@ export class StoryBoxBuilder {
 
   firstScene() {
     this.currentScene = 0;
+    clearTimeout(this.timer);
     console.log('firstScene', this);
     this.update();
   }
 
   lastScene() {
     this.currentScene = this.numberScenes;
+    clearTimeout(this.timer);
     console.log('lastScene', this);
     this.update();
   }
 
   play() {
     this.currentScene = 0;
+    clearTimeout(this.timer);
     this.playScene();
   }
 
@@ -43,7 +46,7 @@ export class StoryBoxBuilder {
 
     let blox = new Blox(storybox[this.currentScene]);
 
-    if (storybox[this.currentScene].duration) {
+    if (storybox[this.currentScene] && storybox[this.currentScene].duration) {
       this.timer = window.setTimeout(function(){
 
         if(blox) document.body.removeChild(blox.renderer.domElement) // HACK

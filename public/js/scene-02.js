@@ -1,5 +1,5 @@
 export let Scene = {
-      scene: 0,
+      scene: 1,
       title: "Scene 2",
       description: "A flower",
       duration: 10000,
