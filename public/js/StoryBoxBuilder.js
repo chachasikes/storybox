@@ -14,17 +14,28 @@ export class StoryBoxBuilder {
     this.totalDuration = totalDuration;
     this.numberScenes = storybox.length;
     this.timer = null;
+    this.target = null;
   }
 
   firstScene() {
     this.currentScene = 0;
     console.log('firstScene', this);
+    this.update();
   }
 
   lastScene() {
-
     this.currentScene = this.numberScenes;
     console.log('lastScene', this);
+    this.update();
+  }
+
+  play() {
+    this.currentScene = 0;
+    this.playScene();
+  }
+
+  replayScene() {
+    this.playScene();
   }
 
   playScene() {
@@ -43,49 +54,50 @@ export class StoryBoxBuilder {
 
       }.bind(this), storybox[this.currentScene].duration);
     }
-
+    this.update();
   }
 
   pauseScene() {
     console.log('pauseScene', this);
     clearTimeout(this.timer);
+    this.update();
   }
 
   stopScene() {
     console.log('stopScene', this);
     clearTimeout(this.timer);
+    this.update();
   }
 
   previousScene() {
-
     this.currentScene = this.currentScene > 0 ? this.currentScene - 1 : 0;
     console.log('previousScene', this);
+    this.update();
   }
 
   nextScene() {
-
     this.currentScene = this.currentScene < this.numberScenes ? this.currentScene + 1 : this.numberScenes;
     console.log('nextScene', this);
+    this.update();
   }
 
+  update() {
+    this.render(this.target);
+  }
 
-  render() {
-    storybox.forEach(scene => {
-
-
-
-
-    });
-
-    return (`
+  render(target) {
+    this.target = target;
+    let div = document.body.querySelector(this.target)
+    div.innerHTML = (`
       <div class="buttons" style="z-index: 9999">
         <div>Current Scene: ${this.currentScene}</div>
         <div>Total Duration: ${this.totalDuration}</div>
         <button onClick="window.StoryBoxBuilder.firstScene()">First Scene</button>
         <button onClick="window.StoryBoxBuilder.previousScene()">Back</button>
-        <button onClick="window.StoryBoxBuilder.nextScene()"">Next</button>
+        <button onClick="window.StoryBoxBuilder.nextScene()">Next</button>
         <button onClick="window.StoryBoxBuilder.lastScene()">Last Scene</button>
-        <button onClick="window.StoryBoxBuilder.playScene()">Play</button>
+        <button onClick="window.StoryBoxBuilder.play()">Play</button>
+        <button onClick="window.StoryBoxBuilder.replayScene()">Replay Scene</button>
         <button onClick="window.StoryBoxBuilder.pauseScene()">Pause</button>
       </div>
       `

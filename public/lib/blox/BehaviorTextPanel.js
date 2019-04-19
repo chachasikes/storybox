@@ -15,7 +15,6 @@ export class BehaviorTextPanel extends BehaviorMesh {
 
 		if(this.geometry) this.geometry.dispose()
 		this.geometry = geometry
-
 	}
 
 	makeGeometry(w,h) {
