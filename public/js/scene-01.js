@@ -2,7 +2,7 @@ export let Scene = {
       scene: 0,
       title: "Scene 1",
       description: "A forest",
-      duration: 10000,
+      duration: 30000,
       group: [
         {
           name: "camera",

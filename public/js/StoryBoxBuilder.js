@@ -76,12 +76,16 @@ export class StoryBoxBuilder {
     this.currentScene = this.currentScene > 0 ? this.currentScene - 1 : 0;
     console.log('previousScene', this);
     this.update();
+    clearTimeout(this.timer);
+    this.playScene();
   }
 
   nextScene() {
     this.currentScene = this.currentScene < this.numberScenes ? this.currentScene + 1 : this.numberScenes;
     console.log('nextScene', this);
     this.update();
+    clearTimeout(this.timer);
+    this.playScene();
   }
 
   update() {
@@ -92,7 +96,7 @@ export class StoryBoxBuilder {
     this.target = target;
     let div = document.body.querySelector(this.target)
     div.innerHTML = (`
-      <div class="buttons" style="z-index: 9999">
+      <div class="buttons">
         <div>Current Scene: ${this.currentScene}</div>
         <div>Total Duration: ${this.totalDuration}</div>
         <button onClick="window.StoryBoxBuilder.firstScene()">First Scene</button>

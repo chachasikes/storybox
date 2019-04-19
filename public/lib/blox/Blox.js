@@ -57,11 +57,11 @@ export class Blox {
 	/// description = a JSON hash of behaviors OR a string of a filename to load
 	/// parent = a parent blox if any
 	///
-	constructor(description={},parent=0) {
-		this.load(description,parent)
+	constructor(description={},parent=0,target="#blox") {
+		this.load(description,parent,target)
 	}
 
-	async load(description={},parent=0) {
+	async load(description={},parent=0,target="#blox") {
 		// grant a default name that can be rewritten during construction
 		this.name = "blox" + UUID++
 		// save details so that the blox can be cloned on demand
@@ -72,6 +72,7 @@ export class Blox {
 		this.functions = {}
 		// behaviors are hashed here AND currently attached directly as properties for user convenience
 		this.behaviors = {}
+		this.target = target
 		// inhale behaviors
 		try {
 			if(typeof description == 'string') {
