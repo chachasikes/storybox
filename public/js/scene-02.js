@@ -1,0 +1,62 @@
+export let Scene = {
+      scene: 0,
+      title: "Scene 2",
+      description: "A flower",
+      duration: 10000,
+      group: [{
+          name: "camera",
+          camera: {
+            position: {
+              x: 20,
+              y: 5,
+              z: 50
+            },
+            lookat: {
+              x: 0,
+              y: 10,
+              z: 0
+            },
+          },
+          orbit: {
+            lookat: {
+              x: 0,
+              y: 10,
+              z: 0
+            },
+          }
+        },
+
+        // a light
+        {
+          name: "light",
+          light: {
+            position: {
+              x: -30,
+              y: 40,
+              z: -50
+            },
+            color: 0xFFFFFF,
+          }
+        },
+
+        // a skybox
+        {
+          name: "sky",
+          sky: {
+            art: "https://www.dropbox.com/s/isug6g2w8src68y/scene.gltf?dl=1",
+          }
+        },
+
+        {
+          name: "flower",
+          load: "https://www.dropbox.com/sh/pr4d4yylijxxhjw/AAAfkjRNGOEphiKEjr-wlScCa?dl=0",
+          mesh: {
+            scale: {
+              x: 1,
+              y: 1,
+              z: 1
+            },
+          },
+        },
+    ]
+};
