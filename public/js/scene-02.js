@@ -43,13 +43,13 @@ export let Scene = {
         {
           name: "sky",
           sky: {
-            art: "https://www.dropbox.com/s/isug6g2w8src68y/scene.gltf?dl=1",
+            art: "https://dl.dropboxusercontent.com/s/7bt2oz3gukuporf/mountain_sky_equirectangular.png?dl=1",
           }
         },
 
         {
           name: "flower",
-          load: "https://www.dropbox.com/sh/pr4d4yylijxxhjw/AAAfkjRNGOEphiKEjr-wlScCa?dl=0",
+          load: "https://dl.dropboxusercontent.com/s/574jrne8cb60mtp/scene.gltf?dl=1",
           mesh: {
             scale: {
               x: 1,

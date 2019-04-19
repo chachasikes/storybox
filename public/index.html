@@ -12,12 +12,28 @@
     <script>
         window.polyfill = new WebXRPolyfill();
     </script>
-    <script src='lib/gl-matrix-min.js'></script>
-    <script src='lib/cottontail.js'></script>
-    <script src='lib/webxr-button.js'></script>
+    <script src='lib/gl-matrix-min.js'></script> <!-- VR Button related -->
+    <script src='lib/cottontail.js'></script> <!-- CubeSeaScene -->
+    <script src='lib/webxr-button.js'></script> <!-- VR Button related -->
+
+    <script src="lib/three.js"></script>
+    <script src="lib/OrbitControls.js"></script>
+    <script src="lib/hilbert3D.js"></script>
+    <script src="lib/WebGL.js"></script>
+    <script src='lib/LineSegmentsGeometry.js'></script>
+    <script src='lib/LineGeometry.js'></script>
+    <script src='lib/WireframeGeometry2.js'></script>
+    <script src='lib/LineMaterial.js'></script>
+    <script src='lib/LineSegments2.js'></script>
+    <script src='lib/Line2.js'></script>
+    <script src='lib/Wireframe.js'></script>
+    <script src="lib/three-gltf-loader.js"></script>
+    <script src="lib/ammo.js"></script>
+    <script src="lib/XRSupport.js"></script>
+    <script src="lib/three.proton.js"></script>
 
     <script type=module>
-      import { App } from './js/app.js';
+      import { App } from './js/App.js';
       window.App = new App();
       let target = document.body.querySelector('#app')
       target.innerHTML = window.App.render()
