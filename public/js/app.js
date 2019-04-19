@@ -6,8 +6,7 @@ export class App {
     this.render()
   }
   render() {
-    return (
-      `<div>StoryBox</div>`
-    )
+    let story = new StoryBoxBuilder(storybox);
+    return story.render();
   }
 }
