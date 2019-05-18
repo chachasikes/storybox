@@ -2,9 +2,11 @@
 import {BehaviorMesh} from './BehaviorMesh.js'
 
 export class BehaviorTextPanel extends BehaviorMesh {
-	constructor(props,blox) {
+	constructor(args) {
+		let props = args.description
+		let blox = args.blox
 		props.art = "sphere" // temporary
-		super(props,blox)
+		super(args)
 		this.props = props
 
 		let material = this.makeMaterial(props.say || "hello")
@@ -15,6 +17,7 @@ export class BehaviorTextPanel extends BehaviorMesh {
 
 		if(this.geometry) this.geometry.dispose()
 		this.geometry = geometry
+
 	}
 
 	makeGeometry(w,h) {

@@ -1,47 +1,69 @@
 
 ///
-/// A mesh manager
+/// A basic node of various flavors
 ///
 /// TODO support active or inactive
 /// TODO should material properties be more detailed?
+/// TODO may wish to insert a group concept and generalize this and remove BehaviorGroup
+/// then, children could translate but ignore orientation of this object if they wished
+/// the kinetic forces would have to be smart enough to act locally or globally
+///
+/// - ok the idea is that everything is a group
+/// - and there can be a children that are art or other kinds of things at will
+/// - when we are rotating something i think i want to rotate the child
+/// - when i translate something i want to translate the parent
+/// - targeting should solve for the transform of the object, ignoring orientation
 ///
 
 export class BehaviorMesh extends THREE.Mesh {
 
-	constructor(props={},blox=0) {
+	constructor(args) {
 
 		// TODO I would prefer to instance and set properties in one step rather than deleting and resetting properties
 		super()
 
-		// reset physics
-		this.physicsReset()
-
 		// set or reset various properties from params
-		this.on_reset({description:props,blox:blox})
+		this.on_reset(args)
+
+		// force set these properties on the blox; by convention these become reserved for this role
+		let blox = args.blox
+		if(blox.mesh) console.error("Warning: mesh already assigned")
+		blox.mesh = this
+		blox.position = this.position
+		blox.quaternion = this.quaternion
 
 	}
 
 	/// set or reset qualities of this mesh
 	on_reset(args) {
 
-		let props = args.description
-		if(!props) return
+		let props = args.description || this.description
+		if(!props) {
+			console.error("need to pass some args to reset a mesh")
+			return true // allow event to be passed onwards
+		}
+
+		// support a single parameter - to the art
+		if(typeof props === "string") props = { art:props }
 
 		// set or reset material from params if changed
 		// - do this before the geom in case I later want to try scavenge material into gltf
 		if(!this.description || props.color != this.description.color || !this.material) {
 			let c = props.color || 0xff00ff
 			let s = props.doublesided ? THREE.DoubleSide : 0
-			let t = props.transparent ? 0 : 0
-			let m = new THREE.MeshPhongMaterial( {color: c, transparent: t, side: s } )
+			let a = props.alpha ? 0 : 0
+			let t = props.texture ? THREE.ImageUtils.loadTexture(props.texture) : 0
+			let mat = new THREE.MeshPhongMaterial( {color: c, transparent: a, side: s, map: t } )
 			if(this.material) this.material.dispose()
-			this.material = m
+			this.material = mat
+			//console.log("updated material")
 		}
 
 		// set or reset geometry if changed
 		if(!this.madeGeometry || (this.description && props.art && this.description.art != props.art)) {
 			if(props.hasOwnProperty("art"))
-				this.geometry = this.setGeometryFromString(props.art, props.bin)
+				this.geometry = this.setGeometryFromString(props.art)
+			//console.log("updated geometry to " + props.art)
 		}
 
 		let mesh = this
@@ -55,19 +77,17 @@ export class BehaviorMesh extends THREE.Mesh {
 		}
 
 		if(props.orientation) {
-			mesh.rotation.x = props.orientation.x * Math.PI/180.0
-			mesh.rotation.y = props.orientation.y * Math.PI/180.0
-			mesh.rotation.z = props.orientation.z * Math.PI/180.0
+			mesh.rotation.set(props.orientation.x * Math.PI/180.0, props.orientation.y * Math.PI/180.0, props.orientation.z * Math.PI/180.0 )
 		}
 
 		if(typeof props.visible !== 'undefined') {
-			mesh.visible = props.visible ? true : false
+			this.material.visible = props.visible ? true : false
 		}
 
 	}
 
 	/// set or reset geometry from a string description with special rules
-	setGeometryFromString(str, bin=null) {
+	setGeometryFromString(str) {
 
 		this.madeGeometry = true
 
@@ -88,10 +108,11 @@ export class BehaviorMesh extends THREE.Mesh {
 				geometry = null
 				break
 			case "box":
+			case "cube":
 				geometry = new THREE.BoxBufferGeometry(1,1,1,16,16,16)
 				break
 			case "sphere":
-				geometry = new THREE.SphereGeometry(1,16,16)
+				geometry = new THREE.SphereGeometry(1,32,32)
 				break
 			default:
 				is_gltf = 1
@@ -107,19 +128,13 @@ export class BehaviorMesh extends THREE.Mesh {
 			return this.geometry
 		}
 
-		// actually i don't want to see it
-		if(this.material) this.material.visible = false
+		// i don't want to see it
+		// if(this.material) this.material.visible = false
 
 		// load the gltf
-		let url = str.indexOf('scene.gtlf') > -1 ? str : str + "/scene.gltf"
+		let url = str + "/scene.gltf"
 		let loader = new THREE.GLTFLoader()
-	  let mesh = this
-
-
-		if (bin !== null) {
-			console.log(loader)
-			loader.setPath(bin)
-		}
+	    let mesh = this
 
 		loader.load(url, (gltf) => {
 
@@ -151,8 +166,6 @@ export class BehaviorMesh extends THREE.Mesh {
 			if(this.material) this.material.visible = false
 		})
 
-
-
 		return this.geometry
 	}
 
@@ -168,64 +181,18 @@ export class BehaviorMesh extends THREE.Mesh {
 	/// notice when any children blox show up and add to 3js
 	///
 
-	on_add(args) {
+	on_blox_added(args) {
+		let blox = args.blox
+		let child = args.child
 		let mesh = this
-		let children = args.blox.query({instance:THREE.Object3D,all:true})
-		children.forEach((child) => { mesh.add(child) })
+		let children = child.query({instance:THREE.Object3D,all:true})
+		children.forEach((value)=>{
+			console.log("*******  mesh named " + args.blox.name + " adding child named " + args.child.name)
+			mesh.add(value)
+		})
+		return false // don't continue to pass this fact on
 	}
 
-
-	///
-	/// notice tick event and update kinetic physics
-	///
-
-	on_tick(args) {
-		this.physicsTick()
-	}
-
-	/// TODO may move kinetic physics elsewhere
-	physicsTick() {
-		if(!this.physical) return
-
-		// dampen linear movement by friction
-		this.linear.x = this.linear.x * this.friction
-		this.linear.y = this.linear.y * this.friction
-		this.linear.z = this.linear.z * this.friction
-
-		// apply force to object
-		this.position.add(this.linear)
-	}
-
-	physicsReset() {
-		this.physical = 0
-		this.friction = 0.9
-		this.linear = new THREE.Vector3()
-	}
-
-	///
-	/// Apply a linear force to an object, or an angular force, which dampen over time
-	/// TODO use time interval TODO parameterize
-
-	physicsForce(linear=0,angular=0) {
-		this.physical = 1
-		if(linear) {
-			// rotate force to current heading and apply it to forces on object
-			//let scratch = new THREE.Vector3(this.linear.x,this.linear.y,this.linear.z)
-			let scratch = new THREE.Vector3(linear.x,linear.y,linear.z) //this.linear.x,this.linear.y,this.linear.z)
-			scratch.applyQuaternion( this.quaternion )
-			this.linear.add(scratch)
-		}
-		if(angular) {
-			// get angular force as a quaternion
-			let q = new THREE.Quaternion() ; q.setFromEuler(angular)
-			// apply to current orientation immediately
-			this.quaternion.multiply(q)
-			// debug
-			let e = new THREE.Euler()
-			e.setFromQuaternion(this.quaternion)
-			let x = e.x * 180 / Math.PI
-			let y = e.y * 180 / Math.PI
-			let z = e.z * 180 / Math.PI
-		}
-	}
 }
+
+

@@ -1,183 +1,102 @@
-<!doctype html>
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>StoryBox</title>
     <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no'>
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <meta name='mobile-web-app-capable' content='yes'>
     <meta name='apple-mobile-web-app-capable' content='yes'>
-
-    <title>StoryBox</title>
     <link href='css/common.css' rel='stylesheet'></link>
-    <script src='lib/webxr-polyfill.js'></script>
-    <script>
-        window.polyfill = new WebXRPolyfill();
+
+    <script src="./lib/three.js/build/three.js"></script>
+    <script src="./lib/three.js/examples/js/controls/OrbitControls.js"></script>
+    <script src="./lib/three.js/examples/js/geometries/hilbert3D.js"></script>
+    <script src="./lib/three.js/examples/js/WebGL.js"></script>
+    <script src='./lib/three.js/examples/js/lines/LineSegmentsGeometry.js'></script>
+    <script src='./lib/three.js/examples/js/lines/LineGeometry.js'></script>
+    <script src='./lib/three.js/examples/js/lines/WireframeGeometry2.js'></script>
+    <script src='./lib/three.js/examples/js/lines/LineMaterial.js'></script>
+    <script src='./lib/three.js/examples/js/lines/LineSegments2.js'></script>
+    <script src='./lib/three.js/examples/js/lines/Line2.js'></script>
+    <script src='./lib/three.js/examples/js/lines/Wireframe.js'></script>
+    <script src="./lib/three.js/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="./lib/ammo.js"></script>
+
+    <!-- an outline effect - could load this dynamically -->
+    <script src="./lib/three.js/examples/js/shaders/CopyShader.js"></script>
+    <script src="./lib/three.js/examples/js/shaders/FXAAShader.js"></script>
+    <script src="./lib/three.js/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="./lib/three.js/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="./lib/three.js/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="./lib/three.js/examples/js/postprocessing/OutlinePass.js"></script>
+
+    <!-- for geospatial xr support -->
+    <script src="./lib/Cesium.js"></script>
+
+
+    <script type=module>
+
+    import {Blox} from "./lib/blox/Blox.js"
+
+    window.onload = function() {
+
+    	const params = new URLSearchParams(window.location.search)
+    	const file = params.get("file")
+    	if(file && file.length > 0) {
+    		document.getElementById("options").style.display = "none"
+    		document.getElementById("help").style.display = "block"
+    		document.getElementById("source").href = "https://github.com/anselm/blox/blob/master/public/"+file
+    		let blox = new Blox({description:file})
+    	} else {
+    		document.getElementById("options").style.display = "block"
+    		document.getElementById("help").style.display = "none"
+    	}
+
+    }
     </script>
-    <script src='lib/gl-matrix-min.js'></script> <!-- VR Button related -->
-    <script src='lib/cottontail.js'></script> <!-- CubeSeaScene -->
-    <script src='lib/webxr-button.js'></script> <!-- VR Button related -->
 
-    <script src="lib/three.js"></script>
-    <script src="lib/OrbitControls.js"></script>
-    <script src="lib/hilbert3D.js"></script>
-    <script src="lib/WebGL.js"></script>
-    <script src='lib/LineSegmentsGeometry.js'></script>
-    <script src='lib/LineGeometry.js'></script>
-    <script src='lib/WireframeGeometry2.js'></script>
-    <script src='lib/LineMaterial.js'></script>
-    <script src='lib/LineSegments2.js'></script>
-    <script src='lib/Line2.js'></script>
-    <script src='lib/Wireframe.js'></script>
-    <script src="lib/three-gltf-loader.js"></script>
-    <script src="lib/ammo.js"></script>
-    <script src="lib/XRSupport.js"></script>
-    <script src="lib/three.proton.js"></script>
-    <script src="lib/VRController.js"></script>
-    <!-- https://stewdio.github.io/THREE.VRController/ -->
-
+<!--
     <script type=module>
       import { App } from './js/app.js';
       window.App = new App('#app');
       window.App.init('#app')
-    </script>
+    </script> -->
 
   </head>
   <body>
-    <header>
+    <!-- <header>
       <details open>
         <summary>StoryBox</summary>
         <p>
           Description TBD
         </p>
       </details>
-    </header>
-    <div id="app" style="z-index: 9999; position: absolute; top: 0, left: 0">app</div>
-    <div id="blox" style="z-index: 1"></div>
-    <script>
-      (function () {
-      'use strict';
+    </header> -->
+    <!-- <div id="app" style="z-index: 9999; position: absolute; top: 0, left: 0">app</div>
+    <div id="blox" style="z-index: 1"></div> -->
 
-      // XR globals.
-      let xrButton = null;
-      let xrExclusiveFrameOfRef = null;
-      let xrNonExclusiveFrameOfRef = null;
 
-      // WebGL scene globals.
-      let gl = null;
-      let renderer = null;
-      let scene = new CubeSeaScene();
+<div id="help" style="position:absolute;top:20px;right:0;display:none">
+<a id="source" href="" style="border:3px solid gray;background:white;font-size:1em;text-decoration:none;border-radius:8px;margin:4px;padding:3px">View Source</a>
+<a id="source" href="?file=" style="border:3px solid gray;background:white;font-size:1em;text-decoration:none;border-radius:8px;margin:4px;padding:3px">Back</a>
+</div>
 
-      function initXR() {
-        xrButton = new XRDeviceButton({
-          onRequestSession: onRequestSession,
-          onEndSession: onEndSession
-        });
-        document.querySelector('header').appendChild(xrButton.domElement);
+<div id="options" style="display:none">
+<h1>A collection of Blox examples</h1>
+<a class="helpitem" href="?file=./lib/examples/helloworld.js"><span>Hello World</span></a>
+<a class="helpitem" href="?file=./lib/examples/controls.js"><span>Navigating around</span></a>
+<a class="helpitem" href="?file=./lib/examples/cloning.js"><span>Creating Flowers</span></a>
+<a class="helpitem" href="?file=./lib/examples/collisions.js"><span>Colliding with Flowers</span></a>
+<a class="helpitem" href="?file=./lib/examples/sequencing.js"><span>Bees visiting flowers</span></a>
+<a class="helpitem" href="?file=./lib/examples/infrontof.js"><span>Bee staying in front of you</span></a>
+<a class="helpitem" href="?file=./lib/examples/particles.js"><span>Cherry Blossoms Particle Effects</span></a>
+<a class="helpitem" href="?file=./lib/examples/physics.js"><span>Simple Physics</span></a>
+<a class="helpitem" href="?file=./lib/examples/image_anchor.js"><span>Image Anchors</span></a>
+<a class="helpitem" href="?file=./lib/examples/geo_anchor.js"><span>Geo Markers</span></a>
+</div>
 
-        if (navigator.xr && navigator.xr.requestDevice) {
-          navigator.xr.requestDevice().then((device) => {
-            xrButton.setDevice(device);
 
-            if (!device)
-              return;
 
-            // In order for a non-immersive session to be used we must provide
-            // an outputContext, which indicates the canvas that will contain
-            // results of the session's rendering.
-            let outputCanvas = document.createElement('canvas');
-            let ctx = outputCanvas.getContext('xrpresent');
 
-            // Pick an arbitrary device for the magic window content and start
-            // up a non-immersive session if possible.
-            device.requestSession({ outputContext: ctx })
-                .then((session) => {
-                  // Add the canvas to the document once we know that it will be
-                  // rendered to.
-                  document.body.appendChild(outputCanvas);
-                  onSessionStarted(session);
-                });
-          });
-        } else {
-          console.log("No XR support found");
-          console.log(window.App)
-        }
-      }
-
-      function onRequestSession(device) {
-        device.requestSession({ immersive: true }).then((session) => {
-          xrButton.setSession(session);
-          onSessionStarted(session);
-        });
-      }
-
-      function onSessionStarted(session) {
-        session.addEventListener('end', onSessionEnded);
-
-        if (!gl) {
-          gl = createWebGLContext({
-            compatibleXRDevice: session.device
-          });
-
-          renderer = new Renderer(gl);
-
-          scene.setRenderer(renderer);
-        }
-
-        session.baseLayer = new XRWebGLLayer(session, gl);
-
-        session.requestFrameOfReference('eye-level').then((frameOfRef) => {
-          // Since we're dealing with multple sessions now we need to track
-          // which XRFrameOfReference is associated with which XRSession.
-          if (session.immersive) {
-            xrExclusiveFrameOfRef = frameOfRef;
-          } else {
-            xrNonExclusiveFrameOfRef = frameOfRef;
-          }
-          session.requestAnimationFrame(onXRFrame);
-        });
-      }
-
-      function onEndSession(session) {
-        session.end();
-      }
-
-      function onSessionEnded(event) {
-        // Only reset the button when the immersive session ends.
-        if (event.session.immersive)
-          xrButton.setSession(null);
-      }
-
-      // Called every time a XRSession requests that a new frame be drawn.
-      function onXRFrame(t, frame) {
-        let session = frame.session;
-        // Ensure that we're using the right frame of reference for the session.
-        let frameOfRef = session.immersive ?
-                         xrExclusiveFrameOfRef :
-                         xrNonExclusiveFrameOfRef;
-        let pose = frame.getDevicePose(frameOfRef);
-
-        scene.startFrame();
-
-        session.requestAnimationFrame(onXRFrame);
-
-        gl.bindFramebuffer(gl.FRAMEBUFFER, session.baseLayer.framebuffer);
-        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-        if (pose) {
-          for (let view of frame.views) {
-            let viewport = session.baseLayer.getViewport(view);
-            gl.viewport(viewport.x, viewport.y,
-                        viewport.width, viewport.height);
-
-            scene.draw(view.projectionMatrix, pose.getViewMatrix(view));
-          }
-        }
-
-        scene.endFrame();
-      }
-
-      // Start the XR application.
-      initXR();
-      })();
-    </script>
   </body>
 </html>

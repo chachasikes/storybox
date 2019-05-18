@@ -17,7 +17,9 @@ export class BehaviorPhysics {
 	}
 
 	/// singleton constructor, can be called multiple times although it is slightly wasteful (a tiny object is created and thrown away)
-	constructor(props,blox) {
+	constructor(args) {
+		let props = args.description
+		let blox = args.blox
 
 		// a singleton
 		if(physicsInstance) {
@@ -27,7 +29,6 @@ export class BehaviorPhysics {
 		physicsInstance = this
 
 		Ammo()
-		console.log("XXXX")
 
 		this.collisionConfiguration  = new Ammo.btDefaultCollisionConfiguration()
 		this.dispatcher              = new Ammo.btCollisionDispatcher(this.collisionConfiguration)
@@ -51,6 +52,7 @@ export class BehaviorPhysics {
 
 	on_tick() {
 		this.dynamicsWorld.stepSimulation(1/60, 10)
+		return true // allow event to be passed onwards
 	}
 
 	destroy() {
@@ -190,7 +192,7 @@ export class BehaviorPhysical {
 	on_tick(args) {
 		let blox = args.blox
 
-		if(!blox.mesh) return
+		if(!blox.mesh) return true
 
 		if(this.props.force) {
 			// test code remove - idea is to push the button back out constantly - TODO
@@ -206,6 +208,7 @@ export class BehaviorPhysical {
 			blox.mesh.position.set( p.x(), p.y(), p.z() )
 			blox.mesh.quaternion.set( q.x(), q.y(), q.z(), q.w() )
 		}
+		return true // allow event to be passed onwards
 	}
 }
 
