@@ -13,7 +13,6 @@
         window.polyfill = new WebXRPolyfill();
     </script>
     <script src='lib/gl-matrix-min.js'></script>
-    
     <script src='lib/webxr-button.js'></script>
 
     <script src="./lib/three.js/build/three.js"></script>
@@ -41,7 +40,6 @@
     <!-- for geospatial xr support -->
     <script src="./lib/Cesium.js"></script>
 
-
     <script type=module>
       import { App } from './js/app.js';
       window.App = new App('#app');
@@ -53,16 +51,9 @@
     <header>
       <details open>
         <summary>StoryBox</summary>
-        <p>
-          Description TBD
-        </p>
       </details>
     </header>
-    <div id="app" style="z-index: 9999; position: absolute; top: 0, left: 0">app</div>
-    <div id="blox" style="z-index: 1">blox</div>
-
-
-
-
+    <div id="app" style="z-index: 9999; position: absolute; top: 0, left: 0"></div>
+    <!-- <div id="blox" style="z-index: 1">blox</div> -->
   </body>
 </html>

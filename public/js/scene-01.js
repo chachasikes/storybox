@@ -1,10 +1,8 @@
 export let Scene = {
       scene: 0,
-      title: "Scene 1",
-      description: "A forest",
+      name: "A forest",
       duration: 30000,
-      group: [
-        {
+      mycamera: {
           name: "camera",
           camera: {
             position: {
@@ -26,9 +24,7 @@ export let Scene = {
             },
           }
         },
-
-        // a light
-        {
+      mylight: {
           name: "light",
           light: {
             position: {
@@ -41,13 +37,13 @@ export let Scene = {
         },
 
         // a skybox
-        {
+      myskybox: {
           name: "sky",
           sky: {
             art: "https://dl.dropboxusercontent.com/s/7bt2oz3gukuporf/mountain_sky_equirectangular.png",
           }
         },
-        {
+      myanimation: {
           name: "animation",
           mesh: {
             art: "https://dl.dropboxusercontent.com/s/isug6g2w8src68y/scene.gltf",
@@ -59,5 +55,5 @@ export let Scene = {
             },
           },
         },
-      ]
+      
 };

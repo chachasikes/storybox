@@ -44,7 +44,7 @@ export class StoryBoxBuilder {
   playScene() {
     console.log('playScene', this);
 
-    let blox = new Blox(storybox[this.currentScene]);
+    let blox = new Blox({description: storybox[this.currentScene]});
 
     if (storybox[this.currentScene] && storybox[this.currentScene].duration) {
       this.timer = window.setTimeout(function(){
@@ -53,8 +53,7 @@ export class StoryBoxBuilder {
         clearTimeout(this.timer);
         this.nextScene();
         this.playScene();
-        // console.log(scene);
-
+        console.log(scene);
       }.bind(this), storybox[this.currentScene].duration);
     }
     this.update();

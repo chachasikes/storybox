@@ -1,7 +1,7 @@
 export let Scene = {
       scene: 1,
       title: "Scene 2",
-      description: "A flower",
+      name: "A flower",
       duration: 70000,
       group: [{
           name: "camera",
