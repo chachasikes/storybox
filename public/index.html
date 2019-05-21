@@ -8,6 +8,14 @@
     <meta name='apple-mobile-web-app-capable' content='yes'>
     <link href='css/common.css' rel='stylesheet'></link>
 
+    <script src='lib/webxr-polyfill.js'></script>
+    <script>
+        window.polyfill = new WebXRPolyfill();
+    </script>
+    <script src='lib/gl-matrix-min.js'></script>
+    
+    <script src='lib/webxr-button.js'></script>
+
     <script src="./lib/three.js/build/three.js"></script>
     <script src="./lib/three.js/examples/js/controls/OrbitControls.js"></script>
     <script src="./lib/three.js/examples/js/geometries/hilbert3D.js"></script>
@@ -33,65 +41,28 @@
     <!-- for geospatial xr support -->
     <script src="./lib/Cesium.js"></script>
 
-    <script type=module>
 
-    import {Blox} from "./lib/blox/Blox.js"
-
-    window.onload = function() {
-    	const params = new URLSearchParams(window.location.search)
-    	const file = params.get("file")
-    	if(file && file.length > 0) {
-    		document.getElementById("options").style.display = "none"
-    		document.getElementById("help").style.display = "block"
-    		document.getElementById("source").href = "https://github.com/anselm/blox/blob/master/public/"+file
-    		let blox = new Blox({description:file})
-    	} else {
-    		document.getElementById("options").style.display = "block"
-    		document.getElementById("help").style.display = "none"
-    	}
-
-    }
-    </script>
-
-<!--
     <script type=module>
       import { App } from './js/app.js';
       window.App = new App('#app');
       window.App.init('#app')
-    </script> -->
+    </script>
 
   </head>
   <body>
-    <!-- <header>
+    <header>
       <details open>
         <summary>StoryBox</summary>
         <p>
           Description TBD
         </p>
       </details>
-    </header> -->
-    <!-- <div id="app" style="z-index: 9999; position: absolute; top: 0, left: 0">app</div>
-    <div id="blox" style="z-index: 1"></div> -->
+    </header>
+    <div id="app" style="z-index: 9999; position: absolute; top: 0, left: 0">app</div>
+    <div id="blox" style="z-index: 1">blox</div>
 
 
-<div id="help" style="position:absolute;top:20px;right:0;display:none">
-<a id="source" href="" style="border:3px solid gray;background:white;font-size:1em;text-decoration:none;border-radius:8px;margin:4px;padding:3px">View Source</a>
-<a id="source" href="?file=" style="border:3px solid gray;background:white;font-size:1em;text-decoration:none;border-radius:8px;margin:4px;padding:3px">Back</a>
-</div>
 
-<div id="options" style="display:none">
-<h1>A collection of Blox examples</h1>
-<a class="helpitem" href="?file=./lib/examples/helloworld.js"><span>Hello World</span></a>
-<a class="helpitem" href="?file=./lib/examples/controls.js"><span>Navigating around</span></a>
-<a class="helpitem" href="?file=./lib/examples/cloning.js"><span>Creating Flowers</span></a>
-<a class="helpitem" href="?file=./lib/examples/collisions.js"><span>Colliding with Flowers</span></a>
-<a class="helpitem" href="?file=./lib/examples/sequencing.js"><span>Bees visiting flowers</span></a>
-<a class="helpitem" href="?file=./lib/examples/infrontof.js"><span>Bee staying in front of you</span></a>
-<a class="helpitem" href="?file=./lib/examples/particles.js"><span>Cherry Blossoms Particle Effects</span></a>
-<a class="helpitem" href="?file=./lib/examples/physics.js"><span>Simple Physics</span></a>
-<a class="helpitem" href="?file=./lib/examples/image_anchor.js"><span>Image Anchors</span></a>
-<a class="helpitem" href="?file=./lib/examples/geo_anchor.js"><span>Geo Markers</span></a>
-</div>
 
   </body>
 </html>
