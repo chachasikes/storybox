@@ -46,7 +46,7 @@ export class StoryBoxBuilder {
 
     // let blox = new Blox({description: storybox[this.currentScene]});
     let aframe = new AframeMapper();
-    let story = aframe.render(this.currentScene);
+    let story = aframe.render(storybox[this.currentScene]);
     document.getElementById('scene').innerHTML = story;
     if (storybox[this.currentScene] && storybox[this.currentScene].duration) {
       this.timer = window.setTimeout(function(){

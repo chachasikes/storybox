@@ -38,9 +38,12 @@ export let Scene = {
 
         // a skybox
       myskybox: {
-          name: "sky",
           sky: {
+            // color: "#FFCC00",
             art: "https://dl.dropboxusercontent.com/s/7bt2oz3gukuporf/mountain_sky_equirectangular.png",
+            id: "mountain-sky",
+            name: "Mountain Sky, hand painted",
+            credit: "Chacha Sikes"
           }
         },
       // myanimation: {

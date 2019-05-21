@@ -5,13 +5,33 @@ export class AframeMapper {
   }
 
   render(json) {
+    let innerMarkup = ``;
     if (json !== undefined) {
+      Object.keys(json).map((item) => {
+        if (Object.keys(json[item]).length > 0) {
+            Object.keys(json[item]).map((propkey) => {
+              switch(propkey) {
+                case 'sky':
+                  let props = json[item][propkey];
+                  if (props.color !== undefined) {
+                    console.log(innerMarkup);
+                    innerMarkup = `${innerMarkup}<a-sky color="${props.color}"></a-sky>`;
+                  } else if (props.color === undefined && props.art !== undefined && props.id !== undefined) {
+                    innerMarkup = `${innerMarkup}<a-assets>
+                      <img id="${props.id}" src="${props.art}" crossorigin="anonymous">
+                     </a-assets>
+                    <a-sky src="#${props.id}"></a-sky>`;
+                  }
+                  break;
+              }
+            });
+
+        }
+      });
+
+
         return `<a-scene>
-          <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-          <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-          <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-          <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-          <a-sky color="#ECECEC"></a-sky>
+        ${innerMarkup}
         </a-scene>`;
     }
   }
