@@ -1,5 +1,5 @@
-import { Blox } from './../lib/blox/Blox.js';
 import { storybox } from './storybox.js';
+import { AframeMapper } from './AframeMapper.js';
 
 export class StoryBoxBuilder {
   constructor() {
@@ -44,16 +44,17 @@ export class StoryBoxBuilder {
   playScene() {
     console.log('playScene', this);
 
-    let blox = new Blox({description: storybox[this.currentScene]});
-
+    // let blox = new Blox({description: storybox[this.currentScene]});
+    let aframe = new AframeMapper();
+    let story = aframe.render(this.currentScene);
+    document.getElementById('scene').innerHTML = story;
     if (storybox[this.currentScene] && storybox[this.currentScene].duration) {
       this.timer = window.setTimeout(function(){
+        // if(blox && typeof document.body === 'Node') document.body.removeChild(blox.renderer.domElement) // HACK
 
-        if(blox && typeof document.body === 'Node') document.body.removeChild(blox.renderer.domElement) // HACK
         clearTimeout(this.timer);
         this.nextScene();
         this.playScene();
-        console.log(scene);
       }.bind(this), storybox[this.currentScene].duration);
     }
     this.update();
@@ -108,5 +109,6 @@ export class StoryBoxBuilder {
       </div>
       `
     );
+
   }
 }
