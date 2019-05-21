@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Immersive storyboard viewer",
   "main": "index.js",
+  "homepage": "./public",
   "scripts": {
     "start": "gulp | http-server"
   },

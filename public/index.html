@@ -33,13 +33,11 @@
     <!-- for geospatial xr support -->
     <script src="./lib/Cesium.js"></script>
 
-
     <script type=module>
 
     import {Blox} from "./lib/blox/Blox.js"
 
     window.onload = function() {
-
     	const params = new URLSearchParams(window.location.search)
     	const file = params.get("file")
     	if(file && file.length > 0) {
@@ -94,9 +92,6 @@
 <a class="helpitem" href="?file=./lib/examples/image_anchor.js"><span>Image Anchors</span></a>
 <a class="helpitem" href="?file=./lib/examples/geo_anchor.js"><span>Geo Markers</span></a>
 </div>
-
-
-
 
   </body>
 </html>

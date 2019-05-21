@@ -26,29 +26,9 @@ function scss(cb) {
     cb();
 }
 
-function lib(cb) {
-  src('./src/app/lib/*')
-    .pipe(sass({outputStyle: 'expanded'}))
-    .on('error', sass.logError)
-    .pipe(autoprefix({
-      browsers: ['> 2%', 'ie >= 10'],
-      grid: true
-    }))
-    .pipe(t2.obj((chunk, enc, cb) => { // Execute through2
-      let date = new Date();
-      chunk.stat.atime = date;
-      chunk.stat.mtime = date;
-      cb(null, chunk);
-    }))
-    .pipe(dest('./public/lib'))
-
-    cb();
-}
-
-
 function watcher(cb) {
   watch('./src/app/**/*.scss', series(scss))
   cb()
 }
 
-module.default = task('default', series([scss, watcher, lib]));
+module.default = task('default', series([scss, watcher]));
