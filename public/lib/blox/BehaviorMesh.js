@@ -61,8 +61,13 @@ export class BehaviorMesh extends THREE.Mesh {
 
 		// set or reset geometry if changed
 		if(!this.madeGeometry || (this.description && props.art && this.description.art != props.art)) {
-			if(props.hasOwnProperty("art"))
-				this.geometry = this.setGeometryFromString(props.art)
+			if(props.hasOwnProperty("art")) {
+				if (props.bin === undefined) {
+					this.geometry = this.setGeometryFromString(props.art)
+				} else {
+					this.geometry = this.setGeometryFromString(props.art, props.bin)
+				}
+			}
 			//console.log("updated geometry to " + props.art)
 		}
 
@@ -194,5 +199,3 @@ export class BehaviorMesh extends THREE.Mesh {
 	}
 
 }
-
-
