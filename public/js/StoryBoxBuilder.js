@@ -49,7 +49,7 @@ export class StoryBoxBuilder {
     if (storybox[this.currentScene] && storybox[this.currentScene].duration) {
       this.timer = window.setTimeout(function(){
 
-        if(blox) document.body.removeChild(blox.renderer.domElement) // HACK
+        if(blox && typeof document.body === 'Node') document.body.removeChild(blox.renderer.domElement) // HACK
         clearTimeout(this.timer);
         this.nextScene();
         this.playScene();
