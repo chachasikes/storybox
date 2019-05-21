@@ -43,17 +43,17 @@ export let Scene = {
             art: "https://dl.dropboxusercontent.com/s/7bt2oz3gukuporf/mountain_sky_equirectangular.png",
           }
         },
-      myanimation: {
-          name: "animation",
-          mesh: {
-            art: "https://dl.dropboxusercontent.com/s/isug6g2w8src68y/scene.gltf",
-            bin: "https://dl.dropboxusercontent.com/s/y7681t5jqal3iya/scene.bin",
-            scale: {
-              x: 5,
-              y: 5,
-              z: 5
-            },
-          },
-        },
-      
+      // myanimation: {
+      //     name: "animation",
+      //     mesh: {
+      //       art: "https://dl.dropboxusercontent.com/s/isug6g2w8src68y/scene.gltf",
+      //       bin: "https://dl.dropboxusercontent.com/s/y7681t5jqal3iya/scene.bin",
+      //       scale: {
+      //         x: 5,
+      //         y: 5,
+      //         z: 5
+      //       },
+      //     },
+      //   },
+
 };
