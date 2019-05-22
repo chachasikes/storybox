@@ -23,16 +23,27 @@ export class AframeMapper {
                     <a-sky src="#${props.id}"></a-sky>`;
                   }
                   break;
+                case 'mesh':
+                  let props = json[item][propkey];
+                  if (props.art !== undefined) {
+                    if (props.scale !== undefined &&
+                        props.scale.x !== undefined &&
+                        props.scale.y !== undefined &&
+                        props.scale.z !== undefined ) {
+                        innerMarkup = `${innerMarkup}<a-entity gltf-model="url(${props.art})" scale="${props.scale.x} ${props.scale.y} ${props.scale.z}">`;
+                    }
+                  }
+                  break;
+
               }
             });
 
         }
       });
 
-
-        return `<a-scene>
-        ${innerMarkup}
-        </a-scene>`;
+      return `<a-scene>
+      ${innerMarkup}
+      </a-scene>`;
     }
   }
 }
