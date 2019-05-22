@@ -94,7 +94,8 @@ export class StoryBoxBuilder {
 
   render(target) {
     this.target = target;
-    let div = document.body.querySelector(this.target)
+    let div = document.body.querySelector(this.target);
+
     div.innerHTML = (`
       <div class="buttons">
         <div>Current Scene: ${this.currentScene}</div>
