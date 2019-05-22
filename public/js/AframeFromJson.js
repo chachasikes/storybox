@@ -1,6 +1,4 @@
-
-
-export class AframeMapper {
+export class AframeFromJson {
   constructor() {
     this.getDimensions = this.getDimensions.bind(this);
     this.getValue = this.getValue.bind(this);
@@ -14,7 +12,10 @@ export class AframeMapper {
         attribute: `${data[label]}`,
       }
     }
-    return null;
+    return {
+      tag: ``,
+      attribute: ``,
+    };
   }
 
   getDimensions(label, data) {
@@ -52,7 +53,9 @@ export class AframeMapper {
                     <a-assets>
                       <img id="${props.id}" src="${props.art}" crossorigin="anonymous" />
                     </a-assets>
-                    <a-sky src="${props.art}" animation="property: rotation; to: ${rotation.attributes}; dur: 10">
+                    <a-sky src="${props.art}" animation="property: rotation; to: ${rotation.attributes}; dur: 10"
+                    animation__fade="property: components.material.material.color; type: color; from: #FFF; to: #000; dur: 300; startEvents: fade"
+                    animation__fadeback="property: components.material.material.color; type: color; from: #000; to: #FFF; dur: 300; startEvents: animationcomplete__fade">
                     </a-sky>`;
                   }
                   break;
@@ -64,6 +67,7 @@ export class AframeMapper {
                   }
                   break;
                 case 'camera':
+                console.log('com', props, position);
                   innerMarkup = `${innerMarkup}
                   <a-entity id="${props.id}" ${position.tag}>
                     <a-camera id="${props.id}"></a-camera>
@@ -74,15 +78,26 @@ export class AframeMapper {
                   <a-light type="point" ${color.tag} ${position.tag}>
                   </a-light>`;
                   break;
+
               }
+              innerMarkup = `${innerMarkup}`;
             });
 
         }
       });
 
-      return `<a-scene>
-      ${innerMarkup}
-      </a-scene>`;
+      return `${innerMarkup}`;
     }
   }
 }
+
+
+//     <div>Current Scene: ${this.currentScene}</div>
+//     <div>Total Duration: ${this.totalDuration}</div>
+//     <button onClick="window.StoryBoxBuilder.firstScene()">First Scene</button>
+//     <button onClick="window.StoryBoxBuilder.previousScene()">Back</button>
+//     <button onClick="window.StoryBoxBuilder.nextScene()">Next</button>
+//     <button onClick="window.StoryBoxBuilder.lastScene()">Last Scene</button>
+//     <button onClick="window.StoryBoxBuilder.play()">Play</button>
+//     <button onClick="window.StoryBoxBuilder.replayScene()">Replay Scene</button>
+//     <button onClick="window.StoryBoxBuilder.pauseScene()">Pause</button>

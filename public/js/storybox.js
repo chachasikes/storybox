@@ -16,7 +16,6 @@ function numberScenes(story) {
     item.scene = count++;
     return item;
   });
-  console.log(story);
   return story;
 }
 

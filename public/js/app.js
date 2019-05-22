@@ -6,5 +6,6 @@ export class App {
     let story = new StoryBoxBuilder(target);
     window.StoryBoxBuilder = story;
     story.render(target);
+    window.StoryBoxBuilder.start();
   }
 }

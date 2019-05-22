@@ -9,6 +9,21 @@
     <link href='css/common.css' rel='stylesheet'></link>
 
     <script src="https://aframe.io/releases/0.9.1/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
+
+    <script id="link" type="text/html">
+      <a-entity class="link"
+        geometry="primitive: plane; height: 1; width: 1"
+        material="shader: flat; src: ${thumb}"
+        event-set__mouseenter="scale: 1.2 1.2 1"
+        event-set__mouseleave="scale: 1 1 1"
+        event-set__click="_target: #image-360; _delay: 300; material.src: ${src}"
+        proxy-event="event: click; to: #image-360; as: fade"
+        sound="on: click; src: #click-sound"></a-entity>
+    </script>
 
     <script type=module>
       import { App } from './js/app.js';
@@ -20,9 +35,37 @@
     <header>
       <details open>
         <summary>StoryBox</summary>
+        <p>Immersive story player</p>
       </details>
     </header>
     <div id="app" style="z-index: 9999; position: absolute; top: 0, left: 0"></div>
-    <div id="scene"></div>
+    <div id="scene">
+      <a-scene>
+
+        <!-- Templates. -->
+        <a-assets>
+          <script id="start" type="text/html">
+            <a-box
+              color="red"
+              data-clickable
+              visible="true"
+              position="2 1.75 -0.2"
+              height="0.5"
+              width="0.5"
+              rotation="0 90 0"
+              onclick="window.StoryBoxBuilder.playScene()"
+              event-set__enter="_event: mouseenter;  width: 0.53; height: 0.53;"
+              event-set__leave="_event: mouseleave;  width: 0.5; height: 0.5;">
+            </a-box>
+          </script>
+        </a-assets>
+
+        <a-camera>
+          <a-cursor id="curseid" raycaster="objects: [data-clickable]"</a-cursor>
+        </a-camera>
+
+        <a-entity id="control" template="src: #start"></a-entity>
+      </a-scene>
+    </div>
   </body>
 </html>

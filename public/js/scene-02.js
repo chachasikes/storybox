@@ -1,30 +1,17 @@
 export let Scene = {
   scene: 1,
+  id: "red-forest",
   name: "A forest",
   duration: 30000,
   camera_1: {
     camera: {
       name: "World camera",
-      id: "camera_1",
-      camera: {
-        position: {
-          x:45,
-          y:60,
-          z:180
-        },
-        lookat: {
-          x: 0,
-          y: 10,
-          z: 0
-        },
+      id: "camera_2",
+      position: {
+        x:45,
+        y:60,
+        z:180
       },
-      orbit: {
-        lookat: {
-          x: 0,
-          y: 10,
-          z: 0
-        },
-      }
     }
   },
   yellowLight: {

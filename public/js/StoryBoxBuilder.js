@@ -1,5 +1,5 @@
 import { storybox } from './storybox.js';
-import { AframeMapper } from './AframeMapper.js';
+import { AframeFromJson } from './AframeFromJson.js';
 
 export class StoryBoxBuilder {
   constructor() {
@@ -37,17 +37,30 @@ export class StoryBoxBuilder {
     this.playScene();
   }
 
+  start() {
+    this.currentScene = 0;
+    clearTimeout(this.timer);
+    this.startStory();
+  }
+
   replayScene() {
     this.playScene();
   }
 
+  startStory() {
+    console.log('playScene', this);
+    let aframeContent = new AframeFromJson();
+    storybox.map(scene => {
+      let story = aframeContent.render(scene);
+      if (typeof document.querySelector('a-scene').appendChild === 'object') {
+        document.querySelector('a-scene').appendChild(`<script id="${scene.id}" type="text/html">${story}</script>`);
+      }
+    });
+    this.update();
+  }
+
   playScene() {
     console.log('playScene', this);
-
-    // let blox = new Blox({description: storybox[this.currentScene]});
-    let aframe = new AframeMapper();
-    let story = aframe.render(storybox[this.currentScene]);
-    document.getElementById('scene').innerHTML = story;
     if (storybox[this.currentScene] && storybox[this.currentScene].duration) {
       this.timer = window.setTimeout(function(){
         clearTimeout(this.timer);
@@ -92,22 +105,18 @@ export class StoryBoxBuilder {
 
   render(target) {
     this.target = target;
-    let div = document.body.querySelector(this.target);
-
-    div.innerHTML = (`
-      <div class="buttons">
-        <div>Current Scene: ${this.currentScene}</div>
-        <div>Total Duration: ${this.totalDuration}</div>
-        <button onClick="window.StoryBoxBuilder.firstScene()">First Scene</button>
-        <button onClick="window.StoryBoxBuilder.previousScene()">Back</button>
-        <button onClick="window.StoryBoxBuilder.nextScene()">Next</button>
-        <button onClick="window.StoryBoxBuilder.lastScene()">Last Scene</button>
-        <button onClick="window.StoryBoxBuilder.play()">Play</button>
-        <button onClick="window.StoryBoxBuilder.replayScene()">Replay Scene</button>
-        <button onClick="window.StoryBoxBuilder.pauseScene()">Pause</button>
-      </div>
-      `
-    );
-
+    // document.querySelector('#control').setAttribute('template', `src: #${storybox[this.currentScene].id}`)
   }
 }
+
+
+
+  // <a-scene>
+  //   <a-assets timeout="10000">
+  //     <img id="waitingonme">
+  //   </a-assets>
+  // </a-scene>
+  //
+  // document.querySelector('a-assets').addEventListener('loaded', function () {
+  //   console.log("OK LOADED");
+  // });
