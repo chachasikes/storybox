@@ -50,13 +50,14 @@ export class AframeFromJson {
                     innerMarkup = `${innerMarkup}<a-sky color="${color.attribute}"></a-sky>`;
                   } else if (props.color === undefined && props.art !== undefined && props.id !== undefined) {
                     innerMarkup = `${innerMarkup}
+                    <a-scene>
                     <a-assets>
                       <img id="${props.id}" src="${props.art}" crossorigin="anonymous" />
                     </a-assets>
                     <a-sky src="${props.art}" animation="property: rotation; to: ${rotation.attributes}; dur: 10"
                     animation__fade="property: components.material.material.color; type: color; from: #FFF; to: #000; dur: 300; startEvents: fade"
                     animation__fadeback="property: components.material.material.color; type: color; from: #000; to: #FFF; dur: 300; startEvents: animationcomplete__fade">
-                    </a-sky>`;
+                    </a-sky></a-scene>`;
                   }
                   break;
                 case 'mesh':

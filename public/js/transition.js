@@ -1,6 +1,6 @@
 export let Scene = {
   scene: 2,
-  id: "transition",
+  id: "start",
   name: "FadeoutFadein",
   duration: 1000,
   type: 'transition',

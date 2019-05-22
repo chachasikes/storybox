@@ -5,9 +5,9 @@ import { Scene as transition } from './transition.js';
 let story = [
   transition,
   s1,
-  transition,
+  // transition,
   s2,
-  transition
+  // transition
 ];
 
 function numberScenes(story) {
