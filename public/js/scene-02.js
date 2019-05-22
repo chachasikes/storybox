@@ -1,63 +1,68 @@
 export let Scene = {
-      scene: 1,
-      title: "Scene 2",
-      name: "A flower",
-      duration: 70000,
-      group: [{
-          name: "camera",
-          camera: {
-            position: {
-              x: 20,
-              y: 5,
-              z: 50
-            },
-            lookat: {
-              x: 0,
-              y: 10,
-              z: 0
-            },
-          },
-          orbit: {
-            lookat: {
-              x: 0,
-              y: 10,
-              z: 0
-            },
-          }
+  scene: 1,
+  name: "A forest",
+  duration: 30000,
+  camera_1: {
+    camera: {
+      name: "World camera",
+      id: "camera_1",
+      camera: {
+        position: {
+          x:45,
+          y:60,
+          z:180
         },
+        lookat: {
+          x: 0,
+          y: 10,
+          z: 0
+        },
+      },
+      orbit: {
+        lookat: {
+          x: 0,
+          y: 10,
+          z: 0
+        },
+      }
+    }
+  },
+  yellowLight: {
+    light: {
+      position: {
+        x: 0,
+        y: 15,
+        z: 0
+      },
+      color: '#ffccff',
+    }
+  },
+  skybox: {
+    sky: {
+      // color: "#FFCC00",
+      art: "https://dl.dropboxusercontent.com/s/7bt2oz3gukuporf/mountain_sky_equirectangular.png",
+      id: "mountain-sky",
+      name: "Mountain Sky, hand painted",
+      credit: "Chacha Sikes",
+      rotation: {
+        x:0,
+        y:0,
+        z:270
+      },
+    }
+  },
+  forest: {
+    mesh: {
+      name: "Red",
+      credit: "Chacha Sikes",
+      id: "red-sketch",
+      art: "https://dl.dropboxusercontent.com/s/ibqt6n45935pcv5/red.glb",
+      scale: {
+        x: 5,
+        y: 5,
+        z: 5
+      },
+    },
+  },
 
-        // a light
-        {
-          name: "light",
-          light: {
-            position: {
-              x: -30,
-              y: 40,
-              z: -50
-            },
-            color: 0xFFFFFF,
-          }
-        },
-
-        // a skybox
-        {
-          name: "sky",
-          sky: {
-            art: "https://dl.dropboxusercontent.com/s/7bt2oz3gukuporf/mountain_sky_equirectangular.png",
-          }
-        },
-
-        {
-          name: "flower",
-          mesh: {
-            art: "https://dl.dropboxusercontent.com/s/574jrne8cb60mtp/scene.gltf",
-            bin: "https://dl.dropboxusercontent.com/s/1mr52php5mdtipj/scene.bin",
-            scale: {
-              x: 3,
-              y: 3,
-              z: 3
-            },
-          },
-        },
-    ]
 };

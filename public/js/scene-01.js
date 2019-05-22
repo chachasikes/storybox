@@ -27,15 +27,14 @@ export let Scene = {
       }
     }
   },
-  lighting: {
-    name: "light",
+  yellowLight: {
     light: {
       position: {
-        x: -30,
-        y: 40,
-        z: -50
+        x: 0,
+        y: 15,
+        z: 0
       },
-      color: 0xFFFFFF,
+      color: '#ffccff',
     }
   },
   skybox: {
@@ -63,6 +62,11 @@ export let Scene = {
         y: 5,
         z: 5
       },
+      position: {
+        x: 0,
+        y: -15,
+        z: 0
+      }
     },
   },
 
