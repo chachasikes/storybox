@@ -239,7 +239,7 @@ export class AframeFromJson {
                   }
 
 
-                  if (props.touch.right.glb !== undefined) {
+                  if (props.touch.right !== undefined && props.touch.right.glb !== undefined) {
                     let rightModelScale = this.getAxis("scale", props.touch.right);
                     let rightModelPosition = this.getAxis("position", props.touch.right);
                     // https://aframe.io/docs/0.9.0/components/gltf-model.html
