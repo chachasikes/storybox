@@ -77,9 +77,9 @@ export let Scene = {
         z: 0
       },
       scale: {
-        x: 1000,
-        y: 1000,
-        z: 1000
+        x: 2000,
+        y: 2000,
+        z: 2000
       },
     }
   },
@@ -126,7 +126,7 @@ export let Scene = {
       },
       position: {
         x: 0,
-        y: 0,
+        y: -100,
         z: 0
       }
     },
