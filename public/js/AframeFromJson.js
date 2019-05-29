@@ -273,7 +273,7 @@ export class AframeFromJson {
                       <a-camera ${className} id="${props.id}">
                       ${fadeMask}
                       ${touchContollers}
-                      orientationOffset="-0.01 -0.01 -0.01"
+                      orientationOffset="-0.01 -0.05 0.000001"
                       </a-camera>
                     </a-entity>`;
                 }
