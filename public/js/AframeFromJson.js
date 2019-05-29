@@ -106,6 +106,10 @@ export class AframeFromJson {
     return cube;
   }
 
+  playGLTFAnimation(e) {
+    console.log(e, 'playing');
+  }
+
   // Format json object as a-frame
   render(json) {
     let innerMarkup = ``;
@@ -164,6 +168,7 @@ export class AframeFromJson {
                     ${position.tag}
                     crossorigin="anonymous"
                     preload="true"
+                    animation-mixer
                     >
                     </a-entity>`;
                 }
@@ -183,8 +188,7 @@ export class AframeFromJson {
                 }
                 if (props.cursorCamera === true) {
                   // Add camera cursor
-                  // console.log("Setting up Cursor Camera");
-
+                  console.log("Setting up Cursor Camera", props);
                   innerMarkup = `${innerMarkup}
                     <a-entity ${className} id="${props.id}" ${position.tag}>
                       <a-camera ${className} id="${props.id}" look-controls wasd-controls>

@@ -8,7 +8,9 @@
     "start": "gulp | http-server"
   },
   "author": "chachasikes@gmail.com",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-cli": "^2.2.0"
+  },
   "devDependencies": {
     "tar": ">=4.4.2",
     "gulp": "^4.0.0",

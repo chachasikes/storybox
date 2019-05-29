@@ -1,55 +1,70 @@
 export let Scene = {
-  scene: 1,
-  id: "red-forest",
-  name: "A forest",
+  scene: 2,
+  id: "simple_smoke_animation",
+  name: "Simple Smoke animation",
   duration: 30000,
-  camera_1: {
+  autoPlay: true,
+  camera_3: {
     camera: {
       name: "World camera",
-      id: "camera_2",
+      id: "camera_3",
+      cursorCamera: false,
+      fadeMask: false,
       position: {
-        x:45,
-        y:60,
-        z:180
+        x: 0,
+        y: 30,
+        z: 180
       },
-    }
+    },
   },
   yellowLight: {
     light: {
+      type: 'ambient',
       position: {
         x: 0,
         y: 15,
         z: 0
       },
-      color: '#ffccff',
+      color: '#ffffff',
     }
   },
   skybox: {
     sky: {
       // color: "#FFCC00",
       art: "https://dl.dropboxusercontent.com/s/7bt2oz3gukuporf/mountain_sky_equirectangular.png",
-      id: "mountain-sky",
-      name: "Mountain Sky, hand painted",
+      // art: "https://dl.dropboxusercontent.com/s/4q6swr0zsn4g4je/Free-HDR-Sky-Unity-Asset-Store.jpg",
+      id: "sky-photo",
+      name: "Sky - from internet",
       credit: "Chacha Sikes",
       rotation: {
         x:0,
-        y:0,
-        z:270
+        y:-90,
+        z:0
       },
     }
   },
-  forest: {
+  quill_alembic: {
     mesh: {
-      name: "Red",
+      name: "Café Smoke Animation Example",
       credit: "Chacha Sikes",
-      id: "red-sketch",
-      art: "https://dl.dropboxusercontent.com/s/ibqt6n45935pcv5/red.glb",
+      id: "cafe-smoke-animation",
+      // art: "https://dl.dropboxusercontent.com/s/wh9s8aj56xxvdly/forest_rough_sketch.glb",
+      art: "https://dl.dropboxusercontent.com/s/qflnw8ub61obgwx/Cafesmoke.glb",
       scale: {
-        x: 5,
-        y: 5,
-        z: 5
+        x: 200,
+        y: 200,
+        z: 200,
       },
+      rotation: {
+        x: 0,
+        y: 50,
+        z: 0
+      },
+      position: {
+        x: 0,
+        y: -300,
+        z: 0
+      }
     },
   },
-
 };

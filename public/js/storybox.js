@@ -1,13 +1,13 @@
 import { Scene as start } from './start.js';
 import { Scene as s1 } from './scene-01.js';
 import { Scene as s2 } from './scene-02.js';
-import { Scene as transition } from './transition.js';
+// import { Scene as transition } from './transition.js';
 
 let story = [
   start,
   s1,
   // transition,
-  // s2,
+  s2,
   // transition
 ];
 

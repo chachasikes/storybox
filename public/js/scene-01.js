@@ -1,16 +1,27 @@
 export let Scene = {
-  scene: 0,
+  scene: 1,
   id: "scent_experiment_tiltbrush_1",
   name: "Scent Experiment #1",
   duration: 30000,
-  autoPlay: true,
-
-  camera_1: {
+  autoPlay: false,
+  sound_of_click: {
+    audio: {
+      id: 'click-sound',
+      // src: 'https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg',
+      src: 'https://dl.dropboxusercontent.com/s/bf543y6brdrcjte/27880__stickinthemud__bike-horn-1.ogg',
+      position: {
+        x:5,
+        y:5,
+        z:5
+      },
+    }
+  },
+  camera_2: {
     camera: {
       name: "World camera",
       id: "camera_2",
-      cursorCamera: false,
-      fadeMask: false,
+      cursorCamera: true,
+      fadeMask: true,
       position: {
         x: 0,
         y: 30,
@@ -21,9 +32,9 @@ export let Scene = {
           glb: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
           id: 'left-rose-hand',
           scale: {
-            x: 10,
-            y: 10,
-            z: 10
+            x: 5,
+            y: 5,
+            z: 5
           },
           position: {
             x: 0,
@@ -51,6 +62,31 @@ export let Scene = {
       // }
     },
   },
+  startButton: {
+    box: {
+      color: "red",
+      type: "button",
+      id: "play-button",
+      className: "clickable",
+      eventName: "playScene",
+      camera: "camera_2",
+      position: {
+        x: -20,
+        y: 0,
+        z: -20
+      },
+      rotation: {
+        x: 0,
+        y: 90,
+        z: 0
+      },
+      dimensions: {
+        width: 40,
+        height: 40,
+        depth: 40,
+      }
+    },
+  },
   yellowLight: {
     light: {
       type: 'ambient',
@@ -62,22 +98,6 @@ export let Scene = {
       color: '#ffffff',
     }
   },
-  // skybox: {
-  //   sky: {
-  //     // color: "#FFCC00",
-  //     // art: "https://dl.dropboxusercontent.com/s/7bt2oz3gukuporf/mountain_sky_equirectangular.png",
-  //     // art: "/projects/sample/assets/images/skybox/mountain_sky_equirectangular.png",
-  //     art: "https://dl.dropboxusercontent.com/s/fi1no4dq7g1sdu1/illustrator-background-01.png",
-  //     id: "mountain-sky",
-  //     name: "Mountain Sky, hand painted",
-  //     credit: "Chacha Sikes",
-  //     rotation: {
-  //       x:0,
-  //       y:0,
-  //       z:0
-  //     },
-  //   }
-  // },
   roomcube: {
     imagecube: {
       art: {
