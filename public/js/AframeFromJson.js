@@ -250,7 +250,7 @@ export class AframeFromJson {
                 }
                 if (props.cursorCamera === true) {
                   // Add camera cursor
-                  console.log("Setting up Cursor Camera", props);
+                  // console.log("Setting up Cursor Camera", props);
                   innerMarkup = `${innerMarkup}
                     <a-entity ${className} id="${props.id}" ${position.tag}>
                       <a-camera ${className} id="${props.id}" look-controls wasd-controls>
@@ -273,7 +273,7 @@ export class AframeFromJson {
                       <a-camera ${className} id="${props.id}">
                       ${fadeMask}
                       ${touchContollers}
-                      orientationOffset="-0.01 -0.01 -0.01"
+                      orientationOffset="-0.1 -0.1 -0.1"
                       </a-camera>
                     </a-entity>`;
                 }
