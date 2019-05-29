@@ -174,6 +174,68 @@ export class AframeFromJson {
                 }
                 break;
               case "camera":
+              let touchContollers = ``;
+              if (props.touch !== undefined) {
+                // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
+                // Can change hand controller
+                let leftModel = ``;
+                let rightModel = ``;
+                if (props.touch.left.glb !== undefined) {
+                  let leftModelScale = this.getAxis("scale", props.touch.left);
+                  let leftModelPosition = this.getAxis("position", props.touch.left);
+                  // https://aframe.io/docs/0.9.0/components/gltf-model.html
+                  // assetsElements.push(
+                  //   `<a-asset-item id="${props.touch.left.id}" src="${props.touch.left.glb}" preload="auto"></a-asset-item>`
+                  // );
+
+                  leftModel  = `
+                    <a-entity
+                    ${className}
+                    gltf-model="${props.touch.left.glb}"
+                    ${leftModelScale.tag}
+                    ${leftModelPosition.tag}
+                    crossorigin="anonymous"
+                    preload="true"
+                    >
+                    </a-entity>`;
+                }
+
+
+                if (props.touch.right !== undefined && props.touch.right.glb !== undefined) {
+                  let rightModelScale = this.getAxis("scale", props.touch.right);
+                  let rightModelPosition = this.getAxis("position", props.touch.right);
+                  // https://aframe.io/docs/0.9.0/components/gltf-model.html
+                  assetsElements.push(
+                    `<a-asset-item id="${props.touch.right.id}" src="${props.touch.right.glb}" preload="auto"></a-asset-item>`
+                  );
+
+                  rightModel  = `
+                    <a-entity
+                    ${className}
+                    gltf-model="#${props.touch.right.id}"
+                    ${rightModelScale.tag}
+                    ${rightModelPosition.tag}
+                    crossorigin="anonymous"
+                    preload="true"
+                    >
+                    </a-entity>`;
+                }
+
+                touchContollers = `
+                <a-entity id="leftHand" oculus-touch-controls="hand:left">${leftModel}</a-entity>
+                <a-entity id="rightHand" oculus-touch-controls="hand:right">${rightModel}</a-entity>`;
+              }
+              if (props.laser !== undefined) {
+                // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
+                // Can change hand controller
+                let leftLine = this.getProperties('line', props.left);
+                let rightLine = this.getProperties('line', props.right);
+                innerMarkup = `${innerMarkup}
+                <a-entity laser-controls="hand: left" ${leftLine}></a-entity>
+                <a-entity laser-controls="hand: right" ${rightLine}></a-entity>`;
+              }
+
+
                 let fadeMask = ``;
                 if (props.fadeMask === true) {
                   // fadeMask = `
@@ -202,6 +264,7 @@ export class AframeFromJson {
                         >
                       </a-entity>
                       ${fadeMask}
+                      ${touchContollers}
                       </a-camera>
                     </a-entity>`;
                 } else {
@@ -209,69 +272,11 @@ export class AframeFromJson {
                     <a-entity ${className} id="${props.id}" ${position.tag}>
                       <a-camera ${className} id="${props.id}">
                       ${fadeMask}
+                      ${touchContollers}
                       </a-camera>
                     </a-entity>`;
                 }
 
-                if (props.touch !== undefined) {
-                  // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
-                  // Can change hand controller
-                  let leftModel = ``;
-                  let rightModel = ``;
-                  if (props.touch.left.glb !== undefined) {
-                    let leftModelScale = this.getAxis("scale", props.touch.left);
-                    let leftModelPosition = this.getAxis("position", props.touch.left);
-                    // https://aframe.io/docs/0.9.0/components/gltf-model.html
-                    // assetsElements.push(
-                    //   `<a-asset-item id="${props.touch.left.id}" src="${props.touch.left.glb}" preload="auto"></a-asset-item>`
-                    // );
-
-                    leftModel  = `
-                      <a-entity
-                      ${className}
-                      gltf-model="${props.touch.left.glb}"
-                      ${leftModelScale.tag}
-                      ${leftModelPosition.tag}
-                      crossorigin="anonymous"
-                      preload="true"
-                      >
-                      </a-entity>`;
-                  }
-
-
-                  if (props.touch.right !== undefined && props.touch.right.glb !== undefined) {
-                    let rightModelScale = this.getAxis("scale", props.touch.right);
-                    let rightModelPosition = this.getAxis("position", props.touch.right);
-                    // https://aframe.io/docs/0.9.0/components/gltf-model.html
-                    assetsElements.push(
-                      `<a-asset-item id="${props.touch.right.id}" src="${props.touch.right.glb}" preload="auto"></a-asset-item>`
-                    );
-
-                    rightModel  = `
-                      <a-entity
-                      ${className}
-                      gltf-model="#${props.touch.right.id}"
-                      ${rightModelScale.tag}
-                      ${rightModelPosition.tag}
-                      crossorigin="anonymous"
-                      preload="true"
-                      >
-                      </a-entity>`;
-                  }
-
-                  innerMarkup = `${innerMarkup}
-                  <a-entity id="leftHand" oculus-touch-controls="hand:left">${leftModel}</a-entity>
-                  <a-entity id="rightHand" oculus-touch-controls="hand:right">${rightModel}</a-entity>`;
-                }
-                if (props.laser !== undefined) {
-                  // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
-                  // Can change hand controller
-                  let leftLine = this.getProperties('line', props.left);
-                  let rightLine = this.getProperties('line', props.right);
-                  innerMarkup = `${innerMarkup}
-                  <a-entity laser-controls="hand: left" ${leftLine}></a-entity>
-                  <a-entity laser-controls="hand: right" ${rightLine}></a-entity>`;
-                }
 
 
                 break;

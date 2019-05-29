@@ -8,8 +8,8 @@ export let Scene = {
     camera: {
       name: "World camera",
       id: "camera_2",
-      cursorCamera: true,
-      fadeMask: true,
+      cursorCamera: false,
+      fadeMask: false,
       position: {
         x: 0,
         y: 30,
@@ -77,9 +77,9 @@ export let Scene = {
         z: 0
       },
       scale: {
-        x: 2000,
-        y: 2000,
-        z: 2000
+        x: 3000,
+        y: 3000,
+        z: 3000
       },
     }
   },
