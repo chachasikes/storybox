@@ -137,7 +137,7 @@ export class StoryBoxBuilder {
     el.setAttribute("template", `src: #${id}`);
     this.updateEventListeners();
   }
-  
+
   update() {
     this.render(this.target);
     let sceneSelector;

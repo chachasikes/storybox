@@ -2,7 +2,7 @@ export let Scene = {
   scene: 2,
   id: "simple_smoke_animation",
   name: "Simple Smoke animation",
-  duration: 30000,
+  duration: 60000,
   autoPlay: true,
   camera_3: {
     camera: {

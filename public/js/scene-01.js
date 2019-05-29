@@ -4,18 +4,6 @@ export let Scene = {
   name: "Scent Experiment #1",
   duration: 30000,
   autoPlay: false,
-  sound_of_click: {
-    audio: {
-      id: 'click-sound',
-      // src: 'https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg',
-      src: 'https://dl.dropboxusercontent.com/s/bf543y6brdrcjte/27880__stickinthemud__bike-horn-1.ogg',
-      position: {
-        x:5,
-        y:5,
-        z:5
-      },
-    }
-  },
   camera_2: {
     camera: {
       name: "World camera",
@@ -32,9 +20,9 @@ export let Scene = {
           glb: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
           id: 'left-rose-hand',
           scale: {
-            x: 5,
-            y: 5,
-            z: 5
+            x: 2,
+            y: 2,
+            z: 2
           },
           position: {
             x: 0,
@@ -60,31 +48,6 @@ export let Scene = {
       //     }
       //   }
       // }
-    },
-  },
-  startButton: {
-    box: {
-      color: "red",
-      type: "button",
-      id: "play-button",
-      className: "clickable",
-      eventName: "playScene",
-      camera: "camera_2",
-      position: {
-        x: -20,
-        y: 0,
-        z: -20
-      },
-      rotation: {
-        x: 0,
-        y: 90,
-        z: 0
-      },
-      dimensions: {
-        width: 40,
-        height: 40,
-        depth: 40,
-      }
     },
   },
   yellowLight: {
@@ -128,13 +91,37 @@ export let Scene = {
       },
     }
   },
-  scent_experiment_tiltbrush: {
+  // scent_experiment_tiltbrush: {
+  //   mesh: {
+  //     name: "Scent Experiment #1",
+  //     credit: "Chacha Sikes",
+  //     id: "scent-experiment-1",
+  //     // art: "https://dl.dropboxusercontent.com/s/wh9s8aj56xxvdly/forest_rough_sketch.glb",
+  //     art: "https://dl.dropboxusercontent.com/s/ru8ke7csnhonff2/scent_experiment_tiltbrush.glb",
+  //     scale: {
+  //       x: 200,
+  //       y: 200,
+  //       z: 200,
+  //     },
+  //     rotation: {
+  //       x: 0,
+  //       y: 50,
+  //       z: 0
+  //     },
+  //     position: {
+  //       x: 0,
+  //       y: -300,
+  //       z: 0
+  //     }
+  //   },
+  // },
+  quill_alembic: {
     mesh: {
-      name: "Scent Experiment #1",
+      name: "Café Smoke Animation Example",
       credit: "Chacha Sikes",
-      id: "scent-experiment-1",
+      id: "cafe-smoke-animation",
       // art: "https://dl.dropboxusercontent.com/s/wh9s8aj56xxvdly/forest_rough_sketch.glb",
-      art: "https://dl.dropboxusercontent.com/s/ru8ke7csnhonff2/scent_experiment_tiltbrush.glb",
+      art: "https://dl.dropboxusercontent.com/s/qflnw8ub61obgwx/Cafesmoke.glb",
       scale: {
         x: 200,
         y: 200,

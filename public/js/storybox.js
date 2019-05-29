@@ -7,7 +7,7 @@ let story = [
   start,
   s1,
   // transition,
-  s2,
+  // s2,
   // transition
 ];
 
