@@ -1,0 +1,135 @@
+export let Scene = {
+  scene: 0,
+  id: "scent_experiment_tiltbrush_1",
+  name: "Scent Experiment #1",
+  duration: 30000,
+  autoPlay: true,
+
+  camera_1: {
+    camera: {
+      name: "World camera",
+      id: "camera_2",
+      cursorCamera: false,
+      fadeMask: false,
+      position: {
+        x: 0,
+        y: 30,
+        z: 180
+      },
+      touch: {
+        left: {
+          glb: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
+          id: 'left-rose-hand',
+          scale: {
+            x: 10,
+            y: 10,
+            z: 10
+          },
+          position: {
+            x: 0,
+            y: 0,
+            z: 0
+          }
+        },
+        right: {
+
+        },
+      },
+      // laser: {
+      //   left: {
+      //     line: {
+      //       color: 'red',
+      //       opacity: '0.5'
+      //     }
+      //   },
+      //   right: {
+      //     line: {
+      //       color: 'blue',
+      //       opacity: '0.5'
+      //     }
+      //   }
+      // }
+    },
+  },
+  yellowLight: {
+    light: {
+      type: 'ambient',
+      position: {
+        x: 0,
+        y: 15,
+        z: 0
+      },
+      color: '#ffffff',
+    }
+  },
+  // skybox: {
+  //   sky: {
+  //     // color: "#FFCC00",
+  //     // art: "https://dl.dropboxusercontent.com/s/7bt2oz3gukuporf/mountain_sky_equirectangular.png",
+  //     // art: "/projects/sample/assets/images/skybox/mountain_sky_equirectangular.png",
+  //     art: "https://dl.dropboxusercontent.com/s/fi1no4dq7g1sdu1/illustrator-background-01.png",
+  //     id: "mountain-sky",
+  //     name: "Mountain Sky, hand painted",
+  //     credit: "Chacha Sikes",
+  //     rotation: {
+  //       x:0,
+  //       y:0,
+  //       z:0
+  //     },
+  //   }
+  // },
+  roomcube: {
+    imagecube: {
+      art: {
+        top: "https://dl.dropboxusercontent.com/s/ccp18hfjbiehb24/top.jpg",
+        bottom: "https://dl.dropboxusercontent.com/s/a3ydsbfk829c6f6/bottom.jpg",
+        left: "https://dl.dropboxusercontent.com/s/y1uabd3m0xeob01/left.jpg",
+        right: "https://dl.dropboxusercontent.com/s/4gjmp0l7i30esv1/right.jpg",
+        front: "https://dl.dropboxusercontent.com/s/md4djd9bsftncpq/front.jpg",
+        back: "https://dl.dropboxusercontent.com/s/py0mgmi726okzxo/back.jpg",
+      },
+      id: "room-cube",
+      name: "Grid",
+      credit: "Chacha Sikes",
+      rotation: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      position: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      scale: {
+        x: 1000,
+        y: 1000,
+        z: 1000
+      },
+    }
+  },
+  scent_experiment_tiltbrush: {
+    mesh: {
+      name: "Scent Experiment #1",
+      credit: "Chacha Sikes",
+      id: "scent-experiment-1",
+      // art: "https://dl.dropboxusercontent.com/s/wh9s8aj56xxvdly/forest_rough_sketch.glb",
+      art: "https://dl.dropboxusercontent.com/s/ru8ke7csnhonff2/scent_experiment_tiltbrush.glb",
+      scale: {
+        x: 200,
+        y: 200,
+        z: 200,
+      },
+      rotation: {
+        x: 0,
+        y: 50,
+        z: 0
+      },
+      position: {
+        x: 0,
+        y: -300,
+        z: 0
+      }
+    },
+  },
+};
