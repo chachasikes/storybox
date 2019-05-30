@@ -9,7 +9,8 @@
   },
   "author": "chachasikes@gmail.com",
   "dependencies": {
-    "gulp-cli": "^2.2.0"
+    "gulp-cli": "^2.2.0",
+    "http-server": "^0.11.1"
   },
   "devDependencies": {
     "tar": ">=4.4.2",
