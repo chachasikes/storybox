@@ -29,7 +29,8 @@ https://github.com/chachasikes/immersive-storyboarding/blob/master/INTRO.md
 
 ## Planned Features
 
-### As of May 29, 2019
+As of May 29, 2019
+
 * Support WebXR (can play content in VR, Mobile AR, HoloLens, or on desktop)
 * Work on Oculus Quest, Rift, Google Cardboard and Firefox with WebVR features enabled (other support depending on access to equipment for testing)
 * Use JSON to help draft and test a data standard for immersive interactives (such as Blox)
@@ -42,6 +43,7 @@ https://github.com/chachasikes/immersive-storyboarding/blob/master/INTRO.md
 * Interface elements & functions for play, pause, back, next, stop, restart, etc.
 
 ### Glitch Urls
-https://chachasikes-storybox.glitch.me
-https://glitch.com/edit/#!/chachasikes-storybox
-https://glitch.com/~chachasikes-storybox
+
+* https://chachasikes-storybox.glitch.me
+* https://glitch.com/edit/#!/chachasikes-storybox
+* https://glitch.com/~chachasikes-storybox
