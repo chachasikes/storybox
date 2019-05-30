@@ -1,5 +1,6 @@
 export let Scene = {
   scene: 1,
+  published: true,
   id: "scent_experiment_tiltbrush_1",
   name: "Scent Experiment #1",
   duration: 30000,

@@ -1,4 +1,4 @@
-export class AframeFromJson {
+export class StoryboxAframe {
   constructor() {
     this.getAxis = this.getAxis.bind(this);
     this.getValue = this.getValue.bind(this);

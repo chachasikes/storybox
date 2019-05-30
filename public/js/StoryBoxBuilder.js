@@ -1,37 +1,79 @@
-import {
-  storybox
-} from "./storybox.js";
-import {
-  AframeFromJson
-} from "./AframeFromJson.js";
+import { registry } from "./../examples/registry.js";
+import { StoryboxAframe } from "./StoryboxAframe.js";
+import { Gallery } from "./gallery.js";
 
 export class StoryBoxBuilder {
   constructor() {
-    this.currentScene = 0;
-    this.timeElapsedScene = 0;
-    let totalDuration = 0;
-    storybox.forEach(scene => {
-      totalDuration = totalDuration + Number(scene.duration);
-      return;
-    });
-    this.totalTimeElapsed = 0;
-    this.totalDuration = totalDuration;
-    this.numberScenes = storybox.length;
+    console.log("StoryBoxBuilder");
+    this.registry = registry;
+    this.storySettings = {};
+    this.storySettings.currentStory = 'hello-world';
     this.timer = null;
     this.target = null;
+    // Load and format stories from story registry.
+
+    this.storySettings.stories = this.registry.map(story => {
+      console.log(story);
+      let count = 0;
+      story = story.scenes.map(item => {
+        item.scene = count++;
+        return item;
+      });
+      let totalDuration = 0;
+      story.forEach(scene => {
+        totalDuration = totalDuration + Number(scene.duration);
+        return;
+      });
+      return {
+        currentScene: 0,
+        timeElapsedScene: 0,
+        totalDuration,
+        numberScenes: story.length,
+      }
+    });
   }
 
-  setup() {
-    this.currentScene = 0;
-    clearTimeout(this.timer);
+  setupGallery() {
+    console.log("setting up gallery", this.storySettings);
+    // gallery.render();
+    this.galleryItemSelect('hello-world');
+  }
+
+  galleryItemSelect(id) {
+    this.storySettings.currentStory = id;
+    this.timer = null;
+    this.target = null;
     this.setupStory();
   }
 
+  getCurrentStory(id) {
+    let story = this.registry.filter(item => item.id === id);
+    if (story !== undefined && story.length > 0) {
+      return story[0];
+    }
+    return null;
+  }
+
+  getCurrentScene(id) {
+    let story = this.registry.filter(item => item.id === id);
+
+    if (story !== undefined && story.length > 0) {
+      console.log(this.storySettings.stories);
+      console.log(story[0]);
+      return story[0].currentScene;
+    }
+    return null;
+  }
+
   setupStory() {
-    let aframeContent = new AframeFromJson();
-    storybox.map(sceneJson => {
+    // console.log("setting up story", this.storySettings);
+    clearTimeout(this.timer);
+    let storyboxAframe = new StoryboxAframe();
+    let currentStory = this.getCurrentStory(this.storySettings.currentStory);
+
+    currentStory.scenes.map(sceneJson => {
       // Get markup chunks for aframe
-      let scene = aframeContent.render(sceneJson);
+      let sceneMarkup = storyboxAframe.render(sceneJson);
 
       // Aggregate assets in loader
       if (document.querySelector('a-assets') === undefined || document.querySelector('a-assets') === null) {
@@ -40,9 +82,9 @@ export class StoryBoxBuilder {
         document.getElementById("scenes").before(assets);
       }
 
-      if (typeof scene.assetsElements !== 'string' && scene.assetsElements.length > 0) {
+      if (typeof sceneMarkup.assetsElements !== 'string' && sceneMarkup.assetsElements.length > 0) {
         // Load all scene assets
-        scene.assetsElements.map(asset => {
+        sceneMarkup.assetsElements.map(asset => {
           document.querySelector("a-assets").innerHTML += asset;
         });
       }
@@ -53,7 +95,7 @@ export class StoryBoxBuilder {
       document.getElementById("scenes").append(sceneScript);
       // Load scene content into scene
       if (document.getElementById(`${sceneJson.id}`) !== null) {
-        document.getElementById(`${sceneJson.id}`).innerHTML = scene.innerMarkup;
+        document.getElementById(`${sceneJson.id}`).innerHTML = sceneMarkup.innerMarkup;
       }
     });
 
@@ -61,7 +103,9 @@ export class StoryBoxBuilder {
 
     document.querySelector("a-assets").addEventListener('loaded', () => {
       this.update();
-      if (storybox[this.currentScene].autoPlay === true) {
+      console.log(this.storySettings.currentStory);
+      let currentScene = this.getCurrentScene(this.storySettings.currentStory);
+      if (currentScene && currentScene.autoPlay === true) {
         this.play();
       } else {
         this.pauseScene();
@@ -70,14 +114,16 @@ export class StoryBoxBuilder {
   }
 
   playScene() {
-    if (storybox[this.currentScene] && storybox[this.currentScene].duration) {
+    let currentScene = this.getCurrentScene(this.storySettings.currentStory);
+
+    if (currentScene && currentScene.duration) {
       this.timer = window.setTimeout(
         function() {
           clearTimeout(this.timer);
           this.nextScene();
           this.playScene();
         }.bind(this),
-        storybox[this.currentScene].duration
+       currentScene.duration
       );
     }
     this.update();
@@ -94,37 +140,42 @@ export class StoryBoxBuilder {
   }
 
   previousScene() {
-    this.currentScene = this.currentScene > 0 ? this.currentScene - 1 : 0;
+    let currentStory = this.getCurrentStory(this.storySettings.currentStory);
+    currentStory.currentScene = currentStory.currentScene > 0 ? currentStory.currentScene - 1 : 0;
     this.update();
     clearTimeout(this.timer);
     this.playScene();
   }
 
   nextScene() {
-    this.currentScene =
-      this.currentScene < this.numberScenes ?
-      this.currentScene + 1 :
-      this.numberScenes;
+    let currentStory = this.getCurrentStory(this.storySettings.currentStory);
+    currentStory.currentScene =
+      currentStory.currentScene < currentStory.numberScenes ?
+      currentStory.currentScene + 1 :
+      currentStory.numberScenes;
     this.update();
     clearTimeout(this.timer);
     this.playScene();
   }
 
   firstScene() {
-    this.currentScene = 0;
+    let currentStory = this.getCurrentStory(this.storySettings.currentStory);
+    currentStory.currentScene = 0;
     clearTimeout(this.timer);
     // console.log("firstScene", this);
     this.update();
   }
 
   lastScene() {
-    this.currentScene = this.numberScenes;
+    let currentStory = this.getCurrentStory(this.storySettings.currentStory);
+    currentStory.currentScene = currentStory.numberScenes;
     clearTimeout(this.timer);
     this.update();
   }
 
   play() {
-    this.currentScene = 0;
+    let currentStory = this.getCurrentStory(this.storySettings.currentStory);
+    currentStory.currentScene = 0;
     clearTimeout(this.timer);
     this.playScene();
   }
@@ -140,6 +191,7 @@ export class StoryBoxBuilder {
 
   update() {
     this.render(this.target);
+    let currentScene = this.getCurrentScene(this.storySettings.currentStory);
     let sceneSelector;
     if (document.getElementById("scene-selector") === null) {
       // Add main entity for all aFrame content, add to a-scene set in index.html
@@ -149,14 +201,13 @@ export class StoryBoxBuilder {
     }
 
     sceneSelector = document.getElementById("scene-selector");
-    if (sceneSelector !== undefined && sceneSelector !== null && sceneSelector !== '' && storybox[this.currentScene] !== undefined) {
+    if (sceneSelector !== undefined && sceneSelector !== null && sceneSelector !== '' && currentScene !== undefined) {
       // Set the scene.
-      this.updateTemplate(sceneSelector, storybox[this.currentScene].id);
+      this.updateTemplate(sceneSelector, currentScene.id);
     }
   }
 
   updateEventListeners() {
-    let currentScene = storybox[this.currentScene].id;
     document.querySelector('#scene-selector').addEventListener("click", (e) => {
       switch (e.target.id) {
         case 'play-button':

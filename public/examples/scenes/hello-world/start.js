@@ -1,5 +1,6 @@
 export let Scene = {
   scene: 0,
+  published: true,
   id: "start",
   name: "Start Screen",
   duration: 60000,

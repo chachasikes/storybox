@@ -1,5 +1,6 @@
 export let Scene = {
   scene: 2,
+  published: false,
   id: "simple_smoke_animation",
   name: "Simple Smoke animation",
   duration: 60000,
