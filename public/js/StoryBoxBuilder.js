@@ -4,7 +4,6 @@ import { Gallery } from "./gallery.js";
 
 export class StoryBoxBuilder {
   constructor() {
-    console.log("StoryBoxBuilder");
     this.registry = registry;
     this.storySettings = {};
     this.storySettings.currentStory = 'hello-world';
@@ -13,14 +12,16 @@ export class StoryBoxBuilder {
     // Load and format stories from story registry.
 
     this.storySettings.stories = this.registry.map(story => {
-      console.log(story);
       let count = 0;
       story = story.scenes.map(item => {
         item.scene = count++;
         return item;
       });
+      console.log('story1', story);
       let totalDuration = 0;
+      let sceneId = null;
       story.forEach(scene => {
+        sceneId = scene.id;
         totalDuration = totalDuration + Number(scene.duration);
         return;
       });
@@ -29,12 +30,13 @@ export class StoryBoxBuilder {
         timeElapsedScene: 0,
         totalDuration,
         numberScenes: story.length,
+        storyId: story[0].id,
+        sceneId
       }
     });
   }
 
   setupGallery() {
-    console.log("setting up gallery", this.storySettings);
     // gallery.render();
     this.galleryItemSelect('hello-world');
   }
@@ -58,8 +60,9 @@ export class StoryBoxBuilder {
     let story = this.registry.filter(item => item.id === id);
 
     if (story !== undefined && story.length > 0) {
-      console.log(this.storySettings.stories);
-      console.log(story[0]);
+      console.log('stories', this.storySettings.stories);
+      console.log('story', story[0]);
+      console.log(this);
       return story[0].currentScene;
     }
     return null;
@@ -103,7 +106,6 @@ export class StoryBoxBuilder {
 
     document.querySelector("a-assets").addEventListener('loaded', () => {
       this.update();
-      console.log(this.storySettings.currentStory);
       let currentScene = this.getCurrentScene(this.storySettings.currentStory);
       if (currentScene && currentScene.autoPlay === true) {
         this.play();
@@ -162,7 +164,6 @@ export class StoryBoxBuilder {
     let currentStory = this.getCurrentStory(this.storySettings.currentStory);
     currentStory.currentScene = 0;
     clearTimeout(this.timer);
-    // console.log("firstScene", this);
     this.update();
   }
 
