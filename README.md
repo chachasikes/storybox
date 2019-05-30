@@ -11,16 +11,16 @@ This story player allows you to combine 3D assets into scenes, and navigate thro
 Useful for anyone creating immersive paintings with Tiltbrush or the Quill App
 
 * Uses a draft of an XR interactive "data standard" described and implemented for in the Blox project (https://github.com/anselm/blox), which is an interface to ThreeJS.
-* Provides a JSON interface to A-frame WebVR content. Mozilla's AFrame is an interface for the WebVR Javascript library, ThreeJS.
+* Provides a JSON interface to A-Frame WebVR content. Mozilla's A-Frame (https://aframe.io/) is an interface for the Javascript 3d library, ThreeJS (https://threejs.org/). Uses A-Frame's WebXR implementation, which works well for development and testing.
 * Can load assets from Dropbox files or other web-based locations
-* Loads and plays Tiltbrush and animated Quill App files (when converted Alembic to GLTF (with Sketchfab or other converted) to GLB files, and file sizes under 50MB, best with wifi)
-* Support the common features needed to create storyboards, VR mockups and animatics, such as:
-  * Putting scene files in sequence
-  * Voiceover, audio files, spatialized audio loops & dialogue
-  * Text panels for dialogue & descriptions
+* Loads and plays Tiltbrush (https://www.tiltbrush.com/) and animated Quill app (https://quill.fb.com/) files (Alembic to GLB), with file sizes under 50MB for better performance)
+* Support the common features needed to create immersive storyboards, VR mockups, walkthroughs and animatics, such as:
+  * Putting scene files in navigable sequence
+  * Voiceover, scratch audio, spatialized audio loops & dialogue, sound effects and other ambient sound.
+  * Text panels for dialogue, descriptions and prompts
   * Play scene or animation when: gazed up, clicked, near, or after a certain amount of time
   * Loading screens, asset management, file size warnings, titles & automatic credits
-* Put objects on avatars head (masks) and in hands (props)
+  * Put objects on avatars head (masks) and in hands (props)
 
 This tool will be used to prototype a series of immersive storyboards as well as VR & Scent experiments. Features are planned accordingly.
 
