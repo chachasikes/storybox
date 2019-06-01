@@ -107,7 +107,7 @@ export class StoryboxAframe {
   }
 
   playGLTFAnimation(e) {
-    console.log(e, 'playing');
+    console.log(e, 'playing gltf animation');
   }
 
   // Format json object as a-frame
@@ -277,9 +277,6 @@ export class StoryboxAframe {
                       </a-camera>
                     </a-entity>`;
                 }
-
-
-
                 break;
               case "light":
                 innerMarkup = `${innerMarkup}

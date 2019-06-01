@@ -1,25 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <title>StoryBox</title>
   <meta charset='utf-8'>
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
   <meta name='mobile-web-app-capable' content='yes'>
   <meta name='apple-mobile-web-app-capable' content='yes'>
-  <link href='css/scss/common.css' rel='stylesheet'>
-  </link>
+  <link href='css/scss/common.css' rel='stylesheet'></link>
   <script src="./lib/aframe-v0.9.2.min.js" type="text/javascript"></script>
   <script src="./lib/aframe-event-set-component.min.js" type="text/javascript"></script>
   <script src="./lib/aframe-layout-component.min.js" type="text/javascript"></script>
   <script src="./lib/aframe-template-component.min.js" type="text/javascript"></script>
   <script src="./lib/aframe-proxy-event-component.min.js" type="text/javascript"></script>
   <script src="./lib/aframe-extras.min.js" type="text/javascript"></script>
-  <script type=module>
+  <script type="module">
     import { App } from './js/app.js';
       window.App = new App('#app');
       window.App.init('#app')
-    </script>
+  </script>
 </head>
 
 <body>
@@ -37,7 +35,7 @@
     </a-scene>
   </div>
 
-  <div id="debugger-log"></div>
+  <!-- <div id="debugger-log"></div>
   <script>
     function vrDebugger() {
       var old = console.log;
@@ -56,7 +54,6 @@
       });
     }
     vrDebugger();
-  </script>
+  </script> -->
 </body>
-
 </html>
