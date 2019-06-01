@@ -5,7 +5,7 @@ import { Scene as s2 } from './scene-02.js';
 export let story = {
   id: 'hello-world',
   name: 'Hello World',
-  panel: './images/puppy.png',
+  panel: '/examples/scenes/hello-world/images/puppy.png',
   scenes: [
     start,
     s1,

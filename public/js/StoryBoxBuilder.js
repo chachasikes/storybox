@@ -10,6 +10,7 @@ export class StoryBoxBuilder {
     this.storySettings.timer = null;
     this.storySettings.target = null;
     this.storySettings.transition = null;
+
     // Update registry of stories with additional metadata.
     this.registry.map(story => {
       let count = 0;
@@ -27,8 +28,63 @@ export class StoryBoxBuilder {
   }
 
   setupGallery() {
-    // gallery.render();
-    this.galleryItemSelect('hello-world');
+    window.Gallery = new Gallery();
+    let gallery = window.Gallery.render(this.registry);
+    clearTimeout(this.storySettings.timer);
+
+    if (document.querySelector('a-assets') === undefined || document.querySelector('a-assets') === null) {
+      var assets = document.createElement("a-assets");
+      assets.setAttribute("timeout", 60000);
+      document.getElementById("scenes").before(assets);
+    }
+
+    if (typeof gallery.assetsElements !== 'string' && gallery.assetsElements.length > 0) {
+      // Load all scene assets
+      gallery.assetsElements.map(asset => {
+        document.querySelector("a-assets").innerHTML += asset;
+      });
+    }
+    // Set up dynamically loadable scenes.
+    var sceneScript = document.createElement("script");
+    sceneScript.type = "text/html";
+    sceneScript.id = "gallery";
+    document.getElementById("scenes").append(sceneScript);
+
+    let tiles = `
+      <a-camera id="gallery_camera" position="0 10 100"></a-camera>
+      <a-light type="point" color="#FFFFFF" position="0 10 100"></a-light>
+    `;
+    gallery.tiles.forEach(tile => {
+      tiles = `${tiles}${tile}`;
+    })
+
+    if (document.getElementById(`gallery`) !== null) {
+      document.getElementById(`gallery`).innerHTML = tiles;
+    }
+
+
+    document.querySelector("a-assets").addEventListener('loaded', () => {
+      let currentScene = "gallery";
+      if (currentScene && currentScene.autoPlay === true) {
+        this.pauseScene();
+      }
+    });
+
+    let sceneSelector;
+    this.storySettings.currentStory = "gallery";
+    if (document.getElementById("scene-selector") === null) {
+      // Add main entity for all aFrame content, add to a-scene set in index.html
+      let sceneSelectorEl = document.createElement("a-entity");
+      sceneSelectorEl.setAttribute("id", "scene-selector");
+      document.getElementById("scenes").append(sceneSelectorEl);
+    }
+    sceneSelector = document.getElementById("scene-selector");
+    if (sceneSelector !== undefined && sceneSelector !== null && sceneSelector !== '') {
+      // Set the scene.
+      this.updateTemplate(sceneSelector, "gallery");
+    }
+
+    // this.galleryItemSelect('hello-world');
   }
 
   // Update the selected story
@@ -188,7 +244,7 @@ export class StoryBoxBuilder {
     }
 
     sceneSelector = document.getElementById("scene-selector");
-    if (sceneSelector !== undefined && sceneSelector !== null && sceneSelector !== '' && currentScene !== undefined) {
+    if (sceneSelector !== undefined && sceneSelector !== null && sceneSelector !== '' && currentScene !== undefined && currentScene !== null) {
       // Set the scene.
       this.updateTemplate(sceneSelector, currentScene.id);
     }
@@ -197,8 +253,6 @@ export class StoryBoxBuilder {
   updateEventListeners() {
     document.querySelector('#scene-selector').addEventListener("click", (e) => {
       console.log('click', e);
-
-
       switch (e.target.id) {
         case 'play-button':
           let el = document.getElementById(e.target.id);
