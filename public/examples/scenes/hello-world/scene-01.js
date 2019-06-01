@@ -33,9 +33,14 @@ export let Scene = {
           glb: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
           id: 'left-rose-hand',
           scale: {
-            x: 0.01,
-            y: 0.01,
-            z: 0.01
+            x: 0.001,
+            y: 0.001,
+            z: 0.001
+          },
+          position: {
+            x: -0.04,
+            y: -0.05,
+            z: -0.1
           },
         },
       },

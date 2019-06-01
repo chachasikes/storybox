@@ -184,14 +184,14 @@ export class StoryboxAframe {
                   let leftModelScale = this.getAxis("scale", props.touch.left);
                   let leftModelPosition = this.getAxis("position", props.touch.left);
                   // https://aframe.io/docs/0.9.0/components/gltf-model.html
-                  // assetsElements.push(
-                  //   `<a-asset-item id="${props.touch.left.id}" src="${props.touch.left.glb}" preload="auto"></a-asset-item>`
-                  // );
+                  assetsElements.push(
+                    `<a-asset-item id="${props.touch.left.id}" src="${props.touch.left.glb}" preload="auto"></a-asset-item>`
+                  );
 
                   leftModel  = `
                     <a-entity
                     ${className}
-                    gltf-model="${props.touch.left.glb}"
+                    gltf-model="#${props.touch.left.id}"
                     ${leftModelScale.tag}
                     ${leftModelPosition.tag}
                     crossorigin="anonymous"
