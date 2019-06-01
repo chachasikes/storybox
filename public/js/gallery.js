@@ -56,7 +56,13 @@ export class Gallery {
         `<img class="${this.gallery.className}" id="select-${item.id}" src="${item.panel}" crossorigin="anonymous" preload="true" />`
       );
       tiles.push(`
-        <a-image class="${this.gallery.className}" src="#select-${item.id}" material="alphaTest: 0.5" ${position} ${scale} ${rotation}>
+        <a-image
+        data-clickable
+        cursor-listener
+        visible="true"
+        event-set__mouseenter="scale: 1.2 1.2 1.2;"
+        event-set__mouseleave="scale: 1 1 1;"
+        class="${this.gallery.className}" src="#select-${item.id}" material="alphaTest: 0.5" ${position} ${scale} ${rotation}>
         </a-image>`
       );
 

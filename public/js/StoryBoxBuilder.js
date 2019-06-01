@@ -51,7 +51,15 @@ export class StoryBoxBuilder {
     document.getElementById("scenes").append(sceneScript);
 
     let tiles = `
-      <a-camera id="gallery_camera" position="0 10 100"></a-camera>
+      <a-camera id="gallery_camera" position="0 10 100" look-controls wasd-controls><a-entity
+        cursor="fuse: true"
+        material="color: black; shader: flat"
+        position="0 0 -3"
+        raycaster="objects: .clickable-tile;"
+        geometry="primitive: ring; radiusInner: 0.08; radiusOuter: 0.1;"
+        line="color: green; opacity: 0.5"
+        >
+      </a-entity></a-camera>
       <a-light type="point" color="#FFFFFF" position="0 10 100"></a-light>
     `;
     gallery.tiles.forEach(tile => {
@@ -253,12 +261,12 @@ export class StoryBoxBuilder {
   updateEventListeners() {
     document.querySelector('#scene-selector').addEventListener("click", (e) => {
       console.log('click', e);
+      let el = document.getElementById(e.target.id);
       switch (e.target.id) {
         case 'play-button':
-          let el = document.getElementById(e.target.id);
+
           if(el.getAttribute('data-clicked') === null || el.getAttribute('data-clicked') === 'false') {
             el.setAttribute('data-clicked', 'true');
-
             this.storySettings.transition = window.setTimeout(
               function() {
                 clearTimeout(this.storySettings.transition);
@@ -270,8 +278,15 @@ export class StoryBoxBuilder {
           else {
             el.setAttribute('data-clicked', 'false');
           }
-
-          break;
+        break;
+        case 'select-button':
+          if(el.getAttribute('data-clicked') === null || el.getAttribute('data-clicked') === 'false') {
+            el.setAttribute('data-clicked', 'true');
+          }
+          else {
+            el.setAttribute('data-clicked', 'false');
+          }
+        break;
       }
     });
   }
