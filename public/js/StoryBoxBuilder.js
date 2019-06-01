@@ -9,6 +9,7 @@ export class StoryBoxBuilder {
     this.storySettings.currentStory = 'hello-world';
     this.storySettings.timer = null;
     this.storySettings.target = null;
+    this.storySettings.transition = null;
     // Update registry of stories with additional metadata.
     this.registry.map(story => {
       let count = 0;
@@ -49,9 +50,7 @@ export class StoryBoxBuilder {
 
   // Load data from the current scene
   getCurrentScene(id) {
-    console.log('id', id);
     let story = this.registry.filter(item => item.id === id);
-    console.log('story', story);
     if (story !== undefined && story.length > 0) {
       return story[0].scenes[story[0].currentScene];
     }
@@ -59,11 +58,9 @@ export class StoryBoxBuilder {
   }
 
   setupStory() {
-    console.log("setting up story", this.storySettings);
     clearTimeout(this.storySettings.timer);
     let storyboxAframe = new StoryboxAframe();
     let currentStory = this.getCurrentStory(this.storySettings.currentStory);
-    // console.log('currentStory', currentStory);
     currentStory.scenes.map(sceneJson => {
       // Get markup chunks for aframe
       let sceneMarkup = storyboxAframe.render(sceneJson);
@@ -181,7 +178,7 @@ export class StoryBoxBuilder {
   update() {
     this.render(this.storySettings.target);
     let currentScene = this.getCurrentScene(this.storySettings.currentStory);
-    console.log('currentScene', currentScene);
+    // console.log('currentScene', currentScene);
     let sceneSelector;
     if (document.getElementById("scene-selector") === null) {
       // Add main entity for all aFrame content, add to a-scene set in index.html
@@ -199,15 +196,27 @@ export class StoryBoxBuilder {
 
   updateEventListeners() {
     document.querySelector('#scene-selector').addEventListener("click", (e) => {
+      console.log('click', e);
+
+
       switch (e.target.id) {
         case 'play-button':
-          this.transition = window.setTimeout(
-            function() {
-              clearTimeout(this.transition);
-              window.StoryBoxBuilder.nextScene();
-            }.bind(this),
-            2000
-          );
+          let el = document.getElementById(e.target.id);
+          if(el.getAttribute('data-clicked') === null || el.getAttribute('data-clicked') === 'false') {
+            el.setAttribute('data-clicked', 'true');
+
+            this.storySettings.transition = window.setTimeout(
+              function() {
+                clearTimeout(this.storySettings.transition);
+                window.StoryBoxBuilder.nextScene();
+              }.bind(this),
+              2000
+            );
+          }
+          else {
+            el.setAttribute('data-clicked', 'false');
+          }
+
           break;
       }
     });

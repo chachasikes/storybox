@@ -245,7 +245,6 @@ export class StoryboxAframe {
 
                     fadeMask = `
                       <a-box scale="200 200 200" position="0 0 -10" color="#000000">
-
                       </a-box>`;
                 }
                 if (props.cursorCamera === true) {
