@@ -136,6 +136,7 @@ export class StoryboxAframe {
   render(json) {
     let innerMarkup = ``;
     let assetsElements = [];
+    let assetItemElements = [];
 
     if (json !== undefined) {
       Object.keys(json).map(item => {
@@ -185,10 +186,8 @@ export class StoryboxAframe {
               case "mesh":
                 if (props.art !== undefined) {
                   // https://aframe.io/docs/0.9.0/components/gltf-model.html
-                  assetsElements.push(
-                    `<a-asset-item ${className} id="${props.id}" src="${
-                      props.art
-                    }" preload="auto"></a-asset-item>`
+                  assetItemElements.push(
+                    `<a-asset-item ${className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>`
                   );
 
                   innerMarkup = `${innerMarkup}
@@ -222,7 +221,7 @@ export class StoryboxAframe {
                       props.touch.left
                     );
                     // https://aframe.io/docs/0.9.0/components/gltf-model.html
-                    assetsElements.push(
+                    assetItemElements.push(
                       `<a-asset-item id="${props.touch.left.id}" src="${props.touch.left.glb}" preload="auto"></a-asset-item>`
                     );
 
@@ -252,7 +251,7 @@ export class StoryboxAframe {
                       props.touch.right
                     );
                     // https://aframe.io/docs/0.9.0/components/gltf-model.html
-                    assetsElements.push(
+                    assetItemElements.push(
                       `<a-asset-item id="${props.touch.right.id}" src="${props.touch.right.glb}" preload="auto"></a-asset-item>`
                     );
 
@@ -426,7 +425,8 @@ export class StoryboxAframe {
 
       return {
         assetsElements: assetsElements,
-        innerMarkup: innerMarkup
+        innerMarkup: innerMarkup,
+        assetItemElements: assetItemElements,
       };
     }
   }

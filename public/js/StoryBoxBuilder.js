@@ -11,6 +11,9 @@ export class StoryBoxBuilder {
     this.storySettings.timer = null;
     this.storySettings.target = null;
     this.storySettings.transition = null;
+    this.assetMarkup = ``;
+    this.assetMarkupGallery = ``;
+    this.showLoading = false;
 
     // Update registry of stories with additional metadata.
     this.registry.map(story => {
@@ -31,22 +34,21 @@ export class StoryBoxBuilder {
   setupGallery() {
     window.Gallery = new Gallery();
     let storyboxAframe = new StoryboxAframe();
+    let buildAssets = true;
+    if (this.assetMarkupGallery !== ``) {
+      buildAssets = false;
+    }
 
     let gallery = window.Gallery.render(this.registry);
     clearTimeout(this.storySettings.timer);
 
-    if (document.querySelector('a-assets') === undefined || document.querySelector('a-assets') === null) {
-      var assets = document.createElement("a-assets");
-      assets.setAttribute("timeout", 60000);
-      document.getElementById("scenes").before(assets);
-    }
-
-    if (typeof gallery.assetsElements !== 'string' && gallery.assetsElements.length > 0) {
+    if (typeof gallery.assetsElements !== 'string' && gallery.assetsElements.length > 0 && buildAssets === true) {
       // Load all scene assets
       gallery.assetsElements.map(asset => {
-        document.querySelector("a-assets").innerHTML += asset;
+        this.assetMarkupGallery += asset;
       });
     }
+
     // Set up dynamically loadable scenes.
     var sceneScript = document.createElement("script");
     sceneScript.type = "text/html";
@@ -54,10 +56,10 @@ export class StoryBoxBuilder {
     document.getElementById("scenes").append(sceneScript);
 
     let sceneMarkup = storyboxAframe.render(gallerySceneJson);
-    if (typeof sceneMarkup.assetsElements !== 'string' && sceneMarkup.assetsElements.length > 0) {
+    if (typeof sceneMarkup.assetsElements !== 'string' && sceneMarkup.assetsElements.length > 0 && buildAssets === true) {
       // Load all scene assets
       sceneMarkup.assetsElements.map(asset => {
-        document.querySelector("a-assets").innerHTML += asset;
+        this.assetMarkupGallery += asset;
       });
     }
 
@@ -71,9 +73,17 @@ export class StoryBoxBuilder {
       document.getElementById(`gallery`).innerHTML = tiles;
     }
 
-
+    if (document.querySelector('a-assets') === undefined || document.querySelector('a-assets') === null) {
+      var assets = document.createElement("a-assets");
+      assets.setAttribute("timeout", 60000);
+      document.getElementById("scenes").before(assets);
+    } else {
+      document.querySelector('a-assets').remove();
+    }
+    document.querySelector("a-assets").innerHTML = this.assetMarkupGallery;
 
     document.querySelector("a-assets").addEventListener('loaded', () => {
+      console.log("GALLERY ASSETS LOADED");
       let currentScene = "gallery";
       if (currentScene && currentScene.autoPlay === true) {
         this.pauseScene();
@@ -108,6 +118,7 @@ export class StoryBoxBuilder {
     this.storySettings.currentStory = id;
     this.storySettings.timer = null;
     this.storySettings.target = null;
+    this.showLoading = true;
     this.setupStory();
   }
 
@@ -131,24 +142,32 @@ export class StoryBoxBuilder {
 
   setupStory() {
     clearTimeout(this.storySettings.timer);
+    console.log("SETTING UP STORY");
     let storyboxAframe = new StoryboxAframe();
+
     let currentStory = this.getCurrentStory(this.storySettings.currentStory);
+    let buildAssets = true;
+    if (this.assetMarkup !== ``) {
+      buildAssets = false;
+    }
     currentStory.scenes.map(sceneJson => {
       // Get markup chunks for aframe
       let sceneMarkup = storyboxAframe.render(sceneJson);
-      // Aggregate assets in loader
-      if (document.querySelector('a-assets') === undefined || document.querySelector('a-assets') === null) {
-        var assets = document.createElement("a-assets");
-        assets.setAttribute("timeout", 60000);
-        document.getElementById("scenes").before(assets);
-      }
 
-      if (typeof sceneMarkup.assetsElements !== 'string' && sceneMarkup.assetsElements.length > 0) {
+      if (typeof sceneMarkup.assetItemElements !== 'string' && sceneMarkup.assetItemElements.length > 0 && buildAssets) {
         // Load all scene assets
-        sceneMarkup.assetsElements.map(asset => {
-          document.querySelector("a-assets").innerHTML += asset;
+        sceneMarkup.assetItemElements.map(asset => {
+          this.assetMarkup += asset;
         });
       }
+
+      if (typeof sceneMarkup.assetsElements !== 'string' && sceneMarkup.assetsElements.length > 0 && buildAssets) {
+        // Load all scene assets
+        sceneMarkup.assetsElements.map(asset => {
+          this.assetMarkup += asset;
+        });
+      }
+
       // Set up dynamically loadable scenes.
       var sceneScript = document.createElement("script");
       sceneScript.type = "text/html";
@@ -160,9 +179,20 @@ export class StoryBoxBuilder {
       }
     });
 
+
+    // Aggregate assets in loader
+    document.querySelector('a-assets').remove();
+    if (document.querySelector('a-assets') === undefined || document.querySelector('a-assets') === null) {
+      var assets = document.createElement("a-assets");
+      assets.setAttribute("timeout", 60000);
+      document.getElementById("scenes").before(assets);
+    }
+    document.querySelector("a-assets").innerHTML = this.assetMarkup;
     this.update();
 
     document.querySelector("a-assets").addEventListener('loaded', () => {
+      console.log("STORY ASSETS LOADED");
+      this.showLoading = false;
       this.update();
       let currentScene = this.getCurrentScene(this.storySettings.currentStory);
       if (currentScene && currentScene.autoPlay === true) {

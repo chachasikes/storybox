@@ -14,6 +14,7 @@
   <script src="./lib/aframe-proxy-event-component.min.js" type="text/javascript"></script>
   <script src="./lib/aframe-extras.min.js" type="text/javascript"></script>
   <script src="./lib/super-hands.min.js"></script>
+
   <script type="module">
     import { App } from './js/app.js';
     window.App = new App('#app');
@@ -31,7 +32,7 @@
   </header>
   <div id="app" style="z-index: 9999; position: absolute; top: 0, left: 0"></div>
   <div id="story">
-    <a-scene>
+    <a-scene loading-screen="dotsColor: red; backgroundColor: black">
       <a-entity id="scenes"></a-entity>
     </a-scene>
   </div>
