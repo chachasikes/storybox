@@ -220,6 +220,10 @@ export class StoryboxAframe {
                       "position",
                       props.touch.left
                     );
+                    let leftModelRotation = this.getAxis(
+                      "rotation",
+                      props.touch.left
+                    );
                     // https://aframe.io/docs/0.9.0/components/gltf-model.html
                     assetItemElements.push(
                       `<a-asset-item id="${props.touch.left.id}" src="${props.touch.left.glb}"></a-asset-item>`
@@ -231,6 +235,7 @@ export class StoryboxAframe {
                     gltf-model="#${props.touch.left.id}"
                     ${leftModelScale.tag}
                     ${leftModelPosition.tag}
+                    ${leftModelRotation.tag}
                     crossorigin="anonymous"
                     preload="true"
                     >
