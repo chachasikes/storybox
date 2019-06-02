@@ -222,8 +222,8 @@ export class StoryboxAframe {
                 }
 
                 touchContollers = `
-                <a-entity id="leftHand" oculus-touch-controls="hand:left">${leftModel}</a-entity>
-                <a-entity id="rightHand" oculus-touch-controls="hand:right">${rightModel}</a-entity>`;
+                <a-entity id="leftHand" oculus-touch-controls="hand:left" x-button-listener>${leftModel}</a-entity>
+                <a-entity id="rightHand" oculus-touch-controls="hand:right" x-button-listener>${rightModel}</a-entity>`;
               }
               if (props.laser !== undefined) {
                 // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html

@@ -256,9 +256,20 @@ export class StoryBoxBuilder {
     }
   }
 
+
+  setupAppButtons() {
+    AFRAME.registerComponent('x-button-listener', {
+      init: function () {
+        var el = this.el;
+        el.addEventListener('xbuttondown', function (evt) {
+          this.galleryItemSelect('gallery');
+        });
+      }
+    });
+  }
+
   updateEventListeners() {
     document.querySelector('#scene-selector').addEventListener("click", (e) => {
-
       if (e.target.id !== null && e.target.id !== '') {
         let el = document.getElementById(e.target.id);
         switch (e.target.id) {
