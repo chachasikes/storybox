@@ -1,10 +1,7 @@
 # Storybox
 Immersive Story Player
-gst
 Create immersive stories for virtual and augmented reality.
-
 https://github.com/chachasikes/storybox
-
 
 ## About
 This story player allows you to combine 3D assets into scenes, and navigate through the scenes in WebXR.

@@ -8,10 +8,10 @@ header {
   z-index: 2;
   left: 0px;
   text-align: left;
-  max-width: 420px;
-  padding: 0.5em;
-  margin-bottom: 0.5em;
-  min-height: 50px;
+  padding: 20px 10px 10px 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 10px;
+  min-height: 20px;
   border-radius: 2px;
 }
 

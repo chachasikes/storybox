@@ -91,8 +91,6 @@ export class StoryBoxBuilder {
       // Set the scene.
       this.updateTemplate(sceneSelector, "gallery");
     }
-
-    // this.galleryItemSelect('hello-world');
   }
 
   // Update the selected story
@@ -260,33 +258,40 @@ export class StoryBoxBuilder {
 
   updateEventListeners() {
     document.querySelector('#scene-selector').addEventListener("click", (e) => {
-      console.log('click', e);
-      let el = document.getElementById(e.target.id);
-      switch (e.target.id) {
-        case 'play-button':
 
-          if(el.getAttribute('data-clicked') === null || el.getAttribute('data-clicked') === 'false') {
-            el.setAttribute('data-clicked', 'true');
-            this.storySettings.transition = window.setTimeout(
-              function() {
-                clearTimeout(this.storySettings.transition);
-                window.StoryBoxBuilder.nextScene();
-              }.bind(this),
-              2000
-            );
-          }
-          else {
-            el.setAttribute('data-clicked', 'false');
-          }
-        break;
-        case 'select-button':
-          if(el.getAttribute('data-clicked') === null || el.getAttribute('data-clicked') === 'false') {
-            el.setAttribute('data-clicked', 'true');
-          }
-          else {
-            el.setAttribute('data-clicked', 'false');
-          }
-        break;
+      if (e.target.id !== null && e.target.id !== '') {
+        let el = document.getElementById(e.target.id);
+        switch (e.target.id) {
+          case 'play-button':
+            el = document.getElementById(e.target.id);
+            if(el.getAttribute('data-clicked') === null || el.getAttribute('data-clicked') === 'false') {
+              el.setAttribute('data-clicked', 'true');
+              this.storySettings.transition = window.setTimeout(
+                function() {
+                  clearTimeout(this.storySettings.transition);
+                  window.StoryBoxBuilder.nextScene();
+                }.bind(this),
+                2000
+              );
+            }
+            else {
+              el.setAttribute('data-clicked', 'false');
+            }
+          break;
+        }
+      }
+
+      if (document.querySelector('.clickable-tile') !== undefined) {
+        let el = document.querySelector('.clickable-tile');
+        if(el.getAttribute('data-clicked') === null || el.getAttribute('data-clicked') === 'false') {
+           el.setAttribute('data-clicked', 'true');
+           let id = el.getAttribute('id');
+           if (id !== undefined && id !== null) {
+             this.galleryItemSelect(id);
+           }
+         } else {
+           el.setAttribute('data-clicked', 'false');
+         }
       }
     });
   }
