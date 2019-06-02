@@ -273,11 +273,11 @@ export class StoryboxAframe {
                   touchContollers = `
                 <a-entity id="leftHand" oculus-touch-controls="hand:left" x-button-listener y-button-listener>${leftModel}</a-entity>
                 <a-entity id="rightHand" oculus-touch-controls="hand:right" a-button-listener b-button-listener>${rightModel}</a-entity>`;
-              } else {
-                touchContollers = `
+                } else {
+                  touchContollers = `
                 <a-entity id="leftHand" oculus-touch-controls="hand:left" x-button-listener y-button-listener></a-entity>
                 <a-entity id="rightHand" oculus-touch-controls="hand:right" a-button-listener b-button-listener></a-entity>`;
-              }
+                }
                 if (props.laser !== undefined) {
                   // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
                   // Can change hand controller
@@ -296,40 +296,40 @@ export class StoryboxAframe {
                   //   </a-entity>`;
 
                   fadeMask = `
-                      <a-box scale="200 200 200" position="0 0 -10" color="#000000">
-                      </a-box>`;
+                    <a-box scale="200 200 200" position="0 0 -10" color="#000000">
+                    </a-box>`;
                 }
+                let cursorCameraControls = ``;
+                let cursor = ``;
                 if (props.cursorCamera === true) {
                   // Add camera cursor
                   // console.log("Setting up Cursor Camera", props);
-                  innerMarkup = `${innerMarkup}
-                    <a-entity ${className} id="${props.id}" ${position.tag}>
-                      <a-camera ${className} id="${
-                    props.id
-                  }" look-controls wasd-controls>
-                      <a-entity
-                        cursor="fuse: true"
-                        material="color: black; shader: flat"
-                        position="0 0 -3"
-                        raycaster="objects: .clickable; showLine: true;"
-                        geometry="primitive: ring; radiusInner: 0.08; radiusOuter: 0.1;"
-                        line="color: green; opacity: 0.5"
-                        >
-                      </a-entity>
-                      ${fadeMask}
-                      ${touchContollers}
-                      </a-camera>
-                    </a-entity>`;
-                } else {
-                  innerMarkup = `${innerMarkup}
-                    <a-entity ${className} id="${props.id}" ${position.tag}>
-                      <a-camera ${className} id="${props.id}">
-                      ${fadeMask}
-                      ${touchContollers}
-                      orientationOffset="-0.1 -0.1 -0.1"
-                      </a-camera>
-                    </a-entity>`;
+                  cursorCameraControls = `look-controls wasd-controls`;
+                  cursor = `<a-entity
+                    cursor="fuse: true"
+                    material="color: black; shader: flat"
+                    position="0 0 -3"
+                    raycaster="objects: .clickable; showLine: true;"
+                    geometry="primitive: ring; radiusInner: 0.08; radiusOuter: 0.1;"
+                    >
+                  </a-entity>`;
                 }
+
+                let headBoundingBox = `
+                <a-sphere color="black" position="0 0.5 -1.5" radius="1" id="head-box" material="color: black; shader: flat; opacity: 0.1"></a-sphere>
+                `;
+
+                innerMarkup = `${innerMarkup}
+                  <a-entity ${className} id="${props.id}" ${position.tag}>
+                    <a-camera ${className} id="${props.id}" ${cursorCameraControls}>
+
+                    ${cursor}
+                    ${headBoundingBox}
+                    ${fadeMask}
+                    ${touchContollers}
+                    </a-camera>
+                  </a-entity>`;
+
                 break;
               case "light":
                 innerMarkup = `${innerMarkup}
