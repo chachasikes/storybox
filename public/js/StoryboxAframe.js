@@ -205,12 +205,12 @@ export class StoryboxAframe {
                 }
                 break;
               case "camera":
-                let touchContollers = ``;
+                let leftModel = ``;
+                let rightModel = ``;
                 if (props.touch !== undefined) {
                   // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
                   // Can change hand controller
-                  let leftModel = ``;
-                  let rightModel = ``;
+
                   if (props.touch.left.glb !== undefined) {
                     let leftModelScale = this.getAxis(
                       "scale",
@@ -269,15 +269,12 @@ export class StoryboxAframe {
                     >
                     </a-entity>`;
                   }
-
-                  touchContollers = `
-                <a-entity id="leftHand" oculus-touch-controls="hand:left" x-button-listener y-button-listener>${leftModel}</a-entity>
-                <a-entity id="rightHand" oculus-touch-controls="hand:right" a-button-listener b-button-listener>${rightModel}</a-entity>`;
-                } else {
-                  touchContollers = `
-                <a-entity id="leftHand" oculus-touch-controls="hand:left" x-button-listener y-button-listener></a-entity>
-                <a-entity id="rightHand" oculus-touch-controls="hand:right" a-button-listener b-button-listener></a-entity>`;
                 }
+
+                let touchContollers = `
+                <a-entity id="leftHand" oculus-touch-controls="hand:left">${leftModel}</a-entity>
+                <a-entity id="rightHand" oculus-touch-controls="hand:right">${rightModel}</a-entity>`;
+
                 if (props.laser !== undefined) {
                   // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
                   // Can change hand controller
@@ -316,17 +313,16 @@ export class StoryboxAframe {
                 }
 
                 let headBoundingBox = `
-                <a-sphere color="black" position="0 0.5 -1.5" radius="1" id="head-box" material="color: black; shader: flat; opacity: 0.1"></a-sphere>
-                `;
 
+                `;
+  // <a-sphere id="head-box" color="black" position="0 0.4 -1.5" radius="0.75" material="opacity: 0.1"></a-sphere>
                 innerMarkup = `${innerMarkup}
                   <a-entity ${className} id="${props.id}" ${position.tag}>
                     <a-camera ${className} id="${props.id}" ${cursorCameraControls}>
-
+                    ${touchContollers}
                     ${cursor}
                     ${headBoundingBox}
                     ${fadeMask}
-                    ${touchContollers}
                     </a-camera>
                   </a-entity>`;
 
