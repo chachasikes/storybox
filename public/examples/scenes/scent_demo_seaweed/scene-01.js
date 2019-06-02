@@ -10,6 +10,7 @@ export let Scene = {
       name: "World camera",
       id: "camera_seaweed",
       cursorCamera: true,
+      clickableClass: '.clickable',
       fadeMask: false,
       position: {
         x: 0,

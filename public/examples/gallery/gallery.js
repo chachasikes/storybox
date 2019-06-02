@@ -1,22 +1,10 @@
 export let Scene = {
   scene: 0,
   published: true,
-  id: "start",
+  id: "gallery_scene",
   name: "Start Screen",
   duration: 60000,
   autoPlay: false,
-  sound_of_click: {
-    audio: {
-      id: 'click-sound',
-      // src: 'https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg',
-      src: 'https://dl.dropboxusercontent.com/s/bf543y6brdrcjte/27880__stickinthemud__bike-horn-1.ogg',
-      position: {
-        x:5,
-        y:5,
-        z:5
-      },
-    }
-  },
   loading: {
     image: {
       id: "loading-graphic",
@@ -36,10 +24,10 @@ export let Scene = {
   camera_1: {
     camera: {
       name: "World camera",
-      id: "camera_1",
+      id: "gallery_camera",
       cursorCamera: true,
-      clickableClass: '.clickable',
       fadeMask: true,
+      clickableClass: '.clickable-tile',
       position: {
         x:0,
         y:60,
@@ -57,35 +45,10 @@ export let Scene = {
       color: '#ffffff',
     }
   },
-  startButton: {
-    box: {
-      color: "red",
-      type: "button",
-      id: "play-button",
-      className: "clickable",
-      eventName: "playScene",
-      camera: "camera_1",
-      position: {
-        x: 0,
-        y: 0,
-        z: -20
-      },
-      rotation: {
-        x: 0,
-        y: 90,
-        z: 0
-      },
-      dimensions: {
-        width: 40,
-        height: 40,
-        depth: 40,
-      }
-    },
-  },
   title: {
     text: {
-      id: "scene-title",
-      text: "value: Immersive Story Player; color: black; width: 2;",
+      id: "gallery_menu_prompt",
+      text: "value: Choose a story to begin.; color: black; width: 2;",
       scale: {
         x: 100,
         y: 100,

@@ -306,7 +306,7 @@ export class StoryboxAframe {
                     cursor="fuse: true"
                     material="color: black; shader: flat"
                     position="0 0 -3"
-                    raycaster="objects: .clickable; showLine: true;"
+                    raycaster="objects: ${props.clickableClass};"
                     geometry="primitive: ring; radiusInner: 0.08; radiusOuter: 0.1;"
                     >
                   </a-entity>`;

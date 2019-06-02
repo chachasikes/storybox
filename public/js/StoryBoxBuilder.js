@@ -1,6 +1,7 @@
-import { registry } from "./../examples/registry.js";
+import { registry } from "./../examples/gallery/registry.js";
+import { Scene as gallerySceneJson } from "./../examples/gallery/gallery.js";
 import { StoryboxAframe } from "./StoryboxAframe.js";
-import { Gallery } from "./gallery.js";
+import { Gallery } from "./Gallery.js";
 
 export class StoryBoxBuilder {
   constructor() {
@@ -29,6 +30,8 @@ export class StoryBoxBuilder {
 
   setupGallery() {
     window.Gallery = new Gallery();
+    let storyboxAframe = new StoryboxAframe();
+
     let gallery = window.Gallery.render(this.registry);
     clearTimeout(this.storySettings.timer);
 
@@ -50,17 +53,15 @@ export class StoryBoxBuilder {
     sceneScript.id = "gallery";
     document.getElementById("scenes").append(sceneScript);
 
-    let tiles = `
-      <a-camera id="gallery_camera" position="0 10 100" look-controls wasd-controls><a-entity
-        cursor="fuse: true"
-        material="color: black; shader: flat"
-        position="0 0 -3"
-        raycaster="objects: .clickable-tile;"
-        geometry="primitive: ring; radiusInner: 0.08; radiusOuter: 0.1;"
-        line="color: green; opacity: 0.5"
-        >
-      </a-entity></a-camera>
-      <a-light type="point" color="#FFFFFF" position="0 10 100"></a-light>
+    let sceneMarkup = storyboxAframe.render(gallerySceneJson);
+    if (typeof sceneMarkup.assetsElements !== 'string' && sceneMarkup.assetsElements.length > 0) {
+      // Load all scene assets
+      sceneMarkup.assetsElements.map(asset => {
+        document.querySelector("a-assets").innerHTML += asset;
+      });
+    }
+
+    let tiles = `${sceneMarkup.innerMarkup}
     `;
     gallery.tiles.forEach(tile => {
       tiles = `${tiles}${tile}`;
@@ -69,6 +70,7 @@ export class StoryBoxBuilder {
     if (document.getElementById(`gallery`) !== null) {
       document.getElementById(`gallery`).innerHTML = tiles;
     }
+
 
 
     document.querySelector("a-assets").addEventListener('loaded', () => {

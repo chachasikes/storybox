@@ -8,7 +8,8 @@ export class Gallery {
       currentColumn: 1,
       itemWidth: -40,
       itemHeight: -70,
-      gutter: -8
+      gutter: -8,
+      itemDepth: -20,
     };
   }
 
@@ -31,11 +32,11 @@ export class Gallery {
     let x = (this.gallery.currentColumn * this.gallery.itemWidth) + (this.gallery.currentColumn * this.gallery.gutter);
     let y = (this.gallery.currentRow * this.gallery.itemHeight) + (this.gallery.currentRow * this.gallery.gutter);
     return {
-      tag: `position="${x} ${y - 20} 0.1"`,
+      tag: `position="${x} ${y - 20} ${this.gallery.itemDepth}"`,
       dimensions: {
         x: x,
         y: y - 20,
-        z: 0.1
+        z: this.gallery.itemDepth
       }
     }
   }
