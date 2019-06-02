@@ -25,8 +25,8 @@ export let Scene = {
       fadeMask: false,
       position: {
         x: 50,
-        y: 50,
-        z: 40
+        y: 40,
+        z: 30
       },
       touch: {
         left: {
@@ -44,20 +44,6 @@ export let Scene = {
           },
         },
       },
-      // laser: {
-      //   left: {
-      //     line: {
-      //       color: 'red',
-      //       opacity: '0.5'
-      //     }
-      //   },
-      //   right: {
-      //     line: {
-      //       color: 'blue',
-      //       opacity: '0.5'
-      //     }
-      //   }
-      // }
     },
   },
   startButton: {
@@ -89,7 +75,7 @@ export let Scene = {
       sound: "on: click; src: #click-sound"
     },
   },
-  yellowLight: {
+  ambientLight: {
     light: {
       type: 'ambient',
       position: {
@@ -124,47 +110,22 @@ export let Scene = {
         z: 0
       },
       scale: {
-        x: 3000,
-        y: 3000,
-        z: 3000
+        x: 2000,
+        y: 2000,
+        z: 2000
       },
     }
   },
-  // scent_experiment_tiltbrush: {
-  //   mesh: {
-  //     name: "Scent Experiment #1",
-  //     credit: "Chacha Sikes",
-  //     id: "scent-experiment-1",
-  //     // art: "https://dl.dropboxusercontent.com/s/wh9s8aj56xxvdly/forest_rough_sketch.glb",
-  //     art: "https://dl.dropboxusercontent.com/s/ru8ke7csnhonff2/scent_experiment_tiltbrush.glb",
-  //     scale: {
-  //       x: 200,
-  //       y: 200,
-  //       z: 200,
-  //     },
-  //     rotation: {
-  //       x: 0,
-  //       y: 50,
-  //       z: 0
-  //     },
-  //     position: {
-  //       x: 0,
-  //       y: -300,
-  //       z: 0
-  //     }
-  //   },
-  // },
   quill_alembic: {
     mesh: {
       name: "Café Smoke Animation Example",
       credit: "Chacha Sikes",
       id: "cafe-smoke-animation",
-      // art: "https://dl.dropboxusercontent.com/s/wh9s8aj56xxvdly/forest_rough_sketch.glb",
       art: "https://dl.dropboxusercontent.com/s/qflnw8ub61obgwx/Cafesmoke.glb",
       scale: {
-        x: 100,
-        y: 100,
-        z: 100,
+        x: 90,
+        y: 90,
+        z: 90,
       },
       rotation: {
         x: 0,

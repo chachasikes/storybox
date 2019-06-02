@@ -35,7 +35,7 @@ export let Scene = {
       },
     }
   },
-  yellowLight: {
+  ambientLight: {
     light: {
       position: {
         x: 100,
