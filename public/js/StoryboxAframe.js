@@ -273,16 +273,16 @@ export class StoryboxAframe {
 
                 let debuggerPanel = `
                 <a-entity id="debugger-log-vr"
-                text="value: Log; width: 200; height: 200; wrapPixels: 1000; color: #ffffff; opacity: 0.4;"
-                position="0 0 0"
-                rotation="0 0 0"
+                  text="value: Log; width: 20; height: 20; wrapPixels: 300; color: #ffffff; opacity: 0.2;"
+                  position="0 -1 0"
+                  rotation="15 15 15"
                 >
                 </a-entity>
-                <a-plane id="debugger-log-vr-bkg" color="#000" height="200" width="200" position="0 -1 0" rotation="0 0 0"></a-plane>`;
+                <a-plane id="debugger-log-vr-bkg" color="#000" height="200" width="200" position="0 -1 0" rotation="15 15 15"></a-plane>`;
 
                 let touchContollers = `
-                <a-entity id="leftHand" oculus-touch-controls="hand:left; orientationOffset: -0.1 -0.1 -0.1;${modelLoaded}">${leftModel}</a-entity>
-                <a-entity id="rightHand" oculus-touch-controls="hand:right; orientationOffset: 0.1 0.1 0.1;${modelLoaded}">${rightModel} ${debuggerPanel}</a-entity>`;
+                <a-entity id="leftHand" super-hands oculus-touch-controls="hand:left">${leftModel}</a-entity>
+                <a-entity id="rightHand" super-hands oculus-touch-controls="hand:right">${rightModel} ${debuggerPanel}</a-entity>`;
 
                 if (props.laser !== undefined) {
                   // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
