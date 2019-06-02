@@ -274,28 +274,24 @@ export class StoryboxAframe {
                   }
                 }
 
+                // let debuggerLog = `                <a-entity
+                //                   id="debugger-log-vr"
+                //                   text="value: Log; width: 0.1; height: 0.1; color: #ffffff"
+                //
+                //                 >
+                //                 </a-entity>`;
 
                 let debuggerPanel = `
-                <a-entity
-                  id="debugger-log-vr"
-                  text="value: Log; width: 0.1; height: 0.1; color: #ffffff"
-                  position="-0.009 -0.009 -0.009"
-                  rotation="-15 -15 -15"
-                >
-                </a-entity>
-                <a-plane
-                  id="debugger-log-vr-bkg"
-                  color="#000"
-                  height="0.1"
-                  width="0.1"
-                  position="-0.01 -0.01 -0.01"
-                  rotation="-15 -15 -15"
-                >
-                </a-plane>`;
+                <a-box id="debugger-log-vr-bkg"
+                  height="0.01"
+                  width="0.01"
+                  depth="0.0001"
+                  material="side: double; color: #EF2D5E; transparent: true; opacity: 0.5"
+                ></a-box>`;
 
                 let touchContollers = `
                 <a-entity id="leftHand" super-hands oculus-touch-controls="hand:left">${leftModel}</a-entity>
-                <a-entity id="rightHand" super-hands oculus-touch-controls="hand:right">${rightModel} ${debuggerPanel}</a-entity>`;
+                <a-entity id="rightHand" super-hands oculus-touch-controls="hand:right">${rightModel}${debuggerPanel}</a-entity>`;
 
                 if (props.laser !== undefined) {
                   // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html

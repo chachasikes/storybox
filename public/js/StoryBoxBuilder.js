@@ -390,7 +390,7 @@ export class StoryBoxBuilder {
     });
 
 
-    this.vrDebugger();
+    // this.vrDebugger();
 
   }
 
