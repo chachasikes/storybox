@@ -222,7 +222,7 @@ export class StoryboxAframe {
                     );
                     // https://aframe.io/docs/0.9.0/components/gltf-model.html
                     assetItemElements.push(
-                      `<a-asset-item id="${props.touch.left.id}" src="${props.touch.left.glb}" preload="auto"></a-asset-item>`
+                      `<a-asset-item id="${props.touch.left.id}" src="${props.touch.left.glb}"></a-asset-item>`
                     );
 
                     leftModel = `
@@ -252,7 +252,7 @@ export class StoryboxAframe {
                     );
                     // https://aframe.io/docs/0.9.0/components/gltf-model.html
                     assetItemElements.push(
-                      `<a-asset-item id="${props.touch.right.id}" src="${props.touch.right.glb}" preload="auto"></a-asset-item>`
+                      `<a-asset-item id="${props.touch.right.id}" src="${props.touch.right.glb}"></a-asset-item>`
                     );
 
                     rightModel = `
@@ -271,13 +271,22 @@ export class StoryboxAframe {
 
 
                 let debuggerPanel = `
-                <a-entity id="debugger-log-vr"
+                <a-entity
+                  id="debugger-log-vr"
                   text="value: Log; width: 0.3; height: 0.3; color: #ffffff"
-                  position="-1 -1 -1"
-                  rotation="15 15 15"
+                  position="0 0 0"
+                  rotation="-15 0 0"
                 >
                 </a-entity>
-                <a-plane id="debugger-log-vr-bkg" color="#000" height="0.3" width="0.3" position="-1.01 -1.01 -1.01" rotation="15 15 15"></a-plane>`;
+                <a-plane
+                  id="debugger-log-vr-bkg"
+                  color="#000"
+                  height="0.3"
+                  width="0.3"
+                  position="-0.01 -0.01 -0.01"
+                  rotation="-15 0 0"
+                >
+                </a-plane>`;
 
                 let touchContollers = `
                 <a-entity id="leftHand" super-hands oculus-touch-controls="hand:left">${leftModel}</a-entity>
