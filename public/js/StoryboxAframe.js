@@ -272,12 +272,12 @@ export class StoryboxAframe {
 
                 let debuggerPanel = `
                 <a-entity id="debugger-log-vr"
-                  text="value: Log; width: 20; height: 20; wrapPixels: 300; color: #ffffff; opacity: 0.2;"
-                  position="0 -1 0"
+                  text="value: Log; width: 0.3; height: 0.3; color: #ffffff"
+                  position="-1 -1 -1"
                   rotation="15 15 15"
                 >
                 </a-entity>
-                <a-plane id="debugger-log-vr-bkg" color="#000" height="200" width="200" position="0 -1 0" rotation="15 15 15"></a-plane>`;
+                <a-plane id="debugger-log-vr-bkg" color="#000" height="200" width="200" position="0 0 0" rotation="0 0 0"></a-plane>`;
 
                 let touchContollers = `
                 <a-entity id="leftHand" super-hands oculus-touch-controls="hand:left">${leftModel}</a-entity>
