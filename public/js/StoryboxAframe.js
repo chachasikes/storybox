@@ -283,9 +283,9 @@ export class StoryboxAframe {
 
                 let debuggerPanel = `
                 <a-box id="debugger-log-vr-bkg"
-                  height="0.01"
-                  width="0.01"
-                  depth="0.0001"
+                  height="0.4"
+                  width="0.4"
+                  depth="0.1"
                   material="side: double; color: #EF2D5E; transparent: true; opacity: 0.5"
                 ></a-box>`;
 
