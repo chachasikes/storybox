@@ -95,6 +95,14 @@ export class StoryBoxBuilder {
     }
   }
 
+  loadGallery() {
+    let sceneSelector = document.getElementById("scene-selector");
+    if (sceneSelector !== undefined && sceneSelector !== null && sceneSelector !== '') {
+      // Set the scene.
+      this.updateTemplate(sceneSelector, "gallery");
+    }
+  }
+
   // Update the selected story
   galleryItemSelect(id) {
     this.storySettings.currentStory = id;
@@ -258,17 +266,60 @@ export class StoryBoxBuilder {
     }
   }
 
-
   setupAppButtons() {
     AFRAME.registerComponent('x-button-listener', {
       init: function () {
         var el = this.el;
         el.addEventListener('xbuttondown', function (evt) {
-          this.galleryItemSelect('gallery');
+          console.log('down');
+          this.loadGallery();
         });
       }
     });
+
+
+
+    window.addEventListener("keydown", (e) => {
+      // var player = document.querySelector("a-camera");
+      // if (e.code === "KeyR") {
+      //    var angle = player.getAttribute("rotation")
+      //    var x = 1 * Math.cos(angle.y * Math.PI / 180)
+      //    var y = 1 * Math.sin(angle.y * Math.PI / 180)
+      //    var pos = player.getAttribute("position")
+      //    pos.x -= y;
+      //    pos.z -= x;
+      //    player.setAttribute("position", pos);
+      // }
+
+      if (e.code === "KeyX") {
+        this.loadGallery();
+      }
+     })
   }
+
+  vrDebugger() {
+      var old = console.log;
+      var logVR = document.getElementById('debugger-log-vr');
+
+      ['log', 'debug', 'error'].forEach(function(verb) {
+        console[verb] = (function(method, verb, logVR) {
+          return function() {
+            method.apply(console, arguments);
+            var msg = document.createElement('div');
+            msg.classList.add(verb);
+            msg.textContent = verb + ': ' + Array.prototype.slice.call(arguments).join(' ');
+            if (logVR !== null) {
+              let vrLogJson = logVR.getAttribute('text');
+              if (typeof vrLogJson === 'object') {
+                vrLogJson.value = `${vrLogJson.value} ${verb + ': ' + Array.prototype.slice.call(arguments).join(' ')}`;
+                logVR.setAttribute('text', vrLogJson);
+              }
+            }
+          };
+        })(console[verb], verb, logVR);
+      });
+    }
+
 
   updateEventListeners() {
     document.querySelector('#scene-selector').addEventListener("click", (e) => {
@@ -307,6 +358,10 @@ export class StoryBoxBuilder {
          }
       }
     });
+
+
+    this.vrDebugger();
+
   }
 
   render(target) {

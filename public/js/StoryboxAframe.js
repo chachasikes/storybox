@@ -223,9 +223,7 @@ export class StoryboxAframe {
                     );
                     // https://aframe.io/docs/0.9.0/components/gltf-model.html
                     assetsElements.push(
-                      `<a-asset-item id="${props.touch.left.id}" src="${
-                        props.touch.left.glb
-                      }" preload="auto"></a-asset-item>`
+                      `<a-asset-item id="${props.touch.left.id}" src="${props.touch.left.glb}" preload="auto"></a-asset-item>`
                     );
 
                     leftModel = `
@@ -255,9 +253,7 @@ export class StoryboxAframe {
                     );
                     // https://aframe.io/docs/0.9.0/components/gltf-model.html
                     assetsElements.push(
-                      `<a-asset-item id="${props.touch.right.id}" src="${
-                        props.touch.right.glb
-                      }" preload="auto"></a-asset-item>`
+                      `<a-asset-item id="${props.touch.right.id}" src="${props.touch.right.glb}" preload="auto"></a-asset-item>`
                     );
 
                     rightModel = `
@@ -270,13 +266,23 @@ export class StoryboxAframe {
                     preload="true"
                     >
                     </a-entity>`;
-                    modelLoaded = "model: false";
+                    // modelLoaded = "model: false";
                   }
                 }
 
+
+                let debuggerPanel = `
+                <a-entity id="debugger-log-vr"
+                text="value: Log; width: 200; height: 200; wrapPixels: 1000; color: #ffffff; opacity: 0.4;"
+                position="0 0 0"
+                rotation="0 0 0"
+                >
+                </a-entity>
+                <a-plane id="debugger-log-vr-bkg" color="#000" height="200" width="200" position="0 -1 0" rotation="0 0 0"></a-plane>`;
+
                 let touchContollers = `
                 <a-entity id="leftHand" oculus-touch-controls="hand:left; orientationOffset: -0.1 -0.1 -0.1;${modelLoaded}">${leftModel}</a-entity>
-                <a-entity id="rightHand" oculus-touch-controls="hand:right; orientationOffset: 0.1 0.1 0.1;${modelLoaded}">${rightModel}</a-entity>`;
+                <a-entity id="rightHand" oculus-touch-controls="hand:right; orientationOffset: 0.1 0.1 0.1;${modelLoaded}">${rightModel} ${debuggerPanel}</a-entity>`;
 
                 if (props.laser !== undefined) {
                   // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
@@ -319,15 +325,15 @@ export class StoryboxAframe {
 
                 `;
   // <a-sphere id="head-box" color="black" position="0 0.4 -1.5" radius="0.75" material="opacity: 0.1"></a-sphere>
+
                 innerMarkup = `${innerMarkup}
-                  <a-entity ${className} id="${props.id}" ${position.tag}>
-                    <a-camera ${className} id="${props.id}" ${cursorCameraControls}>
+                    <a-camera ${className} id="${props.id}" ${cursorCameraControls} ${position.tag} rotation="0 0 0">
                     ${touchContollers}
                     ${cursor}
                     ${headBoundingBox}
                     ${fadeMask}
                     </a-camera>
-                  </a-entity>`;
+                  `;
 
                 break;
               case "light":

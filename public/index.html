@@ -29,32 +29,10 @@
     </details>
   </header>
   <div id="app" style="z-index: 9999; position: absolute; top: 0, left: 0"></div>
-
   <div id="story">
     <a-scene>
       <a-entity id="scenes"></a-entity>
     </a-scene>
   </div>
-
-  <!-- <div id="debugger-log"></div>
-  <script>
-    function vrDebugger() {
-      var old = console.log;
-      let count = 0;
-      var log = document.getElementById('debugger-log');
-      ['log', 'debug', 'info', 'warn', 'error'].forEach(function(verb) {
-        console[verb] = (function(method, verb, log) {
-          return function() {
-            method.apply(console, arguments);
-            var msg = document.createElement('div');
-            msg.classList.add(verb);
-            msg.textContent = verb + ': ' + Array.prototype.slice.call(arguments).join(' ');
-            log.appendChild(msg);
-          };
-        })(console[verb], verb, log);
-      });
-    }
-    vrDebugger();
-  </script> -->
 </body>
 </html>
