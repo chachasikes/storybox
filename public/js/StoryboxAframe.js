@@ -228,14 +228,16 @@ export class StoryboxAframe {
                     assetItemElements.push(
                       `<a-asset-item id="${props.touch.left.id}" src="${props.touch.left.glb}"></a-asset-item>`
                     );
+                    //
+                    // ${leftModelPosition.tag}
+                    // ${leftModelRotation.tag}
 
                     leftModel = `
                     <a-entity
                     ${className}
                     gltf-model="#${props.touch.left.id}"
                     ${leftModelScale.tag}
-                    ${leftModelPosition.tag}
-                    ${leftModelRotation.tag}
+
                     crossorigin="anonymous"
                     preload="true"
                     >
@@ -286,12 +288,13 @@ export class StoryboxAframe {
                   height="0.4"
                   width="0.4"
                   depth="0.1"
+                  position="0 0 -1"
                   material="side: double; color: #EF2D5E; transparent: true; opacity: 0.5"
                 ></a-box>`;
 
                 let touchContollers = `
-                <a-entity id="leftHand" oculus-touch-controls="hand:left">${leftModel}</a-entity>
-                <a-entity id="rightHand" oculus-touch-controls="hand:right">${rightModel}${debuggerPanel}</a-entity>`;
+                <a-entity id="leftHand" super-hands oculus-touch-controls="hand:left; model: true">${leftModel}</a-entity>
+                <a-entity id="rightHand" super-hands oculus-touch-controls="hand:right; model: true">${rightModel}${debuggerPanel}</a-entity>`;
 
                 if (props.laser !== undefined) {
                   // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
