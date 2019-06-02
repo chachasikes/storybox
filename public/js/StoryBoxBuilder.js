@@ -46,7 +46,7 @@ export class StoryBoxBuilder {
     }
     // Set up dynamically loadable scenes.
     var sceneScript = document.createElement("script");
-    sceneScript.type = "text/javascript";
+    sceneScript.type = "text/html";
     sceneScript.id = "gallery";
     document.getElementById("scenes").append(sceneScript);
 
