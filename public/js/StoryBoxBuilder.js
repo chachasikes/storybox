@@ -1,7 +1,7 @@
 import { registry } from "./../examples/gallery/registry.js";
 import { Scene as gallerySceneJson } from "./../examples/gallery/gallery.js";
 import { StoryboxAframe } from "./StoryboxAframe.js";
-import { Gallery } from "./Gallery.js";
+import { Gallery } from "./gallery.js";
 
 export class StoryBoxBuilder {
   constructor() {
