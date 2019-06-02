@@ -79,13 +79,17 @@ export let Scene = {
         width: 40,
         height: 40,
         depth: 40,
-      }
+      },
+      click: "color: yellow",
+      mouseenter: "scale: 1.2 1.2 1.2; color: green",
+      mouseleave:"scale: 1 1 1; color: red",
+      sound: "on: click; src: #click-sound"
     },
   },
   title: {
     text: {
       id: "scene-title",
-      text: "value: Immersive Story Player; color: black; width: 2;",
+      text: "value: To go to the next story, \n STARE at the RED BOX.; color: black; width: 2;",
       scale: {
         x: 100,
         y: 100,

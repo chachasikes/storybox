@@ -392,10 +392,10 @@ export class StoryboxAframe {
                       ${position.tag}
                       ${rotation.tag}
                       ${dimensions.tag}
-                      event-set__click="color: yellow"
-                      event-set__mouseenter="scale: 1.2 1.2 1.2; color: green"
-                      event-set__mouseleave="scale: 1 1 1; color: red"
-                      sound="on: click; src: #click-sound"
+                      event-set__click="${props.click}"
+                      event-set__mouseenter="${props.mouseenter}"
+                      event-set__mouseleave="${props.mouseleave}"
+                      sound="${props.sound}"
                     >
                     </a-box>`;
                 } else {

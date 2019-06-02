@@ -16,7 +16,7 @@ export let Scene = {
       },
       position: {
         x: 50,
-        y: 50,
+        y: 80,
         z: 0,
       }
     }
@@ -48,7 +48,7 @@ export let Scene = {
   title: {
     text: {
       id: "gallery_menu_prompt",
-      text: "value: Choose a story to begin.; color: black; width: 2;",
+      text: "value: Immersive story player; color: black; width: 2;",
       scale: {
         x: 100,
         y: 100,
@@ -56,7 +56,7 @@ export let Scene = {
       },
       position: {
         x: 135,
-        y: 25,
+        y: 60,
         z: -20,
       }
     }

@@ -4,11 +4,10 @@ export let Scene = {
   id: "scent_experiment_tiltbrush_1",
   name: "Scent Experiment #1",
   duration: 30000,
-  autoPlay: true,
+  autoPlay: false,
   sound_of_click: {
     audio: {
       id: 'click-sound',
-      // src: 'https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg',
       src: 'https://dl.dropboxusercontent.com/s/bf543y6brdrcjte/27880__stickinthemud__bike-horn-1.ogg',
       position: {
         x:5,
@@ -25,18 +24,18 @@ export let Scene = {
       clickableClass: '.clickable',
       fadeMask: false,
       position: {
-        x: 0,
-        y: 30,
-        z: 180
+        x: 50,
+        y: 50,
+        z: 40
       },
       touch: {
         left: {
           glb: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
           id: 'left-rose-hand',
           scale: {
-            x: 0.001,
-            y: 0.001,
-            z: 0.001
+            x: 0.005,
+            y: 0.005,
+            z: 0.005
           },
           position: {
             x: -0.04,
@@ -71,7 +70,7 @@ export let Scene = {
       camera: "camera_2",
       position: {
         x: 0,
-        y: 0,
+        y: 0.5,
         z: -20
       },
       rotation: {
@@ -80,10 +79,14 @@ export let Scene = {
         z: 0
       },
       dimensions: {
-        width: 40,
-        height: 40,
-        depth: 40,
-      }
+        width: 10,
+        height: 10,
+        depth: 10,
+      },
+      click: "color: yellow",
+      mouseenter: "scale: 1.2 1.2 1.2; color: blue",
+      mouseleave:"scale: 1 1 1; color: red",
+      sound: "on: click; src: #click-sound"
     },
   },
   yellowLight: {

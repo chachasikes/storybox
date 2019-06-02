@@ -6,10 +6,13 @@ export class Gallery {
       rowLength: 5,
       currentRow: 0,
       currentColumn: 1,
-      itemWidth: -40,
-      itemHeight: -70,
-      gutter: -8,
-      itemDepth: -20,
+      itemWidth: 50,
+      itemWidthExpanded: 52,
+      itemHeight: 100,
+      gutter: 8,
+      itemDepth: 20,
+      yOffset: 20,
+      textYOffset: 30,
     };
   }
 
@@ -29,13 +32,13 @@ export class Gallery {
       this.gallery.currentColumn = 0;
     }
 
-    let x = (this.gallery.currentColumn * this.gallery.itemWidth) + (this.gallery.currentColumn * this.gallery.gutter);
+    let x = (this.gallery.currentColumn * this.gallery.itemWidth * -1) + (this.gallery.currentColumn * this.gallery.gutter * -1);
     let y = (this.gallery.currentRow * this.gallery.itemHeight) + (this.gallery.currentRow * this.gallery.gutter);
     return {
-      tag: `position="${x} ${y - 20} ${this.gallery.itemDepth}"`,
+      tag: `position="${x} ${y + this.gallery.yOffset} ${this.gallery.itemDepth}"`,
       dimensions: {
         x: x,
-        y: y - 20,
+        y: y + this.gallery.yOffset,
         z: this.gallery.itemDepth
       }
     }
@@ -48,7 +51,7 @@ export class Gallery {
     let assets = [];
 
     let position = `position="0 0 0"`;
-    let scale = `scale="40 40 40"`;
+    let scale = `scale="${this.gallery.itemWidth} ${this.gallery.itemWidth} ${this.gallery.itemWidth}"`;
     let rotation = `rotation="0 0 0"`;
 
     registry.map((item, index) => {
@@ -63,12 +66,16 @@ export class Gallery {
         data-clickable
         cursor-listener
         visible="true"
-        event-set__mouseenter="scale: 42 42 42;"
-        event-set__mouseleave="scale: 40 40 40;"
+        event-set__mouseenter="scale: ${this.gallery.itemWidthExpanded} ${this.gallery.itemWidthExpanded} ${this.gallery.itemWidthExpanded};"
+        event-set__mouseleave="scale: ${this.gallery.itemWidth} ${this.gallery.itemWidth} ${this.gallery.itemWidth};"
         id="${item.id}"
         class="${this.gallery.className}" src="#select-${item.id}" material="alphaTest: 0.5" ${position.tag} ${scale} ${rotation}>
         </a-image>
-        <a-entity text="value: ${item.name}; width: ${this.gallery.itemWidth * -1}; color: #000000" position="${position.dimensions.x} ${position.dimensions.y - 23} ${position.dimensions.z}"  ${rotation}></a-entity>
+        <a-entity
+          text="value: ${item.name}; width: ${this.gallery.itemWidth}; wrapPixels: 480; color: #000000;"
+          position="${position.dimensions.x} ${position.dimensions.y - this.gallery.textYOffset} ${position.dimensions.z}"
+          ${rotation}>
+        </a-entity>
       `
       );
 
