@@ -40,7 +40,7 @@ export let Scene = {
       credit: "Chacha Sikes",
       rotation: {
         x:0,
-        y:-90,
+        y:90,
         z:0
       },
     }

@@ -207,6 +207,7 @@ export class StoryboxAframe {
               case "camera":
                 let leftModel = ``;
                 let rightModel = ``;
+                let modelLoaded = "model: true";
                 if (props.touch !== undefined) {
                   // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
                   // Can change hand controller
@@ -237,6 +238,7 @@ export class StoryboxAframe {
                     preload="true"
                     >
                     </a-entity>`;
+                    modelLoaded = "model: false";
                   }
 
                   if (
@@ -268,12 +270,13 @@ export class StoryboxAframe {
                     preload="true"
                     >
                     </a-entity>`;
+                    modelLoaded = "model: false";
                   }
                 }
 
                 let touchContollers = `
-                <a-entity id="leftHand" oculus-touch-controls="hand:left">${leftModel}</a-entity>
-                <a-entity id="rightHand" oculus-touch-controls="hand:right">${rightModel}</a-entity>`;
+                <a-entity id="leftHand" oculus-touch-controls="hand:left; orientationOffset: -0.1 -0.1 -0.1;${modelLoaded}">${leftModel}</a-entity>
+                <a-entity id="rightHand" oculus-touch-controls="hand:right; orientationOffset: 0.1 0.1 0.1;${modelLoaded}">${rightModel}</a-entity>`;
 
                 if (props.laser !== undefined) {
                   // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html

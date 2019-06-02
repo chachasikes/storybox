@@ -106,13 +106,13 @@ export let Scene = {
       },
       position: {
         x: 0,
-        y: 0,
+        y: 10,
         z: 0
       },
       scale: {
-        x: 2000,
-        y: 2000,
-        z: 2000
+        x: 400,
+        y: 400,
+        z: 400
       },
     }
   },
