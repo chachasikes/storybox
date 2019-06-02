@@ -277,7 +277,7 @@ export class StoryboxAframe {
                   rotation="15 15 15"
                 >
                 </a-entity>
-                <a-plane id="debugger-log-vr-bkg" color="#000" height="200" width="200" position="0 0 0" rotation="0 0 0"></a-plane>`;
+                <a-plane id="debugger-log-vr-bkg" color="#000" height="0.3" width="0.3" position="-1.01 -1.01 -1.01" rotation="15 15 15"></a-plane>`;
 
                 let touchContollers = `
                 <a-entity id="leftHand" super-hands oculus-touch-controls="hand:left">${leftModel}</a-entity>
