@@ -278,16 +278,16 @@ export class StoryboxAframe {
                 let debuggerPanel = `
                 <a-entity
                   id="debugger-log-vr"
-                  text="value: Log; width: 0.01; height: 0.01; color: #ffffff"
-                  position="0 0 0"
+                  text="value: Log; width: 0.1; height: 0.1; color: #ffffff"
+                  position="-0.009 -0.009 -0.009"
                   rotation="-15 -15 -15"
                 >
                 </a-entity>
                 <a-plane
                   id="debugger-log-vr-bkg"
                   color="#000"
-                  height="0.01"
-                  width="0.01"
+                  height="0.1"
+                  width="0.1"
                   position="-0.01 -0.01 -0.01"
                   rotation="-15 -15 -15"
                 >
@@ -347,6 +347,8 @@ export class StoryboxAframe {
                     ${fadeMask}
                     </a-camera>
                   `;
+
+                  console.log(position.tag);
 
                 break;
               case "light":
