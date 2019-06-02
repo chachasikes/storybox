@@ -291,7 +291,7 @@ export class StoryboxAframe {
 
                 let touchContollers = `
                 <a-entity id="leftHand" oculus-touch-controls="hand:left">${leftModel}</a-entity>
-                <a-entity id="rightHand"  oculus-touch-controls="hand:right">${rightModel}${debuggerPanel}</a-entity>`;
+                <a-entity id="rightHand" oculus-touch-controls="hand:right">${rightModel}${debuggerPanel}</a-entity>`;
 
                 if (props.laser !== undefined) {
                   // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
@@ -344,7 +344,7 @@ export class StoryboxAframe {
                     ${fadeMask}
                     </a-camera>
                 </a-entity>
-                  `;
+                `;
 
                   console.log(position.tag);
 
