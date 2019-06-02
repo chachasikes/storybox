@@ -336,12 +336,14 @@ export class StoryboxAframe {
   // <a-sphere id="head-box" color="black" position="0 0.4 -1.5" radius="0.75" material="opacity: 0.1"></a-sphere>
 
                 innerMarkup = `${innerMarkup}
-                    <a-camera ${className} id="${props.id}" ${cursorCameraControls} ${position.tag} rotation="0 0 0">
+                <a-entity id="rig" ${position.tag}>
+                    <a-camera ${className} id="${props.id}" ${cursorCameraControls}>
                     ${touchContollers}
                     ${cursor}
                     ${headBoundingBox}
                     ${fadeMask}
                     </a-camera>
+                </a-entity>
                   `;
 
                   console.log(position.tag);
