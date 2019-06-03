@@ -206,6 +206,8 @@ export class StoryboxAframe {
               case "camera":
                 let leftModel = ``;
                 let rightModel = ``;
+                let orientationOffsetLeft = ``;
+                let orientationOffsetRight = ``;
                 let modelLoaded = "model: true";
                 if (props.touch !== undefined) {
                   // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
@@ -224,6 +226,10 @@ export class StoryboxAframe {
                       "rotation",
                       props.touch.left
                     );
+
+                    if (props.touch.left.orientationOffset !== undefined) {
+                      orientationOffsetLeft = `offsetOrientation="${props.touch.left.orientationOffset}"`;
+                    }
                     // https://aframe.io/docs/0.9.0/components/gltf-model.html
                     assetItemElements.push(
                       `<a-asset-item id="${props.touch.left.id}" src="${props.touch.left.glb}"></a-asset-item>`
@@ -255,6 +261,10 @@ export class StoryboxAframe {
                       "position",
                       props.touch.right
                     );
+
+                    if (props.touch.right.orientationOffset !== undefined) {
+                      orientationOffsetRight = `offsetOrientation="${props.touch.right.orientationOffset}"`;
+                    }
                     // https://aframe.io/docs/0.9.0/components/gltf-model.html
                     assetItemElements.push(
                       `<a-asset-item id="${props.touch.right.id}" src="${props.touch.right.glb}"></a-asset-item>`
@@ -286,8 +296,8 @@ export class StoryboxAframe {
                 ></a-box>`;
 
                 let touchContollers = `
-                <a-entity id="leftHand" super-hands oculus-touch-controls="hand:left; ${modelLoaded};>${leftModel}</a-entity>
-                <a-entity id="rightHand" super-hands oculus-touch-controls="hand:right; ${modelLoaded};>${rightModel}${debuggerPanel}</a-entity>`;
+                <a-entity id="leftHand" super-hands oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft}>${leftModel}</a-entity>
+                <a-entity id="rightHand" super-hands oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight}>${rightModel}${debuggerPanel}</a-entity>`;
 
                 if (props.laser !== undefined) {
                   // Can change hand controller
