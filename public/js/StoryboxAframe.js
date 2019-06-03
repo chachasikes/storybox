@@ -270,7 +270,7 @@ export class StoryboxAframe {
                     preload="true"
                     >
                     </a-entity>`;
-                    // modelLoaded = "model: false";
+                    modelLoaded = "model: false";
                   }
                 }
 
@@ -286,27 +286,16 @@ export class StoryboxAframe {
                 ></a-box>`;
 
                 let touchContollers = `
-                <a-entity id="leftHand" super-hands oculus-touch-controls="hand:left; model: true; orientationOffset: x: 0, y: 1.6, z: 0">${leftModel}</a-entity>
-                <a-entity id="rightHand" super-hands oculus-touch-controls="hand:right; model: true; orientationOffset: x: 0, y: 1.6, z: 0">${rightModel}${debuggerPanel}</a-entity>`;
+                <a-entity id="leftHand" super-hands oculus-touch-controls="hand:left; ${modelLoaded};>${leftModel}</a-entity>
+                <a-entity id="rightHand" super-hands oculus-touch-controls="hand:right; ${modelLoaded};>${rightModel}${debuggerPanel}</a-entity>`;
 
                 if (props.laser !== undefined) {
-                  // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
                   // Can change hand controller
                   let leftLine = this.getProperties("line", props.left);
                   let rightLine = this.getProperties("line", props.right);
                   innerMarkup = `${innerMarkup}<a-entity laser-controls="hand: left" ${leftLine}></a-entity><a-entity laser-controls="hand: right" ${rightLine}></a-entity>`;
                 }
 
-                let fadeMask = ``;
-                if (props.fadeMask === true) {
-                  // fadeMask = `
-                  //   <a-entity id="fade-mask" geometry="primitive: box" scale="200 200 200" color="#000000" material="opacity: 1">
-                  //     <a-animation attribute="material.opacity" begin="fade" to="1"></a-animation>
-                  //   </a-entity>`;
-
-                  fadeMask = `
-                    <a-box scale="200 200 200" position="0 0 -10" color="#000000"></a-box>`;
-                }
                 let cursorCameraControls = ``;
                 let cursor = ``;
                 if (props.cursorCamera === true) {
@@ -323,19 +312,12 @@ export class StoryboxAframe {
                   </a-entity>`;
                 }
 
-                let headBoundingBox = `
-
-                `;
-  // <a-sphere id="head-box" color="black" position="0 0.4 -1.5" radius="0.75" material="opacity: 0.1"></a-sphere>
-
                 innerMarkup = `${innerMarkup}
                 <a-entity id="rig" ${position.tag}>
                     <a-camera ${className} id="${props.id}" ${cursorCameraControls} position="0 1.6 0">
-                    ${touchContollers}
                     ${cursor}
-                    ${headBoundingBox}
-                    ${fadeMask}
                     </a-camera>
+                    ${touchContollers}
                 </a-entity>
                 `;
 
