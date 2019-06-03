@@ -17,6 +17,84 @@ export let Scene = {
         y:60,
         z:180
       },
+      scent_interface: {
+        scent: {
+          id: "rose-stretch",
+          type: "stretch",
+          stretchAxis: 'x',
+          ropeColor: "#7AC069",
+          dimensions: {
+            width: 100,
+            height: 1,
+            depth: 1,
+          },
+          a: {
+              id: "leftStretch",
+              color: "#FA8072",
+              dimensions: {
+                width: 5,
+                height: 200,
+                depth: 5,
+              },
+              position: {
+                x: -50,
+                y: 1,
+                z: 1,
+              },
+
+          },
+          b: {
+              id: "rightStretch",
+              color: "#7AC069",
+              dimensions: {
+                width: 5,
+                height: 200,
+                depth: 5,
+              },
+              position: {
+                x: 50,
+                y: 1,
+                z: 1,
+              },
+
+          },
+          maxWidth: 100,
+          minWidth: 0,
+          positions: [
+            {
+              art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
+              // behavior: 'playAnimation',
+              type: "percentage",
+              //
+              x: -20,
+              y: 1,
+              z: 1,
+              color: "red",
+              id: 'damascone',
+            },
+            {
+              art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
+              // behavior: 'playAnimation',
+              type: "percentage",
+              x: 30,
+              y: 1,
+              z: 1,
+              color: "lime",
+              id: 'cis-3-hex',
+            },
+            {
+              art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
+              // behavior: 'playAnimation',
+              type: "percentage",
+              x: 40,
+              y: 1,
+              z: 1,
+              color: "teal",
+              id: 'linalool',
+            }
+          ]
+        }
+      },
     }
   },
   ambientLight: {
@@ -50,85 +128,6 @@ export let Scene = {
       color: "#ededed",
       id: "light-background",
       name: "Fade in",
-    }
-  },
-
-  scent_interface: {
-    scent: {
-      id: "rose-stretch",
-      type: "stretch",
-      stretchAxis: 'x',
-      ropeColor: "#7AC069",
-      dimensions: {
-        width: 100,
-        height: 1,
-        depth: 1,
-      },
-      a: {
-          id: "leftStretch",
-          color: "#FA8072",
-          dimensions: {
-            width: 5,
-            height: 200,
-            depth: 5,
-          },
-          position: {
-            x: -50,
-            y: 1,
-            z: 1,
-          },
-
-      },
-      b: {
-          id: "rightStretch",
-          color: "#7AC069",
-          dimensions: {
-            width: 5,
-            height: 200,
-            depth: 5,
-          },
-          position: {
-            x: 50,
-            y: 1,
-            z: 1,
-          },
-
-      },
-      maxWidth: 100,
-      minWidth: 0,
-      positions: [
-        {
-          art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
-          // behavior: 'playAnimation',
-          type: "percentage",
-          //
-          x: -20,
-          y: 1,
-          z: 1,
-          color: "red",
-          id: 'damascone',
-        },
-        {
-          art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
-          // behavior: 'playAnimation',
-          type: "percentage",
-          x: 30,
-          y: 1,
-          z: 1,
-          color: "lime",
-          id: 'cis-3-hex',
-        },
-        {
-          art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
-          // behavior: 'playAnimation',
-          type: "percentage",
-          x: 40,
-          y: 1,
-          z: 1,
-          color: "teal",
-          id: 'linalool',
-        }
-      ]
     }
   },
   grid: {

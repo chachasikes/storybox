@@ -128,10 +128,6 @@ export class StoryboxAframe {
     return cube;
   }
 
-  buildCamera() {
-
-  }
-
   buildSky(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
     if (props.color !== undefined) {
       innerMarkup = `${innerMarkup}<a-sky color="${
@@ -223,7 +219,7 @@ export class StoryboxAframe {
     }
   }
 
-  buildCamera(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
+  buildCamera(props, innerMarkup, assetsElements, assetItemElements, aframeTags, scent) {
     let leftModel = ``;
     let rightModel = ``;
     let orientationOffsetLeft = ``;
@@ -265,7 +261,7 @@ export class StoryboxAframe {
         crossorigin="anonymous"
         preload="true"
         >
-        </a-entity>`;
+        </a-entity>${scent.leftBox}`;
         modelLoaded = "model: false";
       }
 
@@ -299,7 +295,7 @@ export class StoryboxAframe {
         crossorigin="anonymous"
         preload="true"
         >
-        </a-entity>`;
+        </a-entity>${scent.rightBox}`;
         modelLoaded = "model: false";
       }
     }
@@ -349,6 +345,7 @@ export class StoryboxAframe {
         ${cursor}
         </a-camera>
         ${touchContollers}
+        ${scent.rope}${scent.objectPositions}
     </a-entity>
     `;
 
@@ -406,11 +403,15 @@ export class StoryboxAframe {
   }
 
   buildScentInterface(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
+    let rope = ``;
+    let objectPositions = ``;
+    let leftBox = ``;
+    let rightBox = ``;
     if (props.type === 'stretch') {
       let aTags = this.buildTags(props.a);
       let bTags = this.buildTags(props.b);
 
-      let leftBox = `
+      leftBox = `
       <a-box
         id="${props.a.id}"
         ${aTags.className}
@@ -421,7 +422,8 @@ export class StoryboxAframe {
       >
       </a-box>
       `;
-      let rightBox = `
+
+      rightBox = `
       <a-box
         id="${props.b.id}"
         ${bTags.className}
@@ -443,7 +445,7 @@ export class StoryboxAframe {
       </a-box>
       `;
 
-      let objectPositions = ``;
+
       if( props.positions !== undefined ) {
         props.positions.forEach(item => {
           let obj = this.stretchPosition(props.a.position, props.b.position, item);
@@ -456,7 +458,7 @@ export class StoryboxAframe {
         });
       }
 
-      let rope = `<a-entity
+      rope = `<a-entity
       id="${props.id}"
 
       line="start: ${props.a.position.x}, ${props.a.position.y}, ${props.a.position.z}; end: ${props.b.position.x}, ${props.b.position.y}, ${props.b.position.z}; color: ${props.ropeColor}"
@@ -472,6 +474,10 @@ export class StoryboxAframe {
       assetItemElements: assetItemElements,
       assetsElements: assetsElements,
       innerMarkup: innerMarkup,
+      rope: rope,
+      leftBox: leftBox,
+      rightBox: rightBox,
+      objectPositions: objectPositions
     }
   }
 
@@ -502,7 +508,8 @@ export class StoryboxAframe {
                 assetItemElements = mesh.assetItemElements;
                 break;
               case "camera":
-                let camera = this.buildCamera(props, innerMarkup, assetsElements, assetItemElements, aframeTags);
+                let scent = this.buildScentInterface(props, innerMarkup, assetsElements, assetItemElements, aframeTags);
+                let camera = this.buildCamera(props, innerMarkup, assetsElements, assetItemElements, aframeTags, scent);
                 innerMarkup = camera.innerMarkup;
                 assetsElements = camera.assetsElements;
                 assetItemElements = camera.assetItemElements;
@@ -512,12 +519,6 @@ export class StoryboxAframe {
                 innerMarkup = light.innerMarkup;
                 assetsElements = light.assetsElements;
                 assetItemElements = light.assetItemElements;
-                break;
-              case "scent":
-                let scent = this.buildScentInterface(props, innerMarkup, assetsElements, assetItemElements, aframeTags);
-                innerMarkup = scent.innerMarkup;
-                assetsElements = scent.assetsElements;
-                assetItemElements = scent.assetItemElements;
                 break;
               case "audio":
                 assetsElements.push(
