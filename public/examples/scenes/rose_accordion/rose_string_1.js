@@ -36,9 +36,9 @@ export let Scene = {
               depth: 0.2,
             },
             position: {
-              x: 0.2,
-              y: 0.08,
-              z: 0.2,
+              x: 0,
+              y: 0.01,
+              z: -0.02,
             },
             rotation: {
               x: 0,
@@ -51,14 +51,14 @@ export let Scene = {
             id: "rightStretch",
             color: "#7AC069",
             dimensions: {
-              width: 0.2,
-              height: 0.5,
-              depth: 0.2,
+              width: 0.02,
+              height: 0.4,
+              depth: 0.02,
             },
             position: {
-              x: 0.2,
-              y: 0.08,
-              z: 0.2,
+              x: 0,
+              y: 0.01,
+              z: -0.02,
             },
             rotation: {
               x: 0,

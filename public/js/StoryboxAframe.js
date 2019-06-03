@@ -314,7 +314,8 @@ export class StoryboxAframe {
 
     let touchContollers = `
     <a-entity id="leftHand" oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft} rotation="0 0 0">${leftModel}${scent.leftBox}</a-entity>
-    <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="0 0 0">${rightModel}${debuggerPanel}${scent.rightBox}</a-entity>`;
+    <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="0 0 0">${rightModel}${debuggerPanel}${scent.rightBox}</a-entity>
+    ${scent.rope}${scent.objectPositions}`;
 
     if (props.laser !== undefined) {
       // Can change hand controller
@@ -345,7 +346,6 @@ export class StoryboxAframe {
         ${cursor}
         </a-camera>
         ${touchContollers}
-        ${scent.rope}${scent.objectPositions}
     </a-entity>
     `;
 
@@ -458,13 +458,9 @@ export class StoryboxAframe {
         });
       }
 
-      rope = `<a-entity
-      id="${props.id}"
-
+      rope = `<a-entity id="${props.id}"
       line="start: ${props.a.position.x}, ${props.a.position.y}, ${props.a.position.z}; end: ${props.b.position.x}, ${props.b.position.y}, ${props.b.position.z}; color: ${props.ropeColor}"
-      >
-
-      </a-entity>`;
+      ></a-entity>`;
 
       innerMarkup = `${innerMarkup}${rope}${leftBox}${rightBox}${objectPositions}`;
 
