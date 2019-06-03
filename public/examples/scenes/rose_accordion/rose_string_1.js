@@ -64,8 +64,7 @@ export let Scene = {
         depth: 1,
       },
       a: {
-
-          id: "leftPole",
+          id: "leftStretch",
           color: "#FA8072",
           dimensions: {
             width: 5,
@@ -80,8 +79,7 @@ export let Scene = {
 
       },
       b: {
-
-          id: "rightPole",
+          id: "rightStretch",
           color: "#7AC069",
           dimensions: {
             width: 5,
@@ -97,8 +95,6 @@ export let Scene = {
       },
       maxWidth: 100,
       minWidth: 0,
-      // line:
-      // physics:
       positions: [
         {
           art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',

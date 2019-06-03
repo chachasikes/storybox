@@ -322,15 +322,6 @@ export class StoryBoxBuilder {
     }
   }
 
-  buildLineRope() {
-    var rope = document.getElementById('rose-stretch');
-    let pointA = document.getElementById('leftPole');
-    let pointB = document.getElementById('rightPole');
-    if (rope !== null && pointA !== null && pointB !== null) {
-
-    }
-  }
-
   setupAppButtons() {
     AFRAME.registerComponent('x-button-listener', {
       init: function () {
@@ -342,19 +333,8 @@ export class StoryBoxBuilder {
       }
     });
     window.addEventListener("keydown", (e) => {
-      // var player = document.querySelector("a-camera");
-      // if (e.code === "KeyR") {
-      //    var angle = player.getAttribute("rotation")
-      //    var x = 1 * Math.cos(angle.y * Math.PI / 180)
-      //    var y = 1 * Math.sin(angle.y * Math.PI / 180)
-      //    var pos = player.getAttribute("position")
-      //    pos.x -= y;
-      //    pos.z -= x;
-      //    player.setAttribute("position", pos);
-      // }
-
       if (e.code === "KeyP") {
-        var stretchRight = document.querySelector("#rightPole");
+        var stretchRight = document.querySelector("#rightStretch");
         let positionRight = stretchRight.getAttribute('position');
         let newPositionRight = {
           x: positionRight.x + 3,
@@ -372,7 +352,7 @@ export class StoryBoxBuilder {
       }
 
       if (e.code === "KeyO") {
-        var stretchLeft = document.querySelector("#leftPole");
+        var stretchLeft = document.querySelector("#leftStretch");
         let positionLeft = stretchLeft.getAttribute('position');
         let newPositionLeft = {
           x: positionLeft.x - 3,
@@ -465,7 +445,6 @@ export class StoryBoxBuilder {
 
 
     this.vrDebugger();
-    this.buildLineRope();
   }
 
   render(target) {

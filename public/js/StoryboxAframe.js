@@ -372,6 +372,15 @@ export class StoryboxAframe {
       }
   }
 
+  stretchPosition(a, b, item) {
+    let position = item;
+    return {
+      x: position.x,
+      y: position.y,
+      z: position.z,
+    }
+  }
+
   buildScentInterface(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
     if (props.type === 'stretch') {
       let aTags = this.buildTags(props.a);
@@ -400,16 +409,23 @@ export class StoryboxAframe {
       </a-box>
       `;
 
+      let ropeBox = `
+      <a-box
+        id="${props.id}"
+        ${aframeTags.className}
+        ${aframeTags.color.tag}
+        ${aframeTags.dimensions.tag}
+      >
+      </a-box>
+      `;
 
-            let ropeBox = `
-            <a-box
-              id="${props.id}"
-              ${aframeTags.className}
-              ${aframeTags.color.tag}
-              ${aframeTags.dimensions.tag}
-            >
-            </a-box>
-            `;
+      let objectPositions = ``;
+      if( props.positions !== undefined ) {
+        props.positions.forEach(item => {
+          let obj = this.stretchPosition(props.a, props.b, item);
+          objectPositions = `${objectPositions}<a-sphere position="${obj.x} ${obj.y} ${obj.z}" radius="5" color="blue"></a-sphere>`;
+        });
+      }
 
       let rope = `<a-entity
       id="${props.id}"
@@ -419,9 +435,7 @@ export class StoryboxAframe {
 
       </a-entity>`;
 
-      innerMarkup = `${innerMarkup}
-      ${rope}
-      ${leftBox}${rightBox}`;
+      innerMarkup = `${innerMarkup}${rope}${leftBox}${rightBox}${objectPositions}`;
 
     }
 
