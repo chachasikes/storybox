@@ -39,23 +39,23 @@
                 >
               </a-entity>
                <!-- model: true; orientationOffset: x: 0, y: 1.6, z: 0 -->
-              <a-entity id="leftHand" super-hands oculus-touch-controls="hand:left;model:true;orientationOffset: x: -0.5, y: -0.5, z:-0.5">
-                <a-box  height="0.5"
-                        width="0.5"
-                        depth="0.5"
-                        position="0 0 0"
-                        material="side: double; color: #EF2D5E; transparent: true; opacity: 0.7"></a-box>
-              </a-entity>
-              <a-entity id="rightHand" super-hands oculus-touch-controls="hand:right;model:true; orientationOffset: x: -0.5, y: -0.5, z:-0.5">
-                <a-box  height="0.5"
-                        width="0.5"
-                        depth="0.5"
-                        position="0 0 0"
-                        material="side: double; color: blue; transparent: true; opacity: 0.7"></a-box>
-              </a-entity>
+
 
             </a-camera>
-
+            <a-entity id="leftHand" super-hands oculus-touch-controls="hand:left;model:true;orientationOffset: x: -0.5, y: -0.5, z:-0.5">
+              <a-box  height="0.5"
+                      width="0.5"
+                      depth="0.5"
+                      position="0 0 0"
+                      material="side: double; color: #EF2D5E; transparent: true; opacity: 0.7"></a-box>
+            </a-entity>
+            <a-entity id="rightHand" super-hands oculus-touch-controls="hand:right;model:true; orientationOffset: x: -0.5, y: -0.5, z:-0.5">
+              <a-box  height="0.5"
+                      width="0.5"
+                      depth="0.5"
+                      position="0 0 0"
+                      material="side: double; color: blue; transparent: true; opacity: 0.7"></a-box>
+            </a-entity>
             <a-box color="green" depth="0.1" height="0.1" width="0.1" position="0 1.6 -4" rotation="5 5 5"></a-box>
             <a-sky color="white"></a-sky>
             <a-light type="ambient" position="10 50 50"></a-light>
