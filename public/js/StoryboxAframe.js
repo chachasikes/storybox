@@ -286,8 +286,8 @@ export class StoryboxAframe {
                 ></a-box>`;
 
                 let touchContollers = `
-                <a-entity id="leftHand" super-hands oculus-touch-controls="hand:left; model: true">${leftModel}</a-entity>
-                <a-entity id="rightHand" super-hands oculus-touch-controls="hand:right; model: true">${rightModel}${debuggerPanel}</a-entity>`;
+                <a-entity id="leftHand" super-hands oculus-touch-controls="hand:left; model: true; orientationOffset: x: 0, y: 1.6, z: 0">${leftModel}</a-entity>
+                <a-entity id="rightHand" super-hands oculus-touch-controls="hand:right; model: true; orientationOffset: x: 0, y: 1.6, z: 0">${rightModel}${debuggerPanel}</a-entity>`;
 
                 if (props.laser !== undefined) {
                   // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
