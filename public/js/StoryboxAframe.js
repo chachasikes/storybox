@@ -296,8 +296,8 @@ export class StoryboxAframe {
                 ></a-box>`;
 
                 let touchContollers = `
-                <a-entity id="leftHand" oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft} rotation="180 180 180">${leftModel}</a-entity>
-                <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="180 180 180">${rightModel}${debuggerPanel}</a-entity>`;
+                <a-entity id="leftHand" oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft} rotation="0 0 0">${leftModel}</a-entity>
+                <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="0 0 0">${rightModel}${debuggerPanel}</a-entity>`;
 
                 if (props.laser !== undefined) {
                   // Can change hand controller
