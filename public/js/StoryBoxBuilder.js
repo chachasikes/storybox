@@ -351,23 +351,21 @@ export class StoryBoxBuilder {
   updateStretchLine() {
     var stretchLeft = document.querySelector("#leftStretch");
     var stretchRight = document.querySelector("#rightStretch");
-    console.log('stretch');
     if (stretchLeft !== null && stretchRight !== null) {
-      console.log('stretching');
       let positionLeft = stretchLeft.getAttribute('position');
       let positionRight = stretchRight.getAttribute('position');
-      let newPositionLeft = {
-        x: positionLeft.x - 1,
-        y: positionLeft.y,
-        z: positionLeft.z,
-      };
-      let newPositionRight = {
-        x: positionRight.x + 1,
-        y: positionRight.y,
-        z: positionRight.z,
-      };
-      stretchLeft.setAttribute('position', newPositionLeft);
-      stretchRight.setAttribute('position', newPositionRight);
+      // let newPositionLeft = {
+      //   x: positionLeft.x - 1,
+      //   y: positionLeft.y,
+      //   z: positionLeft.z,
+      // };
+      // let newPositionRight = {
+      //   x: positionRight.x + 1,
+      //   y: positionRight.y,
+      //   z: positionRight.z,
+      // };
+      // stretchLeft.setAttribute('position', newPositionLeft);
+      // stretchRight.setAttribute('position', newPositionRight);
 
       var stretch = document.querySelector("#rose-stretch");
       let line = stretch.getAttribute('line');
@@ -400,13 +398,13 @@ export class StoryBoxBuilder {
         console[verb] = (function(method, verb, logVR) {
           return function() {
             method.apply(console, arguments);
-            var msg = document.createElement('div');
-            msg.classList.add(verb);
-            msg.textContent = verb + ': ' + Array.prototype.slice.call(arguments).join(' ');
+            // var msg = document.createElement('div');
+            // msg.classList.add(verb);
+            // msg.textContent = verb + ': ' + Array.prototype.slice.call(arguments).join(' ');
             if (logVR !== null) {
               let vrLogJson = logVR.getAttribute('text');
               if (typeof vrLogJson === 'object') {
-                vrLogJson.value = `${vrLogJson.value} ${verb + ': ' + Array.prototype.slice.call(arguments).join(' ')}`;
+                vrLogJson.value = `${verb + ': ' + Array.prototype.slice.call(arguments).join(' ')}`;
                 logVR.setAttribute('text', vrLogJson);
               }
             }
@@ -418,7 +416,7 @@ export class StoryBoxBuilder {
 
   updateEventListeners() {
     this.vrDebugger();
-    this.storySettings.stretchLine = setInterval(this.updateStretchLine, 100);
+    this.storySettings.stretchLine = setInterval(this.updateStretchLine, 10);
 
     document.querySelector('#scene-selector').addEventListener("click", (e) => {
       if (e.target.id !== null && e.target.id !== '') {
