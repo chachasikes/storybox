@@ -354,16 +354,16 @@ export class StoryBoxBuilder {
     if (stretchLeft !== null && stretchRight !== null) {
       let positionLeft = stretchLeft.getAttribute('position');
       let positionRight = stretchRight.getAttribute('position');
-      // let newPositionLeft = {
-      //   x: positionLeft.x - 1,
-      //   y: positionLeft.y,
-      //   z: positionLeft.z,
-      // };
-      // let newPositionRight = {
-      //   x: positionRight.x + 1,
-      //   y: positionRight.y,
-      //   z: positionRight.z,
-      // };
+      let newPositionLeft = {
+        x: positionLeft.x - 0.001,
+        y: positionLeft.y,
+        z: positionLeft.z,
+      };
+      let newPositionRight = {
+        x: positionRight.x + 0.001,
+        y: positionRight.y,
+        z: positionRight.z,
+      };
       // stretchLeft.setAttribute('position', newPositionLeft);
       // stretchRight.setAttribute('position', newPositionRight);
 
@@ -416,7 +416,7 @@ export class StoryBoxBuilder {
 
   updateEventListeners() {
     this.vrDebugger();
-    this.storySettings.stretchLine = setInterval(this.updateStretchLine, 10);
+    this.storySettings.stretchLine = setInterval(this.updateStretchLine, 100);
 
     document.querySelector('#scene-selector').addEventListener("click", (e) => {
       if (e.target.id !== null && e.target.id !== '') {
