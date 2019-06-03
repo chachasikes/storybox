@@ -6,7 +6,7 @@ export class App {
   init(target) {
     window.StoryBoxBuilder = new StoryBoxBuilder(target);
     let rendered = window.StoryBoxBuilder.render(target);
-    let setup = window.StoryBoxBuilder.setupGallery();
+    // let setup = window.StoryBoxBuilder.setupGallery();
     window.StoryBoxBuilder.setupAppButtons();
   }
 }

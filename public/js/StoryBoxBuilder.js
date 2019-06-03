@@ -1,34 +1,55 @@
 import { registry } from "./../examples/gallery/registry.js";
+
 import { Scene as gallerySceneJson } from "./../examples/gallery/gallery.js";
 import { StoryboxAframe } from "./StoryboxAframe.js";
 import { Gallery } from "./gallery.js";
 
 export class StoryBoxBuilder {
   constructor() {
-    this.registry = registry;
     this.storySettings = {};
-    this.storySettings.currentStory = 'hello-world';
     this.storySettings.timer = null;
     this.storySettings.target = null;
     this.storySettings.transition = null;
     this.assetMarkup = ``;
     this.assetMarkupGallery = ``;
     this.showLoading = false;
+    this.registry = [];
+    this.storySettings.currentStory = 'gallery';
+    this.registryLocal = registry;
+    this.dropboxRegistry = this.loadDropbox([
+      'https://www.dropbox.com/s/anftsg0se49msqz/dropbox-tincture-sea.json?dl=0'
+    ]);
+  }
 
-    // Update registry of stories with additional metadata.
-    this.registry.map(story => {
-      let count = 0;
-      let totalDuration = 0;
-      let scenes = story.scenes.map(scene => {
-        scene.scene = count++;
-        totalDuration = totalDuration + Number(scene.duration);
-        return scene;
+  loadDropbox(files) {
+    // await https://www.dropbox.com/s/anftsg0se49msqz/dropbox-tincture-sea.js?dl=0
+    let dropboxRegistry = files.forEach(file => {
+    let rawFilePath = file.replace('https://www.dropbox.com', 'https://dl.dropboxusercontent.com').replace('?dl=0', '');
+    let filesData = fetch(rawFilePath)
+    .then(response => response.json())
+    .then((data) => {
+      this.registry = this.registryLocal;
+      this.registry.push(data);
+
+      // Update registry of stories with additional metadata.
+      this.registry.map(story => {
+        let count = 0;
+        let totalDuration = 0;
+        let scenes = story.scenes.map(scene => {
+          scene.scene = count++;
+          totalDuration = totalDuration + Number(scene.duration);
+          return scene;
+        });
+        story.currentScene = 0;
+        story.timeElapsedScene = 0;
+        story.totalDuration = totalDuration;
+        story.numberScenes = story.scenes.length;
       });
-      story.currentScene = 0;
-      story.timeElapsedScene = 0;
-      story.totalDuration = totalDuration;
-      story.numberScenes = story.scenes.length;
+      this.setupGallery();
     });
+
+
+  });
   }
 
   setupGallery() {
