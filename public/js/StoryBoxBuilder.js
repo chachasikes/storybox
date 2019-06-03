@@ -354,44 +354,47 @@ export class StoryBoxBuilder {
     if (stretchLeft !== null && stretchRight !== null) {
       let positionLeft = stretchLeft.getAttribute('position');
       let positionRight = stretchRight.getAttribute('position');
-      let newPositionLeft = {
-        x: positionLeft.x - 0.001,
-        y: positionLeft.y,
-        z: positionLeft.z,
-      };
-      let newPositionRight = {
-        x: positionRight.x + 0.001,
-        y: positionRight.y,
-        z: positionRight.z,
-      };
+      // let newPositionLeft = {
+      //   x: positionLeft.x,
+      //   y: positionLeft.y,
+      //   z: positionLeft.z,
+      // };
+      // let newPositionRight = {
+      //   x: positionRight.x,
+      //   y: positionRight.y,
+      //   z: positionRight.z,
+      // };
       // stretchLeft.setAttribute('position', newPositionLeft);
       // stretchRight.setAttribute('position', newPositionRight);
 
       var stretch = document.querySelector("#rose-stretch");
-      let line = stretch.getAttribute('line');
-      line.start = newPositionLeft;
-      line.end = newPositionRight;
-      stretch.setAttribute('line', line);
+      if (stretch !== null) {
+        let line = stretch.getAttribute('line');
+        line.start = positionLeft;
+        line.end = positionRight;
+        stretch.setAttribute('line', line);
+      }
 
       var stretchObjects = document.querySelectorAll('.stretch-object');
       let positionObj;
-      stretchObjects.forEach(obj => {
-        let id = obj.getAttribute('id');
-        let el = document.getElementById(id);
-        positionObj = window.StoryboxAframe.updateStretchPosition(stretchLeft.getAttribute('position'), stretchRight.getAttribute('position'), el);
-        let newPositionObj = {
-          x: positionObj.x,
-          y: positionObj.y,
-          z: positionObj.z,
-        }
-
-        el.setAttribute('position', newPositionObj);
-      });
+      if (stretchObjects !== null && stretchObjects.length > 0) {
+        stretchObjects.forEach(obj => {
+          let id = obj.getAttribute('id');
+          let el = document.getElementById(id);
+          positionObj = window.StoryboxAframe.updateStretchPosition(stretchLeft.getAttribute('position'), stretchRight.getAttribute('position'), el);
+          let newPositionObj = {
+            x: positionObj.x,
+            y: positionObj.y,
+            z: positionObj.z,
+          }
+          el.setAttribute('position', newPositionObj);
+        });
+      }
     }
   }
 
   vrDebugger() {
-      var old = console.log;
+
       var logVR = document.getElementById('debugger-log-vr');
 
       ['log', 'debug', 'error'].forEach(function(verb) {
@@ -403,10 +406,11 @@ export class StoryBoxBuilder {
             // msg.textContent = verb + ': ' + Array.prototype.slice.call(arguments).join(' ');
             if (logVR !== null) {
               let vrLogJson = logVR.getAttribute('text');
-              if (typeof vrLogJson === 'object') {
-                vrLogJson.value = `${verb + ': ' + Array.prototype.slice.call(arguments).join(' ')}`;
-                logVR.setAttribute('text', vrLogJson);
-              }
+
+              // if (typeof vrLogJson === 'object' && vrLogJson.text !== undefined && vrLogJson.text.value !== undefined) {
+                // vrLogJson.value = `${verb + ': ' + Array.prototype.slice.call(arguments).join(' ')}`;
+                // logVR.setAttribute('text', vrLogJson);
+              // }
             }
           };
         })(console[verb], verb, logVR);

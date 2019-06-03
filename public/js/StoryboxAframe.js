@@ -300,7 +300,7 @@ export class StoryboxAframe {
       }
     }
 
-    let debuggerLog = `<a-entity id="debugger-log-vr" text="value: (log); width: 0.25; height: 0.25; color: #FFF" position="0.36 0.08 0.16"></a-entity>`;
+    let debuggerLog = `<a-entity id="debugger-log-vr" text="value: (log); width: 0.25; height: 0.25; color: #FFF" position="0.30 0.08 0.16"></a-entity>`;
 
     let debuggerPanel = `${debuggerLog}
     <a-box id="debugger-log-vr-bkg"
