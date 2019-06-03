@@ -53,9 +53,9 @@ export let Scene = {
       // art: "https://dl.dropboxusercontent.com/s/wh9s8aj56xxvdly/forest_rough_sketch.glb",
       art: "https://dl.dropboxusercontent.com/s/kgtuq7g1lylr9wv/tincture-of-sea.glb",
       scale: {
-        x: 100,
-        y: 100,
-        z: 100,
+        x: 80,
+        y: 80,
+        z: 80,
       },
       rotation: {
         x: 0,
