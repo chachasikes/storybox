@@ -108,7 +108,7 @@ export class StoryBoxBuilder {
     document.querySelector("a-assets").innerHTML = this.assetMarkupGallery;
 
     document.querySelector("a-assets").addEventListener('loaded', () => {
-      console.log("GALLERY ASSETS LOADED");
+      // console.log("GALLERY ASSETS LOADED");
       let currentScene = "gallery";
       if (currentScene && currentScene.autoPlay === true) {
         this.pauseScene();
@@ -215,7 +215,7 @@ export class StoryBoxBuilder {
     this.update();
 
     document.querySelector("a-assets").addEventListener('loaded', () => {
-      console.log("STORY ASSETS LOADED");
+      // console.log("STORY ASSETS LOADED");
       this.showLoading = false;
       this.update();
       let currentScene = this.getCurrentScene(this.storySettings.currentStory);
@@ -244,9 +244,9 @@ export class StoryBoxBuilder {
   }
 
   playGLBAnimation() {
-    console.log("playing gltf animation");
+    // console.log("playing gltf animation");
     let animation = document.querySelector('.glb-animation');
-    console.log('animation', animation);
+    // console.log('animation', animation);
   }
 
   pauseScene() {
@@ -332,7 +332,7 @@ export class StoryBoxBuilder {
       init: function () {
         var el = this.el;
         el.addEventListener('xbuttondown', function (evt) {
-          console.log('down');
+          // console.log('down');
           this.loadGallery();
         });
       },
@@ -442,7 +442,6 @@ export class StoryBoxBuilder {
 
       if (e.detail !== undefined && e.detail.intersectedEl !== undefined) {
         let el = e.detail.intersectedEl;
-        console.log(el);
         if (el.getAttribute('class') === 'clickable-tile') {
           // console.log(el.getAttribute('id'));
           if(el.getAttribute('data-clicked') === null || el.getAttribute('data-clicked') === 'false') {
@@ -461,7 +460,7 @@ export class StoryBoxBuilder {
     });
 
 
-    // this.vrDebugger();
+    this.vrDebugger();
   }
 
   render(target) {

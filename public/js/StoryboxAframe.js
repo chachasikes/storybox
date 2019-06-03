@@ -300,16 +300,16 @@ export class StoryboxAframe {
       }
     }
 
-    let debuggerLog = `<a-entity id="debugger-log-vr" text="value: (log); width: 0.25; height: 0.25; color: #000000" position="0.2 0.08 0.0501"></a-entity>`;
+    let debuggerLog = `<a-entity id="debugger-log-vr" text="value: (log); width: 0.25; height: 0.25; color: #000000" position="0.025 0.08 0.025"></a-entity>`;
 
     let debuggerPanel = `${debuggerLog}
     <a-box id="debugger-log-vr-bkg"
       height="0.03"
-      width="0.3"
-      depth="0.3"
-      position="0.2 0.08 0.2"
+      width="0.02"
+      depth="0.02"
+      position="0.14 0.08 0.14"
       rotation="85 -15 -15"
-      material="side: double; color: #EF2D5E; transparent: true; opacity: 0.7"
+      material="side: double; color: #EF2D5E; transparent: true; opacity: 0.5"
     ></a-box>`;
 
     let touchContollers = `
@@ -370,7 +370,6 @@ export class StoryboxAframe {
   }
 
   stretchPosition(a, b, item) {
-    console.log(item);
     let position = item;
     let percentageX = (Math.abs(a.x) + item.x) / (Math.abs(b.x) + Math.abs(a.x)) ;
     let percentageY = (Math.abs(a.y) + item.y) / (Math.abs(b.y) + Math.abs(a.y)) ;
@@ -398,7 +397,7 @@ export class StoryboxAframe {
       y: ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y,
       z: ((Math.abs(b.z) + Math.abs(a.z)) * percentageZ) + a.z,
     };
-    console.log('data', data, percentageY, a, b);
+    // console.log('data', data, percentageY, a, b);
     return data;
   }
 
@@ -449,7 +448,7 @@ export class StoryboxAframe {
       if( props.positions !== undefined ) {
         props.positions.forEach(item => {
           let obj = this.stretchPosition(props.a.position, props.b.position, item);
-          console.log('strpos obj', obj);
+          // console.log('strpos obj', obj);
           objectPositions = `${objectPositions}<a-sphere id="${item.id}"class="stretch-object" position="${obj.x} ${obj.y} ${obj.z}"
           data-percentage-x="${obj.percentageX}"
           data-percentage-y="${obj.percentageY}"
