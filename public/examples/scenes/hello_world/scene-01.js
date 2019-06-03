@@ -39,7 +39,7 @@ export let Scene = {
           },
           position: {
             x: 0,
-            y: -1,
+            y: 0.02,
             z: 0
           },
           rotation: {
@@ -47,7 +47,6 @@ export let Scene = {
             y: 45,
             z: 0
           },
-          orientationOffset: "x: 0, y:0.02, z: 0"
         },
       },
     },
