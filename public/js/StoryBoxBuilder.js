@@ -94,12 +94,13 @@ export class StoryBoxBuilder {
       document.getElementById(`gallery`).innerHTML = tiles;
     }
 
+    if (document.querySelector('a-assets') !== undefined && document.querySelector('a-assets') !== null) {
+      document.querySelector('a-assets').remove();
+    }
     if (document.querySelector('a-assets') === undefined || document.querySelector('a-assets') === null) {
       var assets = document.createElement("a-assets");
       assets.setAttribute("timeout", 60000);
       document.getElementById("scenes").before(assets);
-    } else {
-      document.querySelector('a-assets').remove();
     }
     document.querySelector("a-assets").innerHTML = this.assetMarkupGallery;
 
@@ -127,20 +128,15 @@ export class StoryBoxBuilder {
   }
 
   loadGallery() {
-    let sceneSelector = document.getElementById("scene-selector");
-    if (sceneSelector !== undefined && sceneSelector !== null && sceneSelector !== '') {
-      // Set the scene.
-      this.updateTemplate(sceneSelector, "gallery");
-    }
+    this.setupGallery();
   }
 
   // Update the selected story
   galleryItemSelect(id) {
-    console.log("gallery", id);
     this.storySettings.currentStory = id;
     this.storySettings.timer = null;
-    this.storySettings.target = null;
-    this.showLoading = true;
+    // this.storySettings.target = null;
+    // this.showLoading = true;
     this.setupStory();
   }
 
@@ -201,9 +197,10 @@ export class StoryBoxBuilder {
       }
     });
 
-
     // Aggregate assets in loader
-    document.querySelector('a-assets').remove();
+    if (document.querySelector('a-assets') !== undefined && document.querySelector('a-assets') !== null) {
+      document.querySelector('a-assets').remove();
+    }
     if (document.querySelector('a-assets') === undefined || document.querySelector('a-assets') === null) {
       var assets = document.createElement("a-assets");
       assets.setAttribute("timeout", 60000);
