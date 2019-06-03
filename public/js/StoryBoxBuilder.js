@@ -322,6 +322,143 @@ export class StoryBoxBuilder {
     }
   }
 
+  initPhysics() {
+    var rope = document.getElementById('rose-stretch');
+    let pointA = document.getElementById('leftPole');
+    let pointB = document.getElementById('rightPole');
+
+    // let aPosition = pointA.object3D.position.clone();
+    // let bPosition = pointB.object3D.position.clone();
+    // let aDimensions = pointA.object3D.position;
+    // let bDimensions = pointB.object3D.position;
+    if (rope !== null) {
+
+      var physicsWorld;
+      var container, stats;
+      var camera, controls, scene, renderer;
+      var textureLoader;
+      var clock = new THREE.Clock();
+      // Physics variables
+      var gravityConstant = - 9.8;
+      var collisionConfiguration;
+      var dispatcher;
+      var broadphase;
+      var solver;
+      var softBodySolver;
+      var physicsWorld;
+      var rigidBodies = [];
+      var margin = 0.05;
+      var hinge;
+      var transformAux1;
+      var armMovement = 0;
+
+      collisionConfiguration = new Ammo.btSoftBodyRigidBodyCollisionConfiguration();
+      dispatcher = new Ammo.btCollisionDispatcher( collisionConfiguration );
+      broadphase = new Ammo.btDbvtBroadphase();
+      solver = new Ammo.btSequentialImpulseConstraintSolver();
+      softBodySolver = new Ammo.btDefaultSoftBodySolver();
+      physicsWorld = new Ammo.btSoftRigidDynamicsWorld( dispatcher, broadphase, solver, collisionConfiguration, softBodySolver );
+      physicsWorld.setGravity( new Ammo.btVector3( 0, gravityConstant, 0 ) );
+      physicsWorld.getWorldInfo().set_m_gravity( new Ammo.btVector3( 0, gravityConstant, 0 ) );
+      transformAux1 = new Ammo.btTransform();
+
+      var ropeNumSegments = 20;
+      var ropeLength = 200;
+      var ropeMass = 10;
+      var segmentLength = ropeLength / ropeNumSegments;
+			var ropeGeometry = new THREE.BufferGeometry();
+			var ropeMaterial = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 3 });
+			var ropePositions = [];
+			var ropeIndices = [];
+
+      // var ropePositionA = pointA.object3D.position;
+      // var ropePositionB = pointB.object3D.position;
+
+      var ropePositionA = {x: -50, y: 100, z: -1};
+      var ropePositionB = {x: 50, y: 100, z: -4};
+
+			for ( var i = 0; i < ropeNumSegments + 1; i ++ ) {
+				ropePositions.push( ropePositionA.x + i  * segmentLength, ropePositionA.y + 1, ropePositionA.z + 1 );
+			}
+
+			for ( var i = 0; i < ropeNumSegments; i ++ ) {
+				ropeIndices.push( i , i + 1 );
+			}
+
+			ropeGeometry.setIndex( new THREE.BufferAttribute( new Uint16Array( ropeIndices ), 1 ) );
+			ropeGeometry.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array( ropePositions ), 3 ) );
+			ropeGeometry.computeBoundingSphere();
+			var ropeLineSegments = new THREE.LineSegments(ropeGeometry, ropeMaterial);
+			ropeLineSegments.castShadow = true;
+			ropeLineSegments.receiveShadow = true;
+
+      // view-source:https://threejs.org/examples/webgl_physics_rope.html
+      var softBodyHelpers = new Ammo.btSoftBodyHelpers();
+      // console.log("post", ropePositionA, ropePositionB);
+      var ropeStart = new Ammo.btVector3( ropePositionA.x, ropePositionA.y, ropePositionA.z );
+      var ropeEnd = new Ammo.btVector3( ropePositionB.x, ropePositionB.y, ropePositionB.z);
+      var ropeSoftBody = softBodyHelpers.CreateRope( physicsWorld.getWorldInfo(), ropeStart, ropeEnd, ropeNumSegments - 1, 0 );
+      var sbConfig = ropeSoftBody.get_m_cfg();
+      sbConfig.set_viterations( 10 );
+      sbConfig.set_piterations( 10 );
+      ropeSoftBody.setTotalMass( ropeMass, false );
+      Ammo.castObject( ropeSoftBody, Ammo.btCollisionObject ).getCollisionShape().setMargin( margin * 3 );
+      physicsWorld.addSoftBody( ropeSoftBody, 1, - 1 );
+
+      console.log(physicsWorld);
+
+      // Disable deactivation
+      ropeSoftBody.setActivationState( 4 );
+      rope.setObject3D('line', ropeLineSegments);
+      rope.object3D.userData.physicsBody = ropeSoftBody;
+
+
+      // var armMass = 2;
+			// var armLength = 3;
+			// var pylonHeight = ropePos.y + ropeLength;
+			// var baseMaterial = new THREE.MeshPhongMaterial( { color: 0x606060 } );
+			// pos.set( ropePos.x, 0.1, ropePos.z - armLength );
+			// quat.set( 0, 0, 0, 1 );
+			// var base = createParalellepiped( 1, 0.2, 1, 0, pos, quat, baseMaterial );
+			// base.castShadow = true;
+			// base.receiveShadow = true;
+			// pos.set( ropePos.x, 0.5 * pylonHeight, ropePos.z - armLength );
+			// var pylon = createParalellepiped( 0.4, pylonHeight, 0.4, 0, pos, quat, baseMaterial );
+			// pylon.castShadow = true;
+			// pylon.receiveShadow = true;
+			// pos.set( ropePos.x, pylonHeight + 0.2, ropePos.z - 0.5 * armLength );
+			// var arm = createParalellepiped( 0.4, 0.4, armLength + 0.4, armMass, pos, quat, baseMaterial );
+			// arm.castShadow = true;
+			// arm.receiveShadow = true;
+
+			// Glue the rope extremes to the ball and the arm
+			var influence = 1;
+			ropeSoftBody.appendAnchor( 0, pointA.object3D.userData.physicsBody, true, influence );
+			ropeSoftBody.appendAnchor( ropeNumSegments, pointB.object3D.userData.physicsBody, true, influence );
+
+			// Hinge constraint to move the arm
+			// var pivotA = new Ammo.btVector3( 0, pylonHeight * 0.5, 0 );
+			// var pivotB = new Ammo.btVector3( 0, - 0.2, - armLength * 0.5 );
+			// var axis = new Ammo.btVector3( 0, 1, 0 );
+			// hinge = new Ammo.btHingeConstraint( pylon.userData.physicsBody, arm.userData.physicsBody, pivotA, pivotB, axis, axis, true );
+			// physicsWorld.addConstraint( hinge, true );
+
+    }
+  }
+
+  buildLineRope() {
+    var rope = document.getElementById('rose-stretch');
+    let pointA = document.getElementById('leftPole');
+    let pointB = document.getElementById('rightPole');
+    if (rope !== null && pointA !== null && pointB !== null && typeof Ammo === 'function') {
+      Ammo().then( function( AmmoLib ) {
+        console.log(AmmoLib, 'test');
+      	Ammo = AmmoLib;
+        this.initPhysics()
+      }.bind(this) );
+    }
+  }
+
   setupAppButtons() {
     AFRAME.registerComponent('x-button-listener', {
       init: function () {
@@ -332,9 +469,6 @@ export class StoryBoxBuilder {
         });
       }
     });
-
-
-
     window.addEventListener("keydown", (e) => {
       // var player = document.querySelector("a-camera");
       // if (e.code === "KeyR") {
@@ -423,7 +557,7 @@ export class StoryBoxBuilder {
 
 
     this.vrDebugger();
-
+    this.buildLineRope();
   }
 
   render(target) {

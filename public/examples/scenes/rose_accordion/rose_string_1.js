@@ -86,6 +86,7 @@ export let Scene = {
   },
   scent_interface: {
     scent: {
+      id: "rose-stretch",
       type: "stretch",
       a: "leftPole",
       b: "rightPole",

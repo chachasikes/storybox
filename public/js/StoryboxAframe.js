@@ -374,7 +374,8 @@ export class StoryboxAframe {
 
   buildScentInterface(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
     if (props.type === 'stretch') {
-      
+      innerMarkup = `${innerMarkup}<a-entity id="${props.id}"></a-entity>`;
+      //line="start: -50, 100, -1; end: 50, 100, -1; color: black"
     }
 
     return {
@@ -483,6 +484,7 @@ export class StoryboxAframe {
                 } else {
                   innerMarkup = `${innerMarkup}
                   <a-box
+                    id="${props.id}"
                     ${aframeTags.className}
                     ${aframeTags.color.tag}
                     ${aframeTags.position.tag}
