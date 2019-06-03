@@ -29,7 +29,7 @@
     <a-scene loading-screen="dotsColor: red; backgroundColor: #666">
       <a-entity id="scenes">
         <a-entity id="rig">
-            <a-camera id="test_camera" look-controls wasd-controls position="0 1.6 0">
+            <a-camera id="test_camera" look-controls wasd-controls >
               <a-entity
                 cursor="fuse: true"
                 material="color: black; shader: flat"
@@ -38,15 +38,21 @@
                 geometry="primitive: ring; radiusInner: 0.08; radiusOuter: 0.1;"
                 >
               </a-entity>
-              <a-entity id="leftHand" super-hands oculus-touch-controls="hand:left; model: true; orientationOffset: x: 0, y: 0, z: 0">
-                <a-box color="red" depth="0.1" height="0.1" width="0.1"></a-box>
+               <!-- model: true; orientationOffset: x: 0, y: 1.6, z: 0 -->
+              <a-entity id="leftHand" super-hands oculus-touch-controls="hand:left;model:true">
+                <a-box  height="0.5"
+                        width="0.5"
+                        depth="0.5"
+                        position="0 0 -1"
+                        material="side: double; color: #EF2D5E; transparent: true; opacity: 0.7"></a-box>
               </a-entity>
-              <a-entity id="rightHand" super-hands oculus-touch-controls="hand:right; model: true; orientationOffset: x: 0, y: 0, z: 0">
+              <a-entity id="rightHand" super-hands oculus-touch-controls="hand:right;model:true">
                 <a-box color="blue" depth="0.1" height="0.1" width="0.1"></a-box>
               </a-entity>
 
             </a-camera>
-            <a-box color="green" depth="1" height="1" width="1" position="0 1.6 -4"></a-box>
+
+            <a-box color="green" depth="0.1" height="0.1" width="0.1" position="0 1.6 -4" rotation="5 5 5"></a-box>
             <a-sky color="white"></a-sky>
             <a-light type="ambient" position="10 50 50"></a-light>
         </a-entity>
