@@ -38,8 +38,8 @@ export let Scene = {
             z: 0.03
           },
           position: {
-            x: -1,
-            y: -1,
+            x: 0,
+            y: -1.2,
             z: 0
           },
           rotation: {
