@@ -284,18 +284,18 @@ export class StoryboxAframe {
                   }
                 }
 
-                let debuggerLog = `<a-entity id="debugger-log-vr" text="value: (log); width: 0.25; height: 0.25; color: #ffffff"   position="0.2 0.08 0.19"
+                let debuggerLog = `<a-entity id="debugger-log-vr" text="value: (log); width: 0.25; height: 0.25; color: #0000"   position="0.2 0.08 0.2"
                   rotation="85 -15 -15"></a-entity>`;
 
-                let debuggerPanel = `${debuggerLog}
+                let debuggerPanel = `
                 <a-box id="debugger-log-vr-bkg"
                   height="0.25"
                   width="0.25"
-                  depth="0.01"
+                  depth="0.03"
                   position="0.2 0.08 0.2"
                   rotation="85 -15 -15"
                   material="side: double; color: #EF2D5E; transparent: true; opacity: 0.7"
-                ></a-box>`;
+                >${debuggerLog}</a-box>`;
 
                 let touchContollers = `
                 <a-entity id="leftHand" oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft} rotation="0 0 0">${leftModel}</a-entity>
