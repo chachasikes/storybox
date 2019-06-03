@@ -8,6 +8,7 @@ export class StoryBoxBuilder {
   constructor() {
     this.storySettings = {};
     this.storySettings.timer = null;
+    this.storySettings.stretchLine = null;
     this.storySettings.target = null;
     this.storySettings.transition = null;
     this.assetMarkup = ``;
@@ -63,6 +64,7 @@ export class StoryBoxBuilder {
 
     let gallery = window.Gallery.render(this.registry);
     clearTimeout(this.storySettings.timer);
+    clearInterval(this.storySettings.stretchLine);
 
     if (typeof gallery.assetsElements !== 'string' && gallery.assetsElements.length > 0 && buildAssets === true) {
       // Load all scene assets
@@ -136,6 +138,7 @@ export class StoryBoxBuilder {
   galleryItemSelect(id) {
     this.storySettings.currentStory = id;
     this.storySettings.timer = null;
+    this.storySettings.stretchLine = null
     // this.storySettings.target = null;
     // this.showLoading = true;
     this.setupStory();
@@ -161,6 +164,7 @@ export class StoryBoxBuilder {
 
   setupStory() {
     clearTimeout(this.storySettings.timer);
+    clearInterval(this.storySettings.stretchLine);
     console.log("SETTING UP STORY");
     let storyboxAframe = new StoryboxAframe();
 
@@ -332,60 +336,60 @@ export class StoryBoxBuilder {
           this.loadGallery();
         });
       },
-      update: function() {
-        this.updateStretchLine();
-      }
     });
     window.addEventListener("keydown", (e) => {
-      if (e.code === "KeyP") {
-        this.updateStretchLine();
-
-      }
+      // if (e.code === "KeyP") {
+      //   this.updateStretchLine();
+      // }
 
       if (e.code === "KeyX") {
         this.loadGallery();
       }
-     })
+    });
+
+    this.storySettings.stretchLine = setInterval(this.updateStretchLine, 10);
   }
 
   updateStretchLine() {
     var stretchLeft = document.querySelector("#leftStretch");
     var stretchRight = document.querySelector("#rightStretch");
-    let positionLeft = stretchLeft.getAttribute('position');
-    let positionRight = stretchRight.getAttribute('position');
-    let newPositionLeft = {
-      x: positionLeft.x - 1,
-      y: positionLeft.y,
-      z: positionLeft.z,
-    };
-    let newPositionRight = {
-      x: positionRight.x + 1,
-      y: positionRight.y,
-      z: positionRight.z,
-    };
-    stretchLeft.setAttribute('position', newPositionLeft);
-    stretchRight.setAttribute('position', newPositionRight);
+    if (stretchLeft !== null && stretchRight !== null) {
+      let positionLeft = stretchLeft.getAttribute('position');
+      let positionRight = stretchRight.getAttribute('position');
+      let newPositionLeft = {
+        x: positionLeft.x - 1,
+        y: positionLeft.y,
+        z: positionLeft.z,
+      };
+      let newPositionRight = {
+        x: positionRight.x + 1,
+        y: positionRight.y,
+        z: positionRight.z,
+      };
+      stretchLeft.setAttribute('position', newPositionLeft);
+      stretchRight.setAttribute('position', newPositionRight);
 
-    var stretch = document.querySelector("#rose-stretch");
-    let line = stretch.getAttribute('line');
-    line.start = newPositionLeft;
-    line.end = newPositionRight;
-    stretch.setAttribute('line', line);
+      var stretch = document.querySelector("#rose-stretch");
+      let line = stretch.getAttribute('line');
+      line.start = newPositionLeft;
+      line.end = newPositionRight;
+      stretch.setAttribute('line', line);
 
-    var stretchObjects = document.querySelectorAll('.stretch-object');
-    let positionObj;
-    stretchObjects.forEach(obj => {
-      let id = obj.getAttribute('id');
-      let el = document.getElementById(id);
-      positionObj = window.StoryboxAframe.updateStretchPosition(stretchLeft.getAttribute('position'), stretchRight.getAttribute('position'), el);
-      let newPositionObj = {
-        x: positionObj.x,
-        y: positionObj.y,
-        z: positionObj.z,
-      }
+      var stretchObjects = document.querySelectorAll('.stretch-object');
+      let positionObj;
+      stretchObjects.forEach(obj => {
+        let id = obj.getAttribute('id');
+        let el = document.getElementById(id);
+        positionObj = window.StoryboxAframe.updateStretchPosition(stretchLeft.getAttribute('position'), stretchRight.getAttribute('position'), el);
+        let newPositionObj = {
+          x: positionObj.x,
+          y: positionObj.y,
+          z: positionObj.z,
+        }
 
-      el.setAttribute('position', newPositionObj);
-    });
+        el.setAttribute('position', newPositionObj);
+      });
+    }
   }
 
   vrDebugger() {
