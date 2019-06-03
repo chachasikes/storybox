@@ -228,16 +228,14 @@ export class StoryboxAframe {
                     assetItemElements.push(
                       `<a-asset-item id="${props.touch.left.id}" src="${props.touch.left.glb}"></a-asset-item>`
                     );
-                    //
-                    // ${leftModelPosition.tag}
-                    // ${leftModelRotation.tag}
 
                     leftModel = `
                     <a-entity
                     ${className}
                     gltf-model="#${props.touch.left.id}"
                     ${leftModelScale.tag}
-
+                    ${leftModelPosition.tag}
+                    ${leftModelRotation.tag}
                     crossorigin="anonymous"
                     preload="true"
                     >
@@ -276,20 +274,15 @@ export class StoryboxAframe {
                   }
                 }
 
-                // let debuggerLog = `                <a-entity
-                //                   id="debugger-log-vr"
-                //                   text="value: Log; width: 0.1; height: 0.1; color: #ffffff"
-                //
-                //                 >
-                //                 </a-entity>`;
+                let debuggerLog = `<a-entity id="debugger-log-vr" text="value: (log); width: 0.5; height: 0.5; color: #ffffff" position="0 0 -0.4"></a-entity>`;
 
-                let debuggerPanel = `
+                let debuggerPanel = `${debuggerLog}
                 <a-box id="debugger-log-vr-bkg"
-                  height="0.4"
-                  width="0.4"
-                  depth="0.1"
-                  position="0 0 -1"
-                  material="side: double; color: #EF2D5E; transparent: true; opacity: 0.5"
+                  height="0.5"
+                  width="0.5"
+                  depth="0.05"
+                  position="0 0 -0.4"
+                  material="side: double; color: #EF2D5E; transparent: true; opacity: 0.7"
                 ></a-box>`;
 
                 let touchContollers = `
@@ -301,9 +294,7 @@ export class StoryboxAframe {
                   // Can change hand controller
                   let leftLine = this.getProperties("line", props.left);
                   let rightLine = this.getProperties("line", props.right);
-                  innerMarkup = `${innerMarkup}
-                <a-entity laser-controls="hand: left" ${leftLine}></a-entity>
-                <a-entity laser-controls="hand: right" ${rightLine}></a-entity>`;
+                  innerMarkup = `${innerMarkup}<a-entity laser-controls="hand: left" ${leftLine}></a-entity><a-entity laser-controls="hand: right" ${rightLine}></a-entity>`;
                 }
 
                 let fadeMask = ``;
@@ -314,8 +305,7 @@ export class StoryboxAframe {
                   //   </a-entity>`;
 
                   fadeMask = `
-                    <a-box scale="200 200 200" position="0 0 -10" color="#000000">
-                    </a-box>`;
+                    <a-box scale="200 200 200" position="0 0 -10" color="#000000"></a-box>`;
                 }
                 let cursorCameraControls = ``;
                 let cursor = ``;
