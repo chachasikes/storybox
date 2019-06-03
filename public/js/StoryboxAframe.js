@@ -261,7 +261,7 @@ export class StoryboxAframe {
         crossorigin="anonymous"
         preload="true"
         >
-        </a-entity>${scent.leftBox}`;
+        </a-entity>`;
         modelLoaded = "model: false";
       }
 
@@ -295,7 +295,7 @@ export class StoryboxAframe {
         crossorigin="anonymous"
         preload="true"
         >
-        </a-entity>${scent.rightBox}`;
+        </a-entity>`;
         modelLoaded = "model: false";
       }
     }
@@ -313,8 +313,8 @@ export class StoryboxAframe {
     ></a-box>`;
 
     let touchContollers = `
-    <a-entity id="leftHand" oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft} rotation="0 0 0">${leftModel}</a-entity>
-    <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="0 0 0">${rightModel}${debuggerPanel}</a-entity>`;
+    <a-entity id="leftHand" oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft} rotation="0 0 0">${leftModel}${scent.leftBox}</a-entity>
+    <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="0 0 0">${rightModel}${debuggerPanel}${scent.rightBox}</a-entity>`;
 
     if (props.laser !== undefined) {
       // Can change hand controller
@@ -407,7 +407,7 @@ export class StoryboxAframe {
     let objectPositions = ``;
     let leftBox = ``;
     let rightBox = ``;
-    if (props.type === 'stretch') {
+    if (props !== undefined && props.type === 'stretch') {
       let aTags = this.buildTags(props.a);
       let bTags = this.buildTags(props.b);
 
@@ -508,7 +508,7 @@ export class StoryboxAframe {
                 assetItemElements = mesh.assetItemElements;
                 break;
               case "camera":
-                let scent = this.buildScentInterface(props, innerMarkup, assetsElements, assetItemElements, aframeTags);
+                let scent = this.buildScentInterface(props.scent, innerMarkup, assetsElements, assetItemElements, aframeTags);
                 let camera = this.buildCamera(props, innerMarkup, assetsElements, assetItemElements, aframeTags, scent);
                 innerMarkup = camera.innerMarkup;
                 assetsElements = camera.assetsElements;

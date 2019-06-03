@@ -17,84 +17,91 @@ export let Scene = {
         y:60,
         z:180
       },
-      scent_interface: {
-        scent: {
-          id: "rose-stretch",
-          type: "stretch",
-          stretchAxis: 'x',
-          ropeColor: "#7AC069",
-          dimensions: {
-            width: 100,
-            height: 1,
-            depth: 1,
-          },
-          a: {
-              id: "leftStretch",
-              color: "#FA8072",
-              dimensions: {
-                width: 5,
-                height: 200,
-                depth: 5,
-              },
-              position: {
-                x: -50,
-                y: 1,
-                z: 1,
-              },
-
-          },
-          b: {
-              id: "rightStretch",
-              color: "#7AC069",
-              dimensions: {
-                width: 5,
-                height: 200,
-                depth: 5,
-              },
-              position: {
-                x: 50,
-                y: 1,
-                z: 1,
-              },
-
-          },
-          maxWidth: 100,
-          minWidth: 0,
-          positions: [
-            {
-              art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
-              // behavior: 'playAnimation',
-              type: "percentage",
-              //
-              x: -20,
-              y: 1,
-              z: 1,
-              color: "red",
-              id: 'damascone',
+      scent: {
+        id: "rose-stretch",
+        type: "stretch",
+        stretchAxis: 'x',
+        ropeColor: "#7AC069",
+        dimensions: {
+          width: 100,
+          height: 1,
+          depth: 1,
+        },
+        a: {
+            id: "leftStretch",
+            color: "#FA8072",
+            dimensions: {
+              width: 0.2,
+              height: 0.5,
+              depth: 0.2,
             },
-            {
-              art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
-              // behavior: 'playAnimation',
-              type: "percentage",
-              x: 30,
-              y: 1,
-              z: 1,
-              color: "lime",
-              id: 'cis-3-hex',
+            position: {
+              x: 0.2,
+              y: 0.08,
+              z: 0.2,
             },
-            {
-              art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
-              // behavior: 'playAnimation',
-              type: "percentage",
-              x: 40,
-              y: 1,
-              z: 1,
-              color: "teal",
-              id: 'linalool',
+            rotation: {
+              x: 0,
+              y: 0,
+              z: 0,
             }
-          ]
-        }
-      },
+
+        },
+        b: {
+            id: "rightStretch",
+            color: "#7AC069",
+            dimensions: {
+              width: 0.2,
+              height: 0.5,
+              depth: 0.2,
+            },
+            position: {
+              x: 0.2,
+              y: 0.08,
+              z: 0.2,
+            },
+            rotation: {
+              x: 0,
+              y: 0,
+              z: 0,
+            }
+        },
+        maxWidth: 5,
+        minWidth: 0,
+        positions: [
+          {
+            art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
+            // behavior: 'playAnimation',
+            type: "percentage",
+            //
+            x: 0.2,
+            y: 1,
+            z: 1,
+            color: "red",
+            id: 'damascone',
+          },
+          {
+            art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
+            // behavior: 'playAnimation',
+            type: "percentage",
+            x: 0.3,
+            y: 1,
+            z: 1,
+            color: "lime",
+            id: 'cis-3-hex',
+          },
+          {
+            art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
+            // behavior: 'playAnimation',
+            type: "percentage",
+            x: 0.4,
+            y: 1,
+            z: 1,
+            color: "teal",
+            id: 'linalool',
+          }
+        ]
+      }
     }
   },
   ambientLight: {
