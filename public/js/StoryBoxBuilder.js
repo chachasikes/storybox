@@ -351,7 +351,9 @@ export class StoryBoxBuilder {
   updateStretchLine() {
     var stretchLeft = document.querySelector("#leftStretch");
     var stretchRight = document.querySelector("#rightStretch");
+    console.log('stretch');
     if (stretchLeft !== null && stretchRight !== null) {
+      console.log('stretching');
       let positionLeft = stretchLeft.getAttribute('position');
       let positionRight = stretchRight.getAttribute('position');
       let newPositionLeft = {
@@ -416,7 +418,7 @@ export class StoryBoxBuilder {
 
   updateEventListeners() {
     this.vrDebugger();
-    this.storySettings.stretchLine = setInterval(this.updateStretchLine, 10);
+    this.storySettings.stretchLine = setInterval(this.updateStretchLine, 100);
 
     document.querySelector('#scene-selector').addEventListener("click", (e) => {
       if (e.target.id !== null && e.target.id !== '') {
