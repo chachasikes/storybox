@@ -41,8 +41,8 @@ export let Scene = {
               z: -0.02,
             },
             rotation: {
-              x: -30,
-              y: 0,
+              x: 0,
+              y: -30,
               z: 0,
             }
 
@@ -61,8 +61,8 @@ export let Scene = {
               z: -0.02,
             },
             rotation: {
-              x: -30,
-              y: 0,
+              x: 0,
+              y: -30,
               z: 0,
             }
         },

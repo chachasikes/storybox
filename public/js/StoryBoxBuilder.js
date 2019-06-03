@@ -346,8 +346,6 @@ export class StoryBoxBuilder {
         this.loadGallery();
       }
     });
-
-    this.storySettings.stretchLine = setInterval(this.updateStretchLine, 10);
   }
 
   updateStretchLine() {
@@ -417,6 +415,9 @@ export class StoryBoxBuilder {
 
 
   updateEventListeners() {
+    this.vrDebugger();
+    this.storySettings.stretchLine = setInterval(this.updateStretchLine, 10);
+
     document.querySelector('#scene-selector').addEventListener("click", (e) => {
       if (e.target.id !== null && e.target.id !== '') {
         let el = document.getElementById(e.target.id);
@@ -458,9 +459,6 @@ export class StoryBoxBuilder {
       }
 
     });
-
-
-    this.vrDebugger();
   }
 
   render(target) {
