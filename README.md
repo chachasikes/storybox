@@ -44,3 +44,36 @@ As of May 29, 2019
 * https://chachasikes-storybox.glitch.me
 * https://glitch.com/edit/#!/chachasikes-storybox
 * https://glitch.com/~chachasikes-storybox
+
+
+### Workflows
+
+#### Tiltbrush (Oculus Quest) to FBX (static immersive illustration)
+1. Draw asset in Tiltbrush
+2. Save to Google Poly
+3. Like your Google Poly asset
+4. Go to Oculus Rift Tiltbrush
+5. Load liked Google Poly image in Tiltbrush
+6. Settings -> Labs -> Export FBX
+7. Save FBX to Dropbox
+8. Import FBX to Quill app in new 3d model layer
+
+OR
+9. Save to dropbox
+10. Make dropbox link sharable
+11. Copy link
+12. Save mesh asset (link must be in format https://dl.dropboxusercontent.com/s/wh9s8aj56xxvdly/not_real_file.fbx) - so remove the ?dl=0 at the end and change the domain, will eventually do this automatically.
+@TODO, loader for fbx
+
+#### Quill to GLB
+1. Create asset (Oculus Rift)
+2. Export to Alembic
+3. Save .abc file somewhere you can find it again (such as Dropbox)
+4. Upload to Sketchfab, make public & downloadable & published. Change lighting to "unlit" for quill files.
+5. After a few minutes, download .GLTF
+6. Paste \*.gltf and \*.bin https://glb-packer.glitch.me/
+7. Rename resulting \*.glb file
+8. Save to dropbox
+9. Make dropbox link sharable
+10. Copy link
+11. Save mesh asset (link must be in format https://dl.dropboxusercontent.com/s/wh9s8aj56xxvdly/forest_rough_sketch.glb) - so remove the ?dl=0 at the end and change the domain, will eventually do this automatically. Tweak rotation, scale & position.
