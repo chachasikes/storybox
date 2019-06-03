@@ -373,11 +373,37 @@ export class StoryboxAframe {
   }
 
   stretchPosition(a, b, item) {
+    console.log(item);
     let position = item;
+    let percentageX = (Math.abs(a.x) + item.x) / (Math.abs(b.x) + Math.abs(a.x)) ;
+    let percentageY = (Math.abs(a.y) + item.y) / (Math.abs(b.y) + Math.abs(a.y)) ;
+    let percentageZ = (Math.abs(a.z) + item.z) / (Math.abs(b.z) + Math.abs(a.z)) ;
+    console.log("original %", percentageX, percentageY, percentageZ);
+    let x = item.x;
+    let y = item.y;
+    let z = item.z;
     return {
-      x: position.x,
-      y: position.y,
-      z: position.z,
+      x,
+      y,
+      z,
+      percentageX,
+      percentageY,
+      percentageZ
+    }
+  }
+
+  updateStretchPosition(a, b, item) {
+    console.log(item);
+    // let position = item.getAttribute('position');
+    let percentageX = parseFloat(item.getAttribute('data-percentage-x'));
+    let percentageY = parseFloat(item.getAttribute('data-percentage-y'));
+    let percentageZ = parseFloat(item.getAttribute('data-percentage-z'));
+    // console.log('p', percentageX, percentageY, percentageZ, item, a, b);
+    // return position;
+    return {
+      x: ((Math.abs(b.x) + Math.abs(a.x)) * percentageX) + a.x,
+      y: ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y,
+      z: ((Math.abs(b.z) + Math.abs(a.z)) * percentageZ) + a.z,
     }
   }
 
@@ -422,8 +448,13 @@ export class StoryboxAframe {
       let objectPositions = ``;
       if( props.positions !== undefined ) {
         props.positions.forEach(item => {
-          let obj = this.stretchPosition(props.a, props.b, item);
-          objectPositions = `${objectPositions}<a-sphere position="${obj.x} ${obj.y} ${obj.z}" radius="5" color="blue"></a-sphere>`;
+          let obj = this.stretchPosition(props.a.position, props.b.position, item);
+          console.log('strpos obj', obj);
+          objectPositions = `${objectPositions}<a-sphere class="stretch-object" position="${obj.x} ${obj.y} ${obj.z}"
+          data-percentage-x="${obj.percentageX}"
+          data-percentage-y="${obj.percentageY}"
+          data-percentage-z="${obj.percentageZ}"
+          radius="4" color="${item.color}"></a-sphere>`;
         });
       }
 

@@ -99,24 +99,30 @@ export let Scene = {
         {
           art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
           // behavior: 'playAnimation',
+          type: "percentage",
           //
-          x: 3,
-          y: 0,
-          z: 0,
+          x: -20,
+          y: 0.5,
+          z: 0.2,
+          color: "red",
         },
         {
           art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
           // behavior: 'playAnimation',
-          x: 50,
-          y: 0,
-          z: 0,
+          type: "percentage",
+          x: 30,
+          y: 0.5,
+          z: 0.2,
+          color: "lime",
         },
         {
           art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
           // behavior: 'playAnimation',
-          x: 90,
-          y: 0,
-          z: 0,
+          type: "percentage",
+          x: 40,
+          y: 0.5,
+          z: 0.2,
+          color: "teal",
         }
       ]
     }

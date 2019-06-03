@@ -55,6 +55,7 @@ export class StoryBoxBuilder {
   setupGallery() {
     window.Gallery = new Gallery();
     let storyboxAframe = new StoryboxAframe();
+    window.StoryboxAframe = storyboxAframe;
     let buildAssets = true;
     if (this.assetMarkupGallery !== ``) {
       buildAssets = false;
@@ -334,6 +335,7 @@ export class StoryBoxBuilder {
     });
     window.addEventListener("keydown", (e) => {
       if (e.code === "KeyP") {
+        var stretchLeft = document.querySelector("#leftStretch");
         var stretchRight = document.querySelector("#rightStretch");
         let positionRight = stretchRight.getAttribute('position');
         let newPositionRight = {
@@ -341,7 +343,7 @@ export class StoryBoxBuilder {
           y: positionRight.y + 3,
           z: positionRight.z - 1,
         };
-        console.log(newPositionRight);
+        // console.log(newPositionRight);
         stretchRight.setAttribute('position', newPositionRight);
 
         var stretch = document.querySelector("#rose-stretch");
@@ -353,13 +355,14 @@ export class StoryBoxBuilder {
 
       if (e.code === "KeyO") {
         var stretchLeft = document.querySelector("#leftStretch");
+        var stretchRight = document.querySelector("#rightStretch");
         let positionLeft = stretchLeft.getAttribute('position');
         let newPositionLeft = {
           x: positionLeft.x - 3,
           y: positionLeft.y - 3,
           z: positionLeft.z - 1,
         };
-        console.log(newPositionLeft);
+        // console.log(newPositionLeft);
         stretchLeft.setAttribute('position', newPositionLeft);
 
 
@@ -367,6 +370,15 @@ export class StoryBoxBuilder {
         let line = stretch.getAttribute('line');
         line.start = newPositionLeft;
         stretch.setAttribute('line', line);
+
+        var stretchObjects = document.querySelectorAll('.stretch-object');
+
+        stretchObjects.forEach(obj => {
+          console.log(stretchLeft.getAttribute('position'), stretchRight.getAttribute('position'), obj);
+          let positionObj = window.StoryboxAframe.updateStretchPosition(stretchLeft.getAttribute('position'), stretchRight.getAttribute('position'), obj);
+          console.log('new', positionObj);
+          obj.setAttribute('position', positionObj);
+        });
       }
 
       if (e.code === "KeyX") {
@@ -444,7 +456,7 @@ export class StoryBoxBuilder {
     });
 
 
-    this.vrDebugger();
+    // this.vrDebugger();
   }
 
   render(target) {
