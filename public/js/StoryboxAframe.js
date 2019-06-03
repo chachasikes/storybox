@@ -284,15 +284,14 @@ export class StoryboxAframe {
                   }
                 }
 
-                let debuggerLog = `<a-entity id="debugger-log-vr" text="value: (log); width: 0.25; height: 0.25; color: #0000"   position="0.2 0.08 0.2"
-                  rotation="85 -15 -15"></a-entity>`;
+                let debuggerLog = `<a-entity id="debugger-log-vr" text="value: (log); color: #0000"></a-entity>`;
 
                 let debuggerPanel = `
                 <a-box id="debugger-log-vr-bkg"
-                  height="0.25"
-                  width="0.25"
-                  depth="0.03"
-                  position="0.2 0.08 0.2"
+                  height="0.3"
+                  width="0.3"
+                  depth="0.025"
+                  position="0.1 0.08 0.1"
                   rotation="85 -15 -15"
                   material="side: double; color: #EF2D5E; transparent: true; opacity: 0.7"
                 >${debuggerLog}</a-box>`;
