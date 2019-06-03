@@ -10,7 +10,6 @@ export let Scene = {
       name: "World camera",
       id: "camera_3",
       cursorCamera: false,
-      clickableClass: '.clickable',
       fadeMask: false,
       position: {
         x: 0,
@@ -19,7 +18,7 @@ export let Scene = {
       },
     },
   },
-  ambientLight: {
+  yellowLight: {
     light: {
       type: 'ambient',
       position: {
@@ -40,7 +39,7 @@ export let Scene = {
       credit: "Chacha Sikes",
       rotation: {
         x:0,
-        y:90,
+        y:-90,
         z:0
       },
     }

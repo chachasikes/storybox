@@ -115,6 +115,7 @@ export class StoryBoxBuilder {
 
   // Update the selected story
   galleryItemSelect(id) {
+    console.log("gallery", id);
     this.storySettings.currentStory = id;
     this.storySettings.timer = null;
     this.storySettings.target = null;
@@ -375,18 +376,24 @@ export class StoryBoxBuilder {
         }
       }
 
-      if (document.querySelector('.clickable-tile') !== undefined) {
-        let el = document.querySelector('.clickable-tile');
-        if(el.getAttribute('data-clicked') === null || el.getAttribute('data-clicked') === 'false') {
-           el.setAttribute('data-clicked', 'true');
-           let id = el.getAttribute('id');
-           if (id !== undefined && id !== null) {
-             this.galleryItemSelect(id);
+      if (e.detail !== undefined && e.detail.intersectedEl !== undefined) {
+        let el = e.detail.intersectedEl;
+        console.log(el);
+        if (el.getAttribute('class') === 'clickable-tile') {
+          // console.log(el.getAttribute('id'));
+          if(el.getAttribute('data-clicked') === null || el.getAttribute('data-clicked') === 'false') {
+             el.setAttribute('data-clicked', 'true');
+             let id = el.getAttribute('id');
+             if (id !== undefined && id !== null) {
+               this.galleryItemSelect(id);
+             }
+           } else {
+             el.setAttribute('data-clicked', 'false');
            }
-         } else {
-           el.setAttribute('data-clicked', 'false');
-         }
+        }
+
       }
+
     });
 
 
