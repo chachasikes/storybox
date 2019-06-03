@@ -57,6 +57,7 @@ export let Scene = {
     scent: {
       id: "rose-stretch",
       type: "stretch",
+      stretchAxis: 'x',
       ropeColor: "#7AC069",
       dimensions: {
         width: 100,
@@ -74,7 +75,7 @@ export let Scene = {
           position: {
             x: -50,
             y: 1,
-            z: -1,
+            z: 1,
           },
 
       },
@@ -89,7 +90,7 @@ export let Scene = {
           position: {
             x: 50,
             y: 1,
-            z: -4,
+            z: 1,
           },
 
       },
@@ -102,27 +103,30 @@ export let Scene = {
           type: "percentage",
           //
           x: -20,
-          y: 0.5,
-          z: 0.2,
+          y: 1,
+          z: 1,
           color: "red",
+          id: 'damascone',
         },
         {
           art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
           // behavior: 'playAnimation',
           type: "percentage",
           x: 30,
-          y: 0.5,
-          z: 0.2,
+          y: 1,
+          z: 1,
           color: "lime",
+          id: 'cis-3-hex',
         },
         {
           art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
           // behavior: 'playAnimation',
           type: "percentage",
           x: 40,
-          y: 0.5,
-          z: 0.2,
+          y: 1,
+          z: 1,
           color: "teal",
+          id: 'linalool',
         }
       ]
     }

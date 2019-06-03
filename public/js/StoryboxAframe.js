@@ -378,7 +378,7 @@ export class StoryboxAframe {
     let percentageX = (Math.abs(a.x) + item.x) / (Math.abs(b.x) + Math.abs(a.x)) ;
     let percentageY = (Math.abs(a.y) + item.y) / (Math.abs(b.y) + Math.abs(a.y)) ;
     let percentageZ = (Math.abs(a.z) + item.z) / (Math.abs(b.z) + Math.abs(a.z)) ;
-    console.log("original %", percentageX, percentageY, percentageZ);
+    // console.log("original %", percentageX, percentageY, percentageZ);
     let x = item.x;
     let y = item.y;
     let z = item.z;
@@ -393,18 +393,16 @@ export class StoryboxAframe {
   }
 
   updateStretchPosition(a, b, item) {
-    console.log(item);
-    // let position = item.getAttribute('position');
     let percentageX = parseFloat(item.getAttribute('data-percentage-x'));
     let percentageY = parseFloat(item.getAttribute('data-percentage-y'));
     let percentageZ = parseFloat(item.getAttribute('data-percentage-z'));
-    // console.log('p', percentageX, percentageY, percentageZ, item, a, b);
-    // return position;
-    return {
+    let data = {
       x: ((Math.abs(b.x) + Math.abs(a.x)) * percentageX) + a.x,
       y: ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y,
       z: ((Math.abs(b.z) + Math.abs(a.z)) * percentageZ) + a.z,
-    }
+    };
+    console.log('data', data, percentageY, a, b);
+    return data;
   }
 
   buildScentInterface(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
@@ -450,7 +448,7 @@ export class StoryboxAframe {
         props.positions.forEach(item => {
           let obj = this.stretchPosition(props.a.position, props.b.position, item);
           console.log('strpos obj', obj);
-          objectPositions = `${objectPositions}<a-sphere class="stretch-object" position="${obj.x} ${obj.y} ${obj.z}"
+          objectPositions = `${objectPositions}<a-sphere id="${item.id}"class="stretch-object" position="${obj.x} ${obj.y} ${obj.z}"
           data-percentage-x="${obj.percentageX}"
           data-percentage-y="${obj.percentageY}"
           data-percentage-z="${obj.percentageZ}"

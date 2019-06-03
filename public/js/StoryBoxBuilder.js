@@ -335,56 +335,54 @@ export class StoryBoxBuilder {
     });
     window.addEventListener("keydown", (e) => {
       if (e.code === "KeyP") {
-        var stretchLeft = document.querySelector("#leftStretch");
-        var stretchRight = document.querySelector("#rightStretch");
-        let positionRight = stretchRight.getAttribute('position');
-        let newPositionRight = {
-          x: positionRight.x + 3,
-          y: positionRight.y + 3,
-          z: positionRight.z - 1,
-        };
-        // console.log(newPositionRight);
-        stretchRight.setAttribute('position', newPositionRight);
+        this.updateStretchLine();
 
-        var stretch = document.querySelector("#rose-stretch");
-        let line = stretch.getAttribute('line');
-
-        line.end = newPositionRight;
-        stretch.setAttribute('line', line);
-      }
-
-      if (e.code === "KeyO") {
-        var stretchLeft = document.querySelector("#leftStretch");
-        var stretchRight = document.querySelector("#rightStretch");
-        let positionLeft = stretchLeft.getAttribute('position');
-        let newPositionLeft = {
-          x: positionLeft.x - 3,
-          y: positionLeft.y - 3,
-          z: positionLeft.z - 1,
-        };
-        // console.log(newPositionLeft);
-        stretchLeft.setAttribute('position', newPositionLeft);
-
-
-        var stretch = document.querySelector("#rose-stretch");
-        let line = stretch.getAttribute('line');
-        line.start = newPositionLeft;
-        stretch.setAttribute('line', line);
-
-        var stretchObjects = document.querySelectorAll('.stretch-object');
-
-        stretchObjects.forEach(obj => {
-          console.log(stretchLeft.getAttribute('position'), stretchRight.getAttribute('position'), obj);
-          let positionObj = window.StoryboxAframe.updateStretchPosition(stretchLeft.getAttribute('position'), stretchRight.getAttribute('position'), obj);
-          console.log('new', positionObj);
-          obj.setAttribute('position', positionObj);
-        });
       }
 
       if (e.code === "KeyX") {
         this.loadGallery();
       }
      })
+  }
+
+  updateStretchLine() {
+    var stretchLeft = document.querySelector("#leftStretch");
+    var stretchRight = document.querySelector("#rightStretch");
+    let positionLeft = stretchLeft.getAttribute('position');
+    let positionRight = stretchRight.getAttribute('position');
+    let newPositionLeft = {
+      x: positionLeft.x - 1,
+      y: positionLeft.y,
+      z: positionLeft.z,
+    };
+    let newPositionRight = {
+      x: positionRight.x + 1,
+      y: positionRight.y,
+      z: positionRight.z,
+    };
+    stretchLeft.setAttribute('position', newPositionLeft);
+    stretchRight.setAttribute('position', newPositionRight);
+
+    var stretch = document.querySelector("#rose-stretch");
+    let line = stretch.getAttribute('line');
+    line.start = newPositionLeft;
+    line.end = newPositionRight;
+    stretch.setAttribute('line', line);
+
+    var stretchObjects = document.querySelectorAll('.stretch-object');
+    let positionObj;
+    stretchObjects.forEach(obj => {
+      let id = obj.getAttribute('id');
+      let el = document.getElementById(id);
+      positionObj = window.StoryboxAframe.updateStretchPosition(stretchLeft.getAttribute('position'), stretchRight.getAttribute('position'), el);
+      let newPositionObj = {
+        x: positionObj.x,
+        y: positionObj.y,
+        z: positionObj.z,
+      }
+
+      el.setAttribute('position', newPositionObj);
+    });
   }
 
   vrDebugger() {
