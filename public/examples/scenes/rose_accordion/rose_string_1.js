@@ -52,44 +52,49 @@ export let Scene = {
       name: "Fade in",
     }
   },
-  leftPole: {
-    box: {
-      id: "leftPole",
-      color: "#FA8072",
-      dimensions: {
-        width: 5,
-        height: 200,
-        depth: 5,
-      },
-      position: {
-        x: -50,
-        y: 1,
-        z: -1,
-      },
-    }
-  },
-  rightPole: {
-    box: {
-      id: "rightPole",
-      color: "#7AC069",
-      dimensions: {
-        width: 5,
-        height: 200,
-        depth: 5,
-      },
-      position: {
-        x: 50,
-        y: 1,
-        z: -4,
-      },
-    }
-  },
+
   scent_interface: {
     scent: {
       id: "rose-stretch",
       type: "stretch",
-      a: "leftPole",
-      b: "rightPole",
+      ropeColor: "#7AC069",
+      dimensions: {
+        width: 100,
+        height: 1,
+        depth: 1,
+      },
+      a: {
+
+          id: "leftPole",
+          color: "#FA8072",
+          dimensions: {
+            width: 5,
+            height: 200,
+            depth: 5,
+          },
+          position: {
+            x: -50,
+            y: 1,
+            z: -1,
+          },
+
+      },
+      b: {
+
+          id: "rightPole",
+          color: "#7AC069",
+          dimensions: {
+            width: 5,
+            height: 200,
+            depth: 5,
+          },
+          position: {
+            x: 50,
+            y: 1,
+            z: -4,
+          },
+
+      },
       maxWidth: 100,
       minWidth: 0,
       // line:

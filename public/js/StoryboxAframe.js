@@ -374,8 +374,55 @@ export class StoryboxAframe {
 
   buildScentInterface(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
     if (props.type === 'stretch') {
-      innerMarkup = `${innerMarkup}<a-entity id="${props.id}"></a-entity>`;
-      //line="start: -50, 100, -1; end: 50, 100, -1; color: black"
+      let aTags = this.buildTags(props.a);
+      let bTags = this.buildTags(props.b);
+
+      let leftBox = `
+      <a-box
+        id="${props.a.id}"
+        ${aTags.className}
+        ${aTags.color.tag}
+        ${aTags.position.tag}
+        ${aTags.rotation.tag}
+        ${aTags.dimensions.tag}
+      >
+      </a-box>
+      `;
+      let rightBox = `
+      <a-box
+        id="${props.b.id}"
+        ${bTags.className}
+        ${bTags.color.tag}
+        ${bTags.position.tag}
+        ${bTags.rotation.tag}
+        ${bTags.dimensions.tag}
+      >
+      </a-box>
+      `;
+
+
+            let ropeBox = `
+            <a-box
+              id="${props.id}"
+              ${aframeTags.className}
+              ${aframeTags.color.tag}
+              ${aframeTags.dimensions.tag}
+            >
+            </a-box>
+            `;
+
+      let rope = `<a-entity
+      id="${props.id}"
+
+      line="start: ${props.a.position.x}, ${props.a.position.y}, ${props.a.position.z}; end: ${props.b.position.x}, ${props.b.position.y}, ${props.b.position.z}; color: ${props.ropeColor}"
+      >
+
+      </a-entity>`;
+
+      innerMarkup = `${innerMarkup}
+      ${rope}
+      ${leftBox}${rightBox}`;
+
     }
 
     return {
