@@ -291,7 +291,7 @@ export class StoryboxAframe {
                   height="0.2"
                   width="0.2"
                   depth="0.02"
-                  position="0 0.03 0"
+                  position="0.02 0.03 0.02"
                   rotation="-15 -15 -15"
                   material="side: double; color: #EF2D5E; transparent: true; opacity: 0.7"
                 ></a-box>`;
