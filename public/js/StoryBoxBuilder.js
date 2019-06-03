@@ -331,6 +331,9 @@ export class StoryBoxBuilder {
           console.log('down');
           this.loadGallery();
         });
+      },
+      update: function() {
+        this.updateStretchLine();
       }
     });
     window.addEventListener("keydown", (e) => {
