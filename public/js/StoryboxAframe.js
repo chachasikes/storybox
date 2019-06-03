@@ -281,7 +281,7 @@ export class StoryboxAframe {
                   height="0.5"
                   width="0.5"
                   depth="0.05"
-                  position="0 0 -0.4"
+                  position="0.1 -0.5 -0.4"
                   material="side: double; color: #EF2D5E; transparent: true; opacity: 0.7"
                 ></a-box>`;
 
