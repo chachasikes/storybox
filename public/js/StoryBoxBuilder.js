@@ -217,6 +217,13 @@ export class StoryBoxBuilder {
       );
     }
     this.update();
+    this.playGLBAnimation();
+  }
+
+  playGLBAnimation() {
+    console.log("playing gltf animation");
+    let animation = document.querySelector('.glb-animation');
+    console.log('animation', animation);
   }
 
   pauseScene() {

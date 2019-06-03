@@ -128,10 +128,6 @@ export class StoryboxAframe {
     return cube;
   }
 
-  playGLTFAnimation(e) {
-    console.log(e, "playing gltf animation");
-  }
-
   // Format json object as a-frame
   render(json) {
     let innerMarkup = ``;
@@ -185,6 +181,9 @@ export class StoryboxAframe {
                 break;
               case "mesh":
                 if (props.art !== undefined) {
+                  classProps = this.getValue("className", props);
+                  className = `class="${classProps.attribute} glb-animation"`;
+
                   // https://aframe.io/docs/0.9.0/components/gltf-model.html
                   assetItemElements.push(
                     `<a-asset-item ${className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>`
@@ -288,8 +287,8 @@ export class StoryboxAframe {
 
                 let debuggerPanel = `${debuggerLog}
                 <a-box id="debugger-log-vr-bkg"
-                  height="0.3"
-                  width="0.03"
+                  height="0.03"
+                  width="0.3"
                   depth="0.3"
                   position="0.2 0.08 0.2"
                   rotation="85 -15 -15"
