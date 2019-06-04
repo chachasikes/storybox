@@ -300,7 +300,7 @@ export class StoryboxAframe {
       }
     }
     // If not in headset, put the panel in view.
-    let panelPosition = AFRAME.utils.checkHeadsetConnected() ? `position="0.1 0.1 0.1" rotation="85 85 -180"` : `position="0.0 1.6 -0.5"`;
+    let panelPosition = AFRAME.utils.checkHeadsetConnected() ? `position="0.1 0.1 0.1" rotation="-85 -85 0"` : `position="0.0 1.6 -0.5"`;
     let debuggerPanelWrist = ``;
     if ( window.location.hostname === 'localhost' || AFRAME.utils.checkHeadsetConnected() || !AFRAME.utils.checkHeadsetConnected()) {
       debuggerPanelWrist = `
