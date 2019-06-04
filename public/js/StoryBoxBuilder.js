@@ -332,16 +332,43 @@ export class StoryBoxBuilder {
       init: function () {
         var el = this.el;
         el.addEventListener('xbuttondown', function (evt) {
-          // console.log('down');
+          console.log('X');
           this.loadGallery();
         });
       },
     });
-    window.addEventListener("keydown", (e) => {
-      // if (e.code === "KeyP") {
-      //   this.updateStretchLine();
-      // }
 
+    AFRAME.registerComponent('y-button-listener', {
+      init: function () {
+        var el = this.el;
+        el.addEventListener('ybuttondown', function (evt) {
+          console.log('Y');
+
+        });
+      },
+    });
+
+    AFRAME.registerComponent('a-button-listener', {
+      init: function () {
+        var el = this.el;
+        el.addEventListener('abuttondown', function (evt) {
+          console.log('A');
+
+        });
+      },
+    });
+
+    AFRAME.registerComponent('b-button-listener', {
+      init: function () {
+        var el = this.el;
+        el.addEventListener('bbuttondown', function (evt) {
+          console.log('B');
+
+        });
+      },
+    });
+
+    window.addEventListener("keydown", (e) => {
       if (e.code === "KeyX") {
         this.loadGallery();
       }
@@ -430,18 +457,15 @@ export class StoryBoxBuilder {
 
   vrDebugger() {
     this.setDebuggerMessage('This is the console log.');
-
-    console.log('loading debugger');
-      ['log', 'debug', 'error'].forEach(function(verb) {
-        console[verb] = (function(method, verb) {
-          return function() {
-            method.apply(console, arguments);
-            // window.StoryBoxBuilder.setDebuggerMessage(verb + ': ' + Array.prototype.slice.call(arguments).join(' '));
-          };
-        })(console[verb], verb);
-      });
-    }
-
+    ['log', 'debug', 'error'].forEach(function(verb) {
+      console[verb] = (function(method, verb) {
+        return function() {
+          method.apply(console, arguments);
+          // window.StoryBoxBuilder.setDebuggerMessage(verb + ': ' + Array.prototype.slice.call(arguments).join(' '));
+        };
+      })(console[verb], verb);
+    });
+  }
 
   updateEventListeners() {
     document.querySelector('#scene-selector').addEventListener("click", (e) => {
@@ -484,9 +508,8 @@ export class StoryBoxBuilder {
       }
     });
 
-
+    // @TODO make a more generic name for stretcher.
     if (document.getElementById('rose-stretch') !== undefined && document.getElementById('rose-stretch') !== null) {
-
       clearInterval(this.storySettings.stretchLine);
       this.storySettings.stretchLine = null;
       this.storySettings.stretchLine = window.setInterval(function() {

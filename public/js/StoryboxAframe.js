@@ -302,7 +302,7 @@ export class StoryboxAframe {
     // If not in headset, put the panel in view.
     let panelPosition = !AFRAME.utils.checkHeadsetConnected() ? `position="0.0 1.6 -0.5"` : `position="0.14 0.08 0.14" rotation="85 -15 -15"`;
     let debuggerPanelWrist = ``;
-    if ( window.location.hostname === 'localhost' ) {
+    if ( window.location.hostname === 'localhost' || AFRAME.utils.checkHeadsetConnected()) {
       debuggerPanelWrist = `
       <a-box
         id="debugger-log-vr-bkg"
@@ -328,8 +328,8 @@ export class StoryboxAframe {
     }
 
     let touchContollers = `
-    <a-entity id="leftHand" oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft} rotation="0 0 0">${leftModel}${scent.leftBox}</a-entity>
-    <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="0 0 0">${rightModel}${debuggerPanelWrist}${scent.rightBox}</a-entity>
+    <a-entity id="leftHand" oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft} rotation="0 0 0" x-button-listener y-button-listener>${leftModel}${scent.leftBox}</a-entity>
+    <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="0 0 0" a-button-listener b-button-listener>${rightModel}${debuggerPanelWrist}${scent.rightBox}</a-entity>
     ${scent.rope}${scent.objectPositions}`;
 
     if (props.laser !== undefined) {
@@ -539,7 +539,7 @@ export class StoryboxAframe {
                 assetsElements.push(
                   `<img ${aframeTags.className} id="${props.id}" src="${props.art}" crossorigin="anonymous" preload="true" />`
                 );
-                // HACK force a quick rotation to easily fix any weirdly oriented skybox art.
+                // HACK: force a quick rotation to easily fix any weirdly oriented skybox art.
                 innerMarkup = `${innerMarkup}
                   <a-image ${aframeTags.className} src="#${props.id}" material="alphaTest: 0.5" ${aframeTags.position.tag} ${aframeTags.scale.tag} ${aframeTags.rotation.tag}>
                   </a-image>`;
