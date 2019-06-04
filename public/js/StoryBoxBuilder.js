@@ -372,6 +372,10 @@ export class StoryBoxBuilder {
       if (e.code === "KeyX") {
         this.loadGallery();
       }
+
+      if (e.code === "KeyP") {
+        this.updateStretchLine()
+      }
     });
   }
 
@@ -380,20 +384,25 @@ export class StoryBoxBuilder {
     var stretchLeft = document.querySelector("#leftStretch");
     var stretchRight = document.querySelector("#rightStretch");
     if (stretchLeft !== null && stretchRight !== null) {
-      let positionLeft = stretchLeft.getAttribute('position');
-      let positionRight = stretchRight.getAttribute('position');
-      // let newPositionLeft = {
-      //   x: positionLeft.x,
-      //   y: positionLeft.y,
-      //   z: positionLeft.z,
-      // };
-      // let newPositionRight = {
-      //   x: positionRight.x,
-      //   y: positionRight.y,
-      //   z: positionRight.z,
-      // };
-      // stretchLeft.setAttribute('position', newPositionLeft);
-      // stretchRight.setAttribute('position', newPositionRight);
+      let positionLeft = stretchLeft.object3D.position;
+      let positionRight = stretchRight.object3D.position;
+
+      if (!AFRAME.utils.checkHeadsetConnected()) {
+        console.log(positionLeft, positionRight);
+        let newPositionLeft = {
+          x: positionLeft.x - 0.01,
+          y: positionLeft.y,
+          z: positionLeft.z,
+        };
+        let newPositionRight = {
+          x: positionRight.x + 0.01 ,
+          y: positionRight.y,
+          z: positionRight.z,
+        };
+        stretchLeft.setAttribute('position', newPositionLeft);
+        stretchRight.setAttribute('position', newPositionRight);
+      }
+
 
       var stretch = document.querySelector("#rose-stretch");
       if (stretch !== null) {
@@ -404,7 +413,7 @@ export class StoryBoxBuilder {
 
 
                   // TEST
-                  // console.log(stretch.object3D);
+                  // console.log(stretch);
                   // el.geometry.computeBoundingBox();
                   // var boundingBox = el.geometry.boundingBox;
                   // var position = new THREE.Vector3();
@@ -442,29 +451,30 @@ export class StoryBoxBuilder {
       log.append(msg);
     }
     if (logVR !== undefined && logVR !== null) {
-      // logVR.flushToDOM();
-      // console.log(logVR);
       let text = logVR.getAttribute('text');
       let textParsed = AFRAME.utils.styleParser.parse(text);
       if (textParsed !== undefined) {
         textParsed.value = message;
         logVR.setAttribute('text', textParsed);
       }
-
-
     }
   }
 
   vrDebugger() {
-    this.setDebuggerMessage('This is the console log.');
-    ['log', 'debug', 'error'].forEach(function(verb) {
-      console[verb] = (function(method, verb) {
-        return function() {
-          method.apply(console, arguments);
-          // window.StoryBoxBuilder.setDebuggerMessage(verb + ': ' + Array.prototype.slice.call(arguments).join(' '));
-        };
-      })(console[verb], verb);
-    });
+    var logVR = document.getElementById('debugger-log-vr');
+    var log = document.getElementById('debugger-log');
+    //  || window.location.hostname === 'localhost'
+    if (AFRAME.utils.checkHeadsetConnected()) {
+      this.setDebuggerMessage('This is the console log.');
+      ['log', 'debug', 'error'].forEach(function(verb) {
+        console[verb] = (function(method, verb) {
+          return function() {
+            method.apply(console, arguments);
+            window.StoryBoxBuilder.setDebuggerMessage(Array.prototype.slice.call(arguments).join(' '));
+          };
+        })(console[verb], verb);
+      });
+    }
   }
 
   updateEventListeners() {

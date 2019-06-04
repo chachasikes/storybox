@@ -300,7 +300,7 @@ export class StoryboxAframe {
       }
     }
     // If not in headset, put the panel in view.
-    let panelPosition = AFRAME.utils.checkHeadsetConnected() ? `position="0.14 0.08 0.14" rotation="15 -15 -15"` : `position="0.0 1.6 -0.5"`;
+    let panelPosition = AFRAME.utils.checkHeadsetConnected() ? `position="0.05 0.05 0.05" rotation="0 0 0"` : `position="0.0 1.6 -0.5"`;
     let debuggerPanelWrist = ``;
     if ( window.location.hostname === 'localhost' || AFRAME.utils.checkHeadsetConnected()) {
       debuggerPanelWrist = `
@@ -308,7 +308,7 @@ export class StoryboxAframe {
         id="debugger-log-vr-bkg"
         height="0.1"
         width="0.1"
-        depth="0.01"
+        depth="0.005"
         ${panelPosition}
         material="side: double; color: #af1c92; transparent: true; opacity: 0.7"
       >
@@ -386,21 +386,14 @@ export class StoryboxAframe {
 
   stretchPosition(a, b, item) {
     let position = item;
-    let percentageX = (Math.abs(a.x) + item.x) / (Math.abs(b.x) + Math.abs(a.x)) ;
-    let percentageY = (Math.abs(a.y) + item.y) / (Math.abs(b.y) + Math.abs(a.y)) ;
-    let percentageZ = (Math.abs(a.z) + item.z) / (Math.abs(b.z) + Math.abs(a.z)) ;
+    let percentageX = (Math.abs(a.x) + item.position.x) / (Math.abs(b.x) + Math.abs(a.x)) ;
+    let percentageY = (Math.abs(a.y) + item.position.y) / (Math.abs(b.y) + Math.abs(a.y)) ;
+    let percentageZ = (Math.abs(a.z) + item.position.z) / (Math.abs(b.z) + Math.abs(a.z)) ;
     // console.log("original %", percentageX, percentageY, percentageZ);
-    let x = item.x;
-    let y = item.y;
-    let z = item.z;
-    return {
-      x,
-      y,
-      z,
-      percentageX,
-      percentageY,
-      percentageZ
-    }
+    position.percentageX = percentageX;
+    position.percentageY = percentageY;
+    position.percentageZ = percentageZ;
+    return position;
   }
 
   updateStretchPosition(a, b, item) {
@@ -422,6 +415,27 @@ export class StoryboxAframe {
     let leftBox = ``;
     let rightBox = ``;
     if (props !== undefined && props.type === 'stretch') {
+
+    if (!AFRAME.utils.checkHeadsetConnected()) {
+      props.a.position = {
+        x: -0.5,
+        y: 1.6,
+        z: -0.5,
+      };
+      props.b.position = {
+        x: 0.5,
+        y: 1.6,
+        z: -0.5,
+      };
+
+      props.positions.forEach(item => {
+        item.position.x = item.position.x - 0.5 ;
+        item.position.y = item.position.y - 1.6;
+        item.position.z = item.position.z - 0.5;
+        return item;
+      });
+    }
+
       let aTags = this.buildTags(props.a);
       let bTags = this.buildTags(props.b);
 
@@ -459,16 +473,22 @@ export class StoryboxAframe {
       </a-box>
       `;
 
-
       if( props.positions !== undefined ) {
+        console.log(props.positions);
         props.positions.forEach(item => {
           let obj = this.stretchPosition(props.a.position, props.b.position, item);
-          // console.log('strpos obj', obj);
-          objectPositions = `${objectPositions}<a-sphere id="${item.id}"class="stretch-object" position="${obj.x} ${obj.y} ${obj.z}"
+          objectPositions = `${objectPositions}
+          <a-sphere
+          id="${item.id}"
+          class="stretch-object"
+          position="${obj.position.x} ${obj.position.y} ${obj.position.z}"
           data-percentage-x="${obj.percentageX}"
           data-percentage-y="${obj.percentageY}"
           data-percentage-z="${obj.percentageZ}"
-          radius="4" color="${item.color}"></a-sphere>`;
+          radius="0.05"
+          color="${item.color}"
+          material="shader:flat"
+          ></a-sphere>`;
         });
       }
 

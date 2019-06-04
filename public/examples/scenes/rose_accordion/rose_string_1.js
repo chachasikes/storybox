@@ -74,31 +74,49 @@ export let Scene = {
             // behavior: 'playAnimation',
             type: "percentage",
             //
-            x: 0.2,
-            y: 1,
-            z: 1,
-            color: "red",
+            position: {
+              x: 0.2,
+              y: 0,
+              z: 0,
+            },
+            color: "#f7e6af",
             id: 'damascone',
           },
           {
             art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
             // behavior: 'playAnimation',
             type: "percentage",
-            x: 0.3,
-            y: 1,
-            z: 1,
-            color: "lime",
+            position: {
+              x: 0.45,
+              y: 0,
+              z: 0,
+            },
+            color: "#bbe266",
             id: 'cis-3-hex',
           },
           {
             art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
             // behavior: 'playAnimation',
             type: "percentage",
-            x: 0.4,
-            y: 1,
-            z: 1,
-            color: "teal",
+            position: {
+              x: 0.7,
+              y: 0,
+              z: 0,
+            },
+            color: "#f4a8e1",
             id: 'linalool',
+          },
+          {
+            art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
+            // behavior: 'playAnimation',
+            type: "percentage",
+            position: {
+              x: 0.9,
+              y: 0,
+              z: 0,
+            },
+            color: "#f4eea8",
+            id: 'citronellol',
           }
         ]
       }
