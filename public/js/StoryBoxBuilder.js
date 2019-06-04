@@ -338,6 +338,7 @@ export class StoryBoxBuilder {
         var el = this.el;
         el.addEventListener('xbuttondown', function (evt) {
           console.log('X');
+          this.setDebuggerMessage(`x pushed ${typeof this.loadGallery}`);
           this.loadGallery();
         });
       },
@@ -476,18 +477,18 @@ export class StoryBoxBuilder {
     // var logVR = document.getElementById('debugger-log-vr');
     // var log = document.getElementById('debugger-log');
 
-    // ['log', 'debug', 'error'].forEach(function(verb) {
-    //   console[verb] = (function(method, verb) {
-    //     return function() {
-    //       method.apply(console, arguments);
-    //       window.StoryBoxBuilder.setDebuggerMessage(Array.prototype.slice.call(arguments).join(' '));
-    //     };
-    //   })(console[verb], verb);
-    // });
+    ['log', 'debug', 'error'].forEach(function(verb) {
+      console[verb] = (function(method, verb) {
+        return function() {
+          method.apply(console, arguments);
+          window.StoryBoxBuilder.setDebuggerMessage(Array.prototype.slice.call(arguments).join(' '));
+        };
+      })(console[verb], verb);
+    });
   }
 
   updateEventListeners() {
-    this.setDebuggerMessage("Loaded ", this.storySettings.currentStory);
+    this.setDebuggerMessage(" : Loaded ", this.storySettings.currentStory);
     document.querySelector('#scene-selector').addEventListener("click", (e) => {
       if (e.target.id !== null && e.target.id !== '') {
         let el = document.getElementById(e.target.id);
