@@ -219,7 +219,7 @@ export class StoryboxAframe {
     }
   }
 
-  buildCamera(props, innerMarkup, assetsElements, assetItemElements, aframeTags, scent) {
+  buildCamera(props, innerMarkup, assetsElements, assetItemElements, aframeTags, handProp) {
     let leftModel = ``;
     let rightModel = ``;
     let orientationOffsetLeft = ``;
@@ -300,7 +300,7 @@ export class StoryboxAframe {
       }
     }
     // If not in headset, put the panel in view.
-    let panelPosition = !AFRAME.utils.checkHeadsetConnected() ? `position="0.0 1.6 -0.5"` : `position="0.14 0.08 0.14" rotation="85 -15 -15"`;
+    let panelPosition = AFRAME.utils.checkHeadsetConnected() ? `position="0.14 0.08 0.14" rotation="15 -15 -15"` : `position="0.0 1.6 -0.5"`;
     let debuggerPanelWrist = ``;
     if ( window.location.hostname === 'localhost' || AFRAME.utils.checkHeadsetConnected()) {
       debuggerPanelWrist = `
@@ -328,9 +328,9 @@ export class StoryboxAframe {
     }
 
     let touchContollers = `
-    <a-entity id="leftHand" oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft} rotation="0 0 0" x-button-listener y-button-listener>${leftModel}${scent.leftBox}</a-entity>
-    <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="0 0 0" a-button-listener b-button-listener>${rightModel}${debuggerPanelWrist}${scent.rightBox}</a-entity>
-    ${scent.rope}${scent.objectPositions}`;
+    <a-entity id="leftHand" oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft} rotation="0 0 0" x-button-listener y-button-listener>${leftModel}${handProp.leftBox}</a-entity>
+    <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="0 0 0" a-button-listener b-button-listener>${rightModel}${debuggerPanelWrist}${handProp.rightBox}</a-entity>
+    ${handProp.rope}${handProp.objectPositions}`;
 
     if (props.laser !== undefined) {
       // Can change hand controller
@@ -416,7 +416,7 @@ export class StoryboxAframe {
     return data;
   }
 
-  buildScentInterface(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
+  buildHandPropInterface(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
     let rope = ``;
     let objectPositions = ``;
     let leftBox = ``;
@@ -518,8 +518,8 @@ export class StoryboxAframe {
                 assetItemElements = mesh.assetItemElements;
                 break;
               case "camera":
-                let scent = this.buildScentInterface(props.scent, innerMarkup, assetsElements, assetItemElements, aframeTags);
-                let camera = this.buildCamera(props, innerMarkup, assetsElements, assetItemElements, aframeTags, scent);
+                let handPropScent = this.buildHandPropInterface(props.handProp, innerMarkup, assetsElements, assetItemElements, aframeTags);
+                let camera = this.buildCamera(props, innerMarkup, assetsElements, assetItemElements, aframeTags, handPropScent);
                 innerMarkup = camera.innerMarkup;
                 assetsElements = camera.assetsElements;
                 assetItemElements = camera.assetItemElements;

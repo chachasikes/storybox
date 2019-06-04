@@ -17,7 +17,7 @@ export let Scene = {
         y:60,
         z:180
       },
-      scent: {
+      handProp: {
         id: "rose-stretch",
         type: "stretch",
         stretchAxis: 'x',
