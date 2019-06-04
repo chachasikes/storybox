@@ -11,9 +11,8 @@ export class StoryBoxBuilder {
     this.storySettings.stretchLine = null;
     this.storySettings.target = null;
     this.storySettings.transition = null;
+    this.storySettings.galleryListeners = false;
     this.assetMarkup = ``;
-    this.storySettings.storyAssets = null;
-    this.storySettings.galleryAssets = null;
     this.assetMarkupGallery = ``;
     this.showLoading = false;
     this.registry = [];
@@ -105,7 +104,6 @@ export class StoryBoxBuilder {
     if (document.querySelector('a-assets') === undefined || document.querySelector('a-assets') === null) {
       var assets = document.createElement("a-assets");
       assets.setAttribute("timeout", 60000);
-      this.storySettings.galleryAssets = assets;
       document.getElementById("scenes").before(assets);
     }
     document.querySelector("a-assets").innerHTML = this.assetMarkupGallery;
@@ -139,6 +137,7 @@ export class StoryBoxBuilder {
 
   // Update the selected story
   galleryItemSelect(id) {
+    console.log(id);
     this.storySettings.currentStory = id;
     this.storySettings.timer = null;
     this.storySettings.stretchLine = null
@@ -169,9 +168,8 @@ export class StoryBoxBuilder {
     clearTimeout(this.storySettings.timer);
     clearInterval(this.storySettings.stretchLine);
     console.log("SETTING UP STORY");
-    this.setDebuggerMessage("SETTING UP STORY", this.storySettings.currentStory);
+    // this.setDebuggerMessage("SETTING UP STORY", this.storySettings.currentStory);
     let storyboxAframe = new StoryboxAframe();
-
     let currentStory = this.getCurrentStory(this.storySettings.currentStory);
     let buildAssets = true;
     if (this.assetMarkup !== ``) {
@@ -213,10 +211,10 @@ export class StoryBoxBuilder {
     if (document.querySelector('a-assets') === undefined || document.querySelector('a-assets') === null) {
       var assets = document.createElement("a-assets");
       assets.setAttribute("timeout", 60000);
-      this.storySettings.storyAssets = assets;
       document.getElementById("scenes").before(assets);
     }
     document.querySelector("a-assets").innerHTML = this.assetMarkup;
+
     this.update();
 
     document.querySelector("a-assets").addEventListener('loaded', () => {
@@ -316,7 +314,6 @@ export class StoryBoxBuilder {
   update() {
     this.render(this.storySettings.target);
     let currentScene = this.getCurrentScene(this.storySettings.currentStory);
-    // console.log('currentScene', currentScene);
     let sceneSelector;
     if (document.getElementById("scene-selector") === null) {
       // Add main entity for all aFrame content, add to a-scene set in index.html
@@ -333,6 +330,9 @@ export class StoryBoxBuilder {
   }
 
   setupAppButtons() {
+
+    this.vrDebugger();
+
     AFRAME.registerComponent('x-button-listener', {
       init: function () {
         var el = this.el;
@@ -389,7 +389,7 @@ export class StoryBoxBuilder {
     this.setDebuggerMessage('stretch check');
     var stretchLeft = document.querySelector("#leftStretch");
     var stretchRight = document.querySelector("#rightStretch");
-    if (stretchLeft !== null && stretchRight !== null) {
+    if (stretchLeft !== null && stretchRight !== null && stretchLeft.object3D !== undefined) {
       let positionLeft = stretchLeft.object3D.position;
       let positionRight = stretchRight.object3D.position;
 
@@ -459,16 +459,19 @@ export class StoryBoxBuilder {
     //   msg.textContent = message;
     //   log.append(msg);
     // }
+
     if (logVR !== undefined && logVR !== null) {
       try {
         let text = logVR.getAttribute('text');
         let textParsed = AFRAME.utils.styleParser.parse(text);
         if (textParsed !== undefined) {
           textParsed.value = `${textParsed.value}${message}`;
-          textParsed.value = textParsed.value.substr(textParsed.value.length - 200);
+          if (typeof textParsed.value === 'object') {
+            textParsed.value = textParsed.value.substr(textParsed.value.length - 200);
+          }
         }
       } catch(err) {
-        console.log(err)
+        // console.log(err);
       }
     }
   }
@@ -476,20 +479,17 @@ export class StoryBoxBuilder {
   vrDebugger() {
     // var logVR = document.getElementById('debugger-log-vr');
     // var log = document.getElementById('debugger-log');
-
-    ['log', 'debug', 'error'].forEach(function(verb) {
-      console[verb] = (function(method, verb) {
-        return function() {
-          method.apply(console, arguments);
-          window.StoryBoxBuilder.setDebuggerMessage(Array.prototype.slice.call(arguments).join(' '));
-        };
-      })(console[verb], verb);
-    });
+    // ['log', 'debug', 'error'].forEach(function(verb) {
+    //   console[verb] = (function(method, verb) {
+    //     return function() {
+    //       method.apply(console, arguments);
+    //       window.StoryBoxBuilder.setDebuggerMessage(Array.prototype.slice.call(arguments).join(' '));
+    //     };
+    //   })(console[verb], verb);
+    // });
   }
-
-  updateEventListeners() {
-    this.setDebuggerMessage(" : Loaded ", this.storySettings.currentStory);
-    document.querySelector('#scene-selector').addEventListener("click", (e) => {
+  sceneSelectorEventListeners(e) {
+    {
       if (e.target.id !== null && e.target.id !== '') {
         let el = document.getElementById(e.target.id);
         switch (e.target.id) {
@@ -515,11 +515,12 @@ export class StoryBoxBuilder {
       if (e.detail !== undefined && e.detail.intersectedEl !== undefined) {
         let el = e.detail.intersectedEl;
         if (el.getAttribute('class') === 'clickable-tile') {
-          // console.log(el.getAttribute('id'));
+          console.log(el.getAttribute('id'));
           if(el.getAttribute('data-clicked') === null || el.getAttribute('data-clicked') === 'false') {
              el.setAttribute('data-clicked', 'true');
              let id = el.getAttribute('id');
              if (id !== undefined && id !== null) {
+               console.log(id);
                this.galleryItemSelect(id);
              }
            } else {
@@ -527,9 +528,16 @@ export class StoryBoxBuilder {
            }
         }
       }
-    });
 
-    // @TODO make a more generic name for stretcher.
+      // console.log(e, e.detail, e.target);
+    }
+  }
+  updateEventListeners() {
+    if (this.storySettings.galleryListeners === false) {
+    document.querySelector('#scene-selector').addEventListener("click", (e) => this.sceneSelectorEventListeners(e));
+  }
+    this.storySettings.galleryListeners = true;
+    // // @TODO make a more generic name for stretcher.
     if (document.getElementById('rose-stretch') !== undefined && document.getElementById('rose-stretch') !== null) {
       clearInterval(this.storySettings.stretchLine);
       this.storySettings.stretchLine = null;
@@ -540,8 +548,6 @@ export class StoryBoxBuilder {
       clearInterval(this.storySettings.stretchLine);
       this.storySettings.stretchLine = null;
     }
-
-    this.vrDebugger();
   }
 
   render(target) {
