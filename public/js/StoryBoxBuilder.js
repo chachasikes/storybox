@@ -349,6 +349,7 @@ export class StoryBoxBuilder {
   }
 
   updateStretchLine() {
+
     var stretchLeft = document.querySelector("#leftStretch");
     var stretchRight = document.querySelector("#rightStretch");
     if (stretchLeft !== null && stretchRight !== null) {
@@ -373,6 +374,18 @@ export class StoryBoxBuilder {
         line.start = positionLeft;
         line.end = positionRight;
         stretch.setAttribute('line', line);
+
+
+                  // TEST
+                  // console.log(stretch.object3D);
+                  // el.geometry.computeBoundingBox();
+                  // var boundingBox = el.geometry.boundingBox;
+                  // var position = new THREE.Vector3();
+                  // position.subVectors( boundingBox.max, boundingBox.min );
+                  // position.multiplyScalar( 0.5 );
+                  // position.add( boundingBox.min );
+                  // position.applyMatrix4( el.matrixWorld );
+                  // console.log(position.x + ',' + position.y + ',' + position.z);
       }
 
       var stretchObjects = document.querySelectorAll('.stretch-object');
@@ -393,35 +406,44 @@ export class StoryBoxBuilder {
     }
   }
 
+  setDebuggerMessage(message) {
+    var logVR = document.getElementById('debugger-log-vr');
+    var log = document.getElementById('debugger-log');
+    if (log !== undefined && log !== null) {
+      var msg = document.createElement('div');
+      msg.textContent = message;
+      log.append(msg);
+    }
+    if (logVR !== undefined && logVR !== null) {
+      // logVR.flushToDOM();
+      // console.log(logVR);
+      let text = logVR.getAttribute('text');
+      let textParsed = AFRAME.utils.styleParser.parse(text);
+      if (textParsed !== undefined) {
+        textParsed.value = message;
+        logVR.setAttribute('text', textParsed);
+      }
+
+
+    }
+  }
+
   vrDebugger() {
+    this.setDebuggerMessage('This is the console log.');
 
-      var logVR = document.getElementById('debugger-log-vr');
-
+    console.log('loading debugger');
       ['log', 'debug', 'error'].forEach(function(verb) {
-        console[verb] = (function(method, verb, logVR) {
+        console[verb] = (function(method, verb) {
           return function() {
             method.apply(console, arguments);
-            // var msg = document.createElement('div');
-            // msg.classList.add(verb);
-            // msg.textContent = verb + ': ' + Array.prototype.slice.call(arguments).join(' ');
-            if (logVR !== null) {
-              let vrLogJson = logVR.getAttribute('text');
-
-              // if (typeof vrLogJson === 'object' && vrLogJson.text !== undefined && vrLogJson.text.value !== undefined) {
-                // vrLogJson.value = `${verb + ': ' + Array.prototype.slice.call(arguments).join(' ')}`;
-                // logVR.setAttribute('text', vrLogJson);
-              // }
-            }
+            // window.StoryBoxBuilder.setDebuggerMessage(verb + ': ' + Array.prototype.slice.call(arguments).join(' '));
           };
-        })(console[verb], verb, logVR);
+        })(console[verb], verb);
       });
     }
 
 
   updateEventListeners() {
-    this.vrDebugger();
-    this.storySettings.stretchLine = setInterval(this.updateStretchLine, 100);
-
     document.querySelector('#scene-selector').addEventListener("click", (e) => {
       if (e.target.id !== null && e.target.id !== '') {
         let el = document.getElementById(e.target.id);
@@ -435,7 +457,7 @@ export class StoryBoxBuilder {
                   clearTimeout(this.storySettings.transition);
                   window.StoryBoxBuilder.nextScene();
                 }.bind(this),
-                2000
+                5000
               );
             }
             else {
@@ -459,10 +481,23 @@ export class StoryBoxBuilder {
              el.setAttribute('data-clicked', 'false');
            }
         }
-
       }
-
     });
+
+
+    if (document.getElementById('rose-stretch') !== undefined && document.getElementById('rose-stretch') !== null) {
+
+      clearInterval(this.storySettings.stretchLine);
+      this.storySettings.stretchLine = null;
+      this.storySettings.stretchLine = window.setInterval(function() {
+        this.updateStretchLine();
+      }.bind(this), 1000);
+    } else {
+      clearInterval(this.storySettings.stretchLine);
+      this.storySettings.stretchLine = null;
+    }
+
+    this.vrDebugger();
   }
 
   render(target) {

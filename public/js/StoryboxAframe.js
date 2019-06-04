@@ -299,22 +299,37 @@ export class StoryboxAframe {
         modelLoaded = "model: false";
       }
     }
-
-    let debuggerLog = `<a-entity id="debugger-log-vr" text="value: (log); width: 0.25; height: 0.25; color: #FFF" position="0.30 0.08 0.16"></a-entity>`;
-
-    let debuggerPanel = `${debuggerLog}
-    <a-box id="debugger-log-vr-bkg"
-      height="0.02"
-      width="0.2"
-      depth="0.2"
-      position="0.14 0.08 0.14"
-      rotation="85 -15 -15"
-      material="side: double; color: #EF2D5E; transparent: true; opacity: 0.5"
-    ></a-box>`;
+    // If not in headset, put the panel in view.
+    let panelPosition = !AFRAME.utils.checkHeadsetConnected() ? `position="0.0 1.6 -0.5"` : `position="0.14 0.08 0.14" rotation="85 -15 -15"`;
+    let debuggerPanelWrist = ``;
+    if ( window.location.hostname === 'localhost' ) {
+      debuggerPanelWrist = `
+      <a-box
+        id="debugger-log-vr-bkg"
+        height="0.1"
+        width="0.1"
+        depth="0.01"
+        ${panelPosition}
+        material="side: double; color: #af1c92; transparent: true; opacity: 0.7"
+      >
+      <a-entity
+        id="debugger-log-vr"
+        text="value: Log;
+        anchor: center;
+        baseline: center;
+        width: 0.1;
+        height: 0.1;
+        xOffset: 0.01;
+        yOffset: 0.01;
+        zOffset: 0.01;
+        color: #efefef"
+      ></a-entity>
+      </a-box>`;
+    }
 
     let touchContollers = `
     <a-entity id="leftHand" oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft} rotation="0 0 0">${leftModel}${scent.leftBox}</a-entity>
-    <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="0 0 0">${rightModel}${debuggerPanel}${scent.rightBox}</a-entity>
+    <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="0 0 0">${rightModel}${debuggerPanelWrist}${scent.rightBox}</a-entity>
     ${scent.rope}${scent.objectPositions}`;
 
     if (props.laser !== undefined) {
