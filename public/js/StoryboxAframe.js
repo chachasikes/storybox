@@ -300,25 +300,25 @@ export class StoryboxAframe {
       }
     }
     // If not in headset, put the panel in view.
-    let panelPosition = AFRAME.utils.checkHeadsetConnected() ? `position="0.05 0.05 0.05" rotation="0 0 0"` : `position="0.0 1.6 -0.5"`;
+    let panelPosition = AFRAME.utils.checkHeadsetConnected() ? `position="0.1 0.1 0.1" rotation="0 85 0"` : `position="0.0 1.6 -0.5"`;
     let debuggerPanelWrist = ``;
     if ( window.location.hostname === 'localhost' || AFRAME.utils.checkHeadsetConnected()) {
       debuggerPanelWrist = `
       <a-box
         id="debugger-log-vr-bkg"
-        height="0.1"
-        width="0.1"
+        height="0.15"
+        width="0.15"
         depth="0.005"
         ${panelPosition}
-        material="side: double; color: #af1c92; transparent: true; opacity: 0.7"
+        material="side: double; color: #af1c92; transparent: true; opacity: 0.9"
       >
       <a-entity
         id="debugger-log-vr"
-        text="value: Log;
+        text="value: /* CONSOLE LOG */;
         anchor: center;
         baseline: center;
-        width: 0.1;
-        height: 0.1;
+        width: 0.15;
+        height: 0.15;
         xOffset: 0.01;
         yOffset: 0.01;
         zOffset: 0.01;
@@ -474,7 +474,7 @@ export class StoryboxAframe {
       `;
 
       if( props.positions !== undefined ) {
-        console.log(props.positions);
+        // console.log(props.positions);
         props.positions.forEach(item => {
           let obj = this.stretchPosition(props.a.position, props.b.position, item);
           objectPositions = `${objectPositions}

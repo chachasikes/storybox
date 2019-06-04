@@ -388,7 +388,7 @@ export class StoryBoxBuilder {
       let positionRight = stretchRight.object3D.position;
 
       if (!AFRAME.utils.checkHeadsetConnected()) {
-        console.log(positionLeft, positionRight);
+        // console.log(positionLeft, positionRight);
         let newPositionLeft = {
           x: positionLeft.x - 0.01,
           y: positionLeft.y,
@@ -464,7 +464,7 @@ export class StoryBoxBuilder {
     var logVR = document.getElementById('debugger-log-vr');
     var log = document.getElementById('debugger-log');
     //  || window.location.hostname === 'localhost'
-    if (AFRAME.utils.checkHeadsetConnected()) {
+
       this.setDebuggerMessage('This is the console log.');
       ['log', 'debug', 'error'].forEach(function(verb) {
         console[verb] = (function(method, verb) {
@@ -474,10 +474,11 @@ export class StoryBoxBuilder {
           };
         })(console[verb], verb);
       });
-    }
+  
   }
 
   updateEventListeners() {
+    console.log("Loaded ", this.storySettings.currentStory);
     document.querySelector('#scene-selector').addEventListener("click", (e) => {
       if (e.target.id !== null && e.target.id !== '') {
         let el = document.getElementById(e.target.id);
