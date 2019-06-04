@@ -403,13 +403,15 @@ export class StoryBoxBuilder {
         stretchRight.setAttribute('position', newPositionRight);
       }
 
-
       var stretch = document.querySelector("#rose-stretch");
       if (stretch !== null) {
         let line = stretch.getAttribute('line');
-        line.start = positionLeft;
-        line.end = positionRight;
-        stretch.setAttribute('line', line);
+        let lineParsed = AFRAME.utils.styleParser.parse(line);
+        lineParsed.start = positionLeft;
+        lineParsed.end = positionRight;
+        console.log(positionLeft.x + ',' + positionLeft.y + ',' + positionLeft.z);
+        console.log(positionRight.x + ',' + positionRight.y + ',' + positionRight.z);
+        stretch.setAttribute('line', lineParsed);
 
 
                   // TEST
@@ -474,7 +476,7 @@ export class StoryBoxBuilder {
           };
         })(console[verb], verb);
       });
-  
+
   }
 
   updateEventListeners() {
