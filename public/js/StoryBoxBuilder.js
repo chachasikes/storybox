@@ -380,7 +380,7 @@ export class StoryBoxBuilder {
   }
 
   updateStretchLine() {
-
+    this.setDebuggerMessage('stretch check');
     var stretchLeft = document.querySelector("#leftStretch");
     var stretchRight = document.querySelector("#rightStretch");
     if (stretchLeft !== null && stretchRight !== null) {
@@ -528,7 +528,7 @@ export class StoryBoxBuilder {
       this.storySettings.stretchLine = null;
       this.storySettings.stretchLine = window.setInterval(function() {
         this.updateStretchLine();
-      }.bind(this), 1000);
+      }.bind(this), 100);
     } else {
       clearInterval(this.storySettings.stretchLine);
       this.storySettings.stretchLine = null;
