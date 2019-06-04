@@ -409,6 +409,7 @@ export class StoryBoxBuilder {
         let lineParsed = AFRAME.utils.styleParser.parse(line);
         lineParsed.start = positionLeft;
         lineParsed.end = positionRight;
+        this.setDebuggerMessage(positionLeft.x + ',' + positionLeft.y + ',' + positionLeft.z, positionRight.x + ',' + positionRight.y + ',' + positionRight.z);
         console.log(positionLeft.x + ',' + positionLeft.y + ',' + positionLeft.z);
         console.log(positionRight.x + ',' + positionRight.y + ',' + positionRight.z);
         stretch.setAttribute('line', lineParsed);
@@ -446,12 +447,12 @@ export class StoryBoxBuilder {
 
   setDebuggerMessage(message) {
     var logVR = document.getElementById('debugger-log-vr');
-    var log = document.getElementById('debugger-log');
-    if (log !== undefined && log !== null) {
-      var msg = document.createElement('div');
-      msg.textContent = message;
-      log.append(msg);
-    }
+    // var log = document.getElementById('debugger-log');
+    // if (log !== undefined && log !== null) {
+    //   var msg = document.createElement('div');
+    //   msg.textContent = message;
+    //   log.append(msg);
+    // }
     if (logVR !== undefined && logVR !== null) {
       let text = logVR.getAttribute('text');
       let textParsed = AFRAME.utils.styleParser.parse(text);
@@ -480,7 +481,7 @@ export class StoryBoxBuilder {
   }
 
   updateEventListeners() {
-    console.log("Loaded ", this.storySettings.currentStory);
+    this.setDebuggerMessage("Loaded ", this.storySettings.currentStory);
     document.querySelector('#scene-selector').addEventListener("click", (e) => {
       if (e.target.id !== null && e.target.id !== '') {
         let el = document.getElementById(e.target.id);
