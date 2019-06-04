@@ -466,18 +466,15 @@ export class StoryBoxBuilder {
   vrDebugger() {
     var logVR = document.getElementById('debugger-log-vr');
     var log = document.getElementById('debugger-log');
-    //  || window.location.hostname === 'localhost'
 
-
-      // ['log', 'debug', 'error'].forEach(function(verb) {
-      //   console[verb] = (function(method, verb) {
-      //     return function() {
-      //       method.apply(console, arguments);
-      //       window.StoryBoxBuilder.setDebuggerMessage(Array.prototype.slice.call(arguments).join(' '));
-      //     };
-      //   })(console[verb], verb);
-      // });
-
+    ['log', 'debug', 'error'].forEach(function(verb) {
+      console[verb] = (function(method, verb) {
+        return function() {
+          method.apply(console, arguments);
+          window.StoryBoxBuilder.setDebuggerMessage(Array.prototype.slice.call(arguments).join(' '));
+        };
+      })(console[verb], verb);
+    });
   }
 
   updateEventListeners() {
