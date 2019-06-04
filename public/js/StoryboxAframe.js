@@ -300,9 +300,9 @@ export class StoryboxAframe {
       }
     }
     // If not in headset, put the panel in view.
-    let panelPosition = AFRAME.utils.checkHeadsetConnected() ? `position="0.1 0.1 0.1" rotation="-85 0 0"` : `position="0.0 1.6 -0.5"`;
+    let panelPosition = AFRAME.utils.device.checkHeadsetConnected() ? `position="0.1 0.1 0.1" rotation="-85 0 0"` : `position="0.0 1.6 -0.5"`;
     let debuggerPanelWrist = ``;
-    if ( window.location.hostname === 'localhost' || AFRAME.utils.checkHeadsetConnected() || !AFRAME.utils.checkHeadsetConnected()) {
+    if ( window.location.hostname === 'localhost' || AFRAME.utils.device.checkHeadsetConnected() || !AFRAME.utils.device.checkHeadsetConnected()) {
       debuggerPanelWrist = `
       <a-box
         id="debugger-log-vr-bkg"
@@ -310,11 +310,11 @@ export class StoryboxAframe {
         width="0.15"
         depth="0.005"
         ${panelPosition}
-        material="side: double; color: #38bc3d; transparent: true; opacity: 0.5"
+        material="side: double; color: #38bc3d; transparent: true; opacity: 1"
       >
       <a-entity
         id="debugger-log-vr"
-        text="value: /* CONSOLE LOG */;
+        text="value: Console Log;
         anchor: center;
         baseline: center;
         width: 0.15;
@@ -322,7 +322,8 @@ export class StoryboxAframe {
         xOffset: 0.01;
         yOffset: 0.01;
         zOffset: 0.01;
-        color: #efefef"
+        wrap-pixels: 500;
+        color: #eeeeee"
       ></a-entity>
       </a-box>`;
     }
@@ -416,7 +417,7 @@ export class StoryboxAframe {
     let rightBox = ``;
     if (props !== undefined && props.type === 'stretch') {
 
-    if (!AFRAME.utils.checkHeadsetConnected()) {
+    if (!AFRAME.utils.device.checkHeadsetConnected()) {
       props.a.position = {
         x: -0.5,
         y: 1.6,

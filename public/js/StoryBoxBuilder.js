@@ -12,6 +12,8 @@ export class StoryBoxBuilder {
     this.storySettings.target = null;
     this.storySettings.transition = null;
     this.assetMarkup = ``;
+    this.storySettings.storyAssets = null;
+    this.storySettings.galleryAssets = null;
     this.assetMarkupGallery = ``;
     this.showLoading = false;
     this.registry = [];
@@ -103,6 +105,7 @@ export class StoryBoxBuilder {
     if (document.querySelector('a-assets') === undefined || document.querySelector('a-assets') === null) {
       var assets = document.createElement("a-assets");
       assets.setAttribute("timeout", 60000);
+      this.storySettings.galleryAssets = assets;
       document.getElementById("scenes").before(assets);
     }
     document.querySelector("a-assets").innerHTML = this.assetMarkupGallery;
@@ -166,6 +169,7 @@ export class StoryBoxBuilder {
     clearTimeout(this.storySettings.timer);
     clearInterval(this.storySettings.stretchLine);
     console.log("SETTING UP STORY");
+    this.setDebuggerMessage("SETTING UP STORY", this.storySettings.currentStory);
     let storyboxAframe = new StoryboxAframe();
 
     let currentStory = this.getCurrentStory(this.storySettings.currentStory);
@@ -209,6 +213,7 @@ export class StoryBoxBuilder {
     if (document.querySelector('a-assets') === undefined || document.querySelector('a-assets') === null) {
       var assets = document.createElement("a-assets");
       assets.setAttribute("timeout", 60000);
+      this.storySettings.storyAssets = assets;
       document.getElementById("scenes").before(assets);
     }
     document.querySelector("a-assets").innerHTML = this.assetMarkup;
@@ -387,7 +392,7 @@ export class StoryBoxBuilder {
       let positionLeft = stretchLeft.object3D.position;
       let positionRight = stretchRight.object3D.position;
 
-      if (!AFRAME.utils.checkHeadsetConnected()) {
+      if (!AFRAME.utils.device.checkHeadsetConnected()) {
         // console.log(positionLeft, positionRight);
         let newPositionLeft = {
           x: positionLeft.x - 0.01,
@@ -410,8 +415,8 @@ export class StoryBoxBuilder {
         lineParsed.start = positionLeft;
         lineParsed.end = positionRight;
         this.setDebuggerMessage(positionLeft.x + ',' + positionLeft.y + ',' + positionLeft.z, positionRight.x + ',' + positionRight.y + ',' + positionRight.z);
-        console.log(positionLeft.x + ',' + positionLeft.y + ',' + positionLeft.z);
-        console.log(positionRight.x + ',' + positionRight.y + ',' + positionRight.z);
+        // console.log(positionLeft.x + ',' + positionLeft.y + ',' + positionLeft.z);
+        // console.log(positionRight.x + ',' + positionRight.y + ',' + positionRight.z);
         stretch.setAttribute('line', lineParsed);
 
 
@@ -454,27 +459,31 @@ export class StoryBoxBuilder {
     //   log.append(msg);
     // }
     if (logVR !== undefined && logVR !== null) {
-      let text = logVR.getAttribute('text');
-      let textParsed = AFRAME.utils.styleParser.parse(text);
-      if (textParsed !== undefined) {
-        textParsed.value = message;
-        logVR.setAttribute('text', textParsed);
+      try {
+        let text = logVR.getAttribute('text');
+        let textParsed = AFRAME.utils.styleParser.parse(text);
+        if (textParsed !== undefined) {
+          textParsed.value = `${textParsed.value}${message}`;
+          textParsed.value = textParsed.value.substr(textParsed.value.length - 200);
+        }
+      } catch(err) {
+        console.log(err)
       }
     }
   }
 
   vrDebugger() {
-    var logVR = document.getElementById('debugger-log-vr');
-    var log = document.getElementById('debugger-log');
+    // var logVR = document.getElementById('debugger-log-vr');
+    // var log = document.getElementById('debugger-log');
 
-    ['log', 'debug', 'error'].forEach(function(verb) {
-      console[verb] = (function(method, verb) {
-        return function() {
-          method.apply(console, arguments);
-          window.StoryBoxBuilder.setDebuggerMessage(Array.prototype.slice.call(arguments).join(' '));
-        };
-      })(console[verb], verb);
-    });
+    // ['log', 'debug', 'error'].forEach(function(verb) {
+    //   console[verb] = (function(method, verb) {
+    //     return function() {
+    //       method.apply(console, arguments);
+    //       window.StoryBoxBuilder.setDebuggerMessage(Array.prototype.slice.call(arguments).join(' '));
+    //     };
+    //   })(console[verb], verb);
+    // });
   }
 
   updateEventListeners() {
