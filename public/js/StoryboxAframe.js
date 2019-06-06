@@ -310,18 +310,18 @@ export class StoryboxAframe {
         width="0.15"
         depth="0.005"
         ${panelPosition}
-        material="side: double; color: #38bc3d; transparent: true; opacity: 1"
+        material="side: double; color: #38bc3d; transparent: true; opacity: 0.7"
       >
       <a-entity
         id="debugger-log-vr"
-        text="value: Console Log;
+        text="value: ;
         anchor: center;
         baseline: center;
         width: 0.15;
         height: 0.15;
         xOffset: 0.01;
         yOffset: 0.01;
-        zOffset: 0.01;
+        zOffset: 0.005;
         wrap-pixels: 500;
         color: #eeeeee"
       ></a-entity>
@@ -344,7 +344,6 @@ export class StoryboxAframe {
     let cursor = ``;
     if (props.cursorCamera === true) {
       // Add camera cursor
-      // console.log("Setting up Cursor Camera", props);
       cursorCameraControls = `look-controls wasd-controls`;
       cursor = `<a-entity
         cursor="fuse: true"
@@ -390,7 +389,6 @@ export class StoryboxAframe {
     let percentageX = (Math.abs(a.x) + item.position.x) / (Math.abs(b.x) + Math.abs(a.x)) ;
     let percentageY = (Math.abs(a.y) + item.position.y) / (Math.abs(b.y) + Math.abs(a.y)) ;
     let percentageZ = (Math.abs(a.z) + item.position.z) / (Math.abs(b.z) + Math.abs(a.z)) ;
-    // console.log("original %", percentageX, percentageY, percentageZ);
     position.percentageX = percentageX;
     position.percentageY = percentageY;
     position.percentageZ = percentageZ;
@@ -406,7 +404,6 @@ export class StoryboxAframe {
       y: ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y,
       z: ((Math.abs(b.z) + Math.abs(a.z)) * percentageZ) + a.z,
     };
-    // console.log('data', data, percentageY, a, b);
     return data;
   }
 

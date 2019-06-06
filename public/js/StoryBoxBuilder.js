@@ -21,6 +21,7 @@ export class StoryBoxBuilder {
     this.dropboxRegistry = this.loadDropbox([
       'https://www.dropbox.com/s/anftsg0se49msqz/dropbox-tincture-sea.json?dl=0'
     ]);
+    this.logQueue = [];
   }
 
   loadDropbox(files) {
@@ -63,6 +64,7 @@ export class StoryBoxBuilder {
       buildAssets = false;
     }
 
+    this.vrlog('gall');
     let gallery = window.Gallery.render(this.registry);
     clearTimeout(this.storySettings.timer);
     clearInterval(this.storySettings.stretchLine);
@@ -109,7 +111,6 @@ export class StoryBoxBuilder {
     document.querySelector("a-assets").innerHTML = this.assetMarkupGallery;
 
     document.querySelector("a-assets").addEventListener('loaded', () => {
-      // console.log("GALLERY ASSETS LOADED");
       let currentScene = "gallery";
       if (currentScene && currentScene.autoPlay === true) {
         this.pauseScene();
@@ -137,7 +138,6 @@ export class StoryBoxBuilder {
 
   // Update the selected story
   galleryItemSelect(id) {
-    console.log(id);
     this.storySettings.currentStory = id;
     this.storySettings.timer = null;
     this.storySettings.stretchLine = null
@@ -167,8 +167,6 @@ export class StoryBoxBuilder {
   setupStory() {
     clearTimeout(this.storySettings.timer);
     clearInterval(this.storySettings.stretchLine);
-    console.log("SETTING UP STORY");
-    // this.setDebuggerMessage("SETTING UP STORY", this.storySettings.currentStory);
     let storyboxAframe = new StoryboxAframe();
     let currentStory = this.getCurrentStory(this.storySettings.currentStory);
     let buildAssets = true;
@@ -218,7 +216,6 @@ export class StoryBoxBuilder {
     this.update();
 
     document.querySelector("a-assets").addEventListener('loaded', () => {
-      // console.log("STORY ASSETS LOADED");
       this.showLoading = false;
       this.update();
       let currentScene = this.getCurrentScene(this.storySettings.currentStory);
@@ -247,9 +244,7 @@ export class StoryBoxBuilder {
   }
 
   playGLBAnimation() {
-    // console.log("playing gltf animation");
     let animation = document.querySelector('.glb-animation');
-    // console.log('animation', animation);
   }
 
   pauseScene() {
@@ -330,15 +325,11 @@ export class StoryBoxBuilder {
   }
 
   setupAppButtons() {
-
-    this.vrDebugger();
-
     AFRAME.registerComponent('x-button-listener', {
       init: function () {
         var el = this.el;
         el.addEventListener('xbuttondown', function (evt) {
-          console.log('X');
-          this.setDebuggerMessage(`x pushed ${typeof this.loadGallery}`);
+          this.vrlog('X');
           this.loadGallery();
         });
       },
@@ -348,8 +339,7 @@ export class StoryBoxBuilder {
       init: function () {
         var el = this.el;
         el.addEventListener('ybuttondown', function (evt) {
-          console.log('Y');
-
+          this.vrlog('Y');
         });
       },
     });
@@ -358,8 +348,7 @@ export class StoryBoxBuilder {
       init: function () {
         var el = this.el;
         el.addEventListener('abuttondown', function (evt) {
-          console.log('A');
-
+          this.vrlog('A');
         });
       },
     });
@@ -368,7 +357,7 @@ export class StoryBoxBuilder {
       init: function () {
         var el = this.el;
         el.addEventListener('bbuttondown', function (evt) {
-          console.log('B');
+          this.vrlog('B');
 
         });
       },
@@ -376,6 +365,7 @@ export class StoryBoxBuilder {
 
     window.addEventListener("keydown", (e) => {
       if (e.code === "KeyX") {
+        this.vrlog('X');
         this.loadGallery();
       }
 
@@ -386,7 +376,6 @@ export class StoryBoxBuilder {
   }
 
   updateStretchLine() {
-    this.setDebuggerMessage('stretch check');
     var stretchLeft = document.querySelector("#leftStretch");
     var stretchRight = document.querySelector("#rightStretch");
     if (stretchLeft !== null && stretchRight !== null && stretchLeft.object3D !== undefined) {
@@ -394,7 +383,6 @@ export class StoryBoxBuilder {
       let positionRight = stretchRight.object3D.position;
 
       if (!AFRAME.utils.device.checkHeadsetConnected()) {
-        // console.log(positionLeft, positionRight);
         let newPositionLeft = {
           x: positionLeft.x - 0.01,
           y: positionLeft.y,
@@ -415,22 +403,17 @@ export class StoryBoxBuilder {
         let lineParsed = AFRAME.utils.styleParser.parse(line);
         lineParsed.start = positionLeft;
         lineParsed.end = positionRight;
-        this.setDebuggerMessage(positionLeft.x + ',' + positionLeft.y + ',' + positionLeft.z, positionRight.x + ',' + positionRight.y + ',' + positionRight.z);
-        // console.log(positionLeft.x + ',' + positionLeft.y + ',' + positionLeft.z);
-        // console.log(positionRight.x + ',' + positionRight.y + ',' + positionRight.z);
         stretch.setAttribute('line', lineParsed);
 
 
-                  // TEST
-                  // console.log(stretch);
-                  // el.geometry.computeBoundingBox();
-                  // var boundingBox = el.geometry.boundingBox;
-                  // var position = new THREE.Vector3();
-                  // position.subVectors( boundingBox.max, boundingBox.min );
-                  // position.multiplyScalar( 0.5 );
-                  // position.add( boundingBox.min );
-                  // position.applyMatrix4( el.matrixWorld );
-                  // console.log(position.x + ',' + position.y + ',' + position.z);
+        // TEST
+        // el.geometry.computeBoundingBox();
+        // var boundingBox = el.geometry.boundingBox;
+        // var position = new THREE.Vector3();
+        // position.subVectors( boundingBox.max, boundingBox.min );
+        // position.multiplyScalar( 0.5 );
+        // position.add( boundingBox.min );
+        // position.applyMatrix4( el.matrixWorld );
       }
 
       var stretchObjects = document.querySelectorAll('.stretch-object');
@@ -451,45 +434,63 @@ export class StoryBoxBuilder {
     }
   }
 
-  setDebuggerMessage(message) {
-    var logVR = document.getElementById('debugger-log-vr');
-    // var log = document.getElementById('debugger-log');
-    // if (log !== undefined && log !== null) {
-    //   var msg = document.createElement('div');
-    //   msg.textContent = message;
-    //   log.append(msg);
-    // }
+  vrlogMutationObserver() {
+    // Options for the observer (which mutations to observe)
+    var config = { attributes: true, childList: true, subtree: true };
 
+    // Callback function to execute when mutations are observed
+    var callback = function(mutationsList, observer) {
+        for(var mutation of mutationsList) {
+          if (mutation.target.id === 'debugger-log-vr-bkg') {
+            console.log('panel rendered');
+            // update all logs
+            this.logQueue.forEach(message => {
+              this.vrlog(message);
+            });
+            this.logQueue = [];
+          }
+            // if (mutation.type == 'childList') {
+            //     console.log('A child node has been added or removed.');
+            // }
+            // else if (mutation.type == 'attributes') {
+            //     console.log('The ' + mutation.attributeName + ' attribute was modified.');
+            // }
+        }
+    }.bind(this);
+
+    // Create an observer instance linked to the callback function
+    var observer = new MutationObserver(callback);
+
+    // Start observing the target node for configured mutations
+    observer.observe(document.body, config);
+
+    // Later, you can stop observing
+    // observer.disconnect();
+  }
+
+  vrlog(message) {
+    var logVR = document.getElementById('debugger-log-vr');
     if (logVR !== undefined && logVR !== null) {
       try {
         let text = logVR.getAttribute('text');
         let textParsed = AFRAME.utils.styleParser.parse(text);
         if (textParsed !== undefined) {
           textParsed.value = `${textParsed.value}${message}`;
-          if (typeof textParsed.value === 'object') {
-            textParsed.value = textParsed.value.substr(textParsed.value.length - 200);
+          if (typeof textParsed === 'object') {
+            textParsed.value = textParsed.value.substr(textParsed.value.length - 200) + '\n';
+            logVR.setAttribute('text', textParsed);
           }
         }
       } catch(err) {
-        // console.log(err);
+        this.vrlog(err);
       }
+    } else {
+      this.logQueue.push(message);
+      // console.log('lq', this.logQueue);
     }
   }
 
-  vrDebugger() {
-    // var logVR = document.getElementById('debugger-log-vr');
-    // var log = document.getElementById('debugger-log');
-    // ['log', 'debug', 'error'].forEach(function(verb) {
-    //   console[verb] = (function(method, verb) {
-    //     return function() {
-    //       method.apply(console, arguments);
-    //       window.StoryBoxBuilder.setDebuggerMessage(Array.prototype.slice.call(arguments).join(' '));
-    //     };
-    //   })(console[verb], verb);
-    // });
-  }
   sceneSelectorEventListeners(e) {
-    {
       if (e.target.id !== null && e.target.id !== '') {
         let el = document.getElementById(e.target.id);
         switch (e.target.id) {
@@ -515,12 +516,10 @@ export class StoryBoxBuilder {
       if (e.detail !== undefined && e.detail.intersectedEl !== undefined) {
         let el = e.detail.intersectedEl;
         if (el.getAttribute('class') === 'clickable-tile') {
-          console.log(el.getAttribute('id'));
           if(el.getAttribute('data-clicked') === null || el.getAttribute('data-clicked') === 'false') {
              el.setAttribute('data-clicked', 'true');
              let id = el.getAttribute('id');
              if (id !== undefined && id !== null) {
-               console.log(id);
                this.galleryItemSelect(id);
              }
            } else {
@@ -529,13 +528,14 @@ export class StoryBoxBuilder {
         }
       }
 
-      // console.log(e, e.detail, e.target);
-    }
   }
+
   updateEventListeners() {
+    window.debugCounter = 0;
+
     if (this.storySettings.galleryListeners === false) {
-    document.querySelector('#scene-selector').addEventListener("click", (e) => this.sceneSelectorEventListeners(e));
-  }
+      document.querySelector('#scene-selector').addEventListener("click", (e) => this.sceneSelectorEventListeners(e));
+    }
     this.storySettings.galleryListeners = true;
     // // @TODO make a more generic name for stretcher.
     if (document.getElementById('rose-stretch') !== undefined && document.getElementById('rose-stretch') !== null) {
@@ -544,10 +544,12 @@ export class StoryBoxBuilder {
       this.storySettings.stretchLine = window.setInterval(function() {
         this.updateStretchLine();
       }.bind(this), 100);
+      this.vrlog('Loading stretch interface');
     } else {
       clearInterval(this.storySettings.stretchLine);
       this.storySettings.stretchLine = null;
     }
+    this.vrlogMutationObserver();
   }
 
   render(target) {
