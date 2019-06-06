@@ -340,11 +340,11 @@ export class StoryBoxBuilder {
   }
 
   leftControllerTickEvent() {
-    window.StoryBoxBuilder.updateStretchLine();
+    // window.StoryBoxBuilder.updateStretchLine();
   }
 
   rightControllerTickEvent() {
-    window.StoryBoxBuilder.updateStretchLine();
+    // window.StoryBoxBuilder.updateStretchLine();
   }
 
   debugControllButtonTrigger(button) {
@@ -457,27 +457,44 @@ export class StoryBoxBuilder {
   }
 
   updateStretchLine() {
-    console.log('stretch line');
     var stretchLeft = document.querySelector("#leftStretch");
     var stretchRight = document.querySelector("#rightStretch");
+    var leftHand = document.querySelector("#leftHand");
+    var rightHand = document.querySelector("#rightHand");
     if (stretchLeft !== null && stretchRight !== null && stretchLeft.object3D !== undefined) {
       let positionLeft = stretchLeft.object3D.position;
       let positionRight = stretchRight.object3D.position;
-      this.vrlog(positionRight);
+      let positionLeftHand = leftHand.object3D.position;
+      let positionRightHand = rightHand.object3D.position;
+
+      let positionLeft, positionRight;
 
       if (!AFRAME.utils.device.checkHeadsetConnected()) {
-        let newPositionLeft = {
+        newPositionLeft = {
           x: positionLeft.x - 0.01,
           y: positionLeft.y,
           z: positionLeft.z,
         };
-        let newPositionRight = {
+        newPositionRight = {
           x: positionRight.x + 0.01 ,
           y: positionRight.y,
           z: positionRight.z,
         };
         stretchLeft.setAttribute('position', newPositionLeft);
         stretchRight.setAttribute('position', newPositionRight);
+      } else {
+        newPositionLeft = {
+          x: positionLeft.x,
+          y: positionLeft.y,
+          z: positionLeft.z,
+        };
+        newPositionRight = {
+          x: positionRight.x,
+          y: positionRight.y,
+          z: positionRight.z,
+        };
+        // stretchLeft.setAttribute('position', newPositionLeft);
+        // stretchRight.setAttribute('position', newPositionRight);
       }
 
       var stretch = document.querySelector("#rose-stretch");
@@ -487,16 +504,6 @@ export class StoryBoxBuilder {
         lineParsed.start = positionLeft;
         lineParsed.end = positionRight;
         stretch.setAttribute('line', lineParsed);
-
-
-        // TEST
-        // el.geometry.computeBoundingBox();
-        // var boundingBox = el.geometry.boundingBox;
-        // var position = new THREE.Vector3();
-        // position.subVectors( boundingBox.max, boundingBox.min );
-        // position.multiplyScalar( 0.5 );
-        // position.add( boundingBox.min );
-        // position.applyMatrix4( el.matrixWorld );
       }
 
       var stretchObjects = document.querySelectorAll('.stretch-object');
