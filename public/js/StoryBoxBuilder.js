@@ -463,6 +463,7 @@ export class StoryBoxBuilder {
     if (stretchLeft !== null && stretchRight !== null && stretchLeft.object3D !== undefined) {
       let positionLeft = stretchLeft.object3D.position;
       let positionRight = stretchRight.object3D.position;
+      this.vrlog(positionRight);
 
       if (!AFRAME.utils.device.checkHeadsetConnected()) {
         let newPositionLeft = {
@@ -525,7 +526,7 @@ export class StoryBoxBuilder {
         let textParsed = AFRAME.utils.styleParser.parse(text);
         if (textParsed !== undefined) {
           if (typeof message === 'object') {
-            // message = JSON.stringify(message);
+            message = JSON.stringify(message);
           }
           message =  `${message} \n`;
           console.log(message);
