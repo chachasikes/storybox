@@ -324,18 +324,37 @@ export class StoryBoxBuilder {
     }
   }
 
+  xButtonEvent(evt) {
+    console.log(evt);
+    window.StoryBoxBuilder.vrlog(evt);
+    window.StoryBoxBuilder.vrlog('X');
+    window.StoryBoxBuilder.loadGallery();
+  }
+
+  debugControllButtonTrigger(button) {
+    switch (button) {
+      case 'X':
+        document.getElementById('leftHand').dispatchEvent(new CustomEvent("xbuttondown"));
+        break;
+    }
+  }
+
   setupAppButtons() {
-    console.log("setting up app buttons");
     if (AFRAME.components['x-button-listener'] === undefined) {
       AFRAME.registerComponent('x-button-listener', {
         init: function () {
           var el = this.el;
-          el.addEventListener('xbuttondown', function (evt) {
-            this.vrlog(evt);
-            this.vrlog('X');
-            this.loadGallery();
-          });
+          console.log(el);
+          el.addEventListener('xbuttondown', window.StoryBoxBuilder.xButtonEvent);
         },
+        update: function () {
+          var el = this.el;
+          console.log(el, 'update');
+          el.addEventListener('xbuttondown', window.StoryBoxBuilder.xButtonEvent);
+        },
+        tick: function () {
+          // console.log(this.el, 'tick');
+        }
       });
     }
 
@@ -557,6 +576,9 @@ export class StoryBoxBuilder {
       clearInterval(this.storySettings.stretchLine);
       this.storySettings.stretchLine = null;
     }
+
+    // Set globally readable event names
+    window.StoryBoxBuilder.xButtonEvent = this.xButtonEvent;
   }
 
   render(target) {
