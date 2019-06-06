@@ -303,7 +303,7 @@ export class StoryBoxBuilder {
 
   updateTemplate(el, id) {
     el.setAttribute("template", `src: #${id}`);
-    this.updateEventListeners();
+    this.aframeMutations();
   }
 
   update() {
@@ -434,40 +434,6 @@ export class StoryBoxBuilder {
     }
   }
 
-  vrlogMutationObserver() {
-    // Options for the observer (which mutations to observe)
-    var config = { attributes: true, childList: true, subtree: true };
-
-    // Callback function to execute when mutations are observed
-    var callback = function(mutationsList, observer) {
-        for(var mutation of mutationsList) {
-          if (mutation.target.id === 'debugger-log-vr-bkg') {
-            console.log('panel rendered');
-            // update all logs
-            this.logQueue.forEach(message => {
-              this.vrlog(message);
-            });
-            this.logQueue = [];
-          }
-            // if (mutation.type == 'childList') {
-            //     console.log('A child node has been added or removed.');
-            // }
-            // else if (mutation.type == 'attributes') {
-            //     console.log('The ' + mutation.attributeName + ' attribute was modified.');
-            // }
-        }
-    }.bind(this);
-
-    // Create an observer instance linked to the callback function
-    var observer = new MutationObserver(callback);
-
-    // Start observing the target node for configured mutations
-    observer.observe(document.body, config);
-
-    // Later, you can stop observing
-    // observer.disconnect();
-  }
-
   vrlog(message) {
     var logVR = document.getElementById('debugger-log-vr');
     if (logVR !== undefined && logVR !== null) {
@@ -486,7 +452,6 @@ export class StoryBoxBuilder {
       }
     } else {
       this.logQueue.push(message);
-      // console.log('lq', this.logQueue);
     }
   }
 
@@ -530,7 +495,36 @@ export class StoryBoxBuilder {
 
   }
 
+  aframeMutations() {
+    // Options for the observer (which mutations to observe)
+    var config = { attributes: true, childList: true, subtree: true };
+
+    // Callback function to execute when mutations are observed
+    var callback = function(mutationsList, observer) {
+        for(var mutation of mutationsList) {
+          if (mutation.target.id === 'debugger-log-vr-bkg') {
+            console.log('panel rendered');
+            // update all logs
+            this.logQueue.forEach(message => {
+              this.vrlog(message);
+            });
+            this.logQueue = [];
+          }
+          this.updateEventListeners();
+        }
+    }.bind(this);
+
+    // Create an observer instance linked to the callback function
+    var observer = new MutationObserver(callback);
+    // Start observing the target node for configured mutations
+    observer.observe(document.body, config);
+
+    // Later, you can stop observing
+    // observer.disconnect();
+  }
+
   updateEventListeners() {
+    // Reset debugger message throttler.
     window.debugCounter = 0;
 
     if (this.storySettings.galleryListeners === false) {
@@ -549,7 +543,6 @@ export class StoryBoxBuilder {
       clearInterval(this.storySettings.stretchLine);
       this.storySettings.stretchLine = null;
     }
-    this.vrlogMutationObserver();
   }
 
   render(target) {
