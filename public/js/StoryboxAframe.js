@@ -417,17 +417,12 @@ export class StoryboxAframe {
     let percentageX = parseFloat(item.getAttribute('data-percentage-x'));
     let percentageY = parseFloat(item.getAttribute('data-percentage-y'));
     let percentageZ = parseFloat(item.getAttribute('data-percentage-z'));
-    // let data = {
-    //   x: ((Math.abs(b.x) + Math.abs(a.x)) * percentageX) + a.x,
-    //   y: ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y,
-    //   z: ((Math.abs(b.z) + Math.abs(a.z)) * percentageZ) + a.z,
-    // };
-
     let data = {
-      x: 0.01 + a.x,
-      y: 0.01 + a.y,
-      z: 0.01 + a.z,
+      x: ((Math.abs(b.x) + Math.abs(a.x)) * percentageX) + a.x,
+      y: ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y,
+      z: ((Math.abs(b.z) + Math.abs(a.z)) * percentageZ) + a.z,
     };
+
     return data;
   }
 
@@ -496,8 +491,6 @@ export class StoryboxAframe {
       `;
 
       if( props.positions !== undefined ) {
-        // console.log(props.positions);
-
         props.positions.forEach(item => {
           let obj = this.stretchPosition(props.a.position, props.b.position, item);
           objectPositions = `${objectPositions}
@@ -508,7 +501,7 @@ export class StoryboxAframe {
           data-percentage-x="${obj.percentageX}"
           data-percentage-y="${obj.percentageY}"
           data-percentage-z="${obj.percentageZ}"
-          radius="0.05"
+          radius="0.1"
           color="${item.color}"
           material="shader:flat"
           ></a-sphere>`;
