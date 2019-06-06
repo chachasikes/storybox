@@ -128,9 +128,9 @@ export let Scene = {
       id: "cafe-smoke-animation",
       art: "https://dl.dropboxusercontent.com/s/qflnw8ub61obgwx/Cafesmoke.glb",
       scale: {
-        x: 25,
-        y: 25,
-        z: 25,
+        x: 23,
+        y: 23,
+        z: 23,
       },
       rotation: {
         x: 0,

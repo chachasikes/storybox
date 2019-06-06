@@ -508,14 +508,16 @@ export class StoryBoxBuilder {
         lineParsed.end = newPositionRight;
         stretch.setAttribute('line', lineParsed);
       }
-      
+
       var stretchObjects = document.querySelectorAll('.stretch-object');
+      // this.vrlog(stretchObjects.length);
       let positionObj;
       if (stretchObjects !== null && stretchObjects.length > 0) {
         stretchObjects.forEach(obj => {
           let id = obj.getAttribute('id');
           let el = document.getElementById(id);
           positionObj = window.StoryboxAframe.updateStretchPosition(newPositionLeft, newPositionRight, el);
+          this.vrlog(positionObj)
           let newPositionObj = {
             x: positionObj.x,
             y: positionObj.y,
