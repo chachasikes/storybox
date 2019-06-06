@@ -410,6 +410,7 @@ export class StoryboxAframe {
     position.percentageX = percentageX;
     position.percentageY = percentageY;
     position.percentageZ = percentageZ;
+    this.vrlog(`p ${percentageX} ${percentageY} ${percentageZ}`);
     return position;
   }
 
@@ -417,6 +418,7 @@ export class StoryboxAframe {
     let percentageX = parseFloat(item.getAttribute('data-percentage-x'));
     let percentageY = parseFloat(item.getAttribute('data-percentage-y'));
     let percentageZ = parseFloat(item.getAttribute('data-percentage-z'));
+
     let data = {
       x: ((Math.abs(b.x) + Math.abs(a.x)) * percentageX) + a.x,
       y: ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y,
