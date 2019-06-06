@@ -414,17 +414,14 @@ export class StoryboxAframe {
   }
 
   updateStretchPosition(a, b, item) {
-
     let percentageX = parseFloat(item.getAttribute('data-percentage-x'));
     let percentageY = parseFloat(item.getAttribute('data-percentage-y'));
     let percentageZ = parseFloat(item.getAttribute('data-percentage-z'));
-    this.vrlog(`${percentageX} ${percentageY} ${percentageZ}`);
     let data = {
       x: ((Math.abs(b.x) + Math.abs(a.x)) * percentageX) + a.x,
       y: ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y,
       z: ((Math.abs(b.z) + Math.abs(a.z)) * percentageZ) + a.z,
     };
-
     return data;
   }
 
@@ -493,17 +490,18 @@ export class StoryboxAframe {
       `;
 
       if( props.positions !== undefined ) {
+        // console.log(props.positions);
         props.positions.forEach(item => {
           let obj = this.stretchPosition(props.a.position, props.b.position, item);
           objectPositions = `${objectPositions}
           <a-sphere
           id="${item.id}"
           class="stretch-object"
-          position="${obj.position.x} 1.6 0"
+          position="${obj.position.x} ${obj.position.y} ${obj.position.z}"
           data-percentage-x="${obj.percentageX}"
           data-percentage-y="${obj.percentageY}"
           data-percentage-z="${obj.percentageZ}"
-          radius="0.1"
+          radius="0.05"
           color="${item.color}"
           material="shader:flat"
           ></a-sphere>`;

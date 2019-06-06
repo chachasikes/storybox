@@ -513,13 +513,13 @@ export class StoryBoxBuilder {
           let el = document.getElementById(id);
           positionObj = window.StoryboxAframe.updateStretchPosition(newPositionLeft, newPositionRight, el);
           let newPositionObj = {
-            x: positionObj.x,
-            y: positionObj.y,
-            z: positionObj.z,
+            x: positionObj.x !== Infinity ? positionObj.x : 0,
+            y: positionObj.y !== Infinity ? positionObj.y : 0,
+            z: positionObj.z !== Infinity ? positionObj.z : 0,
           }
 
           let propPosition = el.getAttribute('position');
-          let propPositionParsed = AFRAME.utils.styleParser.parse(propPosition);
+          // let propPositionParsed = AFRAME.utils.styleParser.parse(propPosition);
           // this.vrlog(`${newPositionObj.x} ${newPositionObj.y} ${newPositionObj.z}`);
           el.setAttribute('position', newPositionObj);
         });
