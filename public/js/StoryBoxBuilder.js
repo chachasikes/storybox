@@ -118,6 +118,7 @@ export class StoryBoxBuilder {
       if (currentScene && currentScene.autoPlay === true) {
         this.pauseScene();
       }
+
     });
 
     let sceneSelector;
@@ -126,6 +127,7 @@ export class StoryBoxBuilder {
       // Add main entity for all aFrame content, add to a-scene set in index.html
       let sceneSelectorEl = document.createElement("a-entity");
       sceneSelectorEl.setAttribute("id", "scene-selector");
+      sceneSelectorEl.setAttribute('scene-selector-listener', '');
       document.getElementById("scenes").append(sceneSelectorEl);
     }
     sceneSelector = document.getElementById("scene-selector");
@@ -322,6 +324,7 @@ export class StoryBoxBuilder {
       // Add main entity for all aFrame content, add to a-scene set in index.html
       let sceneSelectorEl = document.createElement("a-entity");
       sceneSelectorEl.setAttribute("id", "scene-selector");
+      sceneSelectorEl.setAttribute('scene-selector-listener', '');
       document.getElementById("scenes").append(sceneSelectorEl);
     }
 
@@ -333,14 +336,14 @@ export class StoryBoxBuilder {
   }
 
   xButtonEvent(evt) {
-    console.log(evt);
-    window.StoryBoxBuilder.vrlog(evt);
-    window.StoryBoxBuilder.vrlog('X');
     window.StoryBoxBuilder.loadGallery();
   }
 
   leftControllerTickEvent(evt) {
-    console.log(evt);
+    window.StoryBoxBuilder.updateStretchLine();
+  }
+
+  rightControllerTickEvent(evt) {
     window.StoryBoxBuilder.updateStretchLine();
   }
 
@@ -353,19 +356,17 @@ export class StoryBoxBuilder {
   }
 
   setupAppButtons() {
+    console.log('setup app buttons');
     if (AFRAME.components['x-button-listener'] === undefined) {
       AFRAME.registerComponent('x-button-listener', {
         init: function () {
           var el = this.el;
-          console.log(el);
           el.addEventListener('xbuttondown', window.StoryBoxBuilder.xButtonEvent);
         },
         update: function () {
           var el = this.el;
           el.addEventListener('xbuttondown', window.StoryBoxBuilder.xButtonEvent);
         },
-        tick: function () {
-        }
       });
     }
 
@@ -411,6 +412,37 @@ export class StoryBoxBuilder {
       });
     }
 
+    if (AFRAME.components['right-controller-listener'] === undefined) {
+      AFRAME.registerComponent('right-controller-listener', {
+        init: function () {
+          var el = this.el;
+        },
+        tick: window.StoryBoxBuilder.rightControllerTickEvent,
+      });
+    }
+
+    if (AFRAME.components['scene-selector-listener'] === undefined) {
+      AFRAME.registerComponent('scene-selector-listener', {
+        init: function() {
+          console.log('scene selector');
+        // function () {
+        //   var el = this.el;
+        //   el.addEventListener('sceneLoaded', function (evt) {
+        //     console.log('init');
+        //     console.log(evt);
+        //     // window.StoryBoxBuilder.sceneSelectorUpdateEvent();
+        //   });
+        },
+        update: () => {
+          console.log('hi');
+        },
+
+        tick: function() {
+          console.log('tick');
+        }
+      });
+    }
+
     window.addEventListener("keydown", (e) => {
       if (e.code === "KeyX") {
         this.vrlog('X');
@@ -421,6 +453,13 @@ export class StoryBoxBuilder {
         this.updateStretchLine();
       }
     });
+  }
+
+  sceneSelectorUpdateEvent() {
+    let currentStory = this.getCurrentStory(this.storySettings.currentStory);
+    if (currentStory !== undefined && currentStory !== null && currentStory.name !== undefined) {
+      this.vrlog(currentStory.name);
+    }
   }
 
   updateStretchLine() {
@@ -484,17 +523,28 @@ export class StoryBoxBuilder {
 
   vrlog(message) {
     var logVR = document.getElementById('debugger-log-vr');
+
     if (logVR !== undefined && logVR !== null) {
       try {
         let text = logVR.getAttribute('text');
         let textParsed = AFRAME.utils.styleParser.parse(text);
         if (textParsed !== undefined) {
           if (typeof message === 'object') {
-            message = JSON.stringify(message);
+            // message = JSON.stringify(message);
           }
+          message =  `${message} \n`;
+          console.log(message);
           textParsed.value = `${textParsed.value}${message}`;
           if (typeof textParsed === 'object') {
-            textParsed.value = textParsed.value.substr(textParsed.value.length - 200) + '\n';
+            let logs =  textParsed.value.split('\n');
+            console.log(logs.length);
+            let tailLogs = logs;
+            if (logs.length > 3) {
+              tailLogs = logs.slice(Math.max(logs.length - 3), logs.length);
+            }
+            console.log(tailLogs);
+            let logString = tailLogs.join('\n');
+            textParsed.value = logString;
             logVR.setAttribute('text', textParsed);
           }
         }
@@ -544,7 +594,6 @@ export class StoryBoxBuilder {
            }
         }
       }
-
   }
 
   aframeMutations() {
@@ -561,8 +610,14 @@ export class StoryBoxBuilder {
             });
             this.logQueue = [];
           }
+          if (mutation.target.id === 'scene-selector') {
+            document.getElementById('scene-selector').dispatchEvent(new CustomEvent("sceneLoaded", window.StoryBoxBuilder.sceneSelectorUpdateEvent()));
+          }
           this.updateEventListeners();
           this.setupAppButtons();
+
+
+
         }
     }.bind(this);
 
@@ -599,6 +654,7 @@ export class StoryBoxBuilder {
     // Set globally readable event names
     window.StoryBoxBuilder.xButtonEvent = this.xButtonEvent;
     window.StoryBoxBuilder.leftControllerTickEvent = this.leftControllerTickEvent;
+    window.StoryBoxBuilder.rightControllerTickEvent = this.rightControllerTickEvent;
   }
 
   render(target) {

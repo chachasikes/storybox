@@ -310,27 +310,44 @@ export class StoryboxAframe {
         width="0.15"
         depth="0.005"
         ${panelPosition}
-        material="side: double; color: #38bc3d; transparent: true; opacity: 0.7"
+        material="side: back; color: #f44242; transparent: true; opacity: 0.7"
       >
+      <a-entity
+        id="debugger-log-vr-label"
+        material="side: double; color: #ffffff; transparent: true; opacity: 0.7"
+        text="value: MESSAGES;
+        anchor: center;
+        letterSpacing: 10;
+        baseline: top;
+        width: 0.15;
+        font: https://cdn.aframe.io/fonts/Roboto-msdf.json;
+        height: 0.05;
+        xOffset: 0.01;
+        yOffset: 0.01;
+        zOffset: 0.001;
+        wrap-pixels: 600;
+        color: #ffffff"
+        position="0 0.07 0"
+      ></a-entity>
       <a-entity
         id="debugger-log-vr"
         text="value: ;
         anchor: center;
         baseline: center;
         width: 0.15;
-        height: 0.15;
+        height: 0.10;
         xOffset: 0.01;
         yOffset: 0.01;
-        zOffset: 0.005;
-        wrap-pixels: 500;
+        zOffset: 0.001;
+        wrap-pixels: 600;
         color: #eeeeee"
       ></a-entity>
       </a-box>`;
     // }
 
     let touchContollers = `
-    <a-entity id="leftHand" oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft} rotation="0 0 0" x-button-listener y-button-listener>${leftModel}${handProp.leftBox}</a-entity>
-    <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="0 0 0" a-button-listener b-button-listener>${rightModel}${debuggerPanelWrist}${handProp.rightBox}</a-entity>
+    <a-entity id="leftHand" oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft} rotation="0 0 0" x-button-listener y-button-listener left-controller-listener>${leftModel}${handProp.leftBox}</a-entity>
+    <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="0 0 0" a-button-listener b-button-listener right-controller-listener>${rightModel}${debuggerPanelWrist}${handProp.rightBox}</a-entity>
     ${handProp.rope}${handProp.objectPositions}`;
 
     if (props.laser !== undefined) {
