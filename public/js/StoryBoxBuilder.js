@@ -493,7 +493,7 @@ export class StoryBoxBuilder {
           y: positionRightHand.y,
           z: positionRightHand.z,
         };
-        this.vrlog(newPositionLeft);
+        window.StoryBoxBuilder.vrlog(newPositionLeft);
         // console.log(newPositionLeft);
         // stretchLeft.setAttribute('position', newPositionLeft);
         // stretchRight.setAttribute('position', newPositionRight);
