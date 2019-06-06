@@ -322,10 +322,10 @@ export class StoryboxAframe {
         width: 0.15;
         font: https://cdn.aframe.io/fonts/Roboto-msdf.json;
         height: 0.05;
-        xOffset: 0.01;
-        yOffset: 0.01;
+        xOffset: 0.001;
+        yOffset: 0.001;
         zOffset: 0.001;
-        wrap-pixels: 600;
+        wrap-pixels: 700;
         color: #ffffff"
         position="0 0.07 0"
       ></a-entity>
@@ -336,10 +336,10 @@ export class StoryboxAframe {
         baseline: center;
         width: 0.15;
         height: 0.10;
-        xOffset: 0.01;
-        yOffset: 0.01;
+        xOffset: 0.001;
+        yOffset: 0.001;
         zOffset: 0.001;
-        wrap-pixels: 600;
+        wrap-pixels: 700;
         color: #eeeeee"
       ></a-entity>
       </a-box>`;

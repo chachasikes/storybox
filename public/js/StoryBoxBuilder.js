@@ -467,7 +467,7 @@ export class StoryBoxBuilder {
       let positionLeftHand = leftHand.object3D.position;
       let positionRightHand = rightHand.object3D.position;
 
-      let positionLeft, positionRight;
+      let newPositionLeft, newPositionRight;
 
       if (!AFRAME.utils.device.checkHeadsetConnected()) {
         newPositionLeft = {
@@ -484,20 +484,23 @@ export class StoryBoxBuilder {
         stretchRight.setAttribute('position', newPositionRight);
       } else {
         newPositionLeft = {
-          x: positionLeft.x,
-          y: positionLeft.y,
-          z: positionLeft.z,
+          x: positionLeftHand.x,
+          y: positionLeftHand.y,
+          z: positionLeftHand.z,
         };
         newPositionRight = {
-          x: positionRight.x,
-          y: positionRight.y,
-          z: positionRight.z,
+          x: positionRightHand.x,
+          y: positionRightHand.y,
+          z: positionRightHand.z,
         };
+        this.vrlog(newPositionLeft);
+        // console.log(newPositionLeft);
         // stretchLeft.setAttribute('position', newPositionLeft);
         // stretchRight.setAttribute('position', newPositionRight);
       }
 
       var stretch = document.querySelector("#rose-stretch");
+      this.vrlog(stretch);
       if (stretch !== null) {
         let line = stretch.getAttribute('line');
         let lineParsed = AFRAME.utils.styleParser.parse(line);
