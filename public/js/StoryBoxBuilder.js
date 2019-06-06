@@ -325,43 +325,53 @@ export class StoryBoxBuilder {
   }
 
   setupAppButtons() {
-    AFRAME.registerComponent('x-button-listener', {
-      init: function () {
-        var el = this.el;
-        el.addEventListener('xbuttondown', function (evt) {
-          this.vrlog('X');
-          this.loadGallery();
-        });
-      },
-    });
+    console.log("setting up app buttons");
+    if (AFRAME.components['x-button-listener'] === undefined) {
+      AFRAME.registerComponent('x-button-listener', {
+        init: function () {
+          var el = this.el;
+          el.addEventListener('xbuttondown', function (evt) {
+            this.vrlog(evt);
+            this.vrlog('X');
+            this.loadGallery();
+          });
+        },
+      });
+    }
 
-    AFRAME.registerComponent('y-button-listener', {
-      init: function () {
-        var el = this.el;
-        el.addEventListener('ybuttondown', function (evt) {
-          this.vrlog('Y');
-        });
-      },
-    });
+    if (AFRAME.components['y-button-listener'] === undefined) {
+      AFRAME.registerComponent('y-button-listener', {
+        init: function () {
+          var el = this.el;
+          el.addEventListener('ybuttondown', function (evt) {
+            this.vrlog('Y');
+          });
+        },
+      });
+    }
 
-    AFRAME.registerComponent('a-button-listener', {
-      init: function () {
-        var el = this.el;
-        el.addEventListener('abuttondown', function (evt) {
-          this.vrlog('A');
-        });
-      },
-    });
+    if (AFRAME.components['a-button-listener'] === undefined) {
+      AFRAME.registerComponent('a-button-listener', {
+        init: function () {
+          var el = this.el;
+          el.addEventListener('abuttondown', function (evt) {
+            this.vrlog('A');
+          });
+        },
+      });
+    }
 
-    AFRAME.registerComponent('b-button-listener', {
-      init: function () {
-        var el = this.el;
-        el.addEventListener('bbuttondown', function (evt) {
-          this.vrlog('B');
+    if (AFRAME.components['b-button-listener'] === undefined) {
+      AFRAME.registerComponent('b-button-listener', {
+        init: function () {
+          var el = this.el;
+          el.addEventListener('bbuttondown', function (evt) {
+            this.vrlog('B');
 
-        });
-      },
-    });
+          });
+        },
+      });
+    }
 
     window.addEventListener("keydown", (e) => {
       if (e.code === "KeyX") {
@@ -441,6 +451,9 @@ export class StoryBoxBuilder {
         let text = logVR.getAttribute('text');
         let textParsed = AFRAME.utils.styleParser.parse(text);
         if (textParsed !== undefined) {
+          if (typeof message === 'object') {
+            message = JSON.stringify(message);
+          }
           textParsed.value = `${textParsed.value}${message}`;
           if (typeof textParsed === 'object') {
             textParsed.value = textParsed.value.substr(textParsed.value.length - 200) + '\n';
@@ -511,6 +524,7 @@ export class StoryBoxBuilder {
             this.logQueue = [];
           }
           this.updateEventListeners();
+          this.setupAppButtons();
         }
     }.bind(this);
 
