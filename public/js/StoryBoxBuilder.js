@@ -506,8 +506,8 @@ export class StoryBoxBuilder {
         this.vrlog('line found');
         let line = stretch.getAttribute('line');
         let lineParsed = AFRAME.utils.styleParser.parse(line);
-        lineParsed.start = positionLeft;
-        lineParsed.end = positionRight;
+        lineParsed.start = newPositionLeft;
+        lineParsed.end = newPositionRight;
         stretch.setAttribute('line', lineParsed);
       } else {
         this.vrlog('no line found');
