@@ -493,10 +493,6 @@ export class StoryBoxBuilder {
           y: positionRightHand.y,
           z: positionRightHand.z,
         };
-        // this.vrlog(newPositionLeft); // This works.
-        // console.log(newPositionLeft);
-        // stretchLeft.setAttribute('position', newPositionLeft);
-        // stretchRight.setAttribute('position', newPositionRight); // Don't need to move the props in hands mode.
       }
 
       var stretch = document.querySelector("#rose-stretch");
@@ -510,19 +506,21 @@ export class StoryBoxBuilder {
       }
 
       var stretchObjects = document.querySelectorAll('.stretch-object');
-      // this.vrlog(stretchObjects.length);
       let positionObj;
       if (stretchObjects !== null && stretchObjects.length > 0) {
         stretchObjects.forEach(obj => {
           let id = obj.getAttribute('id');
           let el = document.getElementById(id);
           positionObj = window.StoryboxAframe.updateStretchPosition(newPositionLeft, newPositionRight, el);
-          this.vrlog(positionObj)
           let newPositionObj = {
             x: positionObj.x,
             y: positionObj.y,
             z: positionObj.z,
           }
+
+          let propPosition = el.getAttribute('position');
+          let propPositionParsed = AFRAME.utils.styleParser.parse(propPosition);
+
           el.setAttribute('position', newPositionObj);
         });
       }
