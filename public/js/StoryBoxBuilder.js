@@ -520,8 +520,7 @@ export class StoryBoxBuilder {
 
           let propPosition = el.getAttribute('position');
           let propPositionParsed = AFRAME.utils.styleParser.parse(propPosition);
-          this.vrlog(id);
-          this.vrlog(newPositionObj.x);
+          this.vrlog(`${newPositionObj.x} ${newPositionObj.y} ${newPositionObj.z}`);
           el.setAttribute('position', newPositionObj);
         });
       }

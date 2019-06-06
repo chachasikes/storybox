@@ -417,10 +417,16 @@ export class StoryboxAframe {
     let percentageX = parseFloat(item.getAttribute('data-percentage-x'));
     let percentageY = parseFloat(item.getAttribute('data-percentage-y'));
     let percentageZ = parseFloat(item.getAttribute('data-percentage-z'));
+    // let data = {
+    //   x: ((Math.abs(b.x) + Math.abs(a.x)) * percentageX) + a.x,
+    //   y: ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y,
+    //   z: ((Math.abs(b.z) + Math.abs(a.z)) * percentageZ) + a.z,
+    // };
+
     let data = {
-      x: ((Math.abs(b.x) + Math.abs(a.x)) * percentageX) + a.x,
-      y: ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y,
-      z: ((Math.abs(b.z) + Math.abs(a.z)) * percentageZ) + a.z,
+      x: 0.01 + a.x,
+      y: 0.01 + a.y,
+      z: 0.01 + a.z,
     };
     return data;
   }
