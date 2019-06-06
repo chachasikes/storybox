@@ -25,7 +25,7 @@ export let Scene = {
       fadeMask: false,
       position: {
         x: 50,
-        y: 30,
+        y: 0,
         z: 30
       },
       touch: {

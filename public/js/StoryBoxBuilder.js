@@ -457,6 +457,7 @@ export class StoryBoxBuilder {
   }
 
   updateStretchLine() {
+    this.vrlog('stretch line hi');
     var stretchLeft = document.querySelector("#leftStretch");
     var stretchRight = document.querySelector("#rightStretch");
     var leftHand = document.querySelector("#leftHand");
@@ -524,6 +525,8 @@ export class StoryBoxBuilder {
           el.setAttribute('position', newPositionObj);
         });
       }
+    } else {
+      this.vrlog('no stretch line');
     }
   }
 
