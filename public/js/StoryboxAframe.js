@@ -491,14 +491,14 @@ export class StoryboxAframe {
 
       if( props.positions !== undefined ) {
         // console.log(props.positions);
-          // position="${obj.position.x} ${obj.position.y} ${obj.position.z}"//
+
         props.positions.forEach(item => {
           let obj = this.stretchPosition(props.a.position, props.b.position, item);
           objectPositions = `${objectPositions}
           <a-sphere
           id="${item.id}"
           class="stretch-object"
-          position="-0.5 1.6 -0.5"
+          position="${obj.position.x} 0 0"
           data-percentage-x="${obj.percentageX}"
           data-percentage-y="${obj.percentageY}"
           data-percentage-z="${obj.percentageZ}"
