@@ -414,9 +414,11 @@ export class StoryboxAframe {
   }
 
   updateStretchPosition(a, b, item) {
+
     let percentageX = parseFloat(item.getAttribute('data-percentage-x'));
     let percentageY = parseFloat(item.getAttribute('data-percentage-y'));
     let percentageZ = parseFloat(item.getAttribute('data-percentage-z'));
+    this.vrlog(`${percentageX} ${percentageY} ${percentageZ}`);
     let data = {
       x: ((Math.abs(b.x) + Math.abs(a.x)) * percentageX) + a.x,
       y: ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y,
