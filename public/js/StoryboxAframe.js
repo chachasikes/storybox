@@ -410,7 +410,7 @@ export class StoryboxAframe {
     position.percentageX = percentageX;
     position.percentageY = percentageY;
     position.percentageZ = percentageZ;
-    this.vrlog(`p ${percentageX} ${percentageY} ${percentageZ}`);
+    window.stretchCheck = 0;
     return position;
   }
 
@@ -424,6 +424,12 @@ export class StoryboxAframe {
       y: ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y,
       z: ((Math.abs(b.z) + Math.abs(a.z)) * percentageZ) + a.z,
     };
+    if (window.stretchCheck < 3) {
+      window.StoryBoxBuilder.vrlog(`${percentageX} math: ${Math.abs(b.x)} ${Math.abs(a.x)} ${a.x} DATA: ${data.x}`);
+    } else {
+
+    }
+    window.stretchCheck = window.stretchCheck + 1;
     return data;
   }
 

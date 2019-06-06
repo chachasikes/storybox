@@ -544,7 +544,7 @@ export class StoryBoxBuilder {
             let logs =  textParsed.value.split('\n');
             let tailLogs = logs;
             if (logs.length > 3) {
-              tailLogs = logs.slice(Math.max(logs.length - 3), logs.length);
+              tailLogs = logs.slice(Math.max(logs.length - 6), logs.length);
             }
             let logString = tailLogs.join('\n');
             textParsed.value = logString;
