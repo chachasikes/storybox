@@ -339,11 +339,11 @@ export class StoryBoxBuilder {
     window.StoryBoxBuilder.loadGallery();
   }
 
-  leftControllerTickEvent(evt) {
+  leftControllerTickEvent() {
     window.StoryBoxBuilder.updateStretchLine();
   }
 
-  rightControllerTickEvent(evt) {
+  rightControllerTickEvent() {
     window.StoryBoxBuilder.updateStretchLine();
   }
 
@@ -408,7 +408,9 @@ export class StoryBoxBuilder {
         init: function () {
           var el = this.el;
         },
-        tick: window.StoryBoxBuilder.leftControllerTickEvent,
+        tick: function() {
+          window.StoryBoxBuilder.leftControllerTickEvent();
+        }
       });
     }
 
@@ -421,27 +423,20 @@ export class StoryBoxBuilder {
       });
     }
 
-    if (AFRAME.components['scene-selector-listener'] === undefined) {
-      AFRAME.registerComponent('scene-selector-listener', {
-        init: function() {
-          console.log('scene selector');
-        // function () {
-        //   var el = this.el;
-        //   el.addEventListener('sceneLoaded', function (evt) {
-        //     console.log('init');
-        //     console.log(evt);
-        //     // window.StoryBoxBuilder.sceneSelectorUpdateEvent();
-        //   });
-        },
-        update: () => {
-          console.log('hi');
-        },
-
-        tick: function() {
-          console.log('tick');
-        }
-      });
-    }
+    // if (AFRAME.components['scene-selector-listener'] === undefined) {
+    //   AFRAME.registerComponent('scene-selector-listener', {
+    //     init: function() {
+    //       var el = this.el;
+    //     },
+    //     update: () => {
+    //       console.log('hi');
+    //     },
+    //
+    //     tick: function() {
+    //       console.log('tick');
+    //     }
+    //   });
+    // }
 
     window.addEventListener("keydown", (e) => {
       if (e.code === "KeyX") {
@@ -458,7 +453,7 @@ export class StoryBoxBuilder {
   sceneSelectorUpdateEvent() {
     let currentStory = this.getCurrentStory(this.storySettings.currentStory);
     if (currentStory !== undefined && currentStory !== null && currentStory.name !== undefined) {
-      this.vrlog(currentStory.name);
+      this.vrlog(currentStory.name + ' Loaded.');
     }
   }
 
@@ -611,7 +606,7 @@ export class StoryBoxBuilder {
             this.logQueue = [];
           }
           if (mutation.target.id === 'scene-selector') {
-            document.getElementById('scene-selector').dispatchEvent(new CustomEvent("sceneLoaded", window.StoryBoxBuilder.sceneSelectorUpdateEvent()));
+            window.StoryBoxBuilder.sceneSelectorUpdateEvent();
           }
           this.updateEventListeners();
           this.setupAppButtons();
