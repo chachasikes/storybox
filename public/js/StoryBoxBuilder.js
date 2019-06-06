@@ -356,7 +356,6 @@ export class StoryBoxBuilder {
   }
 
   setupAppButtons() {
-    console.log('setup app buttons');
     if (AFRAME.components['x-button-listener'] === undefined) {
       AFRAME.registerComponent('x-button-listener', {
         init: function () {
@@ -458,6 +457,7 @@ export class StoryBoxBuilder {
   }
 
   updateStretchLine() {
+    console.log('stretch line');
     var stretchLeft = document.querySelector("#leftStretch");
     var stretchRight = document.querySelector("#rightStretch");
     if (stretchLeft !== null && stretchRight !== null && stretchLeft.object3D !== undefined) {
@@ -529,16 +529,13 @@ export class StoryBoxBuilder {
             message = JSON.stringify(message);
           }
           message =  `${message} \n`;
-          console.log(message);
           textParsed.value = `${textParsed.value}${message}`;
           if (typeof textParsed === 'object') {
             let logs =  textParsed.value.split('\n');
-            console.log(logs.length);
             let tailLogs = logs;
             if (logs.length > 3) {
               tailLogs = logs.slice(Math.max(logs.length - 3), logs.length);
             }
-            console.log(tailLogs);
             let logString = tailLogs.join('\n');
             textParsed.value = logString;
             logVR.setAttribute('text', textParsed);
