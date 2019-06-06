@@ -404,7 +404,11 @@ export class StoryboxAframe {
 
   stretchPosition(a, b, item) {
     let position = item;
+
     let percentageX = (Math.abs(a.x) + item.position.x) / (Math.abs(b.x) + Math.abs(a.x)) ;
+
+    window.StoryBoxBuilder.vrlog(`math: ${Math.abs(a.x)} ${Math.abs(b.x)} ${a.x} ${b.x} item: ${item.position.x}`);
+
     let percentageY = (Math.abs(a.y) + item.position.y) / (Math.abs(b.y) + Math.abs(a.y)) ;
     let percentageZ = (Math.abs(a.z) + item.position.z) / (Math.abs(b.z) + Math.abs(a.z)) ;
     position.percentageX = percentageX;
@@ -424,11 +428,9 @@ export class StoryboxAframe {
       y: ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y,
       z: ((Math.abs(b.z) + Math.abs(a.z)) * percentageZ) + a.z,
     };
-    if (window.stretchCheck < 3) {
-      window.StoryBoxBuilder.vrlog(`${percentageX} math: ${Math.abs(b.x)} ${Math.abs(a.x)} ${a.x} DATA: ${data.x}`);
-    } else {
-
-    }
+    // if (window.stretchCheck < 3) {
+    //   // window.StoryBoxBuilder.vrlog(`${percentageX} math: ${Math.abs(b.x)} ${Math.abs(a.x)} ${a.x} DATA: ${data.x}`);
+    // }
     window.stretchCheck = window.stretchCheck + 1;
     return data;
   }
