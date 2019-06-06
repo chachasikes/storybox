@@ -498,7 +498,7 @@ export class StoryboxAframe {
           <a-sphere
           id="${item.id}"
           class="stretch-object"
-          position="${obj.position.x} 0 0"
+          position="${obj.position.x} 1.6 0"
           data-percentage-x="${obj.percentageX}"
           data-percentage-y="${obj.percentageY}"
           data-percentage-z="${obj.percentageZ}"
