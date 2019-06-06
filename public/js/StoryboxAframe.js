@@ -501,7 +501,7 @@ export class StoryboxAframe {
           data-percentage-x="${obj.percentageX}"
           data-percentage-y="${obj.percentageY}"
           data-percentage-z="${obj.percentageZ}"
-          radius="0.01"
+          radius="1"
           color="${item.color}"
           material="shader:flat"
           ></a-sphere>`;
