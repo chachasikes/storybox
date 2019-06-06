@@ -8,7 +8,7 @@ export class StoryBoxBuilder {
   constructor() {
     this.storySettings = {};
     this.storySettings.timer = null;
-    this.storySettings.stretchLine = null;
+    // this.storySettings.stretchLine = null;
     this.storySettings.target = null;
     this.storySettings.transition = null;
     this.storySettings.galleryListeners = false;
@@ -18,16 +18,22 @@ export class StoryBoxBuilder {
     this.registry = [];
     this.storySettings.currentStory = 'gallery';
     this.registryLocal = registry;
+    // @TODO this will eventually be url param to make the viewer play any json file w/ example
     this.dropboxRegistry = this.loadDropbox([
       'https://www.dropbox.com/s/anftsg0se49msqz/dropbox-tincture-sea.json?dl=0'
     ]);
     this.logQueue = [];
   }
 
+  formatDropboxRawLinks(url)  {
+    // This is the path to downloadable dropbox assets. Cannot have dl=0 & must be the user content URL.
+    // This allows for simple hosting for low traffic assets. Higher traffic assets would need to be hosted elsewhere.
+    return url.replace('https://www.dropbox.com', 'https://dl.dropboxusercontent.com').replace('?dl=0', '');
+  }
+
   loadDropbox(files) {
-    // await https://www.dropbox.com/s/anftsg0se49msqz/dropbox-tincture-sea.js?dl=0
     let dropboxRegistry = files.forEach(file => {
-    let rawFilePath = file.replace('https://www.dropbox.com', 'https://dl.dropboxusercontent.com').replace('?dl=0', '');
+    let rawFilePath = this.formatDropboxRawLinks(file);
     let filesData = fetch(rawFilePath)
     .then(response => response.json())
     .then((data) => {
@@ -36,40 +42,37 @@ export class StoryBoxBuilder {
 
       // Update registry of stories with additional metadata.
       this.registry.map(story => {
-        let count = 0;
-        let totalDuration = 0;
-        let scenes = story.scenes.map(scene => {
-          scene.scene = count++;
-          totalDuration = totalDuration + Number(scene.duration);
-          return scene;
+          let count = 0;
+          let totalDuration = 0;
+          let scenes = story.scenes.map(scene => {
+            scene.scene = count++;
+            totalDuration = totalDuration + Number(scene.duration);
+            return scene;
+          });
+          story.currentScene = 0;
+          story.timeElapsedScene = 0;
+          story.totalDuration = totalDuration;
+          story.numberScenes = story.scenes.length;
         });
-        story.currentScene = 0;
-        story.timeElapsedScene = 0;
-        story.totalDuration = totalDuration;
-        story.numberScenes = story.scenes.length;
+        this.setupGallery();
       });
-      this.setupGallery();
     });
-
-
-  });
   }
 
   setupGallery() {
     window.Gallery = new Gallery();
     let storyboxAframe = new StoryboxAframe();
     window.StoryboxAframe = storyboxAframe;
-    let buildAssets = true;
+    let rebuildAssets = true;
     if (this.assetMarkupGallery !== ``) {
-      buildAssets = false;
+      rebuildAssets = false;
     }
 
-    this.vrlog('gall');
     let gallery = window.Gallery.render(this.registry);
     clearTimeout(this.storySettings.timer);
-    clearInterval(this.storySettings.stretchLine);
+    // clearInterval(this.storySettings.stretchLine);
 
-    if (typeof gallery.assetsElements !== 'string' && gallery.assetsElements.length > 0 && buildAssets === true) {
+    if (typeof gallery.assetsElements !== 'string' && gallery.assetsElements.length > 0 && rebuildAssets === true) {
       // Load all scene assets
       gallery.assetsElements.map(asset => {
         this.assetMarkupGallery += asset;
@@ -83,7 +86,7 @@ export class StoryBoxBuilder {
     document.getElementById("scenes").append(sceneScript);
 
     let sceneMarkup = storyboxAframe.render(gallerySceneJson);
-    if (typeof sceneMarkup.assetsElements !== 'string' && sceneMarkup.assetsElements.length > 0 && buildAssets === true) {
+    if (typeof sceneMarkup.assetsElements !== 'string' && sceneMarkup.assetsElements.length > 0 && rebuildAssets === true) {
       // Load all scene assets
       sceneMarkup.assetsElements.map(asset => {
         this.assetMarkupGallery += asset;
@@ -138,11 +141,11 @@ export class StoryBoxBuilder {
 
   // Update the selected story
   galleryItemSelect(id) {
+    // Set the story id.
     this.storySettings.currentStory = id;
     this.storySettings.timer = null;
-    this.storySettings.stretchLine = null
-    // this.storySettings.target = null;
-    // this.showLoading = true;
+    // this.storySettings.stretchLine = null; // Experiment
+    // Render the markup to trigger aframe to load the scene.
     this.setupStory();
   }
 
@@ -164,27 +167,32 @@ export class StoryBoxBuilder {
     return null;
   }
 
+  // Build assets for all story scenes
   setupStory() {
+    // Stop any timers.
     clearTimeout(this.storySettings.timer);
-    clearInterval(this.storySettings.stretchLine);
+    // clearInterval(this.storySettings.stretchLine);
+
     let storyboxAframe = new StoryboxAframe();
     let currentStory = this.getCurrentStory(this.storySettings.currentStory);
-    let buildAssets = true;
-    if (this.assetMarkup !== ``) {
-      buildAssets = false;
-    }
+
+    let rebuildAssets = true;
+    // if (this.assetMarkup !== ``) {
+    //   rebuildAssets = false;
+    // }
+    // Read all scenes in the story & convert JSON to aframe tags.
     currentStory.scenes.map(sceneJson => {
       // Get markup chunks for aframe
       let sceneMarkup = storyboxAframe.render(sceneJson);
 
-      if (typeof sceneMarkup.assetItemElements !== 'string' && sceneMarkup.assetItemElements.length > 0 && buildAssets) {
+      if (typeof sceneMarkup.assetItemElements !== 'string' && sceneMarkup.assetItemElements.length > 0 && rebuildAssets) {
         // Load all scene assets
         sceneMarkup.assetItemElements.map(asset => {
           this.assetMarkup += asset;
         });
       }
 
-      if (typeof sceneMarkup.assetsElements !== 'string' && sceneMarkup.assetsElements.length > 0 && buildAssets) {
+      if (typeof sceneMarkup.assetsElements !== 'string' && sceneMarkup.assetsElements.length > 0 && rebuildAssets) {
         // Load all scene assets
         sceneMarkup.assetsElements.map(asset => {
           this.assetMarkup += asset;
@@ -331,6 +339,11 @@ export class StoryBoxBuilder {
     window.StoryBoxBuilder.loadGallery();
   }
 
+  leftControllerTickEvent(evt) {
+    console.log(evt);
+    window.StoryBoxBuilder.updateStretchLine();
+  }
+
   debugControllButtonTrigger(button) {
     switch (button) {
       case 'X':
@@ -349,11 +362,9 @@ export class StoryBoxBuilder {
         },
         update: function () {
           var el = this.el;
-          console.log(el, 'update');
           el.addEventListener('xbuttondown', window.StoryBoxBuilder.xButtonEvent);
         },
         tick: function () {
-          // console.log(this.el, 'tick');
         }
       });
     }
@@ -386,9 +397,17 @@ export class StoryBoxBuilder {
           var el = this.el;
           el.addEventListener('bbuttondown', function (evt) {
             this.vrlog('B');
-
           });
         },
+      });
+    }
+
+    if (AFRAME.components['left-controller-listener'] === undefined) {
+      AFRAME.registerComponent('left-controller-listener', {
+        init: function () {
+          var el = this.el;
+        },
+        tick: window.StoryBoxBuilder.leftControllerTickEvent,
       });
     }
 
@@ -399,7 +418,7 @@ export class StoryBoxBuilder {
       }
 
       if (e.code === "KeyP") {
-        this.updateStretchLine()
+        this.updateStretchLine();
       }
     });
   }
@@ -510,6 +529,7 @@ export class StoryBoxBuilder {
         }
       }
 
+      // Click gallery item to load a story.
       if (e.detail !== undefined && e.detail.intersectedEl !== undefined) {
         let el = e.detail.intersectedEl;
         if (el.getAttribute('class') === 'clickable-tile') {
@@ -535,7 +555,6 @@ export class StoryBoxBuilder {
     var callback = function(mutationsList, observer) {
         for(var mutation of mutationsList) {
           if (mutation.target.id === 'debugger-log-vr-bkg') {
-            console.log('panel rendered');
             // update all logs
             this.logQueue.forEach(message => {
               this.vrlog(message);
@@ -565,20 +584,21 @@ export class StoryBoxBuilder {
     }
     this.storySettings.galleryListeners = true;
     // // @TODO make a more generic name for stretcher.
-    if (document.getElementById('rose-stretch') !== undefined && document.getElementById('rose-stretch') !== null) {
-      clearInterval(this.storySettings.stretchLine);
-      this.storySettings.stretchLine = null;
-      this.storySettings.stretchLine = window.setInterval(function() {
-        this.updateStretchLine();
-      }.bind(this), 100);
-      this.vrlog('Loading stretch interface');
-    } else {
-      clearInterval(this.storySettings.stretchLine);
-      this.storySettings.stretchLine = null;
-    }
+    // if (document.getElementById('rose-stretch') !== undefined && document.getElementById('rose-stretch') !== null) {
+    //   clearInterval(this.storySettings.stretchLine);
+    //   this.storySettings.stretchLine = null;
+    //   this.storySettings.stretchLine = window.setInterval(function() {
+    //     this.updateStretchLine();
+    //   }.bind(this), 100);
+    //   this.vrlog('Loading stretch interface');
+    // } else {
+    //   clearInterval(this.storySettings.stretchLine);
+    //   this.storySettings.stretchLine = null;
+    // }
 
     // Set globally readable event names
     window.StoryBoxBuilder.xButtonEvent = this.xButtonEvent;
+    window.StoryBoxBuilder.leftControllerTickEvent = this.leftControllerTickEvent;
   }
 
   render(target) {
