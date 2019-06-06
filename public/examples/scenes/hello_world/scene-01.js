@@ -24,9 +24,9 @@ export let Scene = {
       clickableClass: '.clickable',
       fadeMask: false,
       position: {
-        x: 30,
+        x: 25,
         y: 0,
-        z: 30
+        z: 0
       },
       touch: {
         left: {
@@ -60,19 +60,19 @@ export let Scene = {
       eventName: "playScene",
       camera: "camera_2",
       position: {
-        x: 0,
-        y: 0.5,
-        z: -20
+        x: 8,
+        y: 0.2,
+        z: -17
       },
       rotation: {
-        x: 0,
-        y: 90,
+        x: 5,
+        y: 70,
         z: 0
       },
       dimensions: {
-        width: 10,
-        height: 10,
-        depth: 10,
+        width: 2,
+        height: 2,
+        depth: 2,
       },
       click: "color: yellow",
       mouseenter: "scale: 1.2 1.2 1.2; color: blue",
@@ -128,9 +128,9 @@ export let Scene = {
       id: "cafe-smoke-animation",
       art: "https://dl.dropboxusercontent.com/s/qflnw8ub61obgwx/Cafesmoke.glb",
       scale: {
-        x: 20,
-        y: 20,
-        z: 20,
+        x: 25,
+        y: 25,
+        z: 25,
       },
       rotation: {
         x: 0,
@@ -139,7 +139,7 @@ export let Scene = {
       },
       position: {
         x: 0,
-        y: -50,
+        y: -40,
         z: 0
       }
     },

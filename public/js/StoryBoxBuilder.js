@@ -457,7 +457,6 @@ export class StoryBoxBuilder {
   }
 
   updateStretchLine() {
-    this.vrlog('stretch line hi');
     var stretchLeft = document.querySelector("#leftStretch");
     var stretchRight = document.querySelector("#rightStretch");
     var leftHand = document.querySelector("#leftHand");
@@ -503,23 +502,20 @@ export class StoryBoxBuilder {
       var stretch = document.querySelector("#rose-stretch");
 
       if (stretch !== null) {
-        this.vrlog('line found');
         let line = stretch.getAttribute('line');
         let lineParsed = AFRAME.utils.styleParser.parse(line);
         lineParsed.start = newPositionLeft;
         lineParsed.end = newPositionRight;
         stretch.setAttribute('line', lineParsed);
-      } else {
-        this.vrlog('no line found');
       }
-
+      
       var stretchObjects = document.querySelectorAll('.stretch-object');
       let positionObj;
       if (stretchObjects !== null && stretchObjects.length > 0) {
         stretchObjects.forEach(obj => {
           let id = obj.getAttribute('id');
           let el = document.getElementById(id);
-          positionObj = window.StoryboxAframe.updateStretchPosition(stretchLeft.getAttribute('position'), stretchRight.getAttribute('position'), el);
+          positionObj = window.StoryboxAframe.updateStretchPosition(newPositionLeft, newPositionRight, el);
           let newPositionObj = {
             x: positionObj.x,
             y: positionObj.y,

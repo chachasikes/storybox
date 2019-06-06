@@ -7,8 +7,8 @@ export let story = {
   name: 'Hello World',
   panel: './examples/scenes/hello_world/images/puppy.png',
   scenes: [
-    // start,
+    start,
     s1,
-    // s2
+    s2
   ]
 };
