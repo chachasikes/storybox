@@ -340,11 +340,11 @@ export class StoryBoxBuilder {
   }
 
   leftControllerTickEvent() {
-    // window.StoryBoxBuilder.updateStretchLine();
+    window.StoryBoxBuilder.updateStretchLine();
   }
 
   rightControllerTickEvent() {
-    // window.StoryBoxBuilder.updateStretchLine();
+    window.StoryBoxBuilder.updateStretchLine();
   }
 
   debugControllButtonTrigger(button) {
@@ -493,7 +493,7 @@ export class StoryBoxBuilder {
           y: positionRightHand.y,
           z: positionRightHand.z,
         };
-        window.StoryBoxBuilder.vrlog(newPositionLeft);
+        this.vrlog(newPositionLeft);
         // console.log(newPositionLeft);
         // stretchLeft.setAttribute('position', newPositionLeft);
         // stretchRight.setAttribute('position', newPositionRight);
