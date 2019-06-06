@@ -494,20 +494,23 @@ export class StoryBoxBuilder {
           y: positionRightHand.y,
           z: positionRightHand.z,
         };
-        this.vrlog(newPositionLeft);
+        // this.vrlog(newPositionLeft); // This works.
         // console.log(newPositionLeft);
         // stretchLeft.setAttribute('position', newPositionLeft);
-        // stretchRight.setAttribute('position', newPositionRight);
+        // stretchRight.setAttribute('position', newPositionRight); // Don't need to move the props in hands mode.
       }
 
       var stretch = document.querySelector("#rose-stretch");
-      this.vrlog(stretch);
+
       if (stretch !== null) {
+        this.vrlog('line found');
         let line = stretch.getAttribute('line');
         let lineParsed = AFRAME.utils.styleParser.parse(line);
         lineParsed.start = positionLeft;
         lineParsed.end = positionRight;
         stretch.setAttribute('line', lineParsed);
+      } else {
+        this.vrlog('no line found');
       }
 
       var stretchObjects = document.querySelectorAll('.stretch-object');
@@ -525,8 +528,6 @@ export class StoryBoxBuilder {
           el.setAttribute('position', newPositionObj);
         });
       }
-    } else {
-      this.vrlog('no stretch line');
     }
   }
 
