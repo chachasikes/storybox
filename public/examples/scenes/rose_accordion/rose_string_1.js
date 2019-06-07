@@ -100,8 +100,8 @@ export let Scene = {
             type: "percentage",
             position: {
               x: 0.7,
-              y: -0.02,
-              z: -0.02,
+              y: 0.02,
+              z: 0.02,
             },
             color: "#f4a8e1",
             id: 'linalool',
