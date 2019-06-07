@@ -112,8 +112,8 @@ export let Scene = {
             type: "percentage",
             position: {
               x: 0.95,
-              y: -0.01,
-              z: -0.01,
+              y: 0,
+              z: 0,
             },
             color: "#f4eea8",
             id: 'citronellol',

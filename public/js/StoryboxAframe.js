@@ -411,7 +411,7 @@ export class StoryboxAframe {
     let divisorY = Math.abs(b.y) + Math.abs(a.y);
     let divisorZ = Math.abs(b.z) + Math.abs(a.z);
     let percentageX = divisorX === 0 ? locationX : locationX / divisorX;
-    let percentageY = divisorY === 0 ? locationY : locationY / divisorX;
+    let percentageY = divisorY === 0 ? locationY : locationY / divisorY;
     let percentageZ = divisorZ === 0 ? locationZ : locationZ / divisorZ;
     position.percentageX = percentageX;
     position.percentageY = percentageY;
