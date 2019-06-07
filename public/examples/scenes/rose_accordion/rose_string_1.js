@@ -76,8 +76,8 @@ export let Scene = {
             //
             position: {
               x: 0.2,
-              y: 0,
-              z: 0,
+              y: 0.2,
+              z: -0.2,
             },
             color: "#f7e6af",
             id: 'damascone',
@@ -88,8 +88,8 @@ export let Scene = {
             type: "percentage",
             position: {
               x: 0.45,
-              y: 0,
-              z: 0,
+              y: 0.1,
+              z: -0.1,
             },
             color: "#bbe266",
             id: 'cis-3-hex',
