@@ -440,9 +440,10 @@ export class StoryboxAframe {
 
     let cameraOffset = {
       x: !AFRAME.utils.device.checkHeadsetConnected() ? 0 : 0,
-      y: !AFRAME.utils.device.checkHeadsetConnected() ? 0 : 0,
+      y: !AFRAME.utils.device.checkHeadsetConnected() ? 0 : 0.5,
       z: !AFRAME.utils.device.checkHeadsetConnected() ? 0 : 0,
     };
+
     let data = {
       x: (offset.x * percentage.x) + a.x + cameraOffset.x,
       y: (offset.y * percentage.y) + a.y + cameraOffset.y,
