@@ -426,7 +426,7 @@ export class StoryboxAframe {
 
     let data = {
       x: ((Math.abs(b.x) + Math.abs(a.x)) * percentageX) + a.x,
-      y: !AFRAME.utils.device.checkHeadsetConnected() ? ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y : ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) - 0.6,
+      y: !AFRAME.utils.device.checkHeadsetConnected() ? ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y : ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + 0.2,
       z: ((Math.abs(b.z) + Math.abs(a.z)) * percentageZ) + a.z,
     };
     return data;

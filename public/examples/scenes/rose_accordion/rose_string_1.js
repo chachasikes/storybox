@@ -99,7 +99,7 @@ export let Scene = {
             // behavior: 'playAnimation',
             type: "percentage",
             position: {
-              x: 0.9,
+              x: 0.7,
               y: 0,
               z: 0,
             },
@@ -111,7 +111,7 @@ export let Scene = {
             // behavior: 'playAnimation',
             type: "percentage",
             position: {
-              x: 0.9,
+              x: 0.95,
               y: 0,
               z: 0,
             },
