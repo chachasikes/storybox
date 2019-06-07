@@ -404,12 +404,18 @@ export class StoryboxAframe {
 
   stretchPosition(a, b, item) {
     let position = item;
-    let locationX = Math.abs(a.x) + item.position.x;
-    let locationY = Math.abs(a.y) + item.position.y;
-    let locationZ = Math.abs(a.z) + item.position.z;
+    let cameraOffset = {
+      x: !AFRAME.utils.device.checkHeadsetConnected() ? 0 : -0.5,
+      y: !AFRAME.utils.device.checkHeadsetConnected() ? -1 : -1.6,
+      z: !AFRAME.utils.device.checkHeadsetConnected() ? -1 : -0.5,
+    };
+    let locationX = Math.abs(a.x) + item.position.x + cameraOffset.x;
+    let locationY = Math.abs(a.y) + item.position.y + cameraOffset.y;
+    let locationZ = Math.abs(a.z) + item.position.z + cameraOffset.z;
     let divisorX = Math.abs(b.x) + Math.abs(a.x);
     let divisorY = Math.abs(b.y) + Math.abs(a.y);
     let divisorZ = Math.abs(b.z) + Math.abs(a.z);
+
     let percentageX = divisorX === 0 ? locationX : locationX / divisorX;
     let percentageY = divisorY === 0 ? locationY : locationY / divisorX;
     let percentageZ = divisorZ === 0 ? locationZ : locationZ / divisorZ;
@@ -434,9 +440,9 @@ export class StoryboxAframe {
 
     let cameraOffset = {
       x: !AFRAME.utils.device.checkHeadsetConnected() ? 0 : 0,
-      y: !AFRAME.utils.device.checkHeadsetConnected() ? 0 : 1.6,
+      y: !AFRAME.utils.device.checkHeadsetConnected() ? 0 : 0,
       z: !AFRAME.utils.device.checkHeadsetConnected() ? 0 : 0,
-    }
+    };
     let data = {
       x: (offset.x * percentage.x) + a.x + cameraOffset.x,
       y: (offset.y * percentage.y) + a.y + cameraOffset.y,
