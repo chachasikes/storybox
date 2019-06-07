@@ -76,8 +76,8 @@ export let Scene = {
             //
             position: {
               x: 0.2,
-              y: 1,
-              z: -1,
+              y: 0,
+              z: 0,
             },
             color: "#f7e6af",
             id: 'damascone',

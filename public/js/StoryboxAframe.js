@@ -440,7 +440,7 @@ export class StoryboxAframe {
 
     let cameraOffset = {
       x: !AFRAME.utils.device.checkHeadsetConnected() ? 0 : 0,
-      y: !AFRAME.utils.device.checkHeadsetConnected() ? 0 : 0.5,
+      y: !AFRAME.utils.device.checkHeadsetConnected() ? 0 : 0,
       z: !AFRAME.utils.device.checkHeadsetConnected() ? 0 : 0,
     };
 
