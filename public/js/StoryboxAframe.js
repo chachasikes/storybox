@@ -404,13 +404,15 @@ export class StoryboxAframe {
 
   stretchPosition(a, b, item) {
     let position = item;
-
-    let percentageX = (Math.abs(a.x) + item.position.x) / (Math.abs(b.x) + Math.abs(a.x)) ;
-
-    window.StoryBoxBuilder.vrlog(`math: ${Math.abs(a.x)} ${Math.abs(b.x)} ${a.x} ${b.x} item: ${item.position.x}`);
-
-    let percentageY = (Math.abs(a.y) + item.position.y) / (Math.abs(b.y) + Math.abs(a.y)) ;
-    let percentageZ = (Math.abs(a.z) + item.position.z) / (Math.abs(b.z) + Math.abs(a.z)) ;
+    let locationX = Math.abs(a.x) + item.position.x;
+    let locationY = Math.abs(a.y) + item.position.y;
+    let locationZ = Math.abs(a.z) + item.position.z;
+    let divisorX = Math.abs(b.x) + Math.abs(a.x);
+    let divisorY = Math.abs(b.y) + Math.abs(a.y);
+    let divisorZ = Math.abs(b.z) + Math.abs(a.z);
+    let percentageX = divisorX === 0 ? locationX : locationX / divisorX;
+    let percentageY = divisorY === 0 ? locationY : locationY / divisorX;
+    let percentageZ = divisorZ === 0 ? locationZ : locationZ / divisorZ;
     position.percentageX = percentageX;
     position.percentageY = percentageY;
     position.percentageZ = percentageZ;
