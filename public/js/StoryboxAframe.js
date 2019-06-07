@@ -416,7 +416,6 @@ export class StoryboxAframe {
     position.percentageX = percentageX;
     position.percentageY = percentageY;
     position.percentageZ = percentageZ;
-    window.stretchCheck = 0;
     return position;
   }
 
@@ -427,13 +426,9 @@ export class StoryboxAframe {
 
     let data = {
       x: ((Math.abs(b.x) + Math.abs(a.x)) * percentageX) + a.x,
-      y: ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y,
+      y: !AFRAME.utils.device.checkHeadsetConnected() ? ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y : ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + 1.6,
       z: ((Math.abs(b.z) + Math.abs(a.z)) * percentageZ) + a.z,
     };
-    // if (window.stretchCheck < 3) {
-    //   // window.StoryBoxBuilder.vrlog(`${percentageX} math: ${Math.abs(b.x)} ${Math.abs(a.x)} ${a.x} DATA: ${data.x}`);
-    // }
-    window.stretchCheck = window.stretchCheck + 1;
     return data;
   }
 

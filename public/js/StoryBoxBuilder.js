@@ -352,6 +352,15 @@ export class StoryBoxBuilder {
       case 'X':
         document.getElementById('leftHand').dispatchEvent(new CustomEvent("xbuttondown"));
         break;
+      case 'Y':
+        document.getElementById('leftHand').dispatchEvent(new CustomEvent("ybuttondown"));
+        break;
+      case 'A':
+        document.getElementById('leftHand').dispatchEvent(new CustomEvent("abuttondown"));
+        break;
+      case 'B':
+        document.getElementById('leftHand').dispatchEvent(new CustomEvent("bbuttondown"));
+        break;
     }
   }
 
@@ -422,24 +431,19 @@ export class StoryBoxBuilder {
       });
     }
 
-    // if (AFRAME.components['scene-selector-listener'] === undefined) {
-    //   AFRAME.registerComponent('scene-selector-listener', {
-    //     init: function() {
-    //       var el = this.el;
-    //     },
-    //     update: () => {
-    //       console.log('hi');
-    //     },
-    //
-    //     tick: function() {
-    //       console.log('tick');
-    //     }
-    //   });
-    // }
-
     window.addEventListener("keydown", (e) => {
       if (e.code === "KeyX") {
         this.vrlog('X');
+        this.loadGallery();
+      }
+
+      if (e.code === "KeyY") {
+        this.vrlog('Y');
+        this.loadGallery();
+      }
+
+      if (e.code === "KeyA") {
+        this.vrlog('B');
         this.loadGallery();
       }
 
@@ -517,10 +521,7 @@ export class StoryBoxBuilder {
             y: positionObj.y !== Infinity ? positionObj.y : 0,
             z: positionObj.z !== Infinity ? positionObj.z : 0,
           }
-
           let propPosition = el.getAttribute('position');
-          // let propPositionParsed = AFRAME.utils.styleParser.parse(propPosition);
-          // this.vrlog(`${newPositionObj.x} ${newPositionObj.y} ${newPositionObj.z}`);
           el.setAttribute('position', newPositionObj);
         });
       }
