@@ -76,8 +76,8 @@ export let Scene = {
             //
             position: {
               x: 0.2,
-              y: 0,
-              z: 0,
+              y: 1,
+              z: 1,
             },
             color: "#f7e6af",
             id: 'damascone',
@@ -88,8 +88,8 @@ export let Scene = {
             type: "percentage",
             position: {
               x: 0.45,
-              y: 0,
-              z: 0,
+              y: 1,
+              z: 1,
             },
             color: "#bbe266",
             id: 'cis-3-hex',
@@ -100,8 +100,8 @@ export let Scene = {
             type: "percentage",
             position: {
               x: 0.7,
-              y: 0,
-              z: 0,
+              y: 1,
+              z: 1,
             },
             color: "#f4a8e1",
             id: 'linalool',
@@ -112,8 +112,8 @@ export let Scene = {
             type: "percentage",
             position: {
               x: 0.95,
-              y: 0,
-              z: 0,
+              y: 1,
+              z: 1,
             },
             color: "#f4eea8",
             id: 'citronellol',

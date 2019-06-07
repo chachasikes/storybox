@@ -420,14 +420,27 @@ export class StoryboxAframe {
   }
 
   updateStretchPosition(a, b, item) {
-    let percentageX = parseFloat(item.getAttribute('data-percentage-x'));
-    let percentageY = parseFloat(item.getAttribute('data-percentage-y'));
-    let percentageZ = parseFloat(item.getAttribute('data-percentage-z'));
+    let percentage = {
+      x: parseFloat(item.getAttribute('data-percentage-x')),
+      y: parseFloat(item.getAttribute('data-percentage-y')),
+      z: parseFloat(item.getAttribute('data-percentage-z')),
+    };
 
+    let offset = {
+      x: Math.abs(b.x) + Math.abs(a.x),
+      y: Math.abs(b.y) + Math.abs(a.y),
+      z: Math.abs(b.z) + Math.abs(a.z)
+    };
+
+    let cameraOffset = {
+      x: !AFRAME.utils.device.checkHeadsetConnected() ? 0 : 0,
+      y: !AFRAME.utils.device.checkHeadsetConnected() ? 0 : 1.6,
+      z: !AFRAME.utils.device.checkHeadsetConnected() ? 0 : 0,
+    }
     let data = {
-      x: ((Math.abs(b.x) + Math.abs(a.x)) * percentageX) + a.x,
-      y: !AFRAME.utils.device.checkHeadsetConnected() ? ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y : ((Math.abs(b.y) + Math.abs(a.y)) * percentageY) + a.y + 0.2,
-      z: ((Math.abs(b.z) + Math.abs(a.z)) * percentageZ) + a.z,
+      x: (offset.x * percentage.x) + a.x + cameraOffset.x,
+      y: (offset.y * percentage.y) + a.y + cameraOffset.y,
+      z: (offset.z * percentage.z) + a.z + cameraOffset.z,
     };
     return data;
   }
