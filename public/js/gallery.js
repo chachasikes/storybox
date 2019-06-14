@@ -3,34 +3,36 @@ export class Gallery {
     this.registry = null;
     this.gallery = {
       className: "clickable-tile",
-      rowLength: 5,
+      rowLength: 2,
       currentRow: 0,
       currentColumn: 1,
-      itemWidth: 50,
-      itemWidthExpanded: 52,
-      itemHeight: 100,
-      gutter: 8,
+      itemWidth: 40,
+      itemWidthExpanded: 42,
+      itemHeight: 55,
+      gutter: 6,
       itemDepth: 20,
-      yOffset: 20,
-      textYOffset: 30,
+      yOffset: 10,
+      textYOffset: 25,
     };
   }
 
   getPosition(item, index) {
+    index = index + 1;
     let length = this.registry.length;
     let overflowRow = length % this.gallery.rowLength;
     this.gallery.numberRows = (length - overflowRow) / this.gallery.rowLength;
 
+    console.log('le', length, 'or', overflowRow, 'numrows', this.gallery.numberRows);
     if (overflowRow !== 0) {
       this.gallery.numberRows = this.gallery.numberRows + 1;
     }
 
-    this.gallery.currentColumn = index;
-    let rowCounter = 1;
-    if (this.gallery.currentColumn >= this.gallery.rowLength) {
-      this.gallery.currentRow = this.gallery.currentRow + 1;
-      this.gallery.currentColumn = 0;
-    }
+    this.gallery.currentColumn = index - (this.gallery.currentRow * this.gallery.rowLength);
+    this.gallery.currentRow = Math.floor(index / this.gallery.rowLength);
+
+
+    // 5
+    console.log('num row', this.gallery.numberRows, 'index', index, 'cur col', this.gallery.currentColumn, 'cur row', this.gallery.currentRow);
 
     let x = (this.gallery.currentColumn * this.gallery.itemWidth * -1) + (this.gallery.currentColumn * this.gallery.gutter * -1);
     let y = (this.gallery.currentRow * this.gallery.itemHeight) + (this.gallery.currentRow * this.gallery.gutter);

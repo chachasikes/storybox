@@ -302,6 +302,7 @@ export class StoryboxAframe {
     // If not in headset, put the panel in view.
     let panelPosition = AFRAME.utils.device.checkHeadsetConnected() ? `position="0.1 0.1 0.1" rotation="-85 0 0"` : `position="0.0 1.6 -0.5"`;
     let debuggerPanelWrist = ``;
+    if ( window.location.hostname !== 'localhost') {
     // if ( window.location.hostname === 'localhost' || AFRAME.utils.device.checkHeadsetConnected() || !AFRAME.utils.device.checkHeadsetConnected()) {
       debuggerPanelWrist = `
       <a-box
@@ -343,8 +344,9 @@ export class StoryboxAframe {
         color: #eeeeee"
       ></a-entity>
       </a-box>`;
-    // }
+  }
 
+// let touchContollers = `
     let touchContollers = `
     <a-entity id="leftHand" oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft} rotation="0 0 0" x-button-listener y-button-listener left-controller-listener>${leftModel}${handProp.leftBox}</a-entity>
     <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="0 0 0" a-button-listener b-button-listener right-controller-listener>${rightModel}${debuggerPanelWrist}${handProp.rightBox}</a-entity>
