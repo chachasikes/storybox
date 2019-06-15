@@ -69,6 +69,16 @@ OR
 1. Create asset (Oculus Rift)
 2. Export to Alembic
 3. Save .abc file somewhere you can find it again (such as Dropbox)
+
+##### Blender 2.8-beta version
+1. Open file.
+2. Save as glTF (will automatically save as .glb file).
+3. Save to dropbox
+4. Make dropbox link sharable
+5. Copy link
+6. Save mesh asset (link must be in format https://dl.dropboxusercontent.com/s/wh9s8aj56xxvdly/forest_rough_sketch.glb) - so remove the ?dl=0 at the end and change the domain, will eventually do this automatically. Tweak rotation, scale & position.
+
+##### Sketchfab method:
 4. Upload to Sketchfab, make public & downloadable & published. Change lighting to "unlit" for quill files.
 5. After a few minutes, download .GLTF
 6. Paste \*.gltf and \*.bin https://glb-packer.glitch.me/
