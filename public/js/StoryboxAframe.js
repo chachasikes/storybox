@@ -2,6 +2,8 @@ export class StoryboxAframe {
   constructor() {
     this.getAxis = this.getAxis.bind(this);
     this.getValue = this.getValue.bind(this);
+    this.playerHeight = 1.6;
+    this.playerArmOffset = -0.5;
   }
 
   // Make tags or properties for aframe
@@ -20,14 +22,14 @@ export class StoryboxAframe {
 
   formatDropboxDataRecursive(data)  {
     // For each data item, look for .art or other assets & change any dropbox links to the correct version.
-    console.log(data);
+    // console.log(data);
 
     Object.keys(data).forEach(propKey => {
       switch(propKey) {
         case 'art':
         case 'panel':
-          console.log(propKey);
-          console.log(data[propKey]);
+          // console.log(propKey);
+          // console.log(data[propKey]);
           data[propKey] = data[propKey].replace('https://www.dropbox.com', 'https://dl.dropboxusercontent.com').replace('?dl=0', '');
         break;
       }
@@ -247,6 +249,8 @@ export class StoryboxAframe {
     let orientationOffsetLeft = ``;
     let orientationOffsetRight = ``;
     let modelLoaded = "model: true";
+
+    // @TODO split out
     if (props.touch !== undefined) {
       // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
       // Can change hand controller
@@ -321,8 +325,10 @@ export class StoryboxAframe {
         modelLoaded = "model: false";
       }
     }
+
+    // @TODO split out
     // If not in headset, put the panel in view.
-    let panelPosition = AFRAME.utils.device.checkHeadsetConnected() ? `position="0.1 0.1 0.1" rotation="-85 0 0"` : `position="0.0 1.6 -0.5"`;
+    let panelPosition = AFRAME.utils.device.checkHeadsetConnected() ? `position="0.1 0.1 0.1" rotation="-85 0 0"` : `position="0.0 ${this.playerHeight} -0.5"`;
     let debuggerPanelWrist = ``;
     if ( window.location.hostname !== 'localhost') {
     // if ( window.location.hostname === 'localhost' || AFRAME.utils.device.checkHeadsetConnected() || !AFRAME.utils.device.checkHeadsetConnected()) {
@@ -368,7 +374,6 @@ export class StoryboxAframe {
       </a-box>`;
   }
 
-// let touchContollers = `
     let touchContollers = `
     <a-entity id="leftHand" oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft} rotation="0 0 0" x-button-listener y-button-listener left-controller-listener>${leftModel}${handProp.leftBox}</a-entity>
     <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="0 0 0" a-button-listener b-button-listener right-controller-listener>${rightModel}${debuggerPanelWrist}${handProp.rightBox}</a-entity>
@@ -382,6 +387,7 @@ export class StoryboxAframe {
       innerMarkup = `${innerMarkup}<a-entity laser-controls="hand: left" ${leftLine}></a-entity><a-entity laser-controls="hand: right" ${rightLine}></a-entity>`;
     }
 
+    // @TODO split out
     let cursorCameraControls = ``;
     let cursor = ``;
     if (props.cursorCamera === true) {
@@ -398,8 +404,8 @@ export class StoryboxAframe {
     }
 
     innerMarkup = `${innerMarkup}
-    <a-entity id="rig" ${aframeTags.position.tag}>
-        <a-camera ${aframeTags.className} id="${props.id}" ${cursorCameraControls} position="0 1.6 0">
+    <a-entity id="rig" ${aframeTags.position.tag} ${aframeTags.rotation.tag} ${aframeTags.scale.tag}>
+        <a-camera ${aframeTags.className} id="${props.id}" ${cursorCameraControls} position="0 ${this.playerHeight} 0">
         ${cursor}
         </a-camera>
         ${touchContollers}
@@ -465,20 +471,20 @@ export class StoryboxAframe {
 
     if (!AFRAME.utils.device.checkHeadsetConnected()) {
       props.a.position = {
-        x: -0.5,
-        y: 1.6,
-        z: -0.5,
+        x: this.playerArmOffset,
+        y: this.playerHeight,
+        z: this.playerArmOffset,
       };
       props.b.position = {
-        x: 0.5,
-        y: 1.6,
-        z: -0.5,
+        x: this.playerArmOffset,
+        y: this.playerHeight,
+        z: this.playerArmOffset,
       };
 
       props.positions.forEach(item => {
-        item.position.x = item.position.x - 0.5 ;
-        item.position.y = item.position.y - 1.6;
-        item.position.z = item.position.z - 0.5;
+        item.position.x = item.position.x - (this.playerArmOffset * -1) ;
+        item.position.y = item.position.y - this.playerHeight;
+        item.position.z = item.position.z - (this.playerArmOffset * -1);
         return item;
       });
     }
@@ -636,8 +642,13 @@ export class StoryboxAframe {
               case "text":
                 props = this.formatDropboxDataRecursive(props);
                 innerMarkup = `${innerMarkup}
-                  <a-entity ${aframeTags.text.tag} ${aframeTags.position.tag} ${aframeTags.scale.tag}></a-entity>`;
+                  <a-entity ${aframeTags.text.tag} ${aframeTags.position.tag}  ${aframeTags.rotation.tag} ${aframeTags.scale.tag}></a-entity>`;
                 break;
+              // case "text-geometry":
+              //   props = this.formatDropboxDataRecursive(props);
+              //   innerMarkup = `${innerMarkup}
+              //     <a-entity ${aframeTags.text.tag} ${aframeTags.position.tag} ${aframeTags.rotation.tag} ${aframeTags.scale.tag}></a-entity>`;
+              //   break;
               case "box":
                 props = this.formatDropboxDataRecursive(props);
                 if (props.type !== undefined && props.type === "button") {

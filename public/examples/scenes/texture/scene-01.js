@@ -8,12 +8,17 @@ export let Scene = {
   camera_2: {
     camera: {
       name: "World camera",
-      id: "camera_scale",
+      id: "camera_scale_texture",
       cursorCamera: false,
       fadeMask: false,
       position: {
-        x: 9,
-        y: 1.6,
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      rotation: {
+        x: 0,
+        y: 90,
         z: 0
       },
     },
@@ -46,18 +51,39 @@ export let Scene = {
         z:0
       },
       scale: {
-        x: 100,
-        y: 100,
-        z: 100
+        x: 1,
+        y: 1,
+        z: 1
       },
     }
   },
-  blender_gltf: {
+  title: {
+    text: {
+      id: "message_texture",
+      text: "value: This is a 1.49m tiger; width: 10; color: #000000;",
+      scale: {
+        x: 1,
+        y: 1,
+        z: 1
+      },
+      rotation: {
+        x: 0,
+        y: 90,
+        z: 0
+      },
+      position: {
+        x: -5,
+        y: 0,
+        z: -5,
+      }
+    }
+  },
+  tiger_gltf: {
     mesh: {
-      name: "Grid boxes of exact dimensions",
+      name: "Tiger",
       credit: "Chacha Sikes",
-      id: "blender-grid",
-      art: "https://dl.dropboxusercontent.com/s/lrn724k6pmbpz5e/sketchfab-tiger-gray.glb", // Testing url cleanup
+      id: "tiger",
+      art: "https://www.dropbox.com/s/lrn724k6pmbpz5e/sketchfab-tiger-gray.glb?dl=0", // Testing url cleanup
       scale: {
         x: 1,
         y: 1,
@@ -69,9 +95,9 @@ export let Scene = {
         z: 0
       },
       position: {
-        x: 0,
-        y: 0,
-        z: 0
+        x: -0.5,
+        y: 1,
+        z: -0.5
       }
     },
   },
