@@ -98,7 +98,39 @@ export let Scene = {
         x: -0.5,
         y: 1,
         z: -0.5
+      },
+      texture: {
+        art: "./examples/scenes/texture/images/texture.jpg"
       }
     },
   },
+  // tiger_obj: {
+  //   mesh: {
+  //     name: "Tiger2",
+  //     credit: "Chacha Sikes",
+  //     id: "tiger-obj",
+  //     art: "https://www.dropbox.com/s/snn2dimzlsfoxd7/tiger.obj?dl=0", // Testing url cleanup
+  //     material: "https://www.dropbox.com/s/xsbdj4mneomxvgt/tiger.mtl?dl=0",
+  //     scale: {
+  //       x: 2,
+  //       y: 2,
+  //       z: 2,
+  //     },
+  //     rotation: {
+  //       x: 0,
+  //       y: 0,
+  //       z: 0
+  //     },
+  //     position: {
+  //       x: -2.5,
+  //       y: 1,
+  //       z: -2.5
+  //     },
+  //     texture: {
+  //       art: "./examples/scenes/texture/images/texture.jpg"
+  //     }
+  //   },
+  // },
+
+
 };

@@ -28,6 +28,7 @@ export class StoryboxAframe {
       switch(propKey) {
         case 'art':
         case 'panel':
+        case 'material':
           // console.log(propKey);
           // console.log(data[propKey]);
           data[propKey] = data[propKey].replace('https://www.dropbox.com', 'https://dl.dropboxusercontent.com').replace('?dl=0', '');
@@ -192,22 +193,46 @@ export class StoryboxAframe {
       let classProps = this.getValue("className", props);
       let className = `class="${classProps.attribute} glb-animation"`;
 
-      // https://aframe.io/docs/0.9.0/components/gltf-model.html
-      assetItemElements.push(
-        `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>`
-      );
+      let texture = props.texture !== undefined && props.texture.art !== undefined ? `src="${props.texture.art}"` : ``;
 
-      innerMarkup = `${innerMarkup}
-        <a-entity
-        ${aframeTags.className}
-        gltf-model="#${props.id}"
-        ${aframeTags.scale.tag}
-        ${aframeTags.position.tag}
-        crossorigin="anonymous"
-        preload="true"
-        animation-mixer
-        >
-        </a-entity>`;
+      let fileType = props.art.split('.').pop();
+      if (fileType === 'glb') {
+        className = `class="${classProps.attribute} glb-animation"`;
+
+        // https://aframe.io/docs/0.9.0/components/gltf-model.html
+        assetItemElements.push(
+          `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>`
+        );
+
+        innerMarkup = `${innerMarkup}
+          <a-entity
+          ${aframeTags.className}
+          gltf-model="#${props.id}"
+          ${aframeTags.scale.tag}
+          ${aframeTags.position.tag}
+          ${texture}
+          crossorigin="anonymous"
+          preload="true"
+          animation-mixer
+          >
+          </a-entity>`;
+      } else if (fileType === 'obj') {
+        assetItemElements.push(
+          `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>
+           <a-asset-item id="${props.id}-material" src="${props.material}"></a-asset-item>
+          `
+        );
+
+        innerMarkup = `${innerMarkup}
+          <a-obj-model
+
+          src="#${props.id}"
+          mtl="#${props.id}-material"
+          crossorigin="anonymous"
+          preload="true"
+          >
+          </a-obj-model>`;
+      }
     }
 
     return {
