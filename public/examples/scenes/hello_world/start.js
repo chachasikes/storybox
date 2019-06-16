@@ -23,7 +23,7 @@ export let Scene = {
       art: "./images/storybox-02.png",
       scale: {
         x: 150,
-        y: 50,
+        y: 75,
         z: 1
       },
       position: {

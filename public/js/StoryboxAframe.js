@@ -18,6 +18,28 @@ export class StoryboxAframe {
     };
   }
 
+  formatDropboxDataRecursive(data)  {
+    // For each data item, look for .art or other assets & change any dropbox links to the correct version.
+    console.log(data);
+
+    Object.keys(data).forEach(propKey => {
+      switch(propKey) {
+        case 'art':
+        case 'panel':
+          console.log(propKey);
+          console.log(data[propKey]);
+          data[propKey] = data[propKey].replace('https://www.dropbox.com', 'https://dl.dropboxusercontent.com').replace('?dl=0', '');
+        break;
+      }
+    })
+
+    // This is the path to downloadable dropbox assets. Cannot have dl=0 & must be the user content URL.
+    // This allows for simple hosting for low traffic assets. Higher traffic assets would need to be hosted elsewhere.
+    // return url.replace('https://www.dropbox.com', 'https://dl.dropboxusercontent.com').replace('?dl=0', '');
+
+    return data;
+  }
+
   getProperties(label, data) {
     if (data !== undefined && data[label] !== undefined) {
       let props = data[label];
@@ -551,18 +573,21 @@ export class StoryboxAframe {
             let aframeTags = this.buildTags(props);
             switch (propKey) {
               case "sky":
+                props = this.formatDropboxDataRecursive(props);
                 let sky = this.buildSky(props, innerMarkup, assetsElements, assetItemElements, aframeTags);
                 innerMarkup = sky.innerMarkup;
                 assetsElements = sky.assetsElements;
                 assetItemElements = sky.assetItemElements;
                 break;
               case "mesh":
+                props = this.formatDropboxDataRecursive(props);
                 let mesh = this.buildMesh(props, innerMarkup, assetsElements, assetItemElements, aframeTags);
                 innerMarkup = mesh.innerMarkup;
                 assetsElements = mesh.assetsElements;
                 assetItemElements = mesh.assetItemElements;
                 break;
               case "camera":
+                props = this.formatDropboxDataRecursive(props);
                 let handPropScent = this.buildHandPropInterface(props.handProp, innerMarkup, assetsElements, assetItemElements, aframeTags);
                 let camera = this.buildCamera(props, innerMarkup, assetsElements, assetItemElements, aframeTags, handPropScent);
                 innerMarkup = camera.innerMarkup;
@@ -570,17 +595,20 @@ export class StoryboxAframe {
                 assetItemElements = camera.assetItemElements;
                 break;
               case "light":
+                props = this.formatDropboxDataRecursive(props);
                 let light = this.buildLight(props, innerMarkup, assetsElements, assetItemElements, aframeTags);
                 innerMarkup = light.innerMarkup;
                 assetsElements = light.assetsElements;
                 assetItemElements = light.assetItemElements;
                 break;
               case "audio":
+                props = this.formatDropboxDataRecursive(props);
                 assetsElements.push(
                   `<audio id="${props.id}" ${aframeTags.className} preload="auto" crossorigin="anonymous" src="${props.src}" ${aframeTags.position.tag}></audio>`
                 );
                 break;
               case "image":
+                props = this.formatDropboxDataRecursive(props);
                 assetsElements.push(
                   `<img ${aframeTags.className} id="${props.id}" src="${props.art}" crossorigin="anonymous" preload="true" />`
                 );
@@ -590,6 +618,7 @@ export class StoryboxAframe {
                   </a-image>`;
                 break;
               case "imagecube":
+                props = this.formatDropboxDataRecursive(props);
                 let cube = this.getCube(props);
                 cube.map((face, index) => {
                   assetsElements.push(
@@ -605,10 +634,12 @@ export class StoryboxAframe {
                 });
                 break;
               case "text":
+                props = this.formatDropboxDataRecursive(props);
                 innerMarkup = `${innerMarkup}
                   <a-entity ${aframeTags.text.tag} ${aframeTags.position.tag} ${aframeTags.scale.tag}></a-entity>`;
                 break;
               case "box":
+                props = this.formatDropboxDataRecursive(props);
                 if (props.type !== undefined && props.type === "button") {
                   innerMarkup = `${innerMarkup}
                     <a-box
