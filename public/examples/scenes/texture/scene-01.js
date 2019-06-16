@@ -99,9 +99,9 @@ export let Scene = {
         y: 1,
         z: -0.5
       },
-      texture: {
-        art: "./examples/scenes/texture/images/texture.jpg"
-      }
+      // texture: {
+      //   art: "./examples/scenes/texture/images/texture.jpg"
+      // }
     },
   },
   // tiger_obj: {

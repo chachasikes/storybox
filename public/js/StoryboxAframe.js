@@ -413,11 +413,12 @@ export class StoryboxAframe {
     }
 
     // @TODO split out
-    let cursorCameraControls = ``;
+    let cursorCameraControls = `movement-controls="controls: checkpoint"`;
     let cursor = ``;
+
     if (props.cursorCamera === true) {
       // Add camera cursor
-      cursorCameraControls = `look-controls wasd-controls`;
+      cursorCameraControls = `look-controls movement-controls="controls: checkpoint"`;
       cursor = `<a-entity
         cursor="fuse: true"
         material="color: black; shader: flat"
