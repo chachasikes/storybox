@@ -69,19 +69,19 @@ export let Scene = {
         maxWidth: 5,
         minWidth: 0,
         positions: [
-          {
-            art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
-            // behavior: 'playAnimation',
-            type: "percentage",
-            //
-            position: {
-              x: 0.2,
-              y: 0,
-              z: 0,
-            },
-            color: "#f7e6af",
-            id: 'damascone',
-          },
+          // {
+          //   art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
+          //   // behavior: 'playAnimation',
+          //   type: "percentage",
+          //   //
+          //   position: {
+          //     x: 0.2,
+          //     y: 0,
+          //     z: 0,
+          //   },
+          //   color: "#f7e6af",
+          //   id: 'damascone',
+          // },
           {
             art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
             // behavior: 'playAnimation',
@@ -92,7 +92,7 @@ export let Scene = {
               z: 0,
             },
             color: "#bbe266",
-            id: 'cis-3-hex',
+            id: 'geraniol',
           },
           {
             art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
@@ -104,7 +104,7 @@ export let Scene = {
               z: 0,
             },
             color: "#f4a8e1",
-            id: 'linalool',
+            id: 'PEA',
           },
           {
             art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
