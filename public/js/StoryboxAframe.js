@@ -474,10 +474,10 @@ export class StoryboxAframe {
     let percentageX = divisorX === 0 ? locationX : locationX / divisorX;
     let percentageY = divisorY === 0 ? locationY : locationY / divisorY;
     let percentageZ = divisorZ === 0 ? locationZ : locationZ / divisorZ;
-
-    position.percentageX = percentageX; // This works
-    position.percentageY = percentageY; // This has calculation issues with zeros or floats?
-    position.percentageZ = -0.5; // Force away from headset, will figure out Z later.
+    
+    position.percentageX = percentageX;
+    position.percentageY = percentageY;
+    position.percentageZ = percentageZ;
     return position;
   }
 
