@@ -480,7 +480,7 @@ export class StoryBoxBuilder {
           z: positionLeft.z,
         };
         newPositionRight = {
-          x: positionRight.x + 0.01 ,
+          x: positionRight.x + 0.01,
           y: positionRight.y,
           z: positionRight.z,
         };

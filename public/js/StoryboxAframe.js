@@ -459,19 +459,25 @@ export class StoryboxAframe {
   }
 
   stretchPosition(a, b, item) {
-    let position = item;
+    // Figure out where on the axes this object should appear.
+    // Figure out the percentages to use to project the object along another line.
+    let position = item; // The object.
+
     let locationX = Math.abs(a.x) + item.position.x;
     let locationY = Math.abs(a.y) + item.position.y;
     let locationZ = Math.abs(a.z) + item.position.z;
+
     let divisorX = Math.abs(b.x) + Math.abs(a.x);
     let divisorY = Math.abs(b.y) + Math.abs(a.y);
     let divisorZ = Math.abs(b.z) + Math.abs(a.z);
+
     let percentageX = divisorX === 0 ? locationX : locationX / divisorX;
     let percentageY = divisorY === 0 ? locationY : locationY / divisorY;
     let percentageZ = divisorZ === 0 ? locationZ : locationZ / divisorZ;
-    position.percentageX = percentageX;
-    position.percentageY = percentageY;
-    position.percentageZ = percentageZ;
+
+    position.percentageX = percentageX; // This works
+    position.percentageY = percentageY; // This has calculation issues with zeros or floats?
+    position.percentageZ = -0.5; // Force away from headset, will figure out Z later.
     return position;
   }
 
