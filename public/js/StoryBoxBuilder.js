@@ -518,7 +518,7 @@ export class StoryBoxBuilder {
           positionObj = window.StoryboxAframe.updateStretchPosition(newPositionLeft, newPositionRight, el);
           let newPositionObj = {
             x: positionObj.x !== Infinity ? positionObj.x : 0,
-            y: positionObj.y !== Infinity ? positionObj.y - 0.5 : -0.5,
+            y: positionObj.y !== Infinity ? positionObj.y - 0.6 : -0.6,
             z: positionObj.z !== Infinity ? positionObj.z - 0.5 : -0.5,
           }
           let propPosition = el.getAttribute('position');
