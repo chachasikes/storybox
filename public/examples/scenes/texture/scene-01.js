@@ -104,6 +104,32 @@ export let Scene = {
       // }
     },
   },
+  baked_cube_gltf: {
+    mesh: {
+      name: "baked_cube",
+      credit: "Chacha Sikes",
+      id: "baked-cube",
+      art: "https://www.dropbox.com/s/ayi3dfnyyjt7iup/texture-uv-test.glb?dl=0",
+      scale: {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      rotation: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      position: {
+        x: -5.5,
+        y: 1,
+        z: -5.5
+      },
+      // texture: {
+      //   art: "./examples/scenes/texture/images/texture.jpg"
+      // }
+    },
+  },
   // tiger_obj: {
   //   mesh: {
   //     name: "Tiger2",

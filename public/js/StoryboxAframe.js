@@ -30,8 +30,24 @@ export class StoryboxAframe {
         case 'panel':
         case 'material':
           // console.log(propKey);
-          // console.log(data[propKey]);
-          data[propKey] = data[propKey].replace('https://www.dropbox.com', 'https://dl.dropboxusercontent.com').replace('?dl=0', '');
+          console.log(data[propKey]);
+          if (typeof data[propKey].replace === 'function') {
+            data[propKey] = data[propKey].replace('https://www.dropbox.com', 'https://dl.dropboxusercontent.com').replace('?dl=0', '');
+          }
+          if (typeof data[propKey] === 'object' &&
+            (data[propKey].top !== undefined ||
+             data[propKey].bottom !== undefined ||
+             data[propKey].left !== undefined ||
+             data[propKey].right !== undefined ||
+             data[propKey].front !== undefined ||
+             data[propKey].back !== undefined
+          )) {
+            Object.keys(data[propKey]).forEach(face => {
+              if (data[propKey][face] !== undefined && typeof data[propKey][face].replace === 'function') {
+                data[propKey][face].replace('https://www.dropbox.com', 'https://dl.dropboxusercontent.com').replace('?dl=0', '');
+              }
+            });
+          }
         break;
       }
     })
@@ -474,7 +490,7 @@ export class StoryboxAframe {
     let percentageX = divisorX === 0 ? locationX : locationX / divisorX;
     let percentageY = divisorY === 0 ? locationY : locationY / divisorY;
     let percentageZ = divisorZ === 0 ? locationZ : locationZ / divisorZ;
-    
+
     position.percentageX = percentageX;
     position.percentageY = percentageY;
     position.percentageZ = percentageZ;
