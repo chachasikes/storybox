@@ -347,6 +347,28 @@ export class StoryBoxBuilder {
     window.StoryBoxBuilder.updateStretchLine();
   }
 
+
+  modelLoadedEvent() {
+    console.log('model loaded event');
+    var el = document.querySelector(".textured");
+    console.log(texturedElements);
+    // if (texturedElements !== undefined && texturedElements !== null) {
+    //   texturedElements.forEach(el => {
+    //     let id = el.getAttribute('id');
+    //     console.log(id);
+    //     el.addEventListener('model-loaded', (e) => {
+    //       if (id !== undefined) {
+    //         console.log(this.materials[id]);
+    //         e.detail.model.traverse(function(node) {
+    //           if (node.isMesh) node.material.map = this.materials[id];
+    //         });
+    //       }
+    //       // this.update();
+    //     });
+    //   });
+    // }
+  }
+
   debugControllButtonTrigger(button) {
     switch (button) {
       case 'X':
@@ -616,12 +638,10 @@ export class StoryBoxBuilder {
           }
           if (mutation.target.id === 'scene-selector') {
             window.StoryBoxBuilder.sceneSelectorUpdateEvent();
+            window.StoryBoxBuilder.modelLoadedEvent();
           }
           this.updateEventListeners();
           this.setupAppButtons();
-
-
-
         }
     }.bind(this);
 
@@ -659,6 +679,7 @@ export class StoryBoxBuilder {
     window.StoryBoxBuilder.xButtonEvent = this.xButtonEvent;
     window.StoryBoxBuilder.leftControllerTickEvent = this.leftControllerTickEvent;
     window.StoryBoxBuilder.rightControllerTickEvent = this.rightControllerTickEvent;
+    window.StoryBoxBuilder.modelLoadedEvent = this.modelLoadedEvent;
   }
 
   render(target) {

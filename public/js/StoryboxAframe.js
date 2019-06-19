@@ -4,6 +4,7 @@ export class StoryboxAframe {
     this.getValue = this.getValue.bind(this);
     this.playerHeight = 1.6;
     this.playerArmOffset = -0.5;
+    this.materials = {};
   }
 
   // Make tags or properties for aframe
@@ -29,6 +30,7 @@ export class StoryboxAframe {
         case 'art':
         case 'panel':
         case 'material':
+        case 'texture':
           // console.log(propKey);
           console.log(data[propKey]);
           if (typeof data[propKey].replace === 'function') {
@@ -209,11 +211,13 @@ export class StoryboxAframe {
       let classProps = this.getValue("className", props);
       let className = `class="${classProps.attribute} glb-animation"`;
 
-      let texture = props.texture !== undefined && props.texture.art !== undefined ? `src="${props.texture.art}"` : ``;
+      // https://github.com/donmccurdy/aframe-extras/issues/167
+
+      let texture = props.texture !== undefined && props.texture !== undefined ? `src="${props.texture}"` : ``;
 
       let fileType = props.art.split('.').pop();
       if (fileType === 'glb') {
-        className = `class="${classProps.attribute} glb-animation"`;
+        className = `class="${classProps.attribute} glb-animation ${props.texture !== undefined && props.texture !== undefined ? 'textured' : ''}"`;
 
         // https://aframe.io/docs/0.9.0/components/gltf-model.html
         assetItemElements.push(
@@ -222,7 +226,7 @@ export class StoryboxAframe {
 
         innerMarkup = `${innerMarkup}
           <a-entity
-          ${aframeTags.className}
+          ${className}
           gltf-model="#${props.id}"
           ${aframeTags.scale.tag}
           ${aframeTags.position.tag}
@@ -232,12 +236,31 @@ export class StoryboxAframe {
           animation-mixer
           >
           </a-entity>`;
+
+          var textureMaterial = new THREE.TextureLoader().load( `${props.art}` );
+          this.materials[props.id] = new THREE.MeshStandardMaterial({
+              map: textureMaterial,
+              color : 0xffffff
+          });
+
+
       } else if (fileType === 'obj') {
         assetItemElements.push(
           `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>
            <a-asset-item id="${props.id}-material" src="${props.material}"></a-asset-item>
           `
         );
+
+        // https://stackoverflow.com/questions/47513018/how-do-i-change-the-texture-of-a-gltf-model-dynamically
+        // var tex = new THREE.TextureLoader().load(`${props.art}`);
+        // tex.flipY = false; // for glTF models.
+        //
+        // el.addEventListener('model-loaded', function (e => {
+        //   e.detail.model.traverse(function(node) {
+        //     if (node.isMesh) node.material.map = tex;
+        //   });
+        // });
+
 
         innerMarkup = `${innerMarkup}
           <a-obj-model

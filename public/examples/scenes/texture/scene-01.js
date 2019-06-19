@@ -125,9 +125,7 @@ export let Scene = {
         y: 1,
         z: -5.5
       },
-      // texture: {
-      //   art: "./examples/scenes/texture/images/texture.jpg"
-      // }
+      texture: "https://www.dropbox.com/s/q5sndy1rk2drufh/hand-drawn--bake1.jpg?dl=0"
     },
   },
   // tiger_obj: {
