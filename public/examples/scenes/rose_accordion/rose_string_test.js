@@ -10,21 +10,23 @@ export let Scene = {
       name: "World camera",
       id: "camera_rose",
       cursorCamera: true,
-      fadeMask: false,
+      clickableClass: '.clickable',
+      fadeMask: true,
       position: {
-        x: 0,
-        y: 0,
-        z: 0
-      },
-      rotation: {
-        x: 0,
-        y: 0,
-        z: 0
+        x:0,
+        y:60,
+        z:180
       },
       handProp: {
         id: "rose-stretch",
         type: "stretch",
-        ropeColor: "#000000",
+        stretchAxis: 'x',
+        ropeColor: "#7AC069",
+        dimensions: {
+          width: 100,
+          height: 1,
+          depth: 1,
+        },
         a: {
             id: "leftStretch",
             color: "#FA8072",
@@ -43,6 +45,7 @@ export let Scene = {
               y: 0,
               z: 0,
             }
+
         },
         b: {
             id: "rightStretch",
