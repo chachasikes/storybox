@@ -541,7 +541,7 @@ export class StoryBoxBuilder {
           let newPositionObj = {
             x: positionObj.x !== Infinity ? positionObj.x : 0,
             y: positionObj.y !== Infinity ? positionObj.y - 0.8 : -0.8,
-            z: positionObj.z !== Infinity ? positionObj.z - 0.1 : -0.1,
+            z: positionObj.z !== Infinity ? positionObj.z - 0.38 : -0.38,
           }
           let propPosition = el.getAttribute('position');
           el.setAttribute('position', newPositionObj);

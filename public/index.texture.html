@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>My A-Frame Scene</title>
+  <meta charset='utf-8'>
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <meta name='mobile-web-app-capable' content='yes'>
+  <meta name='apple-mobile-web-app-capable' content='yes'>
+  <link href='css/scss/common.css' rel='stylesheet'>
+  </link>
+  <script src="./lib/aframe-v0.9.2.min.js" type="text/javascript"></script>
+  <script src="./lib/aframe-event-set-component.min.js" type="text/javascript"></script>
+  <script src="./lib/aframe-layout-component.min.js" type="text/javascript"></script>
+  <script src="./lib/aframe-template-component.min.js" type="text/javascript"></script>
+  <script src="./lib/aframe-proxy-event-component.min.js" type="text/javascript"></script>
+  <script src="./lib/aframe-extras.js" type="text/javascript"></script>
+  <!-- <script src="./lib/aframe-text-geometry-component.min.js" type="text/javascript"></script> -->
+  <script src="./lib/super-hands.min.js"></script>
+  <script src="./lib/ammo.js"></script>
+
+<!-- TRY THIS https://github.com/mrdoob/three.js/blob/master/examples/webgl_materials_translucency.html -->
+<!-- TRY THIS LIGHTMAP view-source:https://threejs.org/examples/webgl_materials_lightmap.html -->
+<!-- TRY THIS https://threejs.org/examples/#webgl_materials_texture_rotation -->
+  <script>
+    AFRAME.registerComponent('gltf-material', {
+        schema: {
+          path: {default: ''},
+          extension: {default: 'jpg'},
+          format: {default: 'RGBFormat'},
+          enableBackground: {default: false}
+        },
+        init: function() {
+          const data = this.data;
+          var texture = new THREE.TextureLoader().load('https://dl.dropboxusercontent.com/s/q5sndy1rk2drufh/hand-drawn--bake1.jpg');
+          texture.wrapS = THREE.RepeatWrapping;
+          texture.wrapT = THREE.RepeatWrapping;
+          texture.repeat.set(20, 20);
+          this.material = new THREE.MeshToonMaterial({
+            bumpMap: texture,
+            bumpScale: 0.03,
+            transparent: true,
+            color: 0xdeb48a
+          });
+          mainMaterial = this.material;
+          this.el.addEventListener('model-loaded', () => this.update());
+        },
+        update: function() {
+          object = this.el.getObject3D('mesh');
+          if (!object) return;
+          object.traverse((node) => {
+            if (node.isMesh) node.material = this.material;
+          });
+        }
+      }
+    );
+  </script>
+
+</head>
+
+<body>
+  <a-scene>
+
+    <a-box click-drag src="https://cdn.glitch.com/b870d9ec-1139-44f9-b462-223e4a2c74e7%2Ftexture.jpg?1490308149272" position="-2 0.5 -4"></a-box>
+    <a-box cube-map-env src="https://dl.dropboxusercontent.com/s/q5sndy1rk2drufh/hand-drawn--bake1.jpg" position="2 0.5 -4"></a-box>
+    <a-entity gltf-material gltf-model="https://dl.dropboxusercontent.com/s/ayi3dfnyyjt7iup/texture-uv-test.glb" position="1 1 -10" rotation="0 45 0">
+    </a-entity>
+
+  </a-scene>
+</body>
+
+</html>

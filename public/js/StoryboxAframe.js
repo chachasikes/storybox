@@ -114,6 +114,7 @@ export class StoryboxAframe {
   }
 
   getCube(data) {
+    // @TODO see also cube-map-env aframe extras <a-box cube-map-env src="https://dl.dropboxusercontent.com/s/q5sndy1rk2drufh/hand-drawn--bake1.jpg" position="2 0.5 -4"></a-box>
     let cube = [
       {
         position: `position="${data.position.x} ${data.position.y} ${data
