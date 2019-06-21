@@ -1,15 +1,7 @@
-import { registry } from "./../examples/gallery/registry.js";
-import { Scene as gallerySceneJson } from "./../examples/gallery/gallery.js";
-import { StoryboxAframe } from "./StoryboxAframe.js";
 import { Gallery } from "./gallery.js";
-import { formatDropboxRawLinks } from "./utilities.js";
 import { updateAccordionLine } from "./interfaceAccordion.js";
 import { vrlog } from "./vrlog.js";
 import { testPositions } from './testPositions.js';
-
-let dropboxScenes = [
-  "https://www.dropbox.com/s/anftsg0se49msqz/dropbox-tincture-sea.json?dl=0"
-];
 
 export class StoryBoxBuilder {
   constructor() {
@@ -23,10 +15,9 @@ export class StoryBoxBuilder {
     this.showLoading = false;
     this.registry = [];
     this.storySettings.currentStory = "gallery";
-    this.debug = "rose_accordion";
-    this.registryLocal = registry;
-    let storyboxAframe = (window.StoryboxAframe = new StoryboxAframe());
-    this.dropboxRegistry = this.loadDropbox(dropboxScenes);
+    // this.debug = "rose_accordion";
+    this.debug = null;
+
     window.VRLog = {};
     window.VRLog.logQueue = [];
     this.testPosition = 0;
@@ -34,128 +25,110 @@ export class StoryBoxBuilder {
     this.testPositions = testPositions;
   }
 
-  loadDropbox(files) {
-    let dropboxRegistry = files.forEach(file => {
-      let rawFilePath = formatDropboxRawLinks(file);
-      let filesData = fetch(rawFilePath)
-        .then(response => response.json())
-        .then(data => {
-          this.registry = this.registryLocal;
-          this.registry.push(data);
-
-          // Update registry of stories with additional metadata.
-          this.registry.map(story => {
-            let count = 0;
-            let totalDuration = 0;
-            let scenes = story.scenes.map(scene => {
-              scene.scene = count++;
-              totalDuration = totalDuration + Number(scene.duration);
-              return scene;
-            });
-            story.currentScene = 0;
-            story.timeElapsedScene = 0;
-            story.totalDuration = totalDuration;
-            story.numberScenes = story.scenes.length;
-          });
-
-          this.appKeyStrokes();
-          if (this.debug !== '' && window.location.hostname === 'localhost') {
-            this.galleryItemSelect(this.debug);
-          } else {
-            this.setupGallery();
-          }
-        });
-    });
+  init(parent) {
+    this.appKeyStrokes();
+    if (this.debug !== null && window.location.hostname === 'localhost') {
+      this.galleryItemSelect(this.debug);
+    } else {
+      this.setupGallery(parent);
+    }
   }
 
-  setupGallery() {
+  setupGallery(parent) {
+    this.registry = parent.registry;
+    this.gallerySceneJson = parent.gallerySceneJson;
     clearTimeout(this.storySettings.timer);
-    let rebuildAssets = true;
-    // Already built before
-    // if (this.assetMarkupGallery !== ``) {
-    //   rebuildAssets = false;
-    // }
 
-    window.Gallery = new Gallery();
-    let gallery = window.Gallery.render(this.registry);
-    if (
-      typeof gallery.assetsElements !== "string" &&
-      gallery.assetsElements.length > 0 &&
-      rebuildAssets === true
-    ) {
-      // Load all scene assets
-      gallery.assetsElements.map(asset => {
-        this.assetMarkupGallery += asset;
-      });
-    }
+    if (this.registry !== undefined) {
+      let rebuildAssets = true;
+      // Already built before
+      // if (this.assetMarkupGallery !== ``) {
+      //   rebuildAssets = false;
+      // }
 
-    // Set up dynamically loadable scenes.
-    var sceneScript = document.createElement("script");
-    sceneScript.type = "text/html";
-    sceneScript.id = "gallery";
-    document.getElementById("scenes").append(sceneScript);
-
-    let sceneMarkup = storyboxAframe.render(gallerySceneJson);
-    if (
-      typeof sceneMarkup.assetsElements !== "string" &&
-      sceneMarkup.assetsElements.length > 0 &&
-      rebuildAssets === true
-    ) {
-      // Load all scene assets
-      sceneMarkup.assetsElements.map(asset => {
-        this.assetMarkupGallery += asset;
-      });
-    }
-
-    let tiles = `${sceneMarkup.innerMarkup}`;
-    gallery.tiles.forEach(tile => {
-      tiles = `${tiles}${tile}`;
-    });
-
-    if (document.getElementById(`gallery`) !== null) {
-      document.getElementById(`gallery`).innerHTML = tiles;
-    }
-
-    if (
-      document.querySelector("a-assets") !== undefined &&
-      document.querySelector("a-assets") !== null
-    ) {
-      document.querySelector("a-assets").remove();
-    }
-    if (
-      document.querySelector("a-assets") === undefined ||
-      document.querySelector("a-assets") === null
-    ) {
-      var assets = document.createElement("a-assets");
-      assets.setAttribute("timeout", 60000);
-      document.getElementById("scenes").before(assets);
-    }
-    document.querySelector("a-assets").innerHTML = this.assetMarkupGallery;
-
-    document.querySelector("a-assets").addEventListener("loaded", () => {
-      let currentScene = "gallery";
-      if (currentScene && currentScene.autoPlay === true) {
-        this.pauseScene();
+      window.Gallery = new Gallery();
+      let gallery = window.Gallery.render(this.registry);
+      if (
+        typeof gallery.assetsElements !== "string" &&
+        gallery.assetsElements.length > 0 &&
+        rebuildAssets === true
+      ) {
+        // Load all scene assets
+        gallery.assetsElements.map(asset => {
+          this.assetMarkupGallery += asset;
+        });
       }
-    });
 
-    let sceneSelector;
-    this.storySettings.currentStory = "gallery";
-    if (document.getElementById("scene-selector") === null) {
-      // Add main entity for all aFrame content, add to a-scene set in index.html
-      let sceneSelectorEl = document.createElement("a-entity");
-      sceneSelectorEl.setAttribute("id", "scene-selector");
-      sceneSelectorEl.setAttribute("scene-selector-listener", "");
-      document.getElementById("scenes").append(sceneSelectorEl);
-    }
-    sceneSelector = document.getElementById("scene-selector");
-    if (
-      sceneSelector !== undefined &&
-      sceneSelector !== null &&
-      sceneSelector !== ""
-    ) {
-      // Set the scene.
-      this.updateTemplate(sceneSelector, "gallery");
+      // Set up dynamically loadable scenes.
+      var sceneScript = document.createElement("script");
+      sceneScript.type = "text/html";
+      sceneScript.id = "gallery";
+      document.getElementById("scenes").append(sceneScript);
+      console.log(this.gallerySceneJson, window.StoryboxAframe);
+      let sceneMarkup = window.StoryboxAframe.render(this.gallerySceneJson);
+      if ( sceneMarkup !== undefined) {
+        if (
+          typeof sceneMarkup.assetsElements !== "string" &&
+          sceneMarkup.assetsElements.length > 0 &&
+          rebuildAssets === true
+        ) {
+          // Load all scene assets
+          sceneMarkup.assetsElements.map(asset => {
+            this.assetMarkupGallery += asset;
+          });
+        }
+
+        let tiles = `${sceneMarkup.innerMarkup}`;
+        gallery.tiles.forEach(tile => {
+          tiles = `${tiles}${tile}`;
+        });
+
+        if (document.getElementById(`gallery`) !== null) {
+          document.getElementById(`gallery`).innerHTML = tiles;
+        }
+
+        if (
+          document.querySelector("a-assets") !== undefined &&
+          document.querySelector("a-assets") !== null
+        ) {
+          document.querySelector("a-assets").remove();
+        }
+        if (
+          document.querySelector("a-assets") === undefined ||
+          document.querySelector("a-assets") === null
+        ) {
+          var assets = document.createElement("a-assets");
+          assets.setAttribute("timeout", 60000);
+          document.getElementById("scenes").before(assets);
+        }
+        document.querySelector("a-assets").innerHTML = this.assetMarkupGallery;
+
+        document.querySelector("a-assets").addEventListener("loaded", () => {
+          let currentScene = "gallery";
+          if (currentScene && currentScene.autoPlay === true) {
+            this.pauseScene();
+          }
+        });
+
+        let sceneSelector;
+        this.storySettings.currentStory = "gallery";
+        if (document.getElementById("scene-selector") === null) {
+          // Add main entity for all aFrame content, add to a-scene set in index.html
+          let sceneSelectorEl = document.createElement("a-entity");
+          sceneSelectorEl.setAttribute("id", "scene-selector");
+          sceneSelectorEl.setAttribute("scene-selector-listener", "");
+          document.getElementById("scenes").append(sceneSelectorEl);
+        }
+        sceneSelector = document.getElementById("scene-selector");
+        if (
+          sceneSelector !== undefined &&
+          sceneSelector !== null &&
+          sceneSelector !== ""
+        ) {
+          // Set the scene.
+          this.updateTemplate(sceneSelector, "gallery");
+        }
+      }
     }
   }
 
@@ -197,7 +170,6 @@ export class StoryBoxBuilder {
     clearTimeout(this.storySettings.timer);
     // clearInterval(this.storySettings.stretchLine);
 
-    let storyboxAframe = new StoryboxAframe();
     let currentStory = this.getCurrentStory(this.storySettings.currentStory);
 
     let rebuildAssets = true;
@@ -207,7 +179,7 @@ export class StoryBoxBuilder {
     // Read all scenes in the story & convert JSON to aframe tags.
     currentStory.scenes.map(sceneJson => {
       // Get markup chunks for aframe
-      let sceneMarkup = storyboxAframe.render(sceneJson);
+      let sceneMarkup = window.StoryboxAframe.render(sceneJson);
 
       if (
         typeof sceneMarkup.assetItemElements !== "string" &&
