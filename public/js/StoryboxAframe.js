@@ -27,15 +27,15 @@ export class StoryboxAframe {
   formatDropboxDataRecursive(data)  {
     // For each data item, look for .art or other assets & change any dropbox links to the correct version.
     // console.log(data);
-
-    Object.keys(data).forEach(propKey => {
+    let propKeys = Object.keys(data);
+    for (let i=0; i < propKeys.length; i++) {
+      let propKey = propKeys[i];
       switch(propKey) {
         case 'art':
         case 'panel':
         case 'material':
         case 'texture':
           // console.log(propKey);
-          console.log(data[propKey]);
           if (typeof data[propKey].replace === 'function') {
             data[propKey] = data[propKey].replace('https://www.dropbox.com', 'https://dl.dropboxusercontent.com').replace('?dl=0', '');
           }
@@ -47,15 +47,17 @@ export class StoryboxAframe {
              data[propKey].front !== undefined ||
              data[propKey].back !== undefined
           )) {
-            Object.keys(data[propKey]).forEach(face => {
+            let faceKeys = Object.keys(data[propKey]);
+            for (let j=0; j < faceKeys.length; j++) {
+              let face = faceKeys[j];
               if (data[propKey][face] !== undefined && typeof data[propKey][face].replace === 'function') {
                 data[propKey][face] = formatDropboxRawLinks(data[propKey][face]);
               }
-            });
+            };
           }
         break;
       }
-    })
+    }
 
     // This is the path to downloadable dropbox assets. Cannot have dl=0 & must be the user content URL.
     // This allows for simple hosting for low traffic assets. Higher traffic assets would need to be hosted elsewhere.

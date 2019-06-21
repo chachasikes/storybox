@@ -1,23 +1,67 @@
-export default class ScentAccordion {
-
-  setupAppButtons() {
-    window.addEventListener("keydown", (e) => {
-      if (e.code === "KeyY") {
-        vrlog('Y');
-      }
-
-      if (e.code === "KeyA") {
-        vrlog('B');
-      }
-
-      if (e.code === "KeyB") {
-        vrlog('B');
-      }
-    });
+const testPositions = [
+  {
+    left: {
+      x: 0,
+      y: 0,
+      z: 0
+    },
+    right: {
+      x: 0,
+      y: 0,
+      z: 0
+    },
+  },
+  {
+    left: {
+      x: -1,
+      y: 0,
+      z: 0
+    },
+    right: {
+      x: 1,
+      y: 0,
+      z: 0
+    },
+  },
+  {
+    left: {
+      x: -2,
+      y: 0,
+      z: 0
+    },
+    right: {
+      x: 2,
+      y: 0,
+      z: 0
+    },
+  },
+  {
+    left: {
+      x: -2,
+      y: 0,
+      z: 0
+    },
+    right: {
+      x: 2,
+      y: 0,
+      z: 0
+    },
+  },
+  {
+    left: {
+      x: -1,
+      y: 0,
+      z: 0
+    },
+    right: {
+      x: 1,
+      y: 0,
+      z: 0
+    },
   }
-}
+];
 
-export function updateAccordionLine() {
+export function updateAccordionLine(parent) {
     var stretchLeft = document.querySelector("#leftStretch");
     var stretchRight = document.querySelector("#rightStretch");
     var leftHand = document.querySelector("#leftHand");
@@ -31,16 +75,8 @@ export function updateAccordionLine() {
       let newPositionLeft, newPositionRight;
 
       if (!AFRAME.utils.device.checkHeadsetConnected()) {
-        newPositionLeft = {
-          x: positionLeft.x - 0.01,
-          y: positionLeft.y,
-          z: positionLeft.z,
-        };
-        newPositionRight = {
-          x: positionRight.x + 0.01,
-          y: positionRight.y,
-          z: positionRight.z,
-        };
+        newPositionLeft = testPositions[parent.testPosition.left];
+        newPositionRight = testPositions[parent.testPosition.right];
         stretchLeft.setAttribute('position', newPositionLeft);
         stretchRight.setAttribute('position', newPositionRight);
       } else {

@@ -41,6 +41,7 @@ export class StoryBoxBuilder {
     );
     window.VRLog = {};
     window.VRLog.logQueue = [];
+    this.testPosition = 0;
   }
 
   loadDropbox(files) {
@@ -67,6 +68,7 @@ export class StoryBoxBuilder {
             story.numberScenes = story.scenes.length;
           });
           this.setupGallery();
+          this.appKeyStrokes();
         });
     });
   }
@@ -77,9 +79,9 @@ export class StoryBoxBuilder {
     let storyboxAframe = window.StoryboxAframe = new StoryboxAframe();
     let rebuildAssets = true;
     // Already built before
-    if (this.assetMarkupGallery !== ``) {
-      rebuildAssets = false;
-    }
+    // if (this.assetMarkupGallery !== ``) {
+    //   rebuildAssets = false;
+    // }
 
     window.Gallery = new Gallery();
     let gallery = window.Gallery.render(this.registry);
@@ -404,7 +406,7 @@ export class StoryBoxBuilder {
         },
         tick: function() {
           if (typeof window.StoryBoxBuilder.leftControllerTickEvent === 'function') {
-            window.StoryBoxBuilder.leftControllerTickEvent();
+            window.StoryBoxBuilder.leftControllerTickEvent(parent);
           }
         }
       });
@@ -417,18 +419,52 @@ export class StoryBoxBuilder {
         },
         tick: function() {
           if (typeof window.StoryBoxBuilder.rightControllerTickEvent === 'function') {
-            window.StoryBoxBuilder.rightControllerTickEvent();
+            window.StoryBoxBuilder.rightControllerTickEvent(parent);
           }
         }
       });
     }
+  }
 
-    window.addEventListener("keydown", (e) => {
-      if (e.code === "KeyX") {
-        vrlog('X');
-        this.loadGallery();
+  debounce(fn, delay) {
+    var timer = null;
+    return function () {
+      var context = this, args = arguments;
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        fn.apply(context, args);
+      }, delay);
+    };
+  }
+
+  throttle(fn, threshhold, scope) {
+    threshhold || (threshhold = 250);
+    var last,
+        deferTimer;
+    return function () {
+      var context = scope || this;
+
+      var now = +new Date,
+          args = arguments;
+      if (last && now < last + threshhold) {
+        // hold on to it
+        clearTimeout(deferTimer);
+        deferTimer = setTimeout(function () {
+          last = now;
+          fn.apply(context, args);
+        }, threshhold);
+      } else {
+        last = now;
+        fn.apply(context, args);
       }
-    });
+    };
+  }
+
+  updateTestPositions() {
+    this.testPosition = this.testPosition + 1;
+    if (this.testPosition > 5) {
+      this.testPosition = 0
+    }
   }
 
   sceneSelectorUpdateEvent() {
@@ -510,6 +546,24 @@ export class StoryBoxBuilder {
 
     // Later, you can stop observing
     // observer.disconnect();
+  }
+
+  appKeyStrokes() {
+    window.addEventListener("keydown", (e) => {
+      console.log(e);
+      // if (e.code === "KeyX") {
+      //   console.log('x');
+      //     // vrlog('X');
+      //     // this.loadGallery();
+      //
+      // }
+      // if (e.code === "KeyY") {
+      //   vrlog('Y');
+      //   console.log('Y')
+      //   this.updateTestPositions();
+      // }
+    }
+    );
   }
 
   updateEventListeners() {
