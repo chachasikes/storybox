@@ -26,7 +26,6 @@ export function updateAccordionLine(parent) {
       stretchLeft.setAttribute("position", newPositionLeft);
       stretchRight.setAttribute("position", newPositionRight);
       // console.log(newPositionLeft, newPositionRight);
-      vrlog(newPositionLeft);
     } else {
       newPositionLeft = {
         x: positionLeftHand.x,
@@ -38,6 +37,7 @@ export function updateAccordionLine(parent) {
         y: positionRightHand.y,
         z: positionRightHand.z
       };
+      vrlog(newPositionLeft);
     }
 
     var stretch = document.querySelector("#rose-stretch");

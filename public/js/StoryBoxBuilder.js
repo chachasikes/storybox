@@ -643,6 +643,22 @@ export class StoryBoxBuilder {
       }
     }
 
+    if (document.getElementById("rig") !== null) {
+      let tickFunctionRig = document
+        .getElementById("rig")
+        .getAttribute("updateTestPosition");
+      if (
+        tickFunctionRig !== undefined &&
+        window.StoryBoxBuilder[tickFunctionRig] !== undefined &&
+        typeof window.StoryBoxBuilder[tickFunctionRig] === "function"
+      ) {
+        window.StoryBoxBuilder.rigControllerTickEvent =
+          window.StoryBoxBuilder[tickFunctionRig];
+      } else {
+        window.StoryBoxBuilder.rigControllerTickEvent = null;
+      }
+    }
+
     window.StoryBoxBuilder.modelLoadedEvent = this.modelLoadedEvent;
   }
 
