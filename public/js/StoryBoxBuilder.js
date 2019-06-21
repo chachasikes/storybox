@@ -5,6 +5,7 @@ import { Gallery } from "./gallery.js";
 import { formatDropboxRawLinks } from "./utilities.js";
 import { updateAccordionLine } from "./interfaceAccordion.js";
 import { vrlog } from "./vrlog.js";
+import { testPositions } from './testPositions.js';
 
 let dropboxScenes = [
   "https://www.dropbox.com/s/anftsg0se49msqz/dropbox-tincture-sea.json?dl=0"
@@ -30,6 +31,7 @@ export class StoryBoxBuilder {
     window.VRLog.logQueue = [];
     this.testPosition = 0;
     window.updateAccordionLine = updateAccordionLine;
+    this.testPositions = testPositions;
   }
 
   loadDropbox(files) {
@@ -503,7 +505,7 @@ export class StoryBoxBuilder {
 
   updateTestPositions() {
     this.testPosition = this.testPosition + 1;
-    if (this.testPosition >= 5) {
+    if (this.testPosition >= this.testPositions.length) {
       this.testPosition = 0;
     }
     let camera = document.getElementById("rig");
@@ -612,7 +614,7 @@ export class StoryBoxBuilder {
 
   appKeyStrokes() {
     window.addEventListener("keydown", e => {
-      console.log(e.code);
+      // console.log(e.code);
       if (e.code === "KeyX") {
         // console.log('x');
         vrlog("X");
