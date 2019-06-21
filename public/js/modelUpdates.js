@@ -1,5 +1,5 @@
 modelLoadedEvent() {
-  console.log('model loaded event');
+  // console.log('model loaded event');
   var el = document.querySelector(".textured");
   // console.log(texturedElements);
   // if (texturedElements !== undefined && texturedElements !== null) {

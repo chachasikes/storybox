@@ -64,7 +64,6 @@ export class StoryBoxBuilder {
       sceneScript.type = "text/html";
       sceneScript.id = "gallery";
       document.getElementById("scenes").append(sceneScript);
-      console.log(this.gallerySceneJson, window.StoryboxAframe);
       let sceneMarkup = window.StoryboxAframe.render(this.gallerySceneJson);
       if ( sceneMarkup !== undefined) {
         if (

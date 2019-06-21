@@ -26,6 +26,7 @@ export function updateAccordionLine(parent) {
       stretchLeft.setAttribute("position", newPositionLeft);
       stretchRight.setAttribute("position", newPositionRight);
       // console.log(newPositionLeft, newPositionRight);
+      vrlog(newPositionLeft);
     } else {
       newPositionLeft = {
         x: positionLeftHand.x,
