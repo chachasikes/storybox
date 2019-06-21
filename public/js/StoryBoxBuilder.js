@@ -35,8 +35,10 @@ export class StoryBoxBuilder {
   }
 
   setupGallery(parent) {
-    this.registry = parent.registry;
-    this.gallerySceneJson = parent.gallerySceneJson;
+    if (parent !== undefined) {
+      this.registry = parent.registry;
+      this.gallerySceneJson = parent.gallerySceneJson;
+    }
     clearTimeout(this.storySettings.timer);
 
     if (this.registry !== undefined) {
@@ -352,6 +354,7 @@ export class StoryBoxBuilder {
   }
 
   xButtonEvent(evt) {
+    vrlog("X");
     window.StoryBoxBuilder.loadGallery();
   }
 
@@ -417,6 +420,8 @@ export class StoryBoxBuilder {
           if (
             typeof window.StoryBoxBuilder.leftControllerTickEvent === "function"
           ) {
+            vrlog(window.StoryBoxBuilder.leftControllerTickEvent);
+            console.log(window.StoryBoxBuilder.leftControllerTickEvent);
             window.StoryBoxBuilder.leftControllerTickEvent(parent);
           }
         }
@@ -623,6 +628,7 @@ export class StoryBoxBuilder {
       ) {
         window.StoryBoxBuilder.leftControllerTickEvent =
           window.StoryBoxBuilder[tickFunctionLeft];
+          vrlog(window.StoryBoxBuilder.leftControllerTickEvent);
       } else {
         window.StoryBoxBuilder.leftControllerTickEvent = null;
       }
