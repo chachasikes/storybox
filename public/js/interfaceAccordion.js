@@ -42,8 +42,6 @@ const testPositions = [
 ];
 
 export function updateAccordionLine(parent) {
-  console.log('update');
-
     var stretchLeft = document.querySelector("#leftStretch");
     var stretchRight = document.querySelector("#rightStretch");
     var leftHand = document.querySelector("#leftHand");
@@ -54,7 +52,7 @@ export function updateAccordionLine(parent) {
       let positionLeftHand = leftHand.object3D.position;
       let positionRightHand = rightHand.object3D.position;
 
-console.log(positionLeft, positionRight);
+      console.log(positionLeft, positionRight);
 
       let newPositionLeft, newPositionRight;
 
