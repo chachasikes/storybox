@@ -11,6 +11,7 @@ export let Scene = {
       id: "camera_rose",
       cursorCamera: true,
       fadeMask: false,
+      testUpdateFunction: 'updateAccordionLine',
       position: {
         x: 0,
         y: 0,

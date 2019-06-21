@@ -1,67 +1,49 @@
 const testPositions = [
   {
     left: {
-      x: 0,
-      y: 0,
-      z: 0
+      x: -0.1, y: 1.25, z: -0.5
     },
     right: {
-      x: 0,
-      y: 0,
-      z: 0
+      x: 0.1, y: 1.6, z: -0.5
     },
   },
   {
     left: {
-      x: -1,
-      y: 0,
-      z: 0
+      x: -0.5, y: 1.1, z: -0.5
     },
     right: {
-      x: 1,
-      y: 0,
-      z: 0
+      x: 0.5, y: 1.6, z: -0.5
     },
   },
   {
     left: {
-      x: -2,
-      y: 0,
-      z: 0
+      x: -1, y: 1.25, z: -0.5
     },
     right: {
-      x: 2,
-      y: 0,
-      z: 0
+      x: 1, y: 1.6, z: -0.5
     },
   },
   {
     left: {
-      x: -2,
-      y: 0,
-      z: 0
+      x: -0.5, y: 1.6, z: -0.5
     },
     right: {
-      x: 2,
-      y: 0,
-      z: 0
+      x: 0.5, y: 1.25, z: -0.5
     },
   },
   {
     left: {
-      x: -1,
-      y: 0,
-      z: 0
+      x: -0.25, y: 1.6, z: -0.5
     },
     right: {
-      x: 1,
-      y: 0,
-      z: 0
+      x: 0.25, y: 1.1, z: -0.5
     },
   }
 ];
 
 export function updateAccordionLine(parent) {
+  console.log('update');
+
     var stretchLeft = document.querySelector("#leftStretch");
     var stretchRight = document.querySelector("#rightStretch");
     var leftHand = document.querySelector("#leftHand");
@@ -72,13 +54,16 @@ export function updateAccordionLine(parent) {
       let positionLeftHand = leftHand.object3D.position;
       let positionRightHand = rightHand.object3D.position;
 
+console.log(positionLeft, positionRight);
+
       let newPositionLeft, newPositionRight;
 
       if (!AFRAME.utils.device.checkHeadsetConnected()) {
-        newPositionLeft = testPositions[parent.testPosition.left];
-        newPositionRight = testPositions[parent.testPosition.right];
+        newPositionLeft = testPositions[parent.testPosition].left;
+        newPositionRight = testPositions[parent.testPosition].right;
         stretchLeft.setAttribute('position', newPositionLeft);
         stretchRight.setAttribute('position', newPositionRight);
+        console.log(newPositionLeft, newPositionRight);
       } else {
         newPositionLeft = {
           x: positionLeftHand.x,

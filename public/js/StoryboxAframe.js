@@ -476,7 +476,7 @@ export class StoryboxAframe {
     }
 
     innerMarkup = `${innerMarkup}
-    <a-entity id="rig" ${aframeTags.position.tag} ${aframeTags.rotation.tag} ${aframeTags.scale.tag}>
+    <a-entity id="rig" ${aframeTags.position.tag} ${aframeTags.rotation.tag} ${aframeTags.scale.tag} updateTestPosition="${props.testUpdateFunction}">
         <a-camera ${aframeTags.className} id="${props.id}" ${cursorCameraControls} position="0 ${this.playerHeight} 0">
         ${cursor}
         </a-camera>

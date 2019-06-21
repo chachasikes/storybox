@@ -42,6 +42,7 @@ export class StoryBoxBuilder {
     window.VRLog = {};
     window.VRLog.logQueue = [];
     this.testPosition = 0;
+    window.updateAccordionLine = updateAccordionLine;
   }
 
   loadDropbox(files) {
@@ -462,8 +463,15 @@ export class StoryBoxBuilder {
 
   updateTestPositions() {
     this.testPosition = this.testPosition + 1;
-    if (this.testPosition > 5) {
+    if (this.testPosition >= 5) {
       this.testPosition = 0
+    }
+    let camera = document.getElementById("rig");
+    if (camera !== null) {
+      let updateTestPosition = camera.getAttribute('updateTestPosition');
+      if (updateTestPosition !== undefined && updateTestPosition !== null && typeof window[updateTestPosition] === 'function') {
+        window[updateTestPosition](this);
+      }
     }
   }
 
@@ -550,18 +558,17 @@ export class StoryBoxBuilder {
 
   appKeyStrokes() {
     window.addEventListener("keydown", (e) => {
-      console.log(e);
-      // if (e.code === "KeyX") {
-      //   console.log('x');
-      //     // vrlog('X');
-      //     // this.loadGallery();
-      //
-      // }
-      // if (e.code === "KeyY") {
-      //   vrlog('Y');
-      //   console.log('Y')
-      //   this.updateTestPositions();
-      // }
+      console.log(e.code);
+      if (e.code === "KeyX") {
+        // console.log('x');
+        vrlog('X');
+        this.loadGallery();
+      }
+      if (e.code === "KeyY") {
+        vrlog('Y');
+        // console.log('Y')
+        this.updateTestPositions();
+      }
     }
     );
   }
