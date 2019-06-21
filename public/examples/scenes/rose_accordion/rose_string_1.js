@@ -25,9 +25,9 @@ export let Scene = {
         id: "rose-stretch",
         type: "stretch",
         ropeColor: "#000000",
-        tickFunction: 'updateAccordionLine',
         a: {
             id: "leftStretch",
+            tickFunction: 'updateAccordionLine',
             color: "#FA8072",
             dimensions: {
               width: 0.02,

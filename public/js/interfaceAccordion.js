@@ -1,3 +1,22 @@
+export default class ScentAccordion {
+
+  setupAppButtons() {
+    window.addEventListener("keydown", (e) => {
+      if (e.code === "KeyY") {
+        vrlog('Y');
+      }
+
+      if (e.code === "KeyA") {
+        vrlog('B');
+      }
+
+      if (e.code === "KeyB") {
+        vrlog('B');
+      }
+    });
+  }
+}
+
 export function updateAccordionLine() {
     var stretchLeft = document.querySelector("#leftStretch");
     var stretchRight = document.querySelector("#rightStretch");
@@ -65,3 +84,110 @@ export function updateAccordionLine() {
       }
     }
   }
+
+  export function buildHandPropInterface(parent, props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
+      let rope = ``;
+      let objectPositions = ``;
+      let leftBox = ``;
+      let rightBox = ``;
+      let left = {};
+      let right = {};
+
+      if (props !== undefined && props.type === 'stretch') {
+        left = props.a;
+        right = props.b;
+        if (!AFRAME.utils.device.checkHeadsetConnected()) {
+          props.a.position = {
+            x: parent.playerArmOffset,
+            y: parent.playerHeight,
+            z: parent.playerArmOffset,
+          };
+          props.b.position = {
+            x: parent.playerArmOffset * -1,
+            y: parent.playerHeight,
+            z: parent.playerArmOffset,
+          };
+
+          props.positions.forEach(item => {
+            item.position.x = item.position.x - (parent.playerArmOffset * -1) ;
+            item.position.y = item.position.y - parent.playerHeight;
+            item.position.z = item.position.z - (parent.playerArmOffset * -1);
+            return item;
+          });
+        }
+
+        let aTags = parent.buildTags(props.a);
+        let bTags = parent.buildTags(props.b);
+
+        leftBox = `
+        <a-box
+          id="${props.a.id}"
+          ${aTags.className}
+          ${aTags.color.tag}
+          ${aTags.position.tag}
+          ${aTags.rotation.tag}
+          ${aTags.dimensions.tag}
+        >
+        </a-box>
+        `;
+
+        rightBox = `
+        <a-box
+          id="${props.b.id}"
+          ${bTags.className}
+          ${bTags.color.tag}
+          ${bTags.position.tag}
+          ${bTags.rotation.tag}
+          ${bTags.dimensions.tag}
+        >
+        </a-box>
+        `;
+
+        let ropeBox = `
+        <a-box
+          id="${props.id}"
+          ${aframeTags.className}
+          ${aframeTags.color.tag}
+          ${aframeTags.dimensions.tag}
+        >
+        </a-box>
+        `;
+
+        if( props.positions !== undefined ) {
+          // console.log(props.positions);
+          props.positions.forEach(item => {
+            let obj = parent.stretchPosition(props.a.position, props.b.position, item);
+            objectPositions = `${objectPositions}
+            <a-sphere
+            id="${item.id}"
+            class="stretch-object"
+            position="${obj.position.x} ${obj.position.y} ${obj.position.z}"
+            data-percentage-x="${obj.percentageX}"
+            data-percentage-y="${obj.percentageY}"
+            data-percentage-z="${obj.percentageZ}"
+            radius="0.05"
+            color="${item.color}"
+            material="shader:flat"
+            ></a-sphere>`;
+          });
+        }
+
+        rope = `<a-entity id="${props.id}"
+        line="start: ${props.a.position.x}, ${props.a.position.y}, ${props.a.position.z}; end: ${props.b.position.x}, ${props.b.position.y}, ${props.b.position.z}; color: ${props.ropeColor}"
+        ></a-entity>`;
+
+        innerMarkup = `${innerMarkup}${rope}${leftBox}${rightBox}${objectPositions}`;
+      }
+
+      return {
+        assetItemElements: assetItemElements,
+        assetsElements: assetsElements,
+        innerMarkup: innerMarkup,
+        rope: rope,
+        leftBox: leftBox,
+        rightBox: rightBox,
+        objectPositions: objectPositions,
+        left,
+        right
+      }
+    }

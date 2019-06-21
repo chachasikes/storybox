@@ -1,4 +1,5 @@
 import { formatDropboxRawLinks  } from './utilities.js';
+import { buildHandPropInterface } from './interfaceAccordion.js';
 
 export class StoryboxAframe {
   constructor() {
@@ -537,113 +538,6 @@ export class StoryboxAframe {
     return data;
   }
 
-  buildHandPropInterface(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
-    let rope = ``;
-    let objectPositions = ``;
-    let leftBox = ``;
-    let rightBox = ``;
-    let left = {};
-    let right = {};
-
-    if (props !== undefined && props.type === 'stretch') {
-      left = props.a;
-      right = props.b;
-      if (!AFRAME.utils.device.checkHeadsetConnected()) {
-        props.a.position = {
-          x: this.playerArmOffset,
-          y: this.playerHeight,
-          z: this.playerArmOffset,
-        };
-        props.b.position = {
-          x: this.playerArmOffset,
-          y: this.playerHeight,
-          z: this.playerArmOffset,
-        };
-
-        props.positions.forEach(item => {
-          item.position.x = item.position.x - (this.playerArmOffset * -1) ;
-          item.position.y = item.position.y - this.playerHeight;
-          item.position.z = item.position.z - (this.playerArmOffset * -1);
-          return item;
-        });
-      }
-
-      let aTags = this.buildTags(props.a);
-      let bTags = this.buildTags(props.b);
-
-      leftBox = `
-      <a-box
-        id="${props.a.id}"
-        ${aTags.className}
-        ${aTags.color.tag}
-        ${aTags.position.tag}
-        ${aTags.rotation.tag}
-        ${aTags.dimensions.tag}
-      >
-      </a-box>
-      `;
-
-      rightBox = `
-      <a-box
-        id="${props.b.id}"
-        ${bTags.className}
-        ${bTags.color.tag}
-        ${bTags.position.tag}
-        ${bTags.rotation.tag}
-        ${bTags.dimensions.tag}
-      >
-      </a-box>
-      `;
-
-      let ropeBox = `
-      <a-box
-        id="${props.id}"
-        ${aframeTags.className}
-        ${aframeTags.color.tag}
-        ${aframeTags.dimensions.tag}
-      >
-      </a-box>
-      `;
-
-      if( props.positions !== undefined ) {
-        // console.log(props.positions);
-        props.positions.forEach(item => {
-          let obj = this.stretchPosition(props.a.position, props.b.position, item);
-          objectPositions = `${objectPositions}
-          <a-sphere
-          id="${item.id}"
-          class="stretch-object"
-          position="${obj.position.x} ${obj.position.y} ${obj.position.z}"
-          data-percentage-x="${obj.percentageX}"
-          data-percentage-y="${obj.percentageY}"
-          data-percentage-z="${obj.percentageZ}"
-          radius="0.05"
-          color="${item.color}"
-          material="shader:flat"
-          ></a-sphere>`;
-        });
-      }
-
-      rope = `<a-entity id="${props.id}"
-      line="start: ${props.a.position.x}, ${props.a.position.y}, ${props.a.position.z}; end: ${props.b.position.x}, ${props.b.position.y}, ${props.b.position.z}; color: ${props.ropeColor}"
-      ></a-entity>`;
-
-      innerMarkup = `${innerMarkup}${rope}${leftBox}${rightBox}${objectPositions}`;
-    }
-
-    return {
-      assetItemElements: assetItemElements,
-      assetsElements: assetsElements,
-      innerMarkup: innerMarkup,
-      rope: rope,
-      leftBox: leftBox,
-      rightBox: rightBox,
-      objectPositions: objectPositions,
-      left,
-      right
-    }
-  }
-
   // Format json object as a-frame
   render(json) {
     let innerMarkup = ``;
@@ -674,7 +568,7 @@ export class StoryboxAframe {
                 break;
               case "camera":
                 props = this.formatDropboxDataRecursive(props);
-                let handPropScent = this.buildHandPropInterface(props.handProp, innerMarkup, assetsElements, assetItemElements, aframeTags);
+                let handPropScent = buildHandPropInterface(this, props.handProp, innerMarkup, assetsElements, assetItemElements, aframeTags);
                 let camera = this.buildCamera(props, innerMarkup, assetsElements, assetItemElements, aframeTags, handPropScent);
                 innerMarkup = camera.innerMarkup;
                 assetsElements = camera.assetsElements;

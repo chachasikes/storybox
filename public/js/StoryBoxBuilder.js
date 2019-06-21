@@ -350,20 +350,6 @@ export class StoryBoxBuilder {
     window.StoryBoxBuilder.loadGallery();
   }
 
-  leftControllerTickEvent() {
-    let tickFunction = document.getElementById('leftHand').getAttribute('tickFunction');
-    if (tickFunction !== undefined && window.StoryBoxBuilder[tickFunction] !== undefined && typeof window.StoryBoxBuilder[tickFunction] === 'function') {
-      window.StoryBoxBuilder[tickFunction]();
-    }
-  }
-
-  rightControllerTickEvent() {
-    let tickFunction = document.getElementById('rightHand').getAttribute('tickFunction');
-    if (tickFunction !== undefined && window.StoryBoxBuilder[tickFunction] !== undefined && typeof window.StoryBoxBuilder[tickFunction] === 'function') {
-      window.StoryBoxBuilder[tickFunction]();
-    }
-  }
-
   setupAppButtons() {
     if (AFRAME.components['x-button-listener'] === undefined) {
       AFRAME.registerComponent('x-button-listener', {
@@ -417,7 +403,9 @@ export class StoryBoxBuilder {
           var el = this.el;
         },
         tick: function() {
-          window.StoryBoxBuilder.leftControllerTickEvent();
+          if (typeof window.StoryBoxBuilder.leftControllerTickEvent === 'function') {
+            window.StoryBoxBuilder.leftControllerTickEvent();
+          }
         }
       });
     }
@@ -427,23 +415,17 @@ export class StoryBoxBuilder {
         init: function() {
           var el = this.el;
         },
-        tick: window.StoryBoxBuilder.rightControllerTickEvent,
+        tick: function() {
+          if (typeof window.StoryBoxBuilder.rightControllerTickEvent === 'function') {
+            window.StoryBoxBuilder.rightControllerTickEvent();
+          }
+        }
       });
     }
 
     window.addEventListener("keydown", (e) => {
       if (e.code === "KeyX") {
         vrlog('X');
-        this.loadGallery();
-      }
-
-      if (e.code === "KeyY") {
-        vrlog('Y');
-        this.loadGallery();
-      }
-
-      if (e.code === "KeyA") {
-        vrlog('B');
         this.loadGallery();
       }
     });
@@ -540,8 +522,28 @@ export class StoryBoxBuilder {
     this.storySettings.galleryListeners = true;
     // Set globally readable event names
     window.StoryBoxBuilder.xButtonEvent = this.xButtonEvent;
-    window.StoryBoxBuilder.leftControllerTickEvent = this.leftControllerTickEvent;
-    window.StoryBoxBuilder.rightControllerTickEvent = this.rightControllerTickEvent;
+
+    if (document.getElementById('leftHand') !== null) {
+      let tickFunctionLeft = document.getElementById('leftHand').getAttribute('tickFunction');
+      if (tickFunctionLeft !== undefined && window.StoryBoxBuilder[tickFunctionLeft] !== undefined && typeof window.StoryBoxBuilder[tickFunctionLeft] === 'function') {
+        window.StoryBoxBuilder.leftControllerTickEvent = window.StoryBoxBuilder[tickFunctionLeft];
+      } else {
+        window.StoryBoxBuilder.leftControllerTickEvent = null;
+      }
+    }
+    if (document.getElementById('rightHand') !== null) {
+      let tickFunctionRight = document.getElementById('rightHand').getAttribute('tickFunction');
+      if (tickFunctionRight !== undefined && window.StoryBoxBuilder[tickFunctionRight] !== undefined && typeof window.StoryBoxBuilder[tickFunctionRight] === 'function') {
+        window.StoryBoxBuilder.rightControllerTickEvent = window.StoryBoxBuilder[tickFunctionRight];
+      } else {
+        window.StoryBoxBuilder.rightControllerTickEvent = null;
+      }
+    }
+
+
+
+
+
     window.StoryBoxBuilder.modelLoadedEvent = this.modelLoadedEvent;
   }
 
