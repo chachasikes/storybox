@@ -25,6 +25,7 @@ export let Scene = {
         id: "rose-stretch",
         type: "stretch",
         ropeColor: "#000000",
+        tickFunction: 'updateAccordionLine',
         a: {
             id: "leftStretch",
             color: "#FA8072",
@@ -47,6 +48,7 @@ export let Scene = {
         b: {
             id: "rightStretch",
             color: "#FA8072",
+            tickFunction: 'updateAccordionLine',
             dimensions: {
               width: 0.02,
               height: 0.4,
@@ -63,25 +65,8 @@ export let Scene = {
               z: 0,
             }
         },
-        maxWidth: 5,
-        minWidth: 0,
         positions: [
-          // {
-          //   art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
-          //   // behavior: 'playAnimation',
-          //   type: "percentage",
-          //   //
-          //   position: {
-          //     x: 0.2,
-          //     y: 0,
-          //     z: 0,
-          //   },
-          //   color: "#f7e6af",
-          //   id: 'damascone',
-          // },
           {
-            art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
-            // behavior: 'playAnimation',
             type: "percentage",
             position: {
               x: 0.45,
@@ -92,8 +77,6 @@ export let Scene = {
             id: 'geraniol',
           },
           {
-            art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
-            // behavior: 'playAnimation',
             type: "percentage",
             position: {
               x: 0.7,
@@ -104,8 +87,6 @@ export let Scene = {
             id: 'PEA',
           },
           {
-            art: 'https://dl.dropboxusercontent.com/s/u9o72m7y4mocn4s/dried_yellow_rose.glb',
-            // behavior: 'playAnimation',
             type: "percentage",
             position: {
               x: 0.95,
@@ -129,22 +110,6 @@ export let Scene = {
       color: '#ffffff',
     }
   },
-  title: {
-    text: {
-      id: "scene-title",
-      text: "value: A chord of rose.; color: black; width: 2;",
-      scale: {
-        x: 100,
-        y: 100,
-        z: 100
-      },
-      position: {
-        x: 135,
-        y: 24,
-        z: -20,
-      }
-    }
-  },
   skybox: {
     sky: {
       color: "#ededed",
@@ -165,13 +130,13 @@ export let Scene = {
       },
       position: {
         x:0,
-        y:0,
+        y:5,
         z:0
       },
       scale: {
-        x: 1000,
-        y: 1000,
-        z: 1000
+        x: 10,
+        y: 10,
+        z: 10
       },
     }
   },

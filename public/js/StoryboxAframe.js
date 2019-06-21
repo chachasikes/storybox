@@ -1,3 +1,5 @@
+import { formatDropboxRawLinks  } from './utilities.js';
+
 export class StoryboxAframe {
   constructor() {
     this.getAxis = this.getAxis.bind(this);
@@ -46,7 +48,7 @@ export class StoryboxAframe {
           )) {
             Object.keys(data[propKey]).forEach(face => {
               if (data[propKey][face] !== undefined && typeof data[propKey][face].replace === 'function') {
-                data[propKey][face].replace('https://www.dropbox.com', 'https://dl.dropboxusercontent.com').replace('?dl=0', '');
+                data[propKey][face] = formatDropboxRawLinks(data[propKey][face]);
               }
             });
           }
@@ -440,8 +442,8 @@ export class StoryboxAframe {
   }
 
     let touchContollers = `
-    <a-entity id="leftHand" oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft} rotation="0 0 0" x-button-listener y-button-listener left-controller-listener>${leftModel}${handProp.leftBox}</a-entity>
-    <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="0 0 0" a-button-listener b-button-listener right-controller-listener>${rightModel}${debuggerPanelWrist}${handProp.rightBox}</a-entity>
+    <a-entity id="leftHand" oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft} rotation="0 0 0" x-button-listener y-button-listener left-controller-listener tickFunction="${handProp.left.tickFunction}">${leftModel}${handProp.leftBox}</a-entity>
+    <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="0 0 0" a-button-listener b-button-listener right-controller-listener tickFunction="${handProp.right.tickFunction}">${rightModel}${debuggerPanelWrist}${handProp.rightBox}</a-entity>
     ${handProp.rope}
     ${handProp.objectPositions}`;
 
@@ -458,7 +460,8 @@ export class StoryboxAframe {
 
     if (props.cursorCamera === true) {
       // Add camera cursor
-      cursorCameraControls = `look-controls movement-controls="controls: checkpoint"`;
+      // cursorCameraControls = `look-controls movement-controls="controls: checkpoint"`;
+      cursorCameraControls = `look-controls`;
       cursor = `<a-entity
         cursor="fuse: true"
         material="color: black; shader: flat"
@@ -539,27 +542,31 @@ export class StoryboxAframe {
     let objectPositions = ``;
     let leftBox = ``;
     let rightBox = ``;
+    let left = {};
+    let right = {};
+
     if (props !== undefined && props.type === 'stretch') {
+      left = props.a;
+      right = props.b;
+      if (!AFRAME.utils.device.checkHeadsetConnected()) {
+        props.a.position = {
+          x: this.playerArmOffset,
+          y: this.playerHeight,
+          z: this.playerArmOffset,
+        };
+        props.b.position = {
+          x: this.playerArmOffset,
+          y: this.playerHeight,
+          z: this.playerArmOffset,
+        };
 
-    if (!AFRAME.utils.device.checkHeadsetConnected()) {
-      props.a.position = {
-        x: this.playerArmOffset,
-        y: this.playerHeight,
-        z: this.playerArmOffset,
-      };
-      props.b.position = {
-        x: this.playerArmOffset,
-        y: this.playerHeight,
-        z: this.playerArmOffset,
-      };
-
-      props.positions.forEach(item => {
-        item.position.x = item.position.x - (this.playerArmOffset * -1) ;
-        item.position.y = item.position.y - this.playerHeight;
-        item.position.z = item.position.z - (this.playerArmOffset * -1);
-        return item;
-      });
-    }
+        props.positions.forEach(item => {
+          item.position.x = item.position.x - (this.playerArmOffset * -1) ;
+          item.position.y = item.position.y - this.playerHeight;
+          item.position.z = item.position.z - (this.playerArmOffset * -1);
+          return item;
+        });
+      }
 
       let aTags = this.buildTags(props.a);
       let bTags = this.buildTags(props.b);
@@ -622,7 +629,6 @@ export class StoryboxAframe {
       ></a-entity>`;
 
       innerMarkup = `${innerMarkup}${rope}${leftBox}${rightBox}${objectPositions}`;
-
     }
 
     return {
@@ -632,7 +638,9 @@ export class StoryboxAframe {
       rope: rope,
       leftBox: leftBox,
       rightBox: rightBox,
-      objectPositions: objectPositions
+      objectPositions: objectPositions,
+      left,
+      right
     }
   }
 

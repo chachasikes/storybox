@@ -1,14 +1,32 @@
-import { registry } from "./../examples/gallery/registry.js";
+import {
+  registry
+} from "./../examples/gallery/registry.js";
 
-import { Scene as gallerySceneJson } from "./../examples/gallery/gallery.js";
-import { StoryboxAframe } from "./StoryboxAframe.js";
-import { Gallery } from "./gallery.js";
+import {
+  Scene as gallerySceneJson
+} from "./../examples/gallery/gallery.js";
+import {
+  StoryboxAframe
+} from "./StoryboxAframe.js";
+import {
+  Gallery
+} from "./gallery.js";
+import {
+  formatDropboxRawLinks
+} from './utilities.js';
+import {
+  updateAccordionLine
+} from './interfaceAccordion.js';
+import {
+  vrlog
+} from './vrlog.js';
+
+let dropboxScenes = ['https://www.dropbox.com/s/anftsg0se49msqz/dropbox-tincture-sea.json?dl=0'];
 
 export class StoryBoxBuilder {
   constructor() {
     this.storySettings = {};
     this.storySettings.timer = null;
-    // this.storySettings.stretchLine = null;
     this.storySettings.target = null;
     this.storySettings.transition = null;
     this.storySettings.galleryListeners = false;
@@ -18,60 +36,53 @@ export class StoryBoxBuilder {
     this.registry = [];
     this.storySettings.currentStory = 'gallery';
     this.registryLocal = registry;
-    // @TODO this will eventually be url param to make the viewer play any json file w/ example
-    this.dropboxRegistry = this.loadDropbox([
-      'https://www.dropbox.com/s/anftsg0se49msqz/dropbox-tincture-sea.json?dl=0'
-    ]);
-    this.logQueue = [];
-  }
-
-  formatDropboxRawLinks(url)  {
-    // This is the path to downloadable dropbox assets. Cannot have dl=0 & must be the user content URL.
-    // This allows for simple hosting for low traffic assets. Higher traffic assets would need to be hosted elsewhere.
-    return url.replace('https://www.dropbox.com', 'https://dl.dropboxusercontent.com').replace('?dl=0', '');
+    this.dropboxRegistry = this.loadDropbox(
+      dropboxScenes
+    );
+    window.VRLog = {};
+    window.VRLog.logQueue = [];
   }
 
   loadDropbox(files) {
     let dropboxRegistry = files.forEach(file => {
-    let rawFilePath = this.formatDropboxRawLinks(file);
-    let filesData = fetch(rawFilePath)
-    .then(response => response.json())
-    .then((data) => {
-      this.registry = this.registryLocal;
-      this.registry.push(data);
+      let rawFilePath = formatDropboxRawLinks(file);
+      let filesData = fetch(rawFilePath)
+        .then(response => response.json())
+        .then((data) => {
+          this.registry = this.registryLocal;
+          this.registry.push(data);
 
-      // Update registry of stories with additional metadata.
-      this.registry.map(story => {
-          let count = 0;
-          let totalDuration = 0;
-          let scenes = story.scenes.map(scene => {
-            scene.scene = count++;
-            totalDuration = totalDuration + Number(scene.duration);
-            return scene;
+          // Update registry of stories with additional metadata.
+          this.registry.map(story => {
+            let count = 0;
+            let totalDuration = 0;
+            let scenes = story.scenes.map(scene => {
+              scene.scene = count++;
+              totalDuration = totalDuration + Number(scene.duration);
+              return scene;
+            });
+            story.currentScene = 0;
+            story.timeElapsedScene = 0;
+            story.totalDuration = totalDuration;
+            story.numberScenes = story.scenes.length;
           });
-          story.currentScene = 0;
-          story.timeElapsedScene = 0;
-          story.totalDuration = totalDuration;
-          story.numberScenes = story.scenes.length;
+          this.setupGallery();
         });
-        this.setupGallery();
-      });
     });
   }
 
   setupGallery() {
-    window.Gallery = new Gallery();
-    let storyboxAframe = new StoryboxAframe();
-    window.StoryboxAframe = storyboxAframe;
+    clearTimeout(this.storySettings.timer);
+
+    let storyboxAframe = window.StoryboxAframe = new StoryboxAframe();
     let rebuildAssets = true;
+    // Already built before
     if (this.assetMarkupGallery !== ``) {
       rebuildAssets = false;
     }
 
+    window.Gallery = new Gallery();
     let gallery = window.Gallery.render(this.registry);
-    clearTimeout(this.storySettings.timer);
-    // clearInterval(this.storySettings.stretchLine);
-
     if (typeof gallery.assetsElements !== 'string' && gallery.assetsElements.length > 0 && rebuildAssets === true) {
       // Load all scene assets
       gallery.assetsElements.map(asset => {
@@ -93,8 +104,7 @@ export class StoryBoxBuilder {
       });
     }
 
-    let tiles = `${sceneMarkup.innerMarkup}
-    `;
+    let tiles = `${sceneMarkup.innerMarkup}`;
     gallery.tiles.forEach(tile => {
       tiles = `${tiles}${tile}`;
     })
@@ -246,7 +256,7 @@ export class StoryBoxBuilder {
           this.nextScene();
           this.playScene();
         }.bind(this),
-       currentScene.duration
+        currentScene.duration
       );
     }
     this.update();
@@ -255,6 +265,7 @@ export class StoryBoxBuilder {
 
   playGLBAnimation() {
     let animation = document.querySelector('.glb-animation');
+    // @TODO
   }
 
   pauseScene() {
@@ -340,60 +351,27 @@ export class StoryBoxBuilder {
   }
 
   leftControllerTickEvent() {
-    window.StoryBoxBuilder.updateStretchLine();
+    let tickFunction = document.getElementById('leftHand').getAttribute('tickFunction');
+    if (tickFunction !== undefined && window.StoryBoxBuilder[tickFunction] !== undefined && typeof window.StoryBoxBuilder[tickFunction] === 'function') {
+      window.StoryBoxBuilder[tickFunction]();
+    }
   }
 
   rightControllerTickEvent() {
-    window.StoryBoxBuilder.updateStretchLine();
-  }
-
-
-  modelLoadedEvent() {
-    console.log('model loaded event');
-    var el = document.querySelector(".textured");
-    console.log(texturedElements);
-    // if (texturedElements !== undefined && texturedElements !== null) {
-    //   texturedElements.forEach(el => {
-    //     let id = el.getAttribute('id');
-    //     console.log(id);
-    //     el.addEventListener('model-loaded', (e) => {
-    //       if (id !== undefined) {
-    //         console.log(this.materials[id]);
-    //         e.detail.model.traverse(function(node) {
-    //           if (node.isMesh) node.material.map = this.materials[id];
-    //         });
-    //       }
-    //       // this.update();
-    //     });
-    //   });
-    // }
-  }
-
-  debugControllButtonTrigger(button) {
-    switch (button) {
-      case 'X':
-        document.getElementById('leftHand').dispatchEvent(new CustomEvent("xbuttondown"));
-        break;
-      case 'Y':
-        document.getElementById('leftHand').dispatchEvent(new CustomEvent("ybuttondown"));
-        break;
-      case 'A':
-        document.getElementById('leftHand').dispatchEvent(new CustomEvent("abuttondown"));
-        break;
-      case 'B':
-        document.getElementById('leftHand').dispatchEvent(new CustomEvent("bbuttondown"));
-        break;
+    let tickFunction = document.getElementById('rightHand').getAttribute('tickFunction');
+    if (tickFunction !== undefined && window.StoryBoxBuilder[tickFunction] !== undefined && typeof window.StoryBoxBuilder[tickFunction] === 'function') {
+      window.StoryBoxBuilder[tickFunction]();
     }
   }
 
   setupAppButtons() {
     if (AFRAME.components['x-button-listener'] === undefined) {
       AFRAME.registerComponent('x-button-listener', {
-        init: function () {
+        init: function() {
           var el = this.el;
           el.addEventListener('xbuttondown', window.StoryBoxBuilder.xButtonEvent);
         },
-        update: function () {
+        update: function() {
           var el = this.el;
           el.addEventListener('xbuttondown', window.StoryBoxBuilder.xButtonEvent);
         },
@@ -402,10 +380,10 @@ export class StoryBoxBuilder {
 
     if (AFRAME.components['y-button-listener'] === undefined) {
       AFRAME.registerComponent('y-button-listener', {
-        init: function () {
+        init: function() {
           var el = this.el;
-          el.addEventListener('ybuttondown', function (evt) {
-            this.vrlog('Y');
+          el.addEventListener('ybuttondown', function(evt) {
+            vrlog('Y');
           });
         },
       });
@@ -413,10 +391,10 @@ export class StoryBoxBuilder {
 
     if (AFRAME.components['a-button-listener'] === undefined) {
       AFRAME.registerComponent('a-button-listener', {
-        init: function () {
+        init: function() {
           var el = this.el;
-          el.addEventListener('abuttondown', function (evt) {
-            this.vrlog('A');
+          el.addEventListener('abuttondown', function(evt) {
+            vrlog('A');
           });
         },
       });
@@ -424,10 +402,10 @@ export class StoryBoxBuilder {
 
     if (AFRAME.components['b-button-listener'] === undefined) {
       AFRAME.registerComponent('b-button-listener', {
-        init: function () {
+        init: function() {
           var el = this.el;
-          el.addEventListener('bbuttondown', function (evt) {
-            this.vrlog('B');
+          el.addEventListener('bbuttondown', function(evt) {
+            vrlog('B');
           });
         },
       });
@@ -435,7 +413,7 @@ export class StoryBoxBuilder {
 
     if (AFRAME.components['left-controller-listener'] === undefined) {
       AFRAME.registerComponent('left-controller-listener', {
-        init: function () {
+        init: function() {
           var el = this.el;
         },
         tick: function() {
@@ -446,7 +424,7 @@ export class StoryBoxBuilder {
 
     if (AFRAME.components['right-controller-listener'] === undefined) {
       AFRAME.registerComponent('right-controller-listener', {
-        init: function () {
+        init: function() {
           var el = this.el;
         },
         tick: window.StoryBoxBuilder.rightControllerTickEvent,
@@ -455,22 +433,18 @@ export class StoryBoxBuilder {
 
     window.addEventListener("keydown", (e) => {
       if (e.code === "KeyX") {
-        this.vrlog('X');
+        vrlog('X');
         this.loadGallery();
       }
 
       if (e.code === "KeyY") {
-        this.vrlog('Y');
+        vrlog('Y');
         this.loadGallery();
       }
 
       if (e.code === "KeyA") {
-        this.vrlog('B');
+        vrlog('B');
         this.loadGallery();
-      }
-
-      if (e.code === "KeyP") {
-        this.updateStretchLine();
       }
     });
   }
@@ -478,171 +452,73 @@ export class StoryBoxBuilder {
   sceneSelectorUpdateEvent() {
     let currentStory = this.getCurrentStory(this.storySettings.currentStory);
     if (currentStory !== undefined && currentStory !== null && currentStory.name !== undefined) {
-      this.vrlog(currentStory.name + ' Loaded.');
-    }
-  }
-
-  updateStretchLine() {
-    var stretchLeft = document.querySelector("#leftStretch");
-    var stretchRight = document.querySelector("#rightStretch");
-    var leftHand = document.querySelector("#leftHand");
-    var rightHand = document.querySelector("#rightHand");
-    if (stretchLeft !== null && stretchRight !== null && stretchLeft.object3D !== undefined) {
-      let positionLeft = stretchLeft.object3D.position;
-      let positionRight = stretchRight.object3D.position;
-      let positionLeftHand = leftHand.object3D.position;
-      let positionRightHand = rightHand.object3D.position;
-
-      let newPositionLeft, newPositionRight;
-
-      if (!AFRAME.utils.device.checkHeadsetConnected()) {
-        newPositionLeft = {
-          x: positionLeft.x - 0.01,
-          y: positionLeft.y,
-          z: positionLeft.z,
-        };
-        newPositionRight = {
-          x: positionRight.x + 0.01,
-          y: positionRight.y,
-          z: positionRight.z,
-        };
-        stretchLeft.setAttribute('position', newPositionLeft);
-        stretchRight.setAttribute('position', newPositionRight);
-      } else {
-        newPositionLeft = {
-          x: positionLeftHand.x,
-          y: positionLeftHand.y,
-          z: positionLeftHand.z,
-        };
-        newPositionRight = {
-          x: positionRightHand.x,
-          y: positionRightHand.y,
-          z: positionRightHand.z,
-        };
-      }
-
-      var stretch = document.querySelector("#rose-stretch");
-
-      if (stretch !== null) {
-        let line = stretch.getAttribute('line');
-        let lineParsed = AFRAME.utils.styleParser.parse(line);
-        lineParsed.start = newPositionLeft;
-        lineParsed.end = newPositionRight;
-        stretch.setAttribute('line', lineParsed);
-      }
-
-      var stretchObjects = document.querySelectorAll('.stretch-object');
-      let positionObj;
-      if (stretchObjects !== null && stretchObjects.length > 0) {
-        stretchObjects.forEach(obj => {
-          let id = obj.getAttribute('id');
-          let el = document.getElementById(id);
-          positionObj = window.StoryboxAframe.updateStretchPosition(newPositionLeft, newPositionRight, el);
-          let newPositionObj = {
-            x: positionObj.x !== Infinity ? positionObj.x : 0,
-            y: positionObj.y !== Infinity ? positionObj.y - 0.8 : -0.8,
-            z: positionObj.z !== Infinity ? positionObj.z - 0.38 : -0.38,
-          }
-          let propPosition = el.getAttribute('position');
-          el.setAttribute('position', newPositionObj);
-        });
-      }
-    }
-  }
-
-  vrlog(message) {
-    var logVR = document.getElementById('debugger-log-vr');
-
-    if (logVR !== undefined && logVR !== null) {
-      try {
-        let text = logVR.getAttribute('text');
-        let textParsed = AFRAME.utils.styleParser.parse(text);
-        if (textParsed !== undefined) {
-          if (typeof message === 'object') {
-            message = JSON.stringify(message);
-          }
-          message =  `${message} \n`;
-          textParsed.value = `${textParsed.value}${message}`;
-          if (typeof textParsed === 'object') {
-            let logs =  textParsed.value.split('\n');
-            let tailLogs = logs;
-            if (logs.length > 3) {
-              tailLogs = logs.slice(Math.max(logs.length - 6), logs.length);
-            }
-            let logString = tailLogs.join('\n');
-            textParsed.value = logString;
-            logVR.setAttribute('text', textParsed);
-          }
-        }
-      } catch(err) {
-        this.vrlog(err);
-      }
-    } else {
-      this.logQueue.push(message);
+      vrlog(currentStory.name + ' Loaded.');
     }
   }
 
   sceneSelectorEventListeners(e) {
-      if (e.target.id !== null && e.target.id !== '') {
-        let el = document.getElementById(e.target.id);
-        switch (e.target.id) {
-          case 'play-button':
-            el = document.getElementById(e.target.id);
-            if(el.getAttribute('data-clicked') === null || el.getAttribute('data-clicked') === 'false') {
-              el.setAttribute('data-clicked', 'true');
-              this.storySettings.transition = window.setTimeout(
-                function() {
-                  clearTimeout(this.storySettings.transition);
-                  window.StoryBoxBuilder.nextScene();
-                }.bind(this),
-                5000
-              );
-            }
-            else {
-              el.setAttribute('data-clicked', 'false');
-            }
+    if (e.target.id !== null && e.target.id !== '') {
+      let el = document.getElementById(e.target.id);
+      switch (e.target.id) {
+        case 'play-button':
+          el = document.getElementById(e.target.id);
+          if (el.getAttribute('data-clicked') === null || el.getAttribute('data-clicked') === 'false') {
+            el.setAttribute('data-clicked', 'true');
+            this.storySettings.transition = window.setTimeout(
+              function() {
+                clearTimeout(this.storySettings.transition);
+                window.StoryBoxBuilder.nextScene();
+              }.bind(this),
+              5000
+            );
+          } else {
+            el.setAttribute('data-clicked', 'false');
+          }
           break;
-        }
       }
+    }
 
-      // Click gallery item to load a story.
-      if (e.detail !== undefined && e.detail.intersectedEl !== undefined) {
-        let el = e.detail.intersectedEl;
-        if (el.getAttribute('class') === 'clickable-tile') {
-          if(el.getAttribute('data-clicked') === null || el.getAttribute('data-clicked') === 'false') {
-             el.setAttribute('data-clicked', 'true');
-             let id = el.getAttribute('id');
-             if (id !== undefined && id !== null) {
-               this.galleryItemSelect(id);
-             }
-           } else {
-             el.setAttribute('data-clicked', 'false');
-           }
+    // Click gallery item to load a story.
+    if (e.detail !== undefined && e.detail.intersectedEl !== undefined) {
+      let el = e.detail.intersectedEl;
+      if (el.getAttribute('class') === 'clickable-tile') {
+        if (el.getAttribute('data-clicked') === null || el.getAttribute('data-clicked') === 'false') {
+          el.setAttribute('data-clicked', 'true');
+          let id = el.getAttribute('id');
+          if (id !== undefined && id !== null) {
+            this.galleryItemSelect(id);
+          }
+        } else {
+          el.setAttribute('data-clicked', 'false');
         }
       }
+    }
   }
 
   aframeMutations() {
     // Options for the observer (which mutations to observe)
-    var config = { attributes: true, childList: true, subtree: true };
+    var config = {
+      attributes: true,
+      childList: true,
+      subtree: true
+    };
 
     // Callback function to execute when mutations are observed
     var callback = function(mutationsList, observer) {
-        for(var mutation of mutationsList) {
-          if (mutation.target.id === 'debugger-log-vr-bkg') {
-            // update all logs
-            this.logQueue.forEach(message => {
-              this.vrlog(message);
-            });
-            this.logQueue = [];
-          }
-          if (mutation.target.id === 'scene-selector') {
-            window.StoryBoxBuilder.sceneSelectorUpdateEvent();
-            window.StoryBoxBuilder.modelLoadedEvent();
-          }
-          this.updateEventListeners();
-          this.setupAppButtons();
+      for (var mutation of mutationsList) {
+        if (mutation.target.id === 'debugger-log-vr-bkg') {
+          // update all logs
+          window.VRLog.logQueue.forEach(message => {
+            vrlog(message);
+          });
+          window.VRLog.logQueue = [];
         }
+        if (mutation.target.id === 'scene-selector') {
+          window.StoryBoxBuilder.sceneSelectorUpdateEvent();
+        }
+        this.updateEventListeners();
+        this.setupAppButtons();
+      }
     }.bind(this);
 
     // Create an observer instance linked to the callback function
@@ -662,19 +538,6 @@ export class StoryBoxBuilder {
       document.querySelector('#scene-selector').addEventListener("click", (e) => this.sceneSelectorEventListeners(e));
     }
     this.storySettings.galleryListeners = true;
-    // // @TODO make a more generic name for stretcher.
-    // if (document.getElementById('rose-stretch') !== undefined && document.getElementById('rose-stretch') !== null) {
-    //   clearInterval(this.storySettings.stretchLine);
-    //   this.storySettings.stretchLine = null;
-    //   this.storySettings.stretchLine = window.setInterval(function() {
-    //     this.updateStretchLine();
-    //   }.bind(this), 100);
-    //   this.vrlog('Loading stretch interface');
-    // } else {
-    //   clearInterval(this.storySettings.stretchLine);
-    //   this.storySettings.stretchLine = null;
-    // }
-
     // Set globally readable event names
     window.StoryBoxBuilder.xButtonEvent = this.xButtonEvent;
     window.StoryBoxBuilder.leftControllerTickEvent = this.leftControllerTickEvent;

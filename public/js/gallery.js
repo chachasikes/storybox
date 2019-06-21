@@ -23,9 +23,6 @@ export class Gallery {
     let overflowRow = length % this.gallery.rowLength;
     this.gallery.numberRows = (length - overflowRow) / this.gallery.rowLength;
 
-    // console.log('le', length, 'or', overflowRow, 'numrows', this.gallery.numberRows); // correct
-
-
     if (overflowRow !== 0) {
       this.gallery.numberRows = this.gallery.numberRows + 1;
     }
@@ -87,7 +84,6 @@ export class Gallery {
         </a-entity>
       `
       );
-
     });
     return {
       assetsElements: assets,
