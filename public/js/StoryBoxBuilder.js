@@ -1,5 +1,4 @@
 import { Gallery } from "./gallery.js";
-import { updateAccordionLine } from "./interfaceAccordion.js";
 import { vrlog } from "./vrlog.js";
 import { testPositions } from "./testPositions.js";
 
@@ -21,7 +20,6 @@ export class StoryBoxBuilder {
     window.VRLog = {};
     window.VRLog.logQueue = [];
     this.testPosition = 0;
-    window.updateAccordionLine = updateAccordionLine;
     this.testPositions = testPositions;
   }
 
@@ -650,7 +648,7 @@ export class StoryBoxBuilder {
       let tickFunctionLeft = document
         .getElementById("leftHand")
         .getAttribute("tickFunction");
-
+        vrlog(tickFunctionLeft);
       if (
         tickFunctionLeft !== undefined &&
         window.StoryBoxBuilder[tickFunctionLeft] !== undefined &&
@@ -658,7 +656,7 @@ export class StoryBoxBuilder {
       ) {
         window.StoryBoxBuilder.leftControllerTickEvent =
           window.StoryBoxBuilder[tickFunctionLeft];
-        vrlog(tickFunctionLeft);
+
       } else {
         window.StoryBoxBuilder.leftControllerTickEvent = null;
       }

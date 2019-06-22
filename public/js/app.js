@@ -1,5 +1,6 @@
 import { StoryBoxBuilder } from './StoryBoxBuilder.js';
 import { StoryboxAframe } from "./StoryboxAframe.js";
+import { updateAccordionLine } from "./interfaceAccordion.js";
 import { formatDropboxRawLinks } from "./utilities.js";
 import { registry } from "./../examples/gallery/registry.js";
 import { Scene as gallerySceneJson } from "./../examples/gallery/gallery.js";
@@ -16,6 +17,7 @@ export class App {
   init(target) {
     window.StoryBoxBuilder = new StoryBoxBuilder(target);
     window.StoryboxAframe = new StoryboxAframe();
+    window.updateAccordionLine = updateAccordionLine;
     let rendered = window.StoryBoxBuilder.render(target);
     window.StoryBoxBuilder.init(this);
   }

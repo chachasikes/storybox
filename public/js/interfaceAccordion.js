@@ -1,3 +1,4 @@
+import { vrlog } from "./vrlog.js";
 
 export function updateAccordionLine(parent = null) {
   var rig = document.querySelector("#rig");
