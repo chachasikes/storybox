@@ -32,15 +32,17 @@
         },
         init: function() {
           const data = this.data;
-          var texture = new THREE.TextureLoader().load('https://dl.dropboxusercontent.com/s/q5sndy1rk2drufh/hand-drawn--bake1.jpg');
+          console.log(data);
+          // https://threejs.org/docs/#api/en/materials/MeshStandardMaterial
+          var texture = new THREE.TextureLoader().load('https://dl.dropboxusercontent.com/s/nc23cpikktx50mu/Day_62._Continuation_of_diamond_grid_Sprang_friendly_designs__Sprang_is_the_worlds_oldest___stretchiest_weaving_technique___how_ancient_people_had_leggings_._Lesson_find_rules_I_love__play_with_them._Is_mostly_a_lesson_of_loving_what_I_love_and_forgi.jpg');
           texture.wrapS = THREE.RepeatWrapping;
           texture.wrapT = THREE.RepeatWrapping;
-          texture.repeat.set(20, 20);
-          this.material = new THREE.MeshToonMaterial({
-            bumpMap: texture,
-            bumpScale: 0.03,
-            transparent: true,
-            color: 0xdeb48a
+          texture.repeat.set(1, 1);
+          this.material = new THREE.MeshStandardMaterial({
+            map: texture,
+            // normalScale: 0.03,
+            // transparent: false,
+            // color: 0xdeb48a
           });
           mainMaterial = this.material;
           this.el.addEventListener('model-loaded', () => this.update());
@@ -61,10 +63,17 @@
 <body>
   <a-scene>
 
-    <a-box click-drag src="https://cdn.glitch.com/b870d9ec-1139-44f9-b462-223e4a2c74e7%2Ftexture.jpg?1490308149272" position="-2 0.5 -4"></a-box>
-    <a-box cube-map-env src="https://dl.dropboxusercontent.com/s/q5sndy1rk2drufh/hand-drawn--bake1.jpg" position="2 0.5 -4"></a-box>
-    <a-entity gltf-material gltf-model="https://dl.dropboxusercontent.com/s/ayi3dfnyyjt7iup/texture-uv-test.glb" position="1 1 -10" rotation="0 45 0">
+    <!-- <a-box click-drag src="https://cdn.glitch.com/b870d9ec-1139-44f9-b462-223e4a2c74e7%2Ftexture.jpg?1490308149272" position="-2 0.5 -4"></a-box>
+
+    <a-box cube-map-env src="https://dl.dropboxusercontent.com/s/q5sndy1rk2drufh/hand-drawn--bake1.jpg" position="2 0.5 -4"></a-box> -->
+
+    <a-entity gltf-material gltf-model="https://dl.dropboxusercontent.com/s/ayi3dfnyyjt7iup/texture-uv-test.glb" scale="4 4 4" position="2 0 -10" rotation="0 45 0">
     </a-entity>
+
+    <a-entity gltf-material gltf-model="https://dl.dropboxusercontent.com/s/ayi3dfnyyjt7iup/texture-uv-test.glb"  position="-2 0 -5" rotation="45 135 -30">
+    </a-entity>
+
+
 
   </a-scene>
 </body>
