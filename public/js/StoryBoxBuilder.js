@@ -429,7 +429,7 @@ export class StoryBoxBuilder {
           if (
             typeof window.StoryBoxBuilder.leftControllerTickEvent === "function"
           ) {
-            vrlog(window.StoryBoxBuilder.leftControllerTickEvent);
+            // vrlog(window.StoryBoxBuilder.leftControllerTickEvent);
             window.StoryBoxBuilder.leftControllerTickEvent();
           }
         },
@@ -452,7 +452,7 @@ export class StoryBoxBuilder {
             typeof window.StoryBoxBuilder.rightControllerTickEvent ===
             "function"
           ) {
-            vrlog(typeof window.StoryBoxBuilder.rightControllerTickEvent);
+            // vrlog(typeof window.StoryBoxBuilder.rightControllerTickEvent);
             window.StoryBoxBuilder.rightControllerTickEvent();
           }
         },
@@ -461,7 +461,7 @@ export class StoryBoxBuilder {
             typeof window.StoryBoxBuilder.rightControllerTickEvent ===
             "function"
           ) {
-            vrlog(typeof window.StoryBoxBuilder.rightControllerTickEvent);
+            // vrlog(typeof window.StoryBoxBuilder.rightControllerTickEvent);
             window.StoryBoxBuilder.rightControllerTickEvent();
           }
         }
@@ -647,7 +647,6 @@ export class StoryBoxBuilder {
         .getElementById("leftHand")
         .getAttribute("tickFunction");
 
-        vrlog(typeof window.StoryBoxBuilder[tickFunctionLeft]);
       if (
         tickFunctionLeft !== undefined &&
         window.StoryBoxBuilder[tickFunctionLeft] !== undefined &&

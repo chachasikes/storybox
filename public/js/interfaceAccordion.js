@@ -42,7 +42,7 @@ export function updateAccordionLine(parent = null) {
         y: positionRightHand.y,
         z: positionRightHand.z
       };
-      vrlog(newPositionLeft);
+
     }
 
     var stretch = document.querySelector("#rose-stretch");
@@ -187,7 +187,7 @@ export function buildHandPropInterface(
             data-percentage-x="${obj.percentageX}"
             data-percentage-y="${obj.percentageY}"
             data-percentage-z="${obj.percentageZ}"
-            radius="0.1"
+            radius="0.075"
             color="${item.color}"
             material="shader:flat"
             transparent="true"
