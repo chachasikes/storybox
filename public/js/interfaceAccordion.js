@@ -1,5 +1,5 @@
 
-export function updateAccordionLine(parent) {
+export function updateAccordionLine(parent = null) {
   var rig = document.querySelector("#rig");
   var stretchLeft = document.querySelector("#leftStretch");
   var stretchRight = document.querySelector("#rightStretch");
@@ -24,7 +24,7 @@ export function updateAccordionLine(parent) {
 
     let newPositionLeft, newPositionRight;
 
-    if (!AFRAME.utils.device.checkHeadsetConnected()) {
+    if (!AFRAME.utils.device.checkHeadsetConnected() && parent !== null) {
       newPositionLeft = parent.testPositions[parent.testPosition].left;
       newPositionRight = parent.testPositions[parent.testPosition].right;
       stretchLeft.setAttribute("position", newPositionLeft);
