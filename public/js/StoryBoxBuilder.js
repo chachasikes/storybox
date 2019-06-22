@@ -358,6 +358,13 @@ export class StoryBoxBuilder {
     window.StoryBoxBuilder.loadGallery();
   }
 
+  yButtonEvent(evt) {
+    vrlog("Y");
+    this.updateTestPositions();
+  }
+
+
+
   setupAppButtons() {
     if (AFRAME.components["x-button-listener"] === undefined) {
       AFRAME.registerComponent("x-button-listener", {
@@ -382,9 +389,17 @@ export class StoryBoxBuilder {
       AFRAME.registerComponent("y-button-listener", {
         init: function() {
           var el = this.el;
-          el.addEventListener("ybuttondown", function(evt) {
-            vrlog("Y");
-          });
+          el.addEventListener(
+            "ybuttondown",
+            window.StoryBoxBuilder.yButtonEvent
+          );
+        },
+        update: function() {
+          var el = this.el;
+          el.addEventListener(
+            "ybuttondown",
+            window.StoryBoxBuilder.yButtonEvent
+          );
         }
       });
     }
@@ -415,6 +430,13 @@ export class StoryBoxBuilder {
       AFRAME.registerComponent("left-controller-listener", {
         init: function() {
           var el = this.el;
+          if (
+            typeof window.StoryBoxBuilder.leftControllerTickEvent === "function"
+          ) {
+            vrlog(window.StoryBoxBuilder.leftControllerTickEvent);
+            console.log(window.StoryBoxBuilder.leftControllerTickEvent);
+            window.StoryBoxBuilder.leftControllerTickEvent();
+          }
         },
         tick: function() {
           if (
@@ -432,6 +454,13 @@ export class StoryBoxBuilder {
       AFRAME.registerComponent("right-controller-listener", {
         init: function() {
           var el = this.el;
+          if (
+            typeof window.StoryBoxBuilder.rightControllerTickEvent ===
+            "function"
+          ) {
+            vrlog(typeof window.StoryBoxBuilder.rightControllerTickEvent);
+            window.StoryBoxBuilder.rightControllerTickEvent();
+          }
         },
         tick: function() {
           if (
