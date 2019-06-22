@@ -422,7 +422,7 @@ export class StoryBoxBuilder {
           ) {
             vrlog(window.StoryBoxBuilder.leftControllerTickEvent);
             console.log(window.StoryBoxBuilder.leftControllerTickEvent);
-            window.StoryBoxBuilder.leftControllerTickEvent(parent);
+            window.StoryBoxBuilder.leftControllerTickEvent();
           }
         }
       });
@@ -438,7 +438,8 @@ export class StoryBoxBuilder {
             typeof window.StoryBoxBuilder.rightControllerTickEvent ===
             "function"
           ) {
-            window.StoryBoxBuilder.rightControllerTickEvent(parent);
+            vrlog(typeof window.StoryBoxBuilder.rightControllerTickEvent);
+            window.StoryBoxBuilder.rightControllerTickEvent();
           }
         }
       });
