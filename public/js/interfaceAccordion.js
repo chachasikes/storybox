@@ -12,7 +12,7 @@ export function updateAccordionLine(parent = null) {
     stretchLeft.object3D !== undefined) ||
     (leftHand !== null &&
     leftHand !== null &&
-    leftHand.object3D !== undefined) ||
+    leftHand.object3D !== undefined)
   ) {
     let positionLeft = stretchLeft.object3D.position;
     let positionRight = stretchRight.object3D.position;
