@@ -5,10 +5,14 @@ export function updateAccordionLine(parent) {
   var stretchRight = document.querySelector("#rightStretch");
   var leftHand = document.querySelector("#leftHand");
   var rightHand = document.querySelector("#rightHand");
+  vrlog('accordion line');
   if (
-    stretchLeft !== null &&
+    (stretchLeft !== null &&
     stretchRight !== null &&
-    stretchLeft.object3D !== undefined
+    stretchLeft.object3D !== undefined) ||
+    (leftHand !== null &&
+    leftHand !== null &&
+    leftHand.object3D !== undefined) ||
   ) {
     let positionLeft = stretchLeft.object3D.position;
     let positionRight = stretchRight.object3D.position;
@@ -16,7 +20,7 @@ export function updateAccordionLine(parent) {
     let positionRightHand = rightHand.object3D.position;
     let cameraPosition = rig.object3D.position;
 
-    // console.log(positionLeft, positionRight);
+    vrlog(positionLeft);
 
     let newPositionLeft, newPositionRight;
 
