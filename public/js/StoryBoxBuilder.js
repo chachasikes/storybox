@@ -648,14 +648,14 @@ export class StoryBoxBuilder {
       let tickFunctionLeft = document
         .getElementById("leftHand")
         .getAttribute("tickFunction");
-        vrlog(tickFunctionLeft);
+
+        vrlog(typeof window.StoryBoxBuilder[tickFunctionLeft]);
       if (
         tickFunctionLeft !== undefined &&
         window.StoryBoxBuilder[tickFunctionLeft] !== undefined &&
         typeof window.StoryBoxBuilder[tickFunctionLeft] === "function"
       ) {
-        window.StoryBoxBuilder.leftControllerTickEvent =
-          window.StoryBoxBuilder[tickFunctionLeft];
+        window.StoryBoxBuilder.leftControllerTickEvent = window.StoryBoxBuilder[tickFunctionLeft];
 
       } else {
         window.StoryBoxBuilder.leftControllerTickEvent = null;

@@ -17,7 +17,7 @@ export class App {
   init(target) {
     window.StoryBoxBuilder = new StoryBoxBuilder(target);
     window.StoryboxAframe = new StoryboxAframe();
-    window.updateAccordionLine = updateAccordionLine;
+    window.StoryBoxBuilder.updateAccordionLine = updateAccordionLine;
     let rendered = window.StoryBoxBuilder.render(target);
     window.StoryBoxBuilder.init(this);
   }
