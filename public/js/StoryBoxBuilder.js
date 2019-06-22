@@ -1,7 +1,7 @@
 import { Gallery } from "./gallery.js";
 import { updateAccordionLine } from "./interfaceAccordion.js";
 import { vrlog } from "./vrlog.js";
-import { testPositions } from './testPositions.js';
+import { testPositions } from "./testPositions.js";
 
 export class StoryBoxBuilder {
   constructor() {
@@ -27,7 +27,7 @@ export class StoryBoxBuilder {
 
   init(parent) {
     this.appKeyStrokes();
-    if (this.debug !== null && window.location.hostname === 'localhost') {
+    if (this.debug !== null && window.location.hostname === "localhost") {
       this.galleryItemSelect(this.debug);
     } else {
       this.setupGallery(parent);
@@ -67,7 +67,7 @@ export class StoryBoxBuilder {
       sceneScript.id = "gallery";
       document.getElementById("scenes").append(sceneScript);
       let sceneMarkup = window.StoryboxAframe.render(this.gallerySceneJson);
-      if ( sceneMarkup !== undefined) {
+      if (sceneMarkup !== undefined) {
         if (
           typeof sceneMarkup.assetsElements !== "string" &&
           sceneMarkup.assetsElements.length > 0 &&
@@ -363,8 +363,6 @@ export class StoryBoxBuilder {
     this.updateTestPositions();
   }
 
-
-
   setupAppButtons() {
     if (AFRAME.components["x-button-listener"] === undefined) {
       AFRAME.registerComponent("x-button-listener", {
@@ -653,7 +651,6 @@ export class StoryBoxBuilder {
         .getElementById("leftHand")
         .getAttribute("tickFunction");
 
-        vrlog('left hand');
       if (
         tickFunctionLeft !== undefined &&
         window.StoryBoxBuilder[tickFunctionLeft] !== undefined &&
@@ -661,7 +658,7 @@ export class StoryBoxBuilder {
       ) {
         window.StoryBoxBuilder.leftControllerTickEvent =
           window.StoryBoxBuilder[tickFunctionLeft];
-          vrlog(window.StoryBoxBuilder.leftControllerTickEvent);
+        vrlog(tickFunctionLeft);
       } else {
         window.StoryBoxBuilder.leftControllerTickEvent = null;
       }
