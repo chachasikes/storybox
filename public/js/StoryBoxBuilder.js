@@ -646,11 +646,14 @@ export class StoryBoxBuilder {
     this.storySettings.galleryListeners = true;
     // Set globally readable event names
     window.StoryBoxBuilder.xButtonEvent = this.xButtonEvent;
+    window.StoryBoxBuilder.yButtonEvent = this.yButtonEvent;
 
     if (document.getElementById("leftHand") !== null) {
       let tickFunctionLeft = document
         .getElementById("leftHand")
         .getAttribute("tickFunction");
+
+        vrlog('left hand');
       if (
         tickFunctionLeft !== undefined &&
         window.StoryBoxBuilder[tickFunctionLeft] !== undefined &&
