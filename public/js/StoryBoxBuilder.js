@@ -430,7 +430,6 @@ export class StoryBoxBuilder {
             typeof window.StoryBoxBuilder.leftControllerTickEvent === "function"
           ) {
             vrlog(window.StoryBoxBuilder.leftControllerTickEvent);
-            console.log(window.StoryBoxBuilder.leftControllerTickEvent);
             window.StoryBoxBuilder.leftControllerTickEvent();
           }
         },
@@ -439,7 +438,6 @@ export class StoryBoxBuilder {
             typeof window.StoryBoxBuilder.leftControllerTickEvent === "function"
           ) {
             vrlog(window.StoryBoxBuilder.leftControllerTickEvent);
-            console.log(window.StoryBoxBuilder.leftControllerTickEvent);
             window.StoryBoxBuilder.leftControllerTickEvent();
           }
         }
@@ -516,9 +514,9 @@ export class StoryBoxBuilder {
       if (
         updateTestPosition !== undefined &&
         updateTestPosition !== null &&
-        typeof window[updateTestPosition] === "function"
+        typeof window.StoryBoxBuilder[updateTestPosition] === "function"
       ) {
-        window[updateTestPosition](this);
+        window.StoryBoxBuilder[updateTestPosition](this);
       }
     }
   }

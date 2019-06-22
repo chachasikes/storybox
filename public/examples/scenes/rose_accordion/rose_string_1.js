@@ -66,12 +66,13 @@ export let Scene = {
               z: 0,
             }
         },
+        stretchAxis: 'x',
         positions: [
           {
             type: "percentage",
             position: {
-              x: 0.45,
-              y: 0.01,
+              x: 0.2,
+              y: 0.01, // These would just be offsets
               z: 0.001,
             },
             color: "#bbe266",
@@ -80,7 +81,7 @@ export let Scene = {
           {
             type: "percentage",
             position: {
-              x: 0.7,
+              x: 0.4,
               y: -0.2,
               z: -0.002,
             },
@@ -90,7 +91,7 @@ export let Scene = {
           {
             type: "percentage",
             position: {
-              x: 0.95,
+              x: 0.7,
               y: 0,
               z: 0,
             },

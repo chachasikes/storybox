@@ -6,7 +6,7 @@ export function updateAccordionLine(parent = null) {
   var stretchRight = document.querySelector("#rightStretch");
   var leftHand = document.querySelector("#leftHand");
   var rightHand = document.querySelector("#rightHand");
-  vrlog('accordion line');
+
   if (
     (stretchLeft !== null &&
     stretchRight !== null &&
@@ -21,15 +21,15 @@ export function updateAccordionLine(parent = null) {
     let positionRightHand = rightHand.object3D.position;
     let cameraPosition = rig.object3D.position;
 
-    vrlog(positionLeft);
-
     let newPositionLeft, newPositionRight;
 
-    if (!AFRAME.utils.device.checkHeadsetConnected() && parent !== null) {
-      newPositionLeft = parent.testPositions[parent.testPosition].left;
-      newPositionRight = parent.testPositions[parent.testPosition].right;
-      stretchLeft.setAttribute("position", newPositionLeft);
-      stretchRight.setAttribute("position", newPositionRight);
+    if (!AFRAME.utils.device.checkHeadsetConnected()) {
+      if (parent !== null) {
+        newPositionLeft = parent.testPositions[parent.testPosition].left;
+        newPositionRight = parent.testPositions[parent.testPosition].right;
+        stretchLeft.setAttribute("position", newPositionLeft);
+        stretchRight.setAttribute("position", newPositionRight);
+      }
       // console.log(newPositionLeft, newPositionRight);
     } else {
       newPositionLeft = {
@@ -182,9 +182,11 @@ export function buildHandPropInterface(
             data-percentage-x="${obj.percentageX}"
             data-percentage-y="${obj.percentageY}"
             data-percentage-z="${obj.percentageZ}"
-            radius="0.05"
+            radius="0.1"
             color="${item.color}"
             material="shader:flat"
+            transparent="true"
+            opacity="0.3"
             ></a-sphere>`;
       });
     }
