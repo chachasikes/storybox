@@ -67,29 +67,34 @@ export function updateAccordionLine(parent = null) {
           el,
           cameraPosition
         );
-        let propPosition = el.getAttribute("position");
-        el.setAttribute("position", positionObj);
+        if (positionObj !== null) {
+          let propPosition = el.getAttribute("position");
+          el.setAttribute("position", positionObj);
+        }
       });
     }
   }
 }
 
 export function updateStretchPosition(a, b, item, cameraPosition) {
-  let percentageX = parseFloat(item.getAttribute("data-percentage-x"));
-  let percentageY = parseFloat(item.getAttribute("data-percentage-y"));
-  let percentageZ = parseFloat(item.getAttribute("data-percentage-z"));
-  let percentage = percentageX; // @TODO connect to stretch axis setting if needed.
-  let data = {
-    x: ((b.x - a.x) * percentage) + a.x,
-    y: ((b.y - a.y) * percentage) + a.y,
-    z: ((b.z - a.z) * percentage) + a.z
-  };
-  let dataChecked = {
-    x: data.x !== Infinity ? data.x : 0,
-    y: data.y !== Infinity ? data.y : 0 ,
-    z: data.z !== Infinity ? data.z : 0
-  };
-  return dataChecked;
+  if (a !== undefined && b !== undefined) {
+    let percentageX = parseFloat(item.getAttribute("data-percentage-x"));
+    let percentageY = parseFloat(item.getAttribute("data-percentage-y"));
+    let percentageZ = parseFloat(item.getAttribute("data-percentage-z"));
+    let percentage = percentageX; // @TODO connect to stretch axis setting if needed.
+    let data = {
+      x: ((b.x - a.x) * percentage) + a.x,
+      y: ((b.y - a.y) * percentage) + a.y,
+      z: ((b.z - a.z) * percentage) + a.z
+    };
+    let dataChecked = {
+      x: data.x !== Infinity ? data.x : 0,
+      y: data.y !== Infinity ? data.y : 0 ,
+      z: data.z !== Infinity ? data.z : 0
+    };
+    return dataChecked;
+  }
+  return null;
 }
 
 export function buildHandPropInterface(

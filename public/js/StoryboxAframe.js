@@ -318,7 +318,7 @@ export class StoryboxAframe {
     let rightModel = ``;
     let orientationOffsetLeft = ``;
     let orientationOffsetRight = ``;
-    let modelLoaded = "model: true";
+    let modelLoaded = "model: false";
 
     // @TODO split out
     if (props.touch !== undefined) {
