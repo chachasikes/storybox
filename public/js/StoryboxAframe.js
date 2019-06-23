@@ -313,18 +313,60 @@ export class StoryboxAframe {
     }
   }
 
+  buildHead(props) {
+    // material="color: black; shader: flat; transparent: true; opacity: 0.2; side: double"
+    return {
+      // head: `<a-sphere id="head" class="intersect-head" radius="0.1" position="0 0 0"></a-sphere>`
+      head: `<a-sphere radius="0.3" color="pink" position="3 3 3" material="color: black; shader: flat; transparent: true; opacity: 0.2; side: double"></a-sphere>`
+    }
+  }
+
   buildCamera(props, innerMarkup, assetsElements, assetItemElements, aframeTags, handProp) {
+    let cursor = this.buildCursor(props);
+    let touchContollers = this.buildTouchControllers(props, handProp, assetItemElements, aframeTags);
+    let headBox = this.buildHead(props);
+    innerMarkup = `${innerMarkup}
+    <a-entity
+      id="rig"
+      ${aframeTags.position.tag}
+      ${aframeTags.rotation.tag}
+      ${aframeTags.scale.tag}
+      updateTestPosition="${props.testUpdateFunction}"
+    >
+      <a-camera
+        ${aframeTags.className}
+        id="${props.id}"
+        ${cursor.cursorCameraControls}
+        position="0 ${this.playerHeight} 0"
+      >
+        ${cursor.cursor}
+        ${headBox.head}
+      </a-camera>
+      ${touchContollers.touchContollers}
+    </a-entity>
+    `;
+    return {
+      assetItemElements: assetItemElements,
+      assetsElements: assetsElements,
+      innerMarkup: innerMarkup,
+    }
+  }
+
+  buildTouchControllers(props, handProp, assetItemElements, aframeTags) {
     let leftModel = ``;
     let rightModel = ``;
     let orientationOffsetLeft = ``;
     let orientationOffsetRight = ``;
     let modelLoaded = "model: false";
+    let debuggerPanelWrist = {debuggerPanelWrist: ``};
+    let laser = this.buildLaser(props);
 
     // @TODO split out
     if (props.touch !== undefined) {
+      debuggerPanelWrist = this.buildWristDebugger();
+
       // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
       // Can change hand controller
-
       if (props.touch.left.glb !== undefined) {
         let leftModelScale = this.getAxis(
           "scale",
@@ -396,7 +438,43 @@ export class StoryboxAframe {
       }
     }
 
-    // @TODO split out
+    let touchContollers = `
+    <a-entity
+      id="leftHand"
+      oculus-touch-controls="hand:left; ${modelLoaded};"
+      ${orientationOffsetLeft}
+      rotation="0 0 0"
+      x-button-listener
+      y-button-listener
+      left-controller-listener
+      tickFunction="${handProp.left.tickFunction}"
+    >
+      ${leftModel}${handProp.leftBox}
+    </a-entity>
+    <a-entity
+      id="rightHand"
+      oculus-touch-controls="hand:right; ${modelLoaded};"
+      ${orientationOffsetRight}
+      rotation="0 0 0"
+      a-button-listener
+      b-button-listener
+      right-controller-listener
+      tickFunction="${handProp.right.tickFunction}"
+    >
+      ${rightModel}
+      ${debuggerPanelWrist.debuggerPanelWrist}
+      ${handProp.rightBox}
+    </a-entity>
+    ${laser.laser}
+    ${handProp.rope}
+    ${handProp.objectPositions}`;
+
+    return {
+      touchContollers: touchContollers
+    }
+  }
+
+  buildWristDebugger() {
     // If not in headset, put the panel in view.
     let panelPosition = AFRAME.utils.device.checkHeadsetConnected() ? `position="0.1 0.1 0.1" rotation="-85 0 0"` : `position="0.0 ${this.playerHeight} -0.5"`;
     let debuggerPanelWrist = ``;
@@ -442,22 +520,28 @@ export class StoryboxAframe {
         color: #eeeeee"
       ></a-entity>
       </a-box>`;
+    }
+    return {
+      debuggerPanelWrist: debuggerPanelWrist
+    }
   }
 
-    let touchContollers = `
-    <a-entity id="leftHand" oculus-touch-controls="hand:left; ${modelLoaded};" ${orientationOffsetLeft} rotation="0 0 0" x-button-listener y-button-listener left-controller-listener tickFunction="${handProp.left.tickFunction}">${leftModel}${handProp.leftBox}</a-entity>
-    <a-entity id="rightHand" oculus-touch-controls="hand:right; ${modelLoaded};" ${orientationOffsetRight} rotation="0 0 0" a-button-listener b-button-listener right-controller-listener tickFunction="${handProp.right.tickFunction}">${rightModel}${debuggerPanelWrist}${handProp.rightBox}</a-entity>
-    ${handProp.rope}
-    ${handProp.objectPositions}`;
-
+  buildLaser(props) {
+    let laser = ``;
     if (props.laser !== undefined) {
       // Can change hand controller
       let leftLine = this.getProperties("line", props.left);
       let rightLine = this.getProperties("line", props.right);
-      innerMarkup = `${innerMarkup}<a-entity laser-controls="hand: left" ${leftLine}></a-entity><a-entity laser-controls="hand: right" ${rightLine}></a-entity>`;
+      laser = `
+      <a-entity laser-controls="hand: left" ${leftLine}></a-entity>
+      <a-entity laser-controls="hand: right" ${rightLine}></a-entity>`;
     }
+    return {
+      laser: laser
+    }
+  }
 
-    // @TODO split out
+  buildCursor(props) {
     let cursorCameraControls = `movement-controls="controls: checkpoint"`;
     let cursor = ``;
 
@@ -474,20 +558,9 @@ export class StoryboxAframe {
         >
       </a-entity>`;
     }
-
-    innerMarkup = `${innerMarkup}
-    <a-entity id="rig" ${aframeTags.position.tag} ${aframeTags.rotation.tag} ${aframeTags.scale.tag} updateTestPosition="${props.testUpdateFunction}">
-        <a-camera ${aframeTags.className} id="${props.id}" ${cursorCameraControls} position="0 ${this.playerHeight} 0">
-        ${cursor}
-        </a-camera>
-        ${touchContollers}
-    </a-entity>
-    `;
-
     return {
-      assetItemElements: assetItemElements,
-      assetsElements: assetsElements,
-      innerMarkup: innerMarkup,
+      cursorCameraControls: cursorCameraControls,
+      cursor: cursor
     }
   }
 
@@ -502,29 +575,6 @@ export class StoryboxAframe {
         assetsElements: assetsElements,
         innerMarkup: innerMarkup,
       }
-  }
-
-  stretchPosition(a, b, item) {
-    // Figure out where on the axes this object should appear.
-    // Figure out the percentages to use to project the object along another line.
-    let position = item; // The object.
-
-    let locationX = Math.abs(a.x) + item.position.x;
-    let locationY = Math.abs(a.y) + item.position.y;
-    let locationZ = Math.abs(a.z) + item.position.z;
-
-    let divisorX = Math.abs(b.x) + Math.abs(a.x);
-    let divisorY = Math.abs(b.y) + Math.abs(a.y);
-    let divisorZ = Math.abs(b.z) + Math.abs(a.z);
-
-    let percentageX = divisorX === 0 ? locationX : locationX / divisorX;
-    let percentageY = divisorY === 0 ? locationY : locationY / divisorY;
-    let percentageZ = divisorZ === 0 ? locationZ : locationZ / divisorZ;
-
-    position.percentageX = percentageX;
-    position.percentageY = percentageY;
-    position.percentageZ = percentageZ;
-    return position;
   }
 
   // Format json object as a-frame

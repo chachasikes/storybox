@@ -35,19 +35,16 @@
           console.log(data);
           let materialSettings = {};
           // https://threejs.org/docs/#api/en/materials/MeshStandardMaterial
-          if (data.path) {
-            var baseTexture = new THREE.TextureLoader().load(data.path);
-            baseTexture.wrapS = THREE.RepeatWrapping;
-            baseTexture.wrapT = THREE.RepeatWrapping;
-            baseTexture.repeat.set(1, 1);
-            materialSettings.map = baseTexture;
-          }
 
+          let scale = {
+            u: 8,
+            v: 8
+          }
           if (data.normalPath) {
             var normalPathTexture = new THREE.TextureLoader().load(data.normalPath);
             normalPathTexture.wrapS = THREE.RepeatWrapping;
             normalPathTexture.wrapT = THREE.RepeatWrapping;
-            normalPathTexture.repeat.set(1, 1);
+            normalPathTexture.repeat.set(scale.u, scale.v);
             materialSettings.map = normalPathTexture;
           }
 
@@ -55,23 +52,56 @@
             var bumpTexture = new THREE.TextureLoader().load(data.bumpPath);
             bumpTexture.wrapS = THREE.RepeatWrapping;
             bumpTexture.wrapT = THREE.RepeatWrapping;
-            bumpTexture.repeat.set(1, 1);
+            bumpTexture.repeat.set(scale.u, scale.v);
             materialSettings.bumpMap = bumpTexture;
+            materialSettings.bumpScale = 0.5;
           }
 
           if (data.alphaPath) {
             var alphaTexture = new THREE.TextureLoader().load(data.alphaPath);
             alphaTexture.wrapS = THREE.RepeatWrapping;
             alphaTexture.wrapT = THREE.RepeatWrapping;
-            alphaTexture.repeat.set(1, 1);
+            alphaTexture.repeat.set(scale.u, scale.v);
             materialSettings.alphaMap = alphaTexture;
+          }
+
+          if (data.displacementPath) {
+            var displacementTexture = new THREE.TextureLoader().load(data.displacementPath);
+            displacementTexture.wrapS = THREE.RepeatWrapping;
+            displacementTexture.wrapT = THREE.RepeatWrapping;
+            displacementTexture.repeat.set(scale.u, scale.v);
+            materialSettings.displacementMap = displacementTexture;
+            // materialSettings.displacementScale = 0.5;
+          }
+
+          if (data.environmentPath) {
+            var environmentTexture = new THREE.TextureLoader().load(data.environmentPath);
+            environmentTexture.wrapS = THREE.RepeatWrapping;
+            environmentTexture.wrapT = THREE.RepeatWrapping;
+            environmentTexture.repeat.set(scale.u, scale.v);
+            materialSettings.environmentMap = environmentTexture;
+            // materialSettings.envMapIntensity = 2;
+          }
+
+          if (data.emissivePath) {
+            var emissiveTexture = new THREE.TextureLoader().load(data.emissivePath);
+            emissiveTexture.wrapS = THREE.RepeatWrapping;
+            emissiveTexture.wrapT = THREE.RepeatWrapping;
+            emissiveTexture.repeat.set(scale.u, scale.v);
+            materialSettings.emissiveMap = emissiveTexture;
+          }
+
+          if (data.ambientOcculsionPath) {
+            var ambientOcculsionTexture = new THREE.TextureLoader().load(data.ambientOcculsionPath);
+            materialSettings.aoMap = ambientOcculsionTexture;
+            materialSettings.aoMapIntensity = 0.1;
           }
 
           if (data.roughnessPath) {
             var roughnessTexture = new THREE.TextureLoader().load(data.roughnessPath);
             roughnessTexture.wrapS = THREE.RepeatWrapping;
             roughnessTexture.wrapT = THREE.RepeatWrapping;
-            roughnessTexture.repeat.set(1, 1);
+            roughnessTexture.repeat.set(scale.u, scale.v);
             materialSettings.roughnessMap = roughnessTexture;
           }
 
@@ -80,8 +110,19 @@
             materialSettings.lightMap = lightMapTexture;
           }
 
+          if (data.path) {
+            var baseTexture = new THREE.TextureLoader().load(data.path);
+            baseTexture.wrapS = THREE.RepeatWrapping;
+            baseTexture.wrapT = THREE.RepeatWrapping;
+            baseTexture.repeat.set(scale.u, scale.v);
+            materialSettings.map = baseTexture;
+          }
+
+          materialSettings.metalness = 0;
+          // materialSettings.emissive = #ffffff;
+          // materialSettings.emissiveIntensity = 0.3;
           this.material = new THREE.MeshStandardMaterial(materialSettings);
-          mainMaterial = this.material;
+
           this.el.addEventListener('model-loaded', () => this.update());
         },
         update: function() {
@@ -100,17 +141,20 @@
 <body>
 
   <a-scene>
-    <a-camera wasd-controls></a-camera>
+    <a-camera wasd-controls gamepad-controls></a-camera>
+    <!-- <a-entity light="color: #FFF; intensity: 1" position="-10 10 10"></a-entity> -->
+    <a-entity type="ambient" light="color: #FFF; intensity: 0.8" position="-10 10 10"></a-entity>
+
     <a-entity gltf-material="path:https://dl.dropboxusercontent.com/s/nc23cpikktx50mu/Day_62._Continuation_of_diamond_grid_Sprang_friendly_designs__Sprang_is_the_worlds_oldest___stretchiest_weaving_technique___how_ancient_people_had_leggings_._Lesson_find_rules_I_love__play_with_them._Is_mostly_a_lesson_of_loving_what_I_love_and_forgi.jpg" gltf-model="https://dl.dropboxusercontent.com/s/ayi3dfnyyjt7iup/texture-uv-test.glb" scale="1 1 1" position="1 -3 -5" rotation="0 45 45">
     </a-entity>
 
     <a-entity gltf-material="path:https://dl.dropboxusercontent.com/s/rmj1u0ciknrdpoi/63480_small.png" gltf-model="https://dl.dropboxusercontent.com/s/ayi3dfnyyjt7iup/texture-uv-test.glb" position="-2 0 -5" rotation="45 135 -30" crossorigin="anonymous">
     </a-entity>
 
-    <a-entity gltf-material="path:https://dl.dropboxusercontent.com/s/1zr2u9xl5fpyjtv/Tiles_025_Base_Color.jpg;bumpPath:https://dl.dropboxusercontent.com/s/6vw8mi8k4t8txuy/Tiles_025_height.png;roughnessPath:https://dl.dropboxusercontent.com/s/1yasqzucfva4ja4/Tiles_025_roughness.jpg;lightMapPath:https://www.dropbox.com/s/xzh6yhhlrtxh183/Tiles_025_ambientOcclusion.jpg:normalPath:https://dl.dropboxusercontent.com/s/lzbhks37mnd1cs0/Tiles_025_normal.jpg" gltf-model="https://dl.dropboxusercontent.com/s/e0n2p6iqxgmdtnt/accordion-placeholder.glb" scale="4 4 4" position="2 -1 -10" rotation="0 45 0" crossorigin="anonymous">
+    <a-entity gltf-material="path:https://dl.dropboxusercontent.com/s/1zr2u9xl5fpyjtv/Tiles_025_Base_Color.jpg;bumpPath:https://dl.dropboxusercontent.com/s/6vw8mi8k4t8txuy/Tiles_025_height.png;roughnessPath:https://dl.dropboxusercontent.com/s/1yasqzucfva4ja4/Tiles_025_roughness.jpg;ambientOcculsionPath:https://www.dropbox.com/s/xzh6yhhlrtxh183/Tiles_025_ambientOcclusion.jpg:normalPath:https://dl.dropboxusercontent.com/s/lzbhks37mnd1cs0/Tiles_025_normal.jpg" gltf-model="https://dl.dropboxusercontent.com/s/e0n2p6iqxgmdtnt/accordion-placeholder.glb" scale="1 1 1" position="2 -1 -3" rotation="0 45 0" crossorigin="anonymous">
     </a-entity>
 
-    <a-entity gltf-material="path:https://dl.dropboxusercontent.com/s/1zr2u9xl5fpyjtv/Tiles_025_Base_Color.jpg;bumpPath:https://dl.dropboxusercontent.com/s/6vw8mi8k4t8txuy/Tiles_025_height.png;roughnessPath:https://dl.dropboxusercontent.com/s/1yasqzucfva4ja4/Tiles_025_roughness.jpg;lightMapPath:https://www.dropbox.com/s/xzh6yhhlrtxh183/Tiles_025_ambientOcclusion.jpg:normalPath:https://dl.dropboxusercontent.com/s/lzbhks37mnd1cs0/Tiles_025_normal.jpg" gltf-model="https://dl.dropboxusercontent.com/s/uasdltstqfjbc1x/rough-sphere.glb" scale="1 1 1" position="-3 2 -2" rotation="0 0 0" crossorigin="anonymous">
+    <a-entity gltf-material="path:https://dl.dropboxusercontent.com/s/1zr2u9xl5fpyjtv/Tiles_025_Base_Color.jpg;bumpPath:https://dl.dropboxusercontent.com/s/6vw8mi8k4t8txuy/Tiles_025_height.png;roughnessPath:https://dl.dropboxusercontent.com/s/1yasqzucfva4ja4/Tiles_025_roughness.jpg;ambientOcculsionPath:https://www.dropbox.com/s/xzh6yhhlrtxh183/Tiles_025_ambientOcclusion.jpg:normalPath:https://dl.dropboxusercontent.com/s/lzbhks37mnd1cs0/Tiles_025_normal.jpg" gltf-model="https://dl.dropboxusercontent.com/s/e0n2p6iqxgmdtnt/accordion-placeholder.glb" scale="1 1 1" position="-3 2 -2" rotation="0 0 0" crossorigin="anonymous">
     </a-entity>
 <!--
 https://dl.dropboxusercontent.com/s/lzbhks37mnd1cs0/Tiles_025_normal.jpg

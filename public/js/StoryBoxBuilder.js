@@ -23,7 +23,6 @@ export class StoryBoxBuilder {
   }
 
   init(parent) {
-
     this.appKeyStrokes();
     if (parent !== undefined) {
       this.registry = parent.registry;
@@ -630,6 +629,9 @@ export class StoryBoxBuilder {
         this.updateTestPositions();
       }
     });
+
+    window.StoryBoxBuilder.intersectionEvent = this.intersectionEvent;
+    // window.addEventListener("hit", window.StoryBoxBuilder.intersectionEvent);
   }
 
   updateEventListeners() {
@@ -694,7 +696,22 @@ export class StoryBoxBuilder {
       }
     }
 
+    // window.StoryBoxBuilder.intersectionAction = null;
+    // if (document.querySelectorAll('sphere-intersection')) {
+    //   let intersectionElements = document.querySelectorAll('.sphere-intersection');
+    //   window.StoryBoxBuilder.intersectionAction = 'int';
+    //   intersectionElements.forEach(item => {
+    //     // let action = item.getAttribute('intersectionAction');
+    //     // if (action !== null) {
+    //     //   window.intersectionAction = action;
+    //     // }
+    //   });
+    // }
     window.StoryBoxBuilder.modelLoadedEvent = this.modelLoadedEvent;
+  }
+
+  intersectionEvent(e) {
+    // console.log(e, 'hit');
   }
 
   render(target) {

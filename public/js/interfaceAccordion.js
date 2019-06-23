@@ -106,6 +106,7 @@ export function buildHandPropInterface(
   let rightBox = ``;
   let left = {};
   let right = {};
+  let className=`class="stretch-object"`;
 
   if (props !== undefined && props.type === "stretch") {
     left = props.a;
@@ -169,15 +170,26 @@ export function buildHandPropInterface(
 
     if (props.positions !== undefined) {
       props.positions.forEach(item => {
-        let obj = parent.stretchPosition(
+        let obj = stretchPosition(
           props.a.position,
           props.b.position,
           item
         );
+        let intersection = ``;
+        if (item.intersect !== undefined) {
+          intersection = `
+            sphere-collider="objects: ${item.intersect};"
+            intersectAction="${item.intersectAction}"
+            sceneTarget="${item.sceneTarget}"
+            `;
+
+          className=`class="stretch-object sphere-intersection"`;
+        }
         objectPositions = `${objectPositions}
             <a-sphere
             id="${item.id}"
-            class="stretch-object"
+            ${className}
+            ${intersection}
             position="${obj.position.x} ${obj.position.y} ${obj.position.z}"
             data-percentage-x="${obj.percentageX}"
             data-percentage-y="${obj.percentageY}"
@@ -213,4 +225,27 @@ export function buildHandPropInterface(
     left,
     right
   };
+}
+
+export function stretchPosition(a, b, item) {
+  // Figure out where on the axes this object should appear.
+  // Figure out the percentages to use to project the object along another line.
+  let position = item; // The object.
+
+  let locationX = Math.abs(a.x) + item.position.x;
+  let locationY = Math.abs(a.y) + item.position.y;
+  let locationZ = Math.abs(a.z) + item.position.z;
+
+  let divisorX = Math.abs(b.x) + Math.abs(a.x);
+  let divisorY = Math.abs(b.y) + Math.abs(a.y);
+  let divisorZ = Math.abs(b.z) + Math.abs(a.z);
+
+  let percentageX = divisorX === 0 ? locationX : locationX / divisorX;
+  let percentageY = divisorY === 0 ? locationY : locationY / divisorY;
+  let percentageZ = divisorZ === 0 ? locationZ : locationZ / divisorZ;
+
+  position.percentageX = percentageX;
+  position.percentageY = percentageY;
+  position.percentageZ = percentageZ;
+  return position;
 }

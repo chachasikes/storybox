@@ -22,6 +22,12 @@ export let Scene = {
         y: 0,
         z: 0
       },
+      headProp: {
+        id: '#head-bubble',
+        type: 'intersect',
+        color: 'pink',
+        intersectClass: ".scent",
+      },
       handProp: {
         id: "rose-stretch",
         type: "stretch",
@@ -77,6 +83,9 @@ export let Scene = {
             },
             color: "#bbe266",
             id: 'geraniol',
+            intersect: '#head',
+            intersectAction: 'openScene',
+            sceneTarget: 'geraniol-scene',
           },
           {
             type: "percentage",
@@ -87,6 +96,9 @@ export let Scene = {
             },
             color: "#f4a8e1",
             id: 'PEA',
+            intersect: '#head',
+            intersectAction: 'openScene',
+            sceneTarget: 'pea-scene',
           },
           {
             type: "percentage",
@@ -97,6 +109,9 @@ export let Scene = {
             },
             color: "#f4eea8",
             id: 'citronellol',
+            intersect: '#head',
+            intersectAction: 'openScene',
+            sceneTarget: 'citronellol-scene',
           }
         ]
       }
