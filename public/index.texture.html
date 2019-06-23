@@ -19,7 +19,7 @@
   <script src="./lib/super-hands.min.js"></script>
   <script src="./lib/ammo.js"></script>
 
- <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+ <script src="./lib/aframe-teleport-controls.min.js"></script>
 <!-- TRY THIS https://github.com/mrdoob/three.js/blob/master/examples/webgl_materials_translucency.html -->
 <!-- TRY THIS LIGHTMAP view-source:https://threejs.org/examples/webgl_materials_lightmap.html -->
 <!-- TRY THIS https://threejs.org/examples/#webgl_materials_texture_rotation -->
@@ -147,8 +147,8 @@
       <!-- camera -->
       <a-entity id="head" camera wasd-controls look-controls></a-entity>
       <!-- hand controls -->
-      <a-entity id="left-hand" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head;"></a-entity>
-      <a-entity id="right-hand" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head;"></a-entity>
+      <a-entity id="left-hand" oculus-touch-controls="hand: left" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head;"></a-entity>
+      <a-entity id="right-hand" oculus-touch-controls="hand: right" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head;"></a-entity>
     </a-entity>
 
     <!-- <a-entity light="color: #FFF; intensity: 1" position="-10 10 10"></a-entity> -->
