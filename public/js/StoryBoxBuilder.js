@@ -14,9 +14,8 @@ export class StoryBoxBuilder {
     this.showLoading = false;
     this.registry = [];
     this.storySettings.currentStory = "gallery";
-    // this.debug = "rose_accordion";
-    this.debug = null;
-
+    // this.hash = "rose_accordion";
+    this.hash = window.location.hash.replace('#', '');
     window.VRLog = {};
     window.VRLog.logQueue = [];
     this.testPosition = 0;
@@ -24,19 +23,21 @@ export class StoryBoxBuilder {
   }
 
   init(parent) {
+
     this.appKeyStrokes();
-    if (this.debug !== null && window.location.hostname === "localhost") {
-      this.galleryItemSelect(this.debug);
+    if (parent !== undefined) {
+      this.registry = parent.registry;
+      this.gallerySceneJson = parent.gallerySceneJson;
+    }
+    if (this.hash !== '') {
+      this.galleryItemSelect(this.hash);
+
     } else {
       this.setupGallery(parent);
     }
   }
 
   setupGallery(parent) {
-    if (parent !== undefined) {
-      this.registry = parent.registry;
-      this.gallerySceneJson = parent.gallerySceneJson;
-    }
     clearTimeout(this.storySettings.timer);
 
     if (this.registry !== undefined) {
@@ -147,9 +148,12 @@ export class StoryBoxBuilder {
 
   // Load the current story.
   getCurrentStory(id) {
-    let story = this.registry.filter(item => item.id === id);
-    if (story !== undefined && story.length > 0) {
-      return story[0];
+    if (this.registry !== undefined) {
+      let story = this.registry.filter(item => item.id === id);
+      if (story !== undefined && story.length > 0) {
+        return story[0];
+      }
+      return null;
     }
     return null;
   }
@@ -167,8 +171,6 @@ export class StoryBoxBuilder {
   setupStory() {
     // Stop any timers.
     clearTimeout(this.storySettings.timer);
-    // clearInterval(this.storySettings.stretchLine);
-
     let currentStory = this.getCurrentStory(this.storySettings.currentStory);
 
     let rebuildAssets = true;
@@ -176,73 +178,75 @@ export class StoryBoxBuilder {
     //   rebuildAssets = false;
     // }
     // Read all scenes in the story & convert JSON to aframe tags.
-    currentStory.scenes.map(sceneJson => {
-      // Get markup chunks for aframe
-      let sceneMarkup = window.StoryboxAframe.render(sceneJson);
+    if (currentStory !== null) {
+      currentStory.scenes.map(sceneJson => {
+        // Get markup chunks for aframe
+        let sceneMarkup = window.StoryboxAframe.render(sceneJson);
 
+        if (
+          typeof sceneMarkup.assetItemElements !== "string" &&
+          sceneMarkup.assetItemElements.length > 0 &&
+          rebuildAssets
+        ) {
+          // Load all scene assets
+          sceneMarkup.assetItemElements.map(asset => {
+            this.assetMarkup += asset;
+          });
+        }
+
+        if (
+          typeof sceneMarkup.assetsElements !== "string" &&
+          sceneMarkup.assetsElements.length > 0 &&
+          rebuildAssets
+        ) {
+          // Load all scene assets
+          sceneMarkup.assetsElements.map(asset => {
+            this.assetMarkup += asset;
+          });
+        }
+
+        // Set up dynamically loadable scenes.
+        var sceneScript = document.createElement("script");
+        sceneScript.type = "text/html";
+        sceneScript.id = sceneJson.id;
+        document.getElementById("scenes").append(sceneScript);
+        // Load scene content into scene
+        if (document.getElementById(`${sceneJson.id}`) !== null) {
+          document.getElementById(`${sceneJson.id}`).innerHTML =
+            sceneMarkup.innerMarkup;
+        }
+      });
+
+      // Aggregate assets in loader
       if (
-        typeof sceneMarkup.assetItemElements !== "string" &&
-        sceneMarkup.assetItemElements.length > 0 &&
-        rebuildAssets
+        document.querySelector("a-assets") !== undefined &&
+        document.querySelector("a-assets") !== null
       ) {
-        // Load all scene assets
-        sceneMarkup.assetItemElements.map(asset => {
-          this.assetMarkup += asset;
-        });
+        document.querySelector("a-assets").remove();
       }
-
       if (
-        typeof sceneMarkup.assetsElements !== "string" &&
-        sceneMarkup.assetsElements.length > 0 &&
-        rebuildAssets
+        document.querySelector("a-assets") === undefined ||
+        document.querySelector("a-assets") === null
       ) {
-        // Load all scene assets
-        sceneMarkup.assetsElements.map(asset => {
-          this.assetMarkup += asset;
-        });
+        var assets = document.createElement("a-assets");
+        assets.setAttribute("timeout", 60000);
+        document.getElementById("scenes").before(assets);
       }
+      document.querySelector("a-assets").innerHTML = this.assetMarkup;
 
-      // Set up dynamically loadable scenes.
-      var sceneScript = document.createElement("script");
-      sceneScript.type = "text/html";
-      sceneScript.id = sceneJson.id;
-      document.getElementById("scenes").append(sceneScript);
-      // Load scene content into scene
-      if (document.getElementById(`${sceneJson.id}`) !== null) {
-        document.getElementById(`${sceneJson.id}`).innerHTML =
-          sceneMarkup.innerMarkup;
-      }
-    });
-
-    // Aggregate assets in loader
-    if (
-      document.querySelector("a-assets") !== undefined &&
-      document.querySelector("a-assets") !== null
-    ) {
-      document.querySelector("a-assets").remove();
-    }
-    if (
-      document.querySelector("a-assets") === undefined ||
-      document.querySelector("a-assets") === null
-    ) {
-      var assets = document.createElement("a-assets");
-      assets.setAttribute("timeout", 60000);
-      document.getElementById("scenes").before(assets);
-    }
-    document.querySelector("a-assets").innerHTML = this.assetMarkup;
-
-    this.update();
-
-    document.querySelector("a-assets").addEventListener("loaded", () => {
-      this.showLoading = false;
       this.update();
-      let currentScene = this.getCurrentScene(this.storySettings.currentStory);
-      if (currentScene && currentScene.autoPlay === true) {
-        this.play();
-      } else {
-        this.pauseScene();
-      }
-    });
+
+      document.querySelector("a-assets").addEventListener("loaded", () => {
+        this.showLoading = false;
+        this.update();
+        let currentScene = this.getCurrentScene(this.storySettings.currentStory);
+        if (currentScene && currentScene.autoPlay === true) {
+          this.play();
+        } else {
+          this.pauseScene();
+        }
+      });
+    }
   }
 
   playScene() {

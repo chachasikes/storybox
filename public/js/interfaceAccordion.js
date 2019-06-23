@@ -1,6 +1,6 @@
 import { vrlog } from "./vrlog.js";
 
-export function updateAccordionLine(parent = null) {
+export function updateAccordionLine() {
   var rig = document.querySelector("#rig");
   var stretchLeft = document.querySelector("#leftStretch");
   var stretchRight = document.querySelector("#rightStretch");
@@ -20,17 +20,12 @@ export function updateAccordionLine(parent = null) {
     let positionLeftHand = leftHand.object3D.position;
     let positionRightHand = rightHand.object3D.position;
     let cameraPosition = rig.object3D.position;
-
     let newPositionLeft, newPositionRight;
-
     if (!AFRAME.utils.device.checkHeadsetConnected()) {
-      if (parent !== null) {
-        newPositionLeft = parent.testPositions[parent.testPosition].left;
-        newPositionRight = parent.testPositions[parent.testPosition].right;
-        stretchLeft.setAttribute("position", newPositionLeft);
-        stretchRight.setAttribute("position", newPositionRight);
-      }
-      // console.log(newPositionLeft, newPositionRight);
+      newPositionLeft = window.StoryBoxBuilder.testPositions[window.StoryBoxBuilder.testPosition].left;
+      newPositionRight = window.StoryBoxBuilder.testPositions[window.StoryBoxBuilder.testPosition].right;
+      stretchLeft.setAttribute("position", newPositionLeft);
+      stretchRight.setAttribute("position", newPositionRight);
     } else {
       newPositionLeft = {
         x: positionLeftHand.x,
@@ -42,17 +37,17 @@ export function updateAccordionLine(parent = null) {
         y: positionRightHand.y,
         z: positionRightHand.z
       };
-
     }
 
     var stretch = document.querySelector("#rose-stretch");
-
     if (stretch !== null) {
       let line = stretch.getAttribute("line");
       let lineParsed = AFRAME.utils.styleParser.parse(line);
-      lineParsed.start = newPositionLeft;
-      lineParsed.end = newPositionRight;
-      stretch.setAttribute("line", lineParsed);
+      if (line !== null && lineParsed !== undefined && lineParsed !== null) {
+        lineParsed.start = newPositionLeft;
+        lineParsed.end = newPositionRight;
+        stretch.setAttribute("line", lineParsed);
+      }
     }
 
     var stretchObjects = document.querySelectorAll(".stretch-object");
