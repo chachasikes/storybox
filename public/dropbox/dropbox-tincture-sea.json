@@ -1,78 +1,82 @@
 {
-  id: 'scent_demo_seaweed',
-  name: 'Tincture of Sea \n (Rough 7/28)',
-  panel: './dropbox/images/Nature-Sea-Kelp-Plant-Seaweed-Texture-Pattern-2147456.jpg',
-  scenes: [
+  "id": "scent_demo_seaweed",
+  "name": "Tincture of Sea \n (Rough 7/28)",
+  "panel": "./dropbox/images/Nature-Sea-Kelp-Plant-Seaweed-Texture-Pattern-2147456.jpg",
+  "scenes": [
     {
-      scene: 4,
-      published: true,
-      id: "tincture_of_sea",
-      name: "Tincture of Sea",
-      duration: 60000,
-      autoPlay: true,
-      camera_3: {
-        camera: {
-          name: "World camera",
-          id: "camera_5",
-          cursorCamera: false,
-          clickableClass: '.clickable',
-          fadeMask: false,
-          position: {
-            x: 45,
-            y: 0,
-            z: 0
+      "scene": 4,
+      "published": true,
+      "id": "tincture_of_sea",
+      "name": "Tincture of Sea",
+      "duration": 60000,
+      "autoPlay": true,
+      "camera_3": {
+        "camera": {
+          "name": "World camera",
+          "id": "camera_5",
+          "cursorCamera": false,
+          "clickableClass": ".clickable",
+          "fadeMask": false,
+          "position": {
+            "x": 10,
+            "y": -0.6,
+            "z": -40
           },
-        },
-      },
-      ambientLight: {
-        light: {
-          type: 'ambient',
-          position: {
-            x: 0,
-            y: 15,
-            z: 0
-          },
-          color: '#ffffff',
-        }
-      },
-      skybox: {
-        sky: {
-          color: "#fefefe",
-          // art: "https://dl.dropboxusercontent.com/s/7bt2oz3gukuporf/mountain_sky_equirectangular.png",
-          // art: "https://dl.dropboxusercontent.com/s/4q6swr0zsn4g4je/Free-HDR-Sky-Unity-Asset-Store.jpg",
-          id: "sky-photo-2",
-          name: "Gray sky",
-          credit: "Chacha Sikes",
-          rotation: {
-            x:0,
-            y:90,
-            z:0
-          },
-        }
-      },
-      quill_alembic: {
-        mesh: {
-          name: "Tincture of Sea",
-          credit: "Chacha Sikes",
-          id: "tincture-of-sea",
-          art: "https://dl.dropboxusercontent.com/s/bbu3tndgtmoach4/Blender-boards1-4.glb",
-          scale: {
-            x: 100,
-            y: 100,
-            z: 100,
-          },
-          rotation: {
-            x: 0,
-            y: 0,
-            z: 0
-          },
-          position: {
-            x: 180,
-            y: -80,
-            z: 0
+          "rotation": {
+            "x": 0,
+            "y": 15,
+            "z": 0
           }
-        },
+        }
       },
+      "ambientLight": {
+        "light": {
+          "type": "ambient",
+          "position": {
+            "x": 0,
+            "y": 15,
+            "z": 0
+          },
+          "color": "#ffffff"
+        }
+      },
+      "skybox": {
+        "sky": {
+          "color": "#fefefe",
+          "art": "https://dl.dropboxusercontent.com/s/7bt2oz3gukuporf/mountain_sky_equirectangular.png",
+          "id": "sky-photo-2",
+          "name": "Gray sky",
+          "credit": "Chacha Sikes",
+          "rotation": {
+            "x": 0,
+            "y": 90,
+            "z": 0
+          }
+        }
+      },
+      "quill_alembic": {
+        "mesh": {
+          "name": "Tincture of Sea",
+          "credit": "Chacha Sikes",
+          "id": "tincture-of-sea-1-4",
+          "art": "https://dl.dropboxusercontent.com/s/bbu3tndgtmoach4/Blender-boards1-4.glb",
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        }
+      }
     }
   ]
 }
