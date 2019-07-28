@@ -16,6 +16,7 @@ export class StoryBoxBuilder {
     this.storySettings.currentStory = "gallery";
     // this.hash = "rose_accordion";
     this.hash = window.location.hash.replace('#', '');
+    console.log("hash", this.hash);
     window.VRLog = {};
     window.VRLog.logQueue = [];
     this.testPosition = 0;

@@ -1,6 +1,6 @@
 {
   id: 'scent_demo_seaweed',
-  name: 'Tincture of Sea \n (Rough 6/19)',
+  name: 'Tincture of Sea \n (Rough 7/28)',
   panel: './dropbox/images/Nature-Sea-Kelp-Plant-Seaweed-Texture-Pattern-2147456.jpg',
   scenes: [
     {
@@ -55,16 +55,15 @@
           name: "Tincture of Sea",
           credit: "Chacha Sikes",
           id: "tincture-of-sea",
-          // art: "https://dl.dropboxusercontent.com/s/wh9s8aj56xxvdly/forest_rough_sketch.glb",
-          art: "https://dl.dropboxusercontent.com/s/kgtuq7g1lylr9wv/tincture-of-sea.glb",
+          art: "https://dl.dropboxusercontent.com/s/bbu3tndgtmoach4/Blender-boards1-4.glb",
           scale: {
-            x: 80,
-            y: 80,
-            z: 80,
+            x: 100,
+            y: 100,
+            z: 100,
           },
           rotation: {
             x: 0,
-            y: -30,
+            y: 0,
             z: 0
           },
           position: {
