@@ -25,6 +25,7 @@ export class App {
   loadDropbox(files) {
     let dropboxRegistry = files.forEach(file => {
       let rawFilePath = formatDropboxRawLinks(file);
+      try {
       let filesData = fetch(rawFilePath)
         .then(response => response.json())
         .then(data => {
@@ -49,6 +50,9 @@ export class App {
           this.init();
         })
         .catch(error => console.log(error));
+      } catch(error) {
+        
+      }
     });
   }
 }
