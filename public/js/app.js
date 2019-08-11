@@ -47,7 +47,8 @@ export class App {
           });
           // Remote data loaded asynchronously - continue.
           this.init();
-        });
+        })
+        .catch(error => console.log(error));
     });
   }
 }

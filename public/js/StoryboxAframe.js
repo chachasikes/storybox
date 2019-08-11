@@ -236,6 +236,7 @@ export class StoryboxAframe {
           gltf-model="#${props.id}"
           ${aframeTags.scale.tag}
           ${aframeTags.position.tag}
+          ${aframeTags.rotation.tag}
           ${texture}
           crossorigin="anonymous"
           preload="true"
@@ -246,7 +247,11 @@ export class StoryboxAframe {
           var textureMaterial = new THREE.TextureLoader().load( `${props.art}` );
           this.materials[props.id] = new THREE.MeshStandardMaterial({
               map: textureMaterial,
-              color : 0xffffff
+              color : 0xffffff,
+              side: "double",
+              alphaTest: 100,
+              flatShading: true,
+              transparent: true,
           });
 
 
@@ -279,6 +284,87 @@ export class StoryboxAframe {
           </a-obj-model>`;
       }
     }
+
+    return {
+      assetsElements,
+      innerMarkup,
+      assetItemElements
+    }
+  }
+
+  buildStoryboxes(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
+    
+    // if (props.art !== undefined) {
+    //   let classProps = this.getValue("className", props);
+    //   let className = `class="${classProps.attribute} glb-animation"`;
+    //
+    //   // https://github.com/donmccurdy/aframe-extras/issues/167
+    //
+    //   let texture = props.texture !== undefined && props.texture !== undefined ? `src="${props.texture}"` : ``;
+    //
+    //   let fileType = props.art.split('.').pop();
+    //   if (fileType === 'glb') {
+    //     className = `class="${classProps.attribute} glb-animation ${props.texture !== undefined && props.texture !== undefined ? 'textured' : ''}"`;
+    //
+    //     // https://aframe.io/docs/0.9.0/components/gltf-model.html
+    //     assetItemElements.push(
+    //       `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>`
+    //     );
+    //
+    //     innerMarkup = `${innerMarkup}
+    //       <a-entity
+    //       ${className}
+    //       gltf-model="#${props.id}"
+    //       ${aframeTags.scale.tag}
+    //       ${aframeTags.position.tag}
+    //       ${aframeTags.rotation.tag}
+    //       ${texture}
+    //       crossorigin="anonymous"
+    //       preload="true"
+    //       animation-mixer
+    //       >
+    //       </a-entity>`;
+    //
+    //       var textureMaterial = new THREE.TextureLoader().load( `${props.art}` );
+    //       this.materials[props.id] = new THREE.MeshStandardMaterial({
+    //           map: textureMaterial,
+    //           color : 0xffffff,
+    //           side: "double",
+    //           alphaTest: 100,
+    //           flatShading: true,
+    //           transparent: true,
+    //       });
+    //
+    //
+    //   } else if (fileType === 'obj') {
+    //     assetItemElements.push(
+    //       `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>
+    //        <a-asset-item id="${props.id}-material" src="${props.material}"></a-asset-item>
+    //       `
+    //     );
+    //
+    //     // https://stackoverflow.com/questions/47513018/how-do-i-change-the-texture-of-a-gltf-model-dynamically
+    //     // var tex = new THREE.TextureLoader().load(`${props.art}`);
+    //     // tex.flipY = false; // for glTF models.
+    //     //
+    //     // el.addEventListener('model-loaded', function (e => {
+    //     //   e.detail.model.traverse(function(node) {
+    //     //     if (node.isMesh) node.material.map = tex;
+    //     //   });
+    //     // });
+    //
+    //
+    //     innerMarkup = `${innerMarkup}
+    //       <a-obj-model
+    //
+    //       src="#${props.id}"
+    //       mtl="#${props.id}-material"
+    //       crossorigin="anonymous"
+    //       preload="true"
+    //       >
+    //       </a-obj-model>`;
+    //   }
+    // }
 
     return {
       assetsElements,
@@ -604,6 +690,13 @@ export class StoryboxAframe {
                 innerMarkup = mesh.innerMarkup;
                 assetsElements = mesh.assetsElements;
                 assetItemElements = mesh.assetItemElements;
+                break;
+              case "storyboxes":
+                props = this.formatDropboxDataRecursive(props);
+                let storyboxes = this.buildStoryboxes(props, innerMarkup, assetsElements, assetItemElements, aframeTags);
+                innerMarkup = storyboxes.innerMarkup;
+                assetsElements = storyboxes.assetsElements;
+                assetItemElements = storyboxes.assetItemElements;
                 break;
               case "camera":
                 props = this.formatDropboxDataRecursive(props);
