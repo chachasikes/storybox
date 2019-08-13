@@ -10,7 +10,7 @@ AFRAME.registerComponent('gltf-material', {
       emissivePath: {default: null},
       lightMapPath: {default: null},
       ambientOcculsionPath: {default: null},
-      opacity: {default: 1.0},
+      opacity: {default: null},
       extension: {default: 'jpg'},
       format: {default: 'RGBFormat'},
       enableBackground: {default: false}
@@ -28,20 +28,8 @@ AFRAME.registerComponent('gltf-material', {
       }
 
       materialSettings.metalness = 0;
-      // materialSettings.side = "double";
-      // materialSettings.alphaTest = 0;
-      // materialSettings.flatShading = true;
-
-      // materialSettings.transparent = true;
-      //     color : 0x000000,
-      //     side: "double",
-      //     alphaTest: 100,
-      //     flatShading: true,
-      //     transparent: true,
-      //     opacity: 0.5,
-
-      if (data.opacity !== undefined) {
-        materialSettings.opacity = 0.5;
+      if (data.opacity !== null) {
+        materialSettings.opacity = typeof data.opacity === 'string' ? parseFloat(data.opacity) : data.opacity;
       }
 
       if (data.path !== undefined) {
