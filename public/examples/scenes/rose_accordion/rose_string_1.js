@@ -82,9 +82,9 @@ export let Scene = {
               z: 0.001,
             },
             color: "#bbe266",
-            id: 'geraniol-smell-zone',
+            id: 'geraniol-intersect',
             intersect: '#head',
-            intersectAction: 'openScene',
+            intersectAction: 'intersectSceneAccordion',
             sceneTarget: 'geraniol-scene',
           },
           {
@@ -95,9 +95,9 @@ export let Scene = {
               z: -0.002,
             },
             color: "#f4a8e1",
-            id: 'pea-smell-zone',
+            id: 'pea-intersect',
             intersect: '#head',
-            intersectAction: 'openScene',
+            intersectAction: 'intersectSceneAccordion',
             sceneTarget: 'pea-scene',
           },
           {
@@ -108,9 +108,9 @@ export let Scene = {
               z: 0,
             },
             color: "#f4eea8",
-            id: 'citronellol-smell-zone',
+            id: 'citronellol-intersect',
             intersect: '#head',
-            intersectAction: 'openScene',
+            intersectAction: 'intersectSceneAccordion',
             sceneTarget: 'citronellol-scene',
           }
         ]

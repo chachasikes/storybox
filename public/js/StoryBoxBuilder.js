@@ -637,8 +637,9 @@ export class StoryBoxBuilder {
       }
     });
 
-    window.StoryBoxBuilder.intersectionEvent = this.intersectionEvent;
-    // window.addEventListener("hit", window.StoryBoxBuilder.intersectionEvent);
+    if (typeof window.StoryBoxBuilder.intersectAction === 'function') {
+      window.addEventListener("hit", window.StoryBoxBuilder.intersectAction);
+    }
   }
 
   updateEventListeners() {
@@ -703,17 +704,20 @@ export class StoryBoxBuilder {
       }
     }
 
-    // window.StoryBoxBuilder.intersectionAction = null;
-    // if (document.querySelectorAll('sphere-intersection')) {
-    //   let intersectionElements = document.querySelectorAll('.sphere-intersection');
-    //   window.StoryBoxBuilder.intersectionAction = 'int';
-    //   intersectionElements.forEach(item => {
-    //     // let action = item.getAttribute('intersectionAction');
-    //     // if (action !== null) {
-    //     //   window.intersectionAction = action;
-    //     // }
-    //   });
-    // }
+    // window.StoryBoxBuilder.intersectAction = null;
+    if (document.querySelectorAll('.sphere-intersection')) {
+      let intersectionElements = document.querySelectorAll('.sphere-intersection');
+      // window.StoryBoxBuilder.intersectAction = intersectAction;
+      intersectionElements.forEach(item => {
+
+        let action = item.getAttribute('intersectAction');
+        console.log(action);
+        if (action !== null && typeof window.StoryBoxBuilder[action] === 'function') {
+          window.StoryBoxBuilder.intersectAction = window.StoryBoxBuilder[action];
+          console.log('window.StoryBoxBuilder.intersectAction', window.StoryBoxBuilder.intersectAction);
+        }
+      });
+    }
     window.StoryBoxBuilder.modelLoadedEvent = this.modelLoadedEvent;
   }
 

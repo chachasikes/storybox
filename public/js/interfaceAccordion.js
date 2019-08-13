@@ -1,5 +1,10 @@
 import { vrlog } from "./vrlog.js";
 
+export function intersectSceneAccordion(e) {
+  console.log('intersectSceneAccordion', e);
+  vrlog('intersected')
+}
+
 export function updateAccordionLine() {
   var rig = document.querySelector("#rig");
   var stretchLeft = document.querySelector("#leftStretch");
