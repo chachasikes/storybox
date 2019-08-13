@@ -49,9 +49,9 @@ export class App {
           // Remote data loaded asynchronously - continue.
           this.init();
         })
-        .catch(error => console.log(error));
+        .catch(error => console.error(error));
       } catch(error) {
-        
+        console.error(error);
       }
     });
   }

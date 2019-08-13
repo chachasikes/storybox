@@ -157,4 +157,73 @@ export let Scene = {
       },
     }
   },
+  citronellol: {
+    mesh: {
+      name: "Citronellol",
+      credit: "Chacha Sikes",
+      id: "citronellol",
+      art: "https://dl.dropboxusercontent.com/s/9yp0liedpg0fiji/citronellol.glb",
+      scale: {
+        x: 10,
+        y: 10,
+        z: 10,
+      },
+      rotation: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      position: {
+        x: 0,
+        y: 0,
+        z: 0
+      }
+    },
+  },
+  geraniol: {
+    mesh: {
+      name: "Geraniol",
+      credit: "Chacha Sikes",
+      id: "geraniol",
+      art: "https://dl.dropboxusercontent.com/s/9zvwzs2a4c9ef1e/geraniol.glb",
+      scale: {
+        x: 10,
+        y: 10,
+        z: 10,
+      },
+      rotation: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      position: {
+        x: 0,
+        y: 0,
+        z: 0
+      }
+    }
+  },
+  pea: {
+    mesh: {
+      name: "pea",
+      credit: "Chacha Sikes",
+      id: "pea",
+      art: "https://dl.dropboxusercontent.com/s/7lrq77w9fb6boeo/pea.glb",
+      scale: {
+        x: 10,
+        y: 10,
+        z: 10,
+      },
+      rotation: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      position: {
+        x: 0,
+        y: 0,
+        z: 0
+      }
+    }
+  },
 };
