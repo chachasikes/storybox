@@ -1,6 +1,7 @@
 import { Gallery } from "./gallery.js";
 import { vrlog } from "./vrlog.js";
 import { testPositions } from "./testPositions.js";
+import modelLoadedEvent  from './modelUpdates.js';
 
 export class StoryBoxBuilder {
   constructor() {
@@ -21,6 +22,7 @@ export class StoryBoxBuilder {
     window.VRLog.logQueue = [];
     this.testPosition = 0;
     this.testPositions = testPositions;
+    this.modelLoadedEvent = modelLoadedEvent;
   }
 
   init(parent) {
@@ -109,6 +111,8 @@ export class StoryBoxBuilder {
             this.pauseScene();
           }
         });
+
+
 
         let sceneSelector;
         this.storySettings.currentStory = "gallery";
@@ -235,13 +239,14 @@ export class StoryBoxBuilder {
       document.querySelector("a-assets").innerHTML = this.assetMarkup;
 
       this.update();
-
       document.querySelector("a-assets").addEventListener("loaded", () => {
         this.showLoading = false;
         this.update();
+
         let currentScene = this.getCurrentScene(this.storySettings.currentStory);
         if (currentScene && currentScene.autoPlay === true) {
           this.play();
+
         } else {
           this.pauseScene();
         }
@@ -604,6 +609,7 @@ export class StoryBoxBuilder {
         }
         this.updateEventListeners();
         this.setupAppButtons();
+        this.modelLoadedEvent();
       }
     }.bind(this);
 
