@@ -2,7 +2,7 @@ import { vrlog } from "./vrlog.js";
 
 export function intersectSceneAccordion(e) {
   console.log('intersectSceneAccordion', e);
-  vrlog('intersected')
+  vrlog('intersected');
 }
 
 export function updateAccordionLine() {
