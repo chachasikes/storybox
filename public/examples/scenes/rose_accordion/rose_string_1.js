@@ -82,7 +82,7 @@ export let Scene = {
               z: 0.001,
             },
             color: "#bbe266",
-            id: 'geraniol',
+            id: 'geraniol-smell-zone',
             intersect: '#head',
             intersectAction: 'openScene',
             sceneTarget: 'geraniol-scene',
@@ -95,7 +95,7 @@ export let Scene = {
               z: -0.002,
             },
             color: "#f4a8e1",
-            id: 'PEA',
+            id: 'pea-smell-zone',
             intersect: '#head',
             intersectAction: 'openScene',
             sceneTarget: 'pea-scene',
@@ -108,7 +108,7 @@ export let Scene = {
               z: 0,
             },
             color: "#f4eea8",
-            id: 'citronellol',
+            id: 'citronellol-smell-zone',
             intersect: '#head',
             intersectAction: 'openScene',
             sceneTarget: 'citronellol-scene',
@@ -170,11 +170,11 @@ export let Scene = {
       },
       rotation: {
         x: 0,
-        y: 0,
+        y: 90,
         z: 0
       },
       position: {
-        x: 0,
+        x: 5,
         y: 0,
         z: 0
       }
@@ -193,11 +193,11 @@ export let Scene = {
       },
       rotation: {
         x: 0,
-        y: 0,
+        y: 90,
         z: 0
       },
       position: {
-        x: 0,
+        x: 5,
         y: 0,
         z: 0
       }
@@ -216,11 +216,11 @@ export let Scene = {
       },
       rotation: {
         x: 0,
-        y: 0,
+        y: 90,
         z: 0
       },
       position: {
-        x: 0,
+        x: 5,
         y: 0,
         z: 0
       }
