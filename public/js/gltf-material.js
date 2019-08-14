@@ -15,6 +15,7 @@ AFRAME.registerComponent('gltf-material', {
       format: {default: 'RGBFormat'},
       enableBackground: {default: false}
     },
+    multiple: true,
     init: function() {
       const data = this.data;
       var el = this.el;
@@ -110,22 +111,32 @@ AFRAME.registerComponent('gltf-material', {
         materialSettings.lightMap = lightMapTexture;
       }
 
-
-
-
-
       // materialSettings.emissive = #ffffff;
       // materialSettings.emissiveIntensity = 0.3;
       this.material = new THREE.MeshStandardMaterial(materialSettings);
 
-      this.el.addEventListener('model-loaded', () => this.update());
+      this.el.addEventListener('model-loaded', () => {
+        // console.log('update model loaded');
+        this.update()
+      });
     },
     update: function() {
       object = this.el.getObject3D('mesh');
       if (!object) return;
       object.traverse((node) => {
-        if (node !== undefined && node.isMesh) node.material = this.material;
+        if (node !== undefined && node.isMesh) {
+          node.material = this.material;
+        }
       });
+    },
+    remove: function () {
+      var data = this.data;
+      var el = this.el;
+
+      // Remove event listener.
+      if (data.event) {
+        el.removeEventListener(data.event, this.eventHandlerFn);
+      }
     }
   }
 );

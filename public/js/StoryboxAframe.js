@@ -218,7 +218,7 @@ export class StoryboxAframe {
       let className = `class="${classProps.attribute} glb-animation"`;
 
       let texture = props.texture !== undefined ? `gltf-material="${props.texture}"` : ``;
-      let opacity = props.opacity !== undefined ? `gltf-opacity="${props.opacity}"` : ``;
+      let opacity = props.opacity !== undefined ? `model-opacity="${props.opacity}"` : ``;
 
       let fileType = props.art.split('.').pop();
       if (fileType === 'glb') {
@@ -244,6 +244,8 @@ export class StoryboxAframe {
         //     fog: false,
         // });
 
+
+        // @TODO texture
         innerMarkup = `${innerMarkup}
           <a-entity
           id="#${props.id}-gltf"
@@ -254,12 +256,22 @@ export class StoryboxAframe {
           ${aframeTags.scale.tag}
           ${aframeTags.position.tag}
           ${aframeTags.rotation.tag}
-          ${texture}
+
           crossorigin="anonymous"
           preload="true"
           animation-mixer
           >
-          </a-entity>`;
+          </a-entity>
+
+          <a-gltf-model id="rightHand"
+                        src="https://cdn.glitch.com/8dbd1d29-5cfa-40e6-a6cb-f4fb12524351%2Fhand_grasp_release.gltf?1537433677246"
+                        scale="0.7 0.7 0.7" rotation="270 90 180" position="1 0.77 -2.32"
+                        model-opacity="0.5"
+                        animation-mixer
+                        ></a-gltf-model>
+
+
+          `;
 
 
 
@@ -290,79 +302,6 @@ export class StoryboxAframe {
   }
 
   buildStoryboxes(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
-
-    // if (props.art !== undefined) {
-    //   let classProps = this.getValue("className", props);
-    //   let className = `class="${classProps.attribute} glb-animation"`;
-    //
-    //   // https://github.com/donmccurdy/aframe-extras/issues/167
-    //
-    //   let texture = props.texture !== undefined && props.texture !== undefined ? `src="${props.texture}"` : ``;
-    //
-    //   let fileType = props.art.split('.').pop();
-    //   if (fileType === 'glb') {
-    //     className = `class="${classProps.attribute} glb-animation ${props.texture !== undefined && props.texture !== undefined ? 'textured' : ''}"`;
-    //
-    //     // https://aframe.io/docs/0.9.0/components/gltf-model.html
-    //     assetItemElements.push(
-    //       `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>`
-    //     );
-    //
-    //     innerMarkup = `${innerMarkup}
-    //       <a-entity
-    //       ${className}
-    //       gltf-model="#${props.id}"
-    //       ${aframeTags.scale.tag}
-    //       ${aframeTags.position.tag}
-    //       ${aframeTags.rotation.tag}
-    //       ${texture}
-    //       crossorigin="anonymous"
-    //       preload="true"
-    //       animation-mixer
-    //       >
-    //       </a-entity>`;
-    //
-    //       var textureMaterial = new THREE.TextureLoader().load( `${props.art}` );
-    //       this.materials[props.id] = new THREE.MeshStandardMaterial({
-    //           map: textureMaterial,
-    //           color : 0xffffff,
-    //           side: "double",
-    //           alphaTest: 100,
-    //           flatShading: true,
-    //           transparent: true,
-    //       });
-    //
-    //
-    //   } else if (fileType === 'obj') {
-    //     assetItemElements.push(
-    //       `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>
-    //        <a-asset-item id="${props.id}-material" src="${props.material}"></a-asset-item>
-    //       `
-    //     );
-    //
-    //     // https://stackoverflow.com/questions/47513018/how-do-i-change-the-texture-of-a-gltf-model-dynamically
-    //     // var tex = new THREE.TextureLoader().load(`${props.art}`);
-    //     // tex.flipY = false; // for glTF models.
-    //     //
-    //     // el.addEventListener('model-loaded', function (e => {
-    //     //   e.detail.model.traverse(function(node) {
-    //     //     if (node.isMesh) node.material.map = tex;
-    //     //   });
-    //     // });
-    //
-    //
-    //     innerMarkup = `${innerMarkup}
-    //       <a-obj-model
-    //
-    //       src="#${props.id}"
-    //       mtl="#${props.id}-material"
-    //       crossorigin="anonymous"
-    //       preload="true"
-    //       >
-    //       </a-obj-model>`;
-    //   }
-    // }
-
     return {
       assetsElements,
       innerMarkup,
@@ -561,7 +500,7 @@ export class StoryboxAframe {
     // If not in headset, put the panel in view.
     let panelPosition = AFRAME.utils.device.checkHeadsetConnected() ? `position="0.1 0.1 0.1" rotation="-85 0 0"` : `position="0.0 ${this.playerHeight} -0.5"`;
     let debuggerPanelWrist = ``;
-    if ( window.location.hostname !== 'localhost') {
+    // if ( window.location.hostname !== 'localhost') {
     // if ( window.location.hostname === 'localhost' || AFRAME.utils.device.checkHeadsetConnected() || !AFRAME.utils.device.checkHeadsetConnected()) {
       debuggerPanelWrist = `
       <a-box
@@ -603,7 +542,7 @@ export class StoryboxAframe {
         color: #eeeeee"
       ></a-entity>
       </a-box>`;
-    }
+    // }
     return {
       debuggerPanelWrist: debuggerPanelWrist
     }

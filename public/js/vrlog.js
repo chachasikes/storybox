@@ -29,21 +29,3 @@ export function vrlog(message) {
     window.VRLog.logQueue.push(message);
   }
 }
-
-//
-// debugControllButtonTrigger(button) {
-//   switch (button) {
-//     case 'X':
-//       document.getElementById('leftHand').dispatchEvent(new CustomEvent("xbuttondown"));
-//       break;
-//     case 'Y':
-//       document.getElementById('leftHand').dispatchEvent(new CustomEvent("ybuttondown"));
-//       break;
-//     case 'A':
-//       document.getElementById('leftHand').dispatchEvent(new CustomEvent("abuttondown"));
-//       break;
-//     case 'B':
-//       document.getElementById('leftHand').dispatchEvent(new CustomEvent("bbuttondown"));
-//       break;
-//   }
-// }

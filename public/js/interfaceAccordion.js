@@ -3,6 +3,8 @@ import { vrlog } from "./vrlog.js";
 export function intersectSceneAccordion(e) {
   console.log('intersectSceneAccordion', e);
   vrlog('intersected');
+  let testHand = document.getElementById('middleHand');
+  testHand.parentNode.removeChild(testHand);
 }
 
 export function updateAccordionLine() {

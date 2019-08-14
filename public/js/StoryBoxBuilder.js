@@ -15,9 +15,7 @@ export class StoryBoxBuilder {
     this.showLoading = false;
     this.registry = [];
     this.storySettings.currentStory = "gallery";
-    // this.hash = "rose_accordion";
     this.hash = window.location.hash.replace('#', '');
-    console.log("hash", this.hash);
     window.VRLog = {};
     window.VRLog.logQueue = [];
     this.testPosition = 0;
@@ -239,6 +237,15 @@ export class StoryBoxBuilder {
       document.querySelector("a-assets").innerHTML = this.assetMarkup;
 
       this.update();
+
+      document.querySelector('a-scene').addEventListener('enter-vr', function () {
+         console.log("ENTERED VR");
+         
+         document.getElementById('scene-selector').setAttribute('entered-vr', true);
+         window.StoryBoxBuilder.update();
+
+      });
+
       document.querySelector("a-assets").addEventListener("loaded", () => {
         this.showLoading = false;
         this.update();
@@ -356,6 +363,7 @@ export class StoryBoxBuilder {
       currentScene !== null
     ) {
       // Set the scene.
+      console.log('update template', currentScene.id);
       this.updateTemplate(sceneSelector, currentScene.id);
     }
   }
@@ -704,25 +712,16 @@ export class StoryBoxBuilder {
       }
     }
 
-    // window.StoryBoxBuilder.intersectAction = null;
     if (document.querySelectorAll('.sphere-intersection')) {
       let intersectionElements = document.querySelectorAll('.sphere-intersection');
-      // window.StoryBoxBuilder.intersectAction = intersectAction;
       intersectionElements.forEach(item => {
-
         let action = item.getAttribute('intersectAction');
-        console.log(action);
         if (action !== null && typeof window.StoryBoxBuilder[action] === 'function') {
           window.StoryBoxBuilder.intersectAction = window.StoryBoxBuilder[action];
-          console.log('window.StoryBoxBuilder.intersectAction', window.StoryBoxBuilder.intersectAction);
         }
       });
     }
     window.StoryBoxBuilder.modelLoadedEvent = this.modelLoadedEvent;
-  }
-
-  intersectionEvent(e) {
-    // console.log(e, 'hit');
   }
 
   render(target) {
