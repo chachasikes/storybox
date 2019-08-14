@@ -195,9 +195,9 @@ export function buildHandPropInterface(
         );
         let intersection = ``;
         if (item.intersect !== undefined) {
-          // ="name: 'head'; action: '${item.intersectAction}'; sceneTarget: '${item.sceneTarget}'"
+
           intersection = `
-            intersection-play
+            intersection-play="name: head; action: ${item.intersectAction}; sceneTarget: ${item.sceneTarget}"
             `;
 
           className=`class="stretch-object ${item.collisionClass}"`;

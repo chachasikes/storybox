@@ -328,12 +328,8 @@ export class StoryboxAframe {
   }
 
   buildHead(props) {
-    // material="color: black; shader: flat; transparent: true; opacity: 0.2; side: double"
     return {
-      // head: `<a-sphere id="head" class="intersect-head" radius="0.1" position="0 0 0"></a-sphere>`
-      // objects: .sphere-collision
-      head: `<a-sphere sphere-collider="objects: .sphere-collision" id="head" radius="1" color="pink" position="1 1 -1" material="color: black; shader: flat; transparent: true; opacity: 0.6; side: double"></a-sphere>`
-
+      head: `<a-sphere sphere-collider="" id="head" radius="1.5" color="pink" position="1 1 -1" material="color: black; shader: flat; transparent: true; opacity: 0.6; side: double"></a-sphere>`
     }
   }
 

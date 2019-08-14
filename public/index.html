@@ -7,19 +7,25 @@
   <meta name='mobile-web-app-capable' content='yes'>
   <meta name='apple-mobile-web-app-capable' content='yes'>
   <link href='css/scss/common.css' rel='stylesheet'></link>
+  <!-- <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script> -->
+  <!-- <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v5.0.0/dist/aframe-extras.min.js"></script> -->
   <script src="./lib/aframe-v0.9.2.min.js" type="text/javascript"></script>
+  <script src="./lib/aframe-extras.min.js" type="text/javascript"></script>
+
+
   <script src="./lib/aframe-event-set-component.min.js" type="text/javascript"></script>
   <script src="./lib/aframe-layout-component.min.js" type="text/javascript"></script>
   <script src="./lib/aframe-template-component.min.js" type="text/javascript"></script>
   <script src="./lib/aframe-proxy-event-component.min.js" type="text/javascript"></script>
-  <script src="./lib/aframe-extras.min.js" type="text/javascript"></script>
+
   <script src="./js/gltf-material.js" type="text/javascript"></script>
   <script src="./js/gltf-opacity.js" type="text/javascript"></script>
   <script src="./js/intersection-play.js" type="text/javascript"></script>
   <!-- <script src="./lib/aframe-text-geometry-component.min.js" type="text/javascript"></script> -->
-  <script src="./lib/super-hands.min.js"></script>
-  <script src="./lib/ammo.js"></script>
-  <script src="./lib/aabb-collider.js"></script>
+  <!-- <script src="./lib/super-hands.min.js"></script> -->
+  <!-- <script src="./lib/ammo.js"></script> -->
+  <!-- <script src="./lib/aabb-collider.js"></script> -->
+  <!-- <script src="./lib/sphere-collider.js"></script> -->
 
   <script type="module">
     import { App } from './js/app.js';
@@ -47,6 +53,13 @@
       model-opacity="0.5"
       animation-mixer
       ></a-gltf-model>
+
+
+      <a-box class="collision-one" id="one" position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" foo="name: head'"></a-box>
+      <a-box class="collision-two" id="two" position="-2 0.5 -3" rotation="0 45 0" color="#4CC3D9" foo></a-box>
+      <a-sphere sphere-collider='objects: .collision-two' position="3 0.5 -3" radius="0.25" color="#EF2D5E">
+        <a-animation attribute="position" dur="5000" fill="forwards" to="-1 0.5 -3" repeat="indefinite"></a-animation>
+      </a-sphere>
 
     </a-scene>
   </div>
