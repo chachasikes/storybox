@@ -3,9 +3,20 @@ import { vrlog } from "./vrlog.js";
 export function intersectSceneAccordion(e) {
   console.log('intersectSceneAccordion', e);
   vrlog('intersected');
+  // Test removal of object if intersect
   let testHand = document.getElementById('middleHand');
   testHand.parentNode.removeChild(testHand);
+
+  // Actual behavior:
+  /**
+  - if intersect = fade in and play target scene, if playable
+  - if next level & intersect any & length is short  - play the final scene
+
+
+  */
 }
+
+// @TODO function accordion line length shorter for a min duration & then longer - step through song array until over - (with repeat)
 
 export function updateAccordionLine() {
   var rig = document.querySelector("#rig");
@@ -184,13 +195,12 @@ export function buildHandPropInterface(
         );
         let intersection = ``;
         if (item.intersect !== undefined) {
+          // ="name: 'head'; action: '${item.intersectAction}'; sceneTarget: '${item.sceneTarget}'"
           intersection = `
-            sphere-collider="objects: ${item.intersect};"
-            intersectAction="${item.intersectAction}"
-            sceneTarget="${item.sceneTarget}"
+            intersection-play
             `;
 
-          className=`class="stretch-object sphere-intersection"`;
+          className=`class="stretch-object ${item.collisionClass}"`;
         }
         objectPositions = `${objectPositions}
             <a-sphere

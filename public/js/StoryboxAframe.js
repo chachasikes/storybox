@@ -263,14 +263,6 @@ export class StoryboxAframe {
           >
           </a-entity>
 
-          <a-gltf-model id="rightHand"
-                        src="https://cdn.glitch.com/8dbd1d29-5cfa-40e6-a6cb-f4fb12524351%2Fhand_grasp_release.gltf?1537433677246"
-                        scale="0.7 0.7 0.7" rotation="270 90 180" position="1 0.77 -2.32"
-                        model-opacity="0.5"
-                        animation-mixer
-                        ></a-gltf-model>
-
-
           `;
 
 
@@ -339,7 +331,9 @@ export class StoryboxAframe {
     // material="color: black; shader: flat; transparent: true; opacity: 0.2; side: double"
     return {
       // head: `<a-sphere id="head" class="intersect-head" radius="0.1" position="0 0 0"></a-sphere>`
-      head: `<a-sphere radius="0.3" color="pink" position="3 3 3" material="color: black; shader: flat; transparent: true; opacity: 0.2; side: double"></a-sphere>`
+      // objects: .sphere-collision
+      head: `<a-sphere sphere-collider="objects: .sphere-collision" id="head" radius="1" color="pink" position="1 1 -1" material="color: black; shader: flat; transparent: true; opacity: 0.6; side: double"></a-sphere>`
+
     }
   }
 
@@ -383,9 +377,10 @@ export class StoryboxAframe {
     let debuggerPanelWrist = {debuggerPanelWrist: ``};
     let laser = this.buildLaser(props);
 
+    debuggerPanelWrist = this.buildWristDebugger();
+
     // @TODO split out
     if (props.touch !== undefined) {
-      debuggerPanelWrist = this.buildWristDebugger();
 
       // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
       // Can change hand controller

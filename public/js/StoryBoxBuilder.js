@@ -240,7 +240,7 @@ export class StoryBoxBuilder {
 
       document.querySelector('a-scene').addEventListener('enter-vr', function () {
          console.log("ENTERED VR");
-         
+
          document.getElementById('scene-selector').setAttribute('entered-vr', true);
          window.StoryBoxBuilder.update();
 
