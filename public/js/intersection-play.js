@@ -13,7 +13,7 @@ AFRAME.registerComponent('intersection-play', {
     this.el.addEventListener('hitend', (e) => {
       console.log('hitend');
       console.log(e);
-    })
+    });
   },
   update: function() {
     // console.log('intersection-play update', this.el.getAttribute('id'));
