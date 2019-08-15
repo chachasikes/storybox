@@ -275,6 +275,7 @@ export class StoryBoxBuilder {
     }
     this.update();
     this.playGLBAnimation();
+  
   }
 
   playGLBAnimation() {

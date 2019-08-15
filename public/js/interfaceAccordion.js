@@ -196,11 +196,16 @@ export function buildHandPropInterface(
         let intersection = ``;
         if (item.intersect !== undefined) {
 
-          intersection = `
-            intersection-play="name: head; action: ${item.intersectAction}; sceneTarget: ${item.sceneTarget}"
-            `;
+          // intersection = `
+          //   intersection-play="name: head; action: ${item.intersectAction}; sceneTarget: ${item.sceneTarget}"
+          //   `;
 
-          className=`class="stretch-object ${item.collisionClass}"`;
+            intersection = `
+            sphere-collider="objects: .sphere-collider"
+              `;
+
+          className=`class="stretch-object "`;
+            // className=`class="stretch-object ${item.collisionClass}"`;
         }
         objectPositions = `${objectPositions}
             <a-sphere

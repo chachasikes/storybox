@@ -1,48 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<meta charset="utf-8"/>
  <head>
   <title>My A-Frame Scene</title>
-  <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
-  <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.1.0/dist/aframe-physics-system.min.js"></script>
-  <script src="https://unpkg.com/super-hands@2.0.2/dist/super-hands.min.js"></script>
-  <script src="https://unpkg.com/aframe-physics-extras@0.1.2/dist/aframe-physics-extras.min.js"></script>
+  <!-- <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script> -->
+  <!-- <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.6.0/aframe/build/aframe-ar.js"></script> -->
+  <!-- <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v5.0.0/dist/aframe-extras.min.js"></script> -->
+
+  <script src="./lib/aframe-v0.9.2.min.js" type="text/javascript"></script>
+  <!-- <script src="./lib/aframe-extras.min.js" type="text/javascript"></script> -->
+  <script src="http://cdn.rawgit.com/donmccurdy/aframe-extras/v6.0.0/dist/aframe-extras.min.js"></script>
+
+
+  <script>
+    AFRAME.registerComponent('foo', {
+      init: function() {
+        this.el.addEventListener('hit', (e) => {
+          console.log(e)
+        })
+        this.el.addEventListener('hitend', (e) => {
+          console.log('hitend')
+          console.log(e)
+        })
+      }
+    })
+
+  </script>
 </head>
 
 <body>
-  <a-scene physics="gravity: 0">
-    <a-assets>
-      <a-mixin id="controller"
-               physics-collider
-               static-body="shape: sphere; sphereRadius: 0.02"
-               super-hands="colliderEvent: collisions;
-                            colliderEventProperty: els;
-                            colliderEndEvent: collisions;
-                            colliderEndEventProperty: clearedEls"
-               collision-filter = "group: hands;
-                                   collidesWith: red, blue;
-                                   collisionForces: false">
-      </a-mixin>
-      <a-mixin id="cube" dynamic-body grabbable
-          geometry="primitive: box; width: 0.5; height: 0.5; depth: 0.5">
-      </a-mixin>
-    </a-assets>
-    <!-- settings pulled in from controller mixin above -->
-    <a-entity hand-controls="left" mixin="controller"></a-entity>
-    <a-entity hand-controls="right" mixin="controller"></a-entity>
-    <!-- can be picked up because it collides with the hands group and vice versa -->
-    <a-entity mixin="cube" position="0 1.6 -1" material="color: red" sleepy
-        collision-filter="group: red; collidesWith: default, hands, blue">
-    </a-entity>
-    <!-- even though the controller has blue in its collidesWith list,
-         since the blue cube doesn't also have hands in its list, you cannot
-         pick it up, but you can knock it around with the red cube -->
-    <a-entity mixin="cube" position="0 1 -1" material="color: blue" sleepy
-        collision-filter="group: blue; collidesWith: default, red">
-    </a-entity>
-    <!-- floor entity. 'default' collision group so cubes will bounce off -->
-    <a-box width="20" depth="20" height="0.1" static-body
-           collision-filter="collidesWith: red, blue"
-        material="color: #7BC8A4"></a-box>
-  </a-scene>
+
+<a-scene  >
+
+
+			<a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" foo></a-box>
+			<!-- <a-sphere sphere-collider='' position="3 0.5 -3" radius="0.25" color="#EF2D5E"> -->
+				<!-- <a-animation attribute="position" dur="5000" fill="forwards" to="-1 0.5 -3" repeat="indefinite"></a-animation> -->
+        <!-- <a-entity rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 10000">
+          <a-entity position="5 0 0"></a-entity>
+        </a-entity> -->
+
+        <!-- <a-entity animation="property:position;dur:5000;to:-1 0.5 -3; loop:indefinite;autoplay:true"></a-entity> -->
+
+			</a-sphere>
+<a-sphere sphere-collider='' position="3 0.5 -3" radius="0.25" animation="property: position; to: -1 0.5 -3; dur: 5000; easing: linear" color="#EF2D5E"></a-sphere>
+
+
+
+
+
+
+</a-scene>
+
 </body>
 </html>
