@@ -125,7 +125,7 @@ export function buildHandPropInterface(
   let left = {};
   let right = {};
   let className=`class="stretch-object"`;
-
+  console.log('set up hand props');
   if (props !== undefined && props.type === "stretch") {
     left = props.a;
     right = props.b;
@@ -195,24 +195,32 @@ export function buildHandPropInterface(
         );
         let intersection = ``;
         if (item.intersect !== undefined) {
-          //
+          // //
+          // intersection = `
+          //   intersection-play="name: head; action: ${item.intersectAction}; sceneTarget: ${item.sceneTarget}"
+          //   `;
           intersection = `
-            intersection-play="name: head; action: ${item.intersectAction}; sceneTarget: ${item.sceneTarget}"
+          <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" intersection-play="name: head; action: ${item.intersectAction}; sceneTarget: ${item.sceneTarget}"></a-box>
+          <a-sphere sphere-collider='' position="3 0.5 -3" radius="0.25" animation="property: position; to: -1 0.5 -3; dur: 5000; easing: linear" color="#EF2D5E"></a-sphere>
             `;
 
             // intersection = `
-            // <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" intersection-play="name: head; action: ${item.intersectAction}; sceneTarget: ${item.sceneTarget}"></a-box>
-            // <a-sphere sphere-collider='' position="3 0.5 -3" radius="0.25" animation="property: position; to: -1 0.5 -3; dur: 5000; easing: linear" color="#EF2D5E"></a-sphere>
+            //    sphere-collider=''
             //   `;
+
+
 
           className=`class="stretch-object "`;
             // className=`class="stretch-object ${item.collisionClass}"`;
         }
+
+
         objectPositions = `${objectPositions}
+
             <a-sphere
             id="${item.id}"
             ${className}
-            ${intersection}
+
             position="${obj.position.x} ${obj.position.y} ${obj.position.z}"
             data-percentage-x="${obj.percentageX}"
             data-percentage-y="${obj.percentageY}"
@@ -222,7 +230,8 @@ export function buildHandPropInterface(
             material="shader:flat"
             transparent="true"
             opacity="0.3"
-            ></a-sphere>`;
+            ></a-sphere>  ${intersection}
+            `;
       });
     }
 
