@@ -379,6 +379,11 @@ export class StoryBoxBuilder {
     this.updateTestPositions();
   }
 
+  hitEvent(evt) {
+    window.StoryBoxBuilder.debounce(window.StoryBoxBuilder.hitEvent, 2000);
+
+  }
+
   setupAppButtons() {
     if (AFRAME.components["x-button-listener"] === undefined) {
       AFRAME.registerComponent("x-button-listener", {
@@ -440,6 +445,8 @@ export class StoryBoxBuilder {
       });
     }
 
+
+
     if (AFRAME.components["intersection-play"] === undefined) {
     AFRAME.registerComponent('intersection-play', {
       schema: {
@@ -450,7 +457,9 @@ export class StoryBoxBuilder {
       init: function() {
         console.log('intersection-play init', this.el);
         this.el.addEventListener('hit', (e) => {
-          console.log('hit');
+          window.StoryBoxBuilder.hitEvent();
+
+          // console.log('hit');
           // console.log(e);
           // vrlog('hit');
         });
@@ -545,7 +554,9 @@ export class StoryBoxBuilder {
       var context = this,
         args = arguments;
       clearTimeout(timer);
+      console.log('debounce');
       timer = setTimeout(function() {
+        console.log('setting timeout')
         fn.apply(context, args);
       }, delay);
     };
