@@ -329,7 +329,7 @@ export class StoryboxAframe {
 
   buildHead(props) {
     return {
-      head: `<a-sphere intersection-play="" class="head" id="head" radius="1.5" color="pink" position="1 1 -1" material="color: black; shader: flat; transparent: true; opacity: 0.6; side: double"></a-sphere>`
+      head: `<a-sphere intersection-play="" class="head" id="head"></a-sphere>`
     }
   }
 
