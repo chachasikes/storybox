@@ -218,12 +218,12 @@ export class StoryboxAframe {
       let classProps = this.getValue("className", props);
       let className = `class="${classProps.attribute} glb-animation"`;
       console.log('texture', props.texture);
-      let texture = props.texture !== undefined ? `gltf-material="${props.texture}"` : ``;
+      let texture = props.texture !== undefined ? `gltf-material="path:${props.texture}"` : ``;
       let opacity = props.opacity !== undefined ? `model-opacity="${props.opacity}"` : ``;
 
       let fileType = props.art.split('.').pop();
       if (fileType === 'glb') {
-        className = `class="glb-animation ${classProps.attribute} ${props.texture !== undefined && props.texture !== undefined ? 'textured' : ''}"`;
+        className = `class="glb-animation ${classProps.attribute} ${props.texture !== undefined ? 'textured' : ''}"`;
 
         // https://aframe.io/docs/0.9.0/components/gltf-model.html
         assetItemElements.push(
@@ -254,10 +254,10 @@ export class StoryboxAframe {
           ${className}
           gltf-model="#${props.id}"
           ${opacity}
+          ${texture}
           ${aframeTags.scale.tag}
           ${aframeTags.position.tag}
           ${aframeTags.rotation.tag}
-
           crossorigin="anonymous"
           preload="true"
           animation-mixer
