@@ -34,6 +34,7 @@ export class StoryboxAframe {
         case 'art':
         case 'panel':
         case 'material':
+        case 'glb':
         case 'texture':
           // console.log(propKey);
           if (typeof data[propKey].replace === 'function') {
@@ -216,7 +217,7 @@ export class StoryboxAframe {
     if (props.art !== undefined) {
       let classProps = this.getValue("className", props);
       let className = `class="${classProps.attribute} glb-animation"`;
-
+      console.log('texture', props.texture);
       let texture = props.texture !== undefined ? `gltf-material="${props.texture}"` : ``;
       let opacity = props.opacity !== undefined ? `model-opacity="${props.opacity}"` : ``;
 
@@ -381,6 +382,7 @@ export class StoryboxAframe {
       // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
       // Can change hand controller
       if (props.touch.left.glb !== undefined) {
+        this.formatDropboxDataRecursive(props.touch.left);
         let leftModelScale = this.getAxis(
           "scale",
           props.touch.left
@@ -420,6 +422,7 @@ export class StoryboxAframe {
         props.touch.right !== undefined &&
         props.touch.right.glb !== undefined
       ) {
+        this.formatDropboxDataRecursive(props.touch.right);
         let rightModelScale = this.getAxis(
           "scale",
           props.touch.right

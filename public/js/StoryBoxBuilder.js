@@ -30,6 +30,7 @@ export class StoryBoxBuilder {
       this.gallerySceneJson = parent.gallerySceneJson;
     }
     if (this.hash !== '') {
+      console.log('hash', this.hash);
       this.galleryItemSelect(this.hash);
 
     } else {
@@ -140,6 +141,7 @@ export class StoryBoxBuilder {
 
   // Update the selected story
   galleryItemSelect(id) {
+    console.log('id', id);
     // Set the story id.
     this.storySettings.currentStory = id;
     this.storySettings.timer = null;
