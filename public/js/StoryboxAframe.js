@@ -34,6 +34,7 @@ export class StoryboxAframe {
         case 'art':
         case 'panel':
         case 'material':
+        case 'glb':
         case 'texture':
           // console.log(propKey);
           if (typeof data[propKey].replace === 'function') {
@@ -216,13 +217,13 @@ export class StoryboxAframe {
     if (props.art !== undefined) {
       let classProps = this.getValue("className", props);
       let className = `class="${classProps.attribute} glb-animation"`;
-
-      let texture = props.texture !== undefined ? `gltf-material="${props.texture}"` : ``;
+      console.log('texture', props.texture);
+      let texture = props.texture !== undefined ? `gltf-material="path:${props.texture}"` : ``;
       let opacity = props.opacity !== undefined ? `model-opacity="${props.opacity}"` : ``;
 
       let fileType = props.art.split('.').pop();
       if (fileType === 'glb') {
-        className = `class="glb-animation ${classProps.attribute} ${props.texture !== undefined && props.texture !== undefined ? 'textured' : ''}"`;
+        className = `class="glb-animation ${classProps.attribute} ${props.texture !== undefined ? 'textured' : ''}"`;
 
         // https://aframe.io/docs/0.9.0/components/gltf-model.html
         assetItemElements.push(
@@ -253,10 +254,10 @@ export class StoryboxAframe {
           ${className}
           gltf-model="#${props.id}"
           ${opacity}
+          ${texture}
           ${aframeTags.scale.tag}
           ${aframeTags.position.tag}
           ${aframeTags.rotation.tag}
-
           crossorigin="anonymous"
           preload="true"
           animation-mixer
@@ -381,6 +382,7 @@ export class StoryboxAframe {
       // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
       // Can change hand controller
       if (props.touch.left.glb !== undefined) {
+        props.touch.left = this.formatDropboxDataRecursive(props.touch.left);
         let leftModelScale = this.getAxis(
           "scale",
           props.touch.left
@@ -420,6 +422,7 @@ export class StoryboxAframe {
         props.touch.right !== undefined &&
         props.touch.right.glb !== undefined
       ) {
+        props.touch.right = this.formatDropboxDataRecursive(props.touch.right);
         let rightModelScale = this.getAxis(
           "scale",
           props.touch.right

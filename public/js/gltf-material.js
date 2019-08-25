@@ -116,7 +116,7 @@ AFRAME.registerComponent('gltf-material', {
       this.material = new THREE.MeshStandardMaterial(materialSettings);
 
       this.el.addEventListener('model-loaded', () => {
-        // console.log('update model loaded');
+        console.log('update model loaded');
         this.update()
       });
     },
