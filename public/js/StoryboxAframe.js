@@ -382,7 +382,7 @@ export class StoryboxAframe {
       // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
       // Can change hand controller
       if (props.touch.left.glb !== undefined) {
-        this.formatDropboxDataRecursive(props.touch.left);
+        props.touch.left = this.formatDropboxDataRecursive(props.touch.left);
         let leftModelScale = this.getAxis(
           "scale",
           props.touch.left
@@ -422,7 +422,7 @@ export class StoryboxAframe {
         props.touch.right !== undefined &&
         props.touch.right.glb !== undefined
       ) {
-        this.formatDropboxDataRecursive(props.touch.right);
+        props.touch.right = this.formatDropboxDataRecursive(props.touch.right);
         let rightModelScale = this.getAxis(
           "scale",
           props.touch.right
