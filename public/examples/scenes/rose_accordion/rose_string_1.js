@@ -119,16 +119,17 @@ export let Scene = {
       }
     }
   },
-  // ambientLight: {
-  //   light: {
-  //     position: {
-  //       x: 100,
-  //       y: 100,
-  //       z: 200
-  //     },
-  //     color: '#ffffff',
-  //   }
-  // },
+  ambientLight: {
+    light: {
+      type: 'ambient',
+      position: {
+        x: 100,
+        y: 100,
+        z: 200
+      },
+      color: '#ffffff',
+    }
+  },
   skybox: {
     sky: {
       color: "#ededed",
