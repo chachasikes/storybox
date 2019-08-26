@@ -119,16 +119,16 @@ export let Scene = {
       }
     }
   },
-  ambientLight: {
-    light: {
-      position: {
-        x: 100,
-        y: 100,
-        z: 200
-      },
-      color: '#ffffff',
-    }
-  },
+  // ambientLight: {
+  //   light: {
+  //     position: {
+  //       x: 100,
+  //       y: 100,
+  //       z: 200
+  //     },
+  //     color: '#ffffff',
+  //   }
+  // },
   skybox: {
     sky: {
       color: "#ededed",
@@ -158,6 +158,30 @@ export let Scene = {
         z: 10
       },
     }
+  },
+  nosina: {
+mesh: {
+  name: "Nosina",
+  credit: "Sarah Chalek & Chacha Sikes",
+  id: "nosina",
+  art: "https://www.dropbox.com/s/z9q199hf0utq5px/nosina_alembic_test.glb?dl=0",
+  opacity: 1,
+  scale: {
+    x: 5,
+    y: 5,
+    z: 5,
+  },
+  rotation: {
+    x: 0,
+    y: 180,
+    z: 0
+  },
+  position: {
+    x: -7,
+    y: 1,
+    z: -3
+  }
+},
   },
   citronellol: {
     mesh: {
