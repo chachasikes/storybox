@@ -582,9 +582,10 @@ export class StoryboxAframe {
 
   buildLight(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
     innerMarkup = `${innerMarkup}
-      <a-light ${aframeTags.className} type="${
-      props.type ? props.type : "point"
-    }" ${aframeTags.color.tag} ${aframeTags.position.tag}>
+      <a-light ${aframeTags.className}
+      type="${props.type ? props.type : "point"}"
+       intensity="${props.intensity ? props.intensity : "1"}"  
+       ${aframeTags.color.tag} ${aframeTags.position.tag}>
       </a-light>`;
       return {
         assetItemElements: assetItemElements,
