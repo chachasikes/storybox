@@ -584,7 +584,7 @@ export class StoryboxAframe {
     innerMarkup = `${innerMarkup}
       <a-light ${aframeTags.className}
       type="${props.type ? props.type : "point"}"
-       intensity="${props.intensity ? props.intensity : "1"}"  
+       intensity="${props.intensity ? props.intensity : 1}"  
        ${aframeTags.color.tag} ${aframeTags.position.tag}>
       </a-light>`;
       return {
