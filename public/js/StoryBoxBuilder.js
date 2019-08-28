@@ -570,8 +570,8 @@ export class StoryBoxBuilder {
                 if (node !== undefined && node.isMesh) {
                   node.material = this.material;
                   if (node.material.map) {
-                    node.material.map.encoding = THREE.sRGBEncoding;
-                    node.material.needsUpdate = true;
+                    // node.material.map.encoding = THREE.sRGBEncoding;
+                    // node.material.needsUpdate = true;
 
                   }
                 }
