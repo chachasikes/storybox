@@ -190,7 +190,7 @@ mesh: {
       credit: "Chacha Sikes",
       id: "citronellol",
       art: "https://dl.dropboxusercontent.com/s/9yp0liedpg0fiji/citronellol.glb",
-      opacity: 0.6,
+      opacity: 0.9,
       scale: {
         x: 10,
         y: 10,
@@ -240,7 +240,7 @@ mesh: {
       credit: "Chacha Sikes",
       id: "pea",
       art: "https://dl.dropboxusercontent.com/s/7lrq77w9fb6boeo/pea.glb",
-      opacity: 0.6,
+      opacity: 0.2,
       scale: {
         x: 10,
         y: 10,
