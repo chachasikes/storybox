@@ -557,7 +557,8 @@ export class StoryBoxBuilder {
 
             this.el.addEventListener('model-loaded', () => {
               console.log('update model loaded');
-              this.update()
+
+              this.update();
             });
           },
           update: function() {
@@ -568,6 +569,11 @@ export class StoryBoxBuilder {
               object.traverse((node) => {
                 if (node !== undefined && node.isMesh) {
                   node.material = this.material;
+                  if (node.material.map) {
+                    node.material.map.encoding = THREE.sRGBEncoding;
+                    node.material.needsUpdate = true;
+
+                  }
                 }
               });
             }
