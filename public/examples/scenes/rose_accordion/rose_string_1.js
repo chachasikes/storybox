@@ -215,7 +215,7 @@ mesh: {
       id: "geraniol",
       art: "https://dl.dropboxusercontent.com/s/9zvwzs2a4c9ef1e/geraniol.glb",
       opacity: 0.6,
-      texture: "opacity:0.6;normalPath:https://dl.dropboxusercontent.com/s/lzbhks37mnd1cs0/Tiles_025_normal.jpg;path:https://dl.dropboxusercontent.com/s/1zr2u9xl5fpyjtv/Tiles_025_Base_Color.jpg",
+      // texture: "opacity:0.6;normalPath:https://dl.dropboxusercontent.com/s/lzbhks37mnd1cs0/Tiles_025_normal.jpg;path:https://dl.dropboxusercontent.com/s/1zr2u9xl5fpyjtv/Tiles_025_Base_Color.jpg",
       // ;bumpPath:https://dl.dropboxusercontent.com/s/6vw8mi8k4t8txuy/Tiles_025_height.png;roughnessPath:https://dl.dropboxusercontent.com/s/1yasqzucfva4ja4/Tiles_025_roughness.jpg;ambientOcculsionPath:https://www.dropbox.com/s/xzh6yhhlrtxh183/Tiles_025_ambientOcclusion.jpg:
       scale: {
         x: 10,
