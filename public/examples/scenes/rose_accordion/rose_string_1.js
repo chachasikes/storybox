@@ -168,13 +168,13 @@ mesh: {
   art: "https://www.dropbox.com/s/z9q199hf0utq5px/nosina_alembic_test.glb?dl=0",
   opacity: 1,
   scale: {
-    x: 3,
-    y: 3,
-    z: 3,
+    x: 2,
+    y: 2,
+    z: 2,
   },
   rotation: {
     x: 0,
-    y: 90,
+    y: 270,
     z: 0
   },
   position: {
