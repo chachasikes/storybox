@@ -77,15 +77,15 @@ export let Scene = {
             type: "percentage",
             position: {
               x: 0.2,
-              y: 0.01, // These would just be offsets
-              z: 0.001,
+              y: 0,
+              z: 0,
             },
-            color: "#bbe266",
-            id: 'geraniol-intersect',
+            color: "#f4eea8",
+            id: 'citronellol-intersect',
             intersect: true,
             collisionClass: "head",
             intersectAction: 'intersectSceneAccordion',
-            sceneTarget: 'geraniol-scene',
+            sceneTarget: 'citronellol-scene',
           },
           {
             type: "percentage",
@@ -105,16 +105,16 @@ export let Scene = {
             type: "percentage",
             position: {
               x: 0.7,
-              y: 0,
-              z: 0,
+              y: 0.01, // These would just be offsets
+              z: 0.001,
             },
-            color: "#f4eea8",
-            id: 'citronellol-intersect',
+            color: "#bbe266",
+            id: 'geraniol-intersect',
             intersect: true,
             collisionClass: "head",
             intersectAction: 'intersectSceneAccordion',
-            sceneTarget: 'citronellol-scene',
-          }
+            sceneTarget: 'geraniol-scene',
+          },
         ]
       }
     }
@@ -168,9 +168,9 @@ mesh: {
   art: "https://www.dropbox.com/s/z9q199hf0utq5px/nosina_alembic_test.glb?dl=0",
   opacity: 1,
   scale: {
-    x: 5,
-    y: 5,
-    z: 5,
+    x: 3,
+    y: 3,
+    z: 3,
   },
   rotation: {
     x: 0,
@@ -184,13 +184,14 @@ mesh: {
   }
 },
   },
-  citronellol: {
+
+  train_station: {
     mesh: {
-      name: "Citronellol",
-      credit: "Chacha Sikes",
-      id: "citronellol",
-      art: "https://dl.dropboxusercontent.com/s/9yp0liedpg0fiji/citronellol.glb",
-      opacity: 0.9,
+      name: "Set",
+      credit: "Chacha Sikes & Sarah Chalek",
+      id: "train-station",
+      art: "https://www.dropbox.com/s/bca80aqnz14chxb/rose-accordion-animation.glb?dl=0",
+      opacity: 1,
       scale: {
         x: 10,
         y: 10,
@@ -198,64 +199,88 @@ mesh: {
       },
       rotation: {
         x: 0,
-        y: 90,
+        y: 0,
         z: 0
       },
       position: {
-        x: 5,
-        y: 0,
-        z: 0
+        x: 4,
+        y: 0.5,
+        z: 2.5
       }
     },
   },
-  geraniol: {
-    mesh: {
-      name: "Geraniol",
-      credit: "Chacha Sikes",
-      id: "geraniol",
-      art: "https://dl.dropboxusercontent.com/s/9zvwzs2a4c9ef1e/geraniol.glb",
-      opacity: 0.6,
-      // texture: "opacity:0.6;normalPath:https://dl.dropboxusercontent.com/s/lzbhks37mnd1cs0/Tiles_025_normal.jpg;path:https://dl.dropboxusercontent.com/s/1zr2u9xl5fpyjtv/Tiles_025_Base_Color.jpg",
-      // ;bumpPath:https://dl.dropboxusercontent.com/s/6vw8mi8k4t8txuy/Tiles_025_height.png;roughnessPath:https://dl.dropboxusercontent.com/s/1yasqzucfva4ja4/Tiles_025_roughness.jpg;ambientOcculsionPath:https://www.dropbox.com/s/xzh6yhhlrtxh183/Tiles_025_ambientOcclusion.jpg:
-      scale: {
-        x: 10,
-        y: 10,
-        z: 10,
-      },
-      rotation: {
-        x: 0,
-        y: 90,
-        z: 0
-      },
-      position: {
-        x: 5,
-        y: 0,
-        z: 0
-      }
-    }
-  },
-  pea: {
-    mesh: {
-      name: "pea",
-      credit: "Chacha Sikes",
-      id: "pea",
-      art: "https://dl.dropboxusercontent.com/s/7lrq77w9fb6boeo/pea.glb",
-      opacity: 0.2,
-      scale: {
-        x: 10,
-        y: 10,
-        z: 10,
-      },
-      rotation: {
-        x: 0,
-        y: 90,
-        z: 0
-      },
-      position: {
-        x: 5,
-        y: 0,
-        z: 0
-      }
-    }
-  },
+  // citronellol: {
+  //   mesh: {
+  //     name: "Citronellol",
+  //     credit: "Chacha Sikes",
+  //     id: "citronellol",
+  //     art: "https://dl.dropboxusercontent.com/s/9yp0liedpg0fiji/citronellol.glb",
+  //     opacity: 0.9,
+  //     scale: {
+  //       x: 10,
+  //       y: 10,
+  //       z: 10,
+  //     },
+  //     rotation: {
+  //       x: 0,
+  //       y: 90,
+  //       z: 0
+  //     },
+  //     position: {
+  //       x: 5,
+  //       y: 0,
+  //       z: 0
+  //     }
+  //   },
+  // },
+  // geraniol: {
+  //   mesh: {
+  //     name: "Geraniol",
+  //     credit: "Chacha Sikes",
+  //     id: "geraniol",
+  //     art: "https://dl.dropboxusercontent.com/s/9zvwzs2a4c9ef1e/geraniol.glb",
+  //     opacity: 0.6,
+  //     // texture: "opacity:0.6;normalPath:https://dl.dropboxusercontent.com/s/lzbhks37mnd1cs0/Tiles_025_normal.jpg;path:https://dl.dropboxusercontent.com/s/1zr2u9xl5fpyjtv/Tiles_025_Base_Color.jpg",
+  //     // ;bumpPath:https://dl.dropboxusercontent.com/s/6vw8mi8k4t8txuy/Tiles_025_height.png;roughnessPath:https://dl.dropboxusercontent.com/s/1yasqzucfva4ja4/Tiles_025_roughness.jpg;ambientOcculsionPath:https://www.dropbox.com/s/xzh6yhhlrtxh183/Tiles_025_ambientOcclusion.jpg:
+  //     scale: {
+  //       x: 10,
+  //       y: 10,
+  //       z: 10,
+  //     },
+  //     rotation: {
+  //       x: 0,
+  //       y: 90,
+  //       z: 0
+  //     },
+  //     position: {
+  //       x: 5,
+  //       y: 0,
+  //       z: 0
+  //     }
+  //   }
+  // },
+  // pea: {
+  //   mesh: {
+  //     name: "pea",
+  //     credit: "Chacha Sikes",
+  //     id: "pea",
+  //     art: "https://dl.dropboxusercontent.com/s/7lrq77w9fb6boeo/pea.glb",
+  //     opacity: 0.2,
+  //     scale: {
+  //       x: 10,
+  //       y: 10,
+  //       z: 10,
+  //     },
+  //     rotation: {
+  //       x: 0,
+  //       y: 90,
+  //       z: 0
+  //     },
+  //     position: {
+  //       x: 5,
+  //       y: 0,
+  //       z: 0
+  //     }
+  //   }
+  // },
 };
