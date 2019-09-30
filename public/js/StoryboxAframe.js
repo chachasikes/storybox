@@ -215,13 +215,14 @@ export class StoryboxAframe {
 
   buildMesh(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
     if (props.art !== undefined) {
+      let fileType = props.art.split('.').pop();
       let classProps = this.getValue("className", props);
       let className = `class="${classProps.attribute} glb-animation"`;
-      console.log('texture', props.texture);
+      // console.log('texture', props.texture);
       let texture = props.texture !== undefined ? `gltf-material="path:${props.texture}"` : ``;
       let opacity = props.opacity !== undefined ? `model-opacity="${props.opacity}"` : ``;
+      let glb_legacy = props.glb_legacy !== undefined ? props.glb_legacy : false;
 
-      let fileType = props.art.split('.').pop();
       if (fileType === 'glb') {
         className = `class="glb-animation ${classProps.attribute} ${props.texture !== undefined ? 'textured' : ''}"`;
 
@@ -247,12 +248,15 @@ export class StoryboxAframe {
 
 
         // @TODO texture
+
+        let gltf_model = glb_legacy ? 'gltf-model-legacy' : 'gltf-model';
+
         innerMarkup = `${innerMarkup}
           <a-entity
           id="#${props.id}-gltf"
           ref="${props.id}"
           ${className}
-          gltf-model="#${props.id}"
+          ${gltf_model}="#${props.id}"
           ${opacity}
           ${texture}
           ${aframeTags.scale.tag}
@@ -270,6 +274,7 @@ export class StoryboxAframe {
 
 
       } else if (fileType === 'obj') {
+
         assetItemElements.push(
           `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>
            <a-asset-item id="${props.id}-material" src="${props.material}"></a-asset-item>
@@ -584,7 +589,7 @@ export class StoryboxAframe {
     innerMarkup = `${innerMarkup}
       <a-light ${aframeTags.className}
       type="${props.type ? props.type : "point"}"
-       intensity="${props.intensity ? props.intensity : 1}"  
+       intensity="${props.intensity ? props.intensity : 1}"
        ${aframeTags.color.tag} ${aframeTags.position.tag}>
       </a-light>`;
       return {

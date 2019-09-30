@@ -15,12 +15,12 @@
     "lodash.mergewith": "^4.6.2"
   },
   "devDependencies": {
-    "tar": ">=4.4.2",
     "fstream": ">=1.0.12",
-    "gulp": "^4.0.0",
-    "gulp-autoprefixer": "^6.0.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^6.1.0",
     "gulp-sass": "^4.0.2",
     "gulp-watch": "^5.0.1",
+    "tar": "^4.4.13",
     "through2": "^3.0.1"
   }
 }

@@ -5,8 +5,7 @@ import { formatDropboxRawLinks } from "./utilities.js";
 import { registry } from "./../examples/gallery/registry.js";
 import { Scene as gallerySceneJson } from "./../examples/gallery/gallery.js";
 // @TODO Dropbox registry or registry via input + URL.
-let dropboxScenes = ["https://www.dropbox.com/s/d5f678nqnqnp1kv/dropbox-tincture-sea.json"];
-
+let dropboxScenes = ["https://www.dropbox.com/s/d5f678nqnqnp1kv/dropbox-tincture-sea.json", "https://www.dropbox.com/s/nrsmcsbd5cdhm77/scent_ink_unicorn.json?dl=0"];
 export class App {
   constructor() {
     this.registryLocal = registry;
