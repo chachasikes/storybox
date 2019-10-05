@@ -20,7 +20,7 @@ export class App {
   constructor() {
     // Build the list of stories to add to the gallery.
     this.registryLocal = registry;
-    this.loadDropbox(dropboxScenes);
+    // this.loadDropbox(dropboxScenes);
     this.gallerySceneJson = gallerySceneJson;
   }
 
