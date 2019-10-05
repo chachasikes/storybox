@@ -32,7 +32,7 @@ function js(cb) {
   src('./src/app/**/*.js')
     // .pipe(concat('app.js'))
     // .pipe(uglify())
-    .pipe(dest('./public/js'))
+    .pipe(dest('./public'))
     cb();
 }
 

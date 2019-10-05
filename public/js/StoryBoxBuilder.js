@@ -102,6 +102,7 @@ export class StoryBoxBuilder {
           assets.setAttribute("timeout", 60000);
           document.getElementById("scenes").before(assets);
         }
+
         document.querySelector("a-assets").innerHTML = this.assetMarkupGallery;
 
         document.querySelector("a-assets").addEventListener("loaded", () => {
@@ -110,8 +111,6 @@ export class StoryBoxBuilder {
             this.pauseScene();
           }
         });
-
-
 
         let sceneSelector;
         this.storySettings.currentStory = "gallery";
