@@ -4,6 +4,8 @@ const sass = require('gulp-sass');
 const { task, watch, src, dest, series } = require('gulp');
 const autoprefix = require('gulp-autoprefixer');
 const t2 = require('through2'); // Get through2 as t2 @TODO what was this?
+const uglify = require('gulp-uglify');
+// const concat = require('gulp-concat');
 
 sass.compiler = require('node-sass');
 
@@ -26,9 +28,18 @@ function scss(cb) {
     cb();
 }
 
+function js(cb) {
+  src('./src/app/**/*.js')
+    // .pipe(concat('app.js'))
+    // .pipe(uglify())
+    .pipe(dest('./public/js'))
+    cb();
+}
+
 function watcher(cb) {
   watch('./src/app/**/*.scss', series(scss))
+  watch('./src/app/**/*.js', series(js))
   cb()
 }
 
-module.default = task('default', series([scss, watcher]));
+module.default = task('default', series([scss, js, watcher]));
