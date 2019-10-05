@@ -3,7 +3,7 @@
 const sass = require('gulp-sass');
 const { task, watch, src, dest, series } = require('gulp');
 const autoprefix = require('gulp-autoprefixer');
-const t2 = require('through2'); // Get through2 as t2
+const t2 = require('through2'); // Get through2 as t2 @TODO what was this?
 
 sass.compiler = require('node-sass');
 
