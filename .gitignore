@@ -1,6 +1,5 @@
 .DS_Store
 
-node_modules
 public/lib/three.js/.github
 public/lib/three.js/docs
 public/lib/three.js/editor
