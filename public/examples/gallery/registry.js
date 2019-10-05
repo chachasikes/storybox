@@ -3,7 +3,6 @@ import { story as roseAccordion } from './../scenes/rose_accordion/scenes.js';
 import { story as lights } from './../scenes/lights/scenes.js';
 import { story as scale } from './../scenes/scale-grids/scenes.js';
 import { story as texture } from './../scenes/texture/scenes.js';
-// import { dropboxRegistry } from './../../dropbox/dropbox-tincture-sea.js';
 
 export let registry = [
   storyHelloWorld,
@@ -11,5 +10,4 @@ export let registry = [
   lights,
   scale,
   texture
-  // dropboxRegistry
 ];
