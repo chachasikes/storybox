@@ -1,4 +1,4 @@
-import { StoryBoxBuilder } from "./StoryBoxBuilder.js";
+import { StoryBoxNavigator } from "./StoryBoxNavigator.js";
 import { StoryboxAframe } from "./StoryboxAframe.js";
 import {
   updateAccordionLine,
@@ -12,22 +12,37 @@ let dropboxScenes = [
   "https://dl.dropboxusercontent.com/s/nrsmcsbd5cdhm77/scent_ink_unicorn.json"
 ];
 
+/**
+ * Storybox App - provide navigation interface, loaders and JSON interpreters to
+ * display and navigate AFrame scenes in WebXR.
+ */
 export class App {
   constructor() {
+    // Build the list of stories to add to the gallery.
     this.registryLocal = registry;
     this.loadDropbox(dropboxScenes);
     this.gallerySceneJson = gallerySceneJson;
   }
 
+  /**
+   * Set up (or reset) Storybox scenes
+   * @constructor
+   * @param {string} target - id of the scene (if undefined, will load gallery)
+   */
   init(target) {
-    window.StoryBoxBuilder = new StoryBoxBuilder(target);
+    window.StoryBoxNavigator = new StoryBoxNavigator(target);
     window.StoryboxAframe = new StoryboxAframe();
-    window.StoryBoxBuilder.updateAccordionLine = updateAccordionLine; // @TODO Made an add on component
-    window.StoryBoxBuilder.intersectSceneAccordion = intersectSceneAccordion; // @TODO  Made an add on component // abstract out after getting it to work.
-    let rendered = window.StoryBoxBuilder.render(target);
-    window.StoryBoxBuilder.init(this);
+    window.StoryBoxNavigator.updateAccordionLine = updateAccordionLine; // @TODO Made an add on component
+    window.StoryBoxNavigator.intersectSceneAccordion = intersectSceneAccordion; // @TODO  Made an add on component // abstract out after getting it to work.
+    let rendered = window.StoryBoxNavigator.render(target);
+    window.StoryBoxNavigator.init(this);
   }
 
+  /**
+   * Set up (or reset) Storybox scenes
+   * @constructor
+   * @param {array} files - List of public urls to JSON scene description documents.
+   */
   loadDropbox(files) {
     let fetchPromises = [];
     files.forEach(file => {
@@ -37,7 +52,6 @@ export class App {
         new Promise(
           function(resolve, reject) {
             try {
-              console.log("trying", rawFilePath);
               fetch(rawFilePath)
                 .then(response => response.json())
                 .then(data => {

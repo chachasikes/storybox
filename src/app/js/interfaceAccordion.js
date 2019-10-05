@@ -40,8 +40,8 @@ export function updateAccordionLine() {
     let cameraPosition = rig.object3D.position;
     let newPositionLeft, newPositionRight;
     if (!AFRAME.utils.device.checkHeadsetConnected()) {
-      newPositionLeft = window.StoryBoxBuilder.testPositions[window.StoryBoxBuilder.testPosition].left;
-      newPositionRight = window.StoryBoxBuilder.testPositions[window.StoryBoxBuilder.testPosition].right;
+      newPositionLeft = window.StoryBoxNavigator.testPositions[window.StoryBoxNavigator.testPosition].left;
+      newPositionRight = window.StoryBoxNavigator.testPositions[window.StoryBoxNavigator.testPosition].right;
       stretchLeft.setAttribute("position", newPositionLeft);
       stretchRight.setAttribute("position", newPositionRight);
     } else {

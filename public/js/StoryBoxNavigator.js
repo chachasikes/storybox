@@ -3,7 +3,7 @@ import { vrlog } from "./vrlog.js";
 import { testPositions } from "./testPositions.js";
 import modelLoadedEvent  from './modelUpdates.js';
 
-export class StoryBoxBuilder {
+export class StoryBoxNavigator {
   constructor() {
     this.storySettings = {};
     this.storySettings.timer = null;
@@ -243,7 +243,7 @@ export class StoryBoxBuilder {
          console.log("ENTERED VR");
 
          document.getElementById('scene-selector').setAttribute('entered-vr', true);
-         window.StoryBoxBuilder.update();
+         window.StoryBoxNavigator.update();
 
       });
 
@@ -372,7 +372,7 @@ export class StoryBoxBuilder {
 
   xButtonEvent(evt) {
     vrlog("X");
-    window.StoryBoxBuilder.loadGallery();
+    window.StoryBoxNavigator.loadGallery();
   }
 
   yButtonEvent(evt) {
@@ -381,7 +381,7 @@ export class StoryBoxBuilder {
   }
 
   hitEvent(evt) {
-    window.StoryBoxBuilder.debounce(window.StoryBoxBuilder.hitEvent, 2000);
+    window.StoryBoxNavigator.debounce(window.StoryBoxNavigator.hitEvent, 2000);
 
   }
 
@@ -392,14 +392,14 @@ export class StoryBoxBuilder {
           var el = this.el;
           el.addEventListener(
             "xbuttondown",
-            window.StoryBoxBuilder.xButtonEvent
+            window.StoryBoxNavigator.xButtonEvent
           );
         },
         update: function() {
           var el = this.el;
           el.addEventListener(
             "xbuttondown",
-            window.StoryBoxBuilder.xButtonEvent
+            window.StoryBoxNavigator.xButtonEvent
           );
         }
       });
@@ -411,14 +411,14 @@ export class StoryBoxBuilder {
           var el = this.el;
           el.addEventListener(
             "ybuttondown",
-            window.StoryBoxBuilder.yButtonEvent
+            window.StoryBoxNavigator.yButtonEvent
           );
         },
         update: function() {
           var el = this.el;
           el.addEventListener(
             "ybuttondown",
-            window.StoryBoxBuilder.yButtonEvent
+            window.StoryBoxNavigator.yButtonEvent
           );
         }
       });
@@ -614,7 +614,7 @@ export class StoryBoxBuilder {
       init: function() {
         console.log('intersection-play init', this.el);
         this.el.addEventListener('hit', (e) => {
-          window.StoryBoxBuilder.hitEvent();
+          window.StoryBoxNavigator.hitEvent();
 
           // console.log('hit');
           // console.log(e);
@@ -663,18 +663,18 @@ export class StoryBoxBuilder {
         init: function() {
           var el = this.el;
           if (
-            typeof window.StoryBoxBuilder.leftControllerTickEvent === "function"
+            typeof window.StoryBoxNavigator.leftControllerTickEvent === "function"
           ) {
-            // vrlog(window.StoryBoxBuilder.leftControllerTickEvent);
-            window.StoryBoxBuilder.leftControllerTickEvent();
+            // vrlog(window.StoryBoxNavigator.leftControllerTickEvent);
+            window.StoryBoxNavigator.leftControllerTickEvent();
           }
         },
         tick: function() {
           if (
-            typeof window.StoryBoxBuilder.leftControllerTickEvent === "function"
+            typeof window.StoryBoxNavigator.leftControllerTickEvent === "function"
           ) {
-            vrlog(window.StoryBoxBuilder.leftControllerTickEvent);
-            window.StoryBoxBuilder.leftControllerTickEvent();
+            vrlog(window.StoryBoxNavigator.leftControllerTickEvent);
+            window.StoryBoxNavigator.leftControllerTickEvent();
           }
         }
       });
@@ -685,20 +685,20 @@ export class StoryBoxBuilder {
         init: function() {
           var el = this.el;
           if (
-            typeof window.StoryBoxBuilder.rightControllerTickEvent ===
+            typeof window.StoryBoxNavigator.rightControllerTickEvent ===
             "function"
           ) {
-            // vrlog(typeof window.StoryBoxBuilder.rightControllerTickEvent);
-            window.StoryBoxBuilder.rightControllerTickEvent();
+            // vrlog(typeof window.StoryBoxNavigator.rightControllerTickEvent);
+            window.StoryBoxNavigator.rightControllerTickEvent();
           }
         },
         tick: function() {
           if (
-            typeof window.StoryBoxBuilder.rightControllerTickEvent ===
+            typeof window.StoryBoxNavigator.rightControllerTickEvent ===
             "function"
           ) {
-            // vrlog(typeof window.StoryBoxBuilder.rightControllerTickEvent);
-            window.StoryBoxBuilder.rightControllerTickEvent();
+            // vrlog(typeof window.StoryBoxNavigator.rightControllerTickEvent);
+            window.StoryBoxNavigator.rightControllerTickEvent();
           }
         }
       });
@@ -752,9 +752,9 @@ export class StoryBoxBuilder {
       if (
         updateTestPosition !== undefined &&
         updateTestPosition !== null &&
-        typeof window.StoryBoxBuilder[updateTestPosition] === "function"
+        typeof window.StoryBoxNavigator[updateTestPosition] === "function"
       ) {
-        window.StoryBoxBuilder[updateTestPosition](this);
+        window.StoryBoxNavigator[updateTestPosition](this);
       }
     }
   }
@@ -784,7 +784,7 @@ export class StoryBoxBuilder {
             this.storySettings.transition = window.setTimeout(
               function() {
                 clearTimeout(this.storySettings.transition);
-                window.StoryBoxBuilder.nextScene();
+                window.StoryBoxNavigator.nextScene();
               }.bind(this),
               5000
             );
@@ -834,7 +834,7 @@ export class StoryBoxBuilder {
           window.VRLog.logQueue = [];
         }
         if (mutation.target.id === "scene-selector") {
-          window.StoryBoxBuilder.sceneSelectorUpdateEvent();
+          window.StoryBoxNavigator.sceneSelectorUpdateEvent();
         }
         this.updateEventListeners();
         this.setupAppButtons();
@@ -866,8 +866,8 @@ export class StoryBoxBuilder {
       }
     });
 
-    if (typeof window.StoryBoxBuilder.intersectAction === 'function') {
-      window.addEventListener("hit", window.StoryBoxBuilder.intersectAction);
+    if (typeof window.StoryBoxNavigator.intersectAction === 'function') {
+      window.addEventListener("hit", window.StoryBoxNavigator.intersectAction);
     }
   }
 
@@ -882,8 +882,8 @@ export class StoryBoxBuilder {
     }
     this.storySettings.galleryListeners = true;
     // Set globally readable event names
-    window.StoryBoxBuilder.xButtonEvent = this.xButtonEvent;
-    window.StoryBoxBuilder.yButtonEvent = this.yButtonEvent;
+    window.StoryBoxNavigator.xButtonEvent = this.xButtonEvent;
+    window.StoryBoxNavigator.yButtonEvent = this.yButtonEvent;
 
     if (document.getElementById("leftHand") !== null) {
       let tickFunctionLeft = document
@@ -892,13 +892,13 @@ export class StoryBoxBuilder {
 
       if (
         tickFunctionLeft !== undefined &&
-        window.StoryBoxBuilder[tickFunctionLeft] !== undefined &&
-        typeof window.StoryBoxBuilder[tickFunctionLeft] === "function"
+        window.StoryBoxNavigator[tickFunctionLeft] !== undefined &&
+        typeof window.StoryBoxNavigator[tickFunctionLeft] === "function"
       ) {
-        window.StoryBoxBuilder.leftControllerTickEvent = window.StoryBoxBuilder[tickFunctionLeft];
+        window.StoryBoxNavigator.leftControllerTickEvent = window.StoryBoxNavigator[tickFunctionLeft];
 
       } else {
-        window.StoryBoxBuilder.leftControllerTickEvent = null;
+        window.StoryBoxNavigator.leftControllerTickEvent = null;
       }
     }
     if (document.getElementById("rightHand") !== null) {
@@ -907,13 +907,13 @@ export class StoryBoxBuilder {
         .getAttribute("tickFunction");
       if (
         tickFunctionRight !== undefined &&
-        window.StoryBoxBuilder[tickFunctionRight] !== undefined &&
-        typeof window.StoryBoxBuilder[tickFunctionRight] === "function"
+        window.StoryBoxNavigator[tickFunctionRight] !== undefined &&
+        typeof window.StoryBoxNavigator[tickFunctionRight] === "function"
       ) {
-        window.StoryBoxBuilder.rightControllerTickEvent =
-          window.StoryBoxBuilder[tickFunctionRight];
+        window.StoryBoxNavigator.rightControllerTickEvent =
+          window.StoryBoxNavigator[tickFunctionRight];
       } else {
-        window.StoryBoxBuilder.rightControllerTickEvent = null;
+        window.StoryBoxNavigator.rightControllerTickEvent = null;
       }
     }
 
@@ -923,13 +923,13 @@ export class StoryBoxBuilder {
         .getAttribute("updateTestPosition");
       if (
         tickFunctionRig !== undefined &&
-        window.StoryBoxBuilder[tickFunctionRig] !== undefined &&
-        typeof window.StoryBoxBuilder[tickFunctionRig] === "function"
+        window.StoryBoxNavigator[tickFunctionRig] !== undefined &&
+        typeof window.StoryBoxNavigator[tickFunctionRig] === "function"
       ) {
-        window.StoryBoxBuilder.rigControllerTickEvent =
-          window.StoryBoxBuilder[tickFunctionRig];
+        window.StoryBoxNavigator.rigControllerTickEvent =
+          window.StoryBoxNavigator[tickFunctionRig];
       } else {
-        window.StoryBoxBuilder.rigControllerTickEvent = null;
+        window.StoryBoxNavigator.rigControllerTickEvent = null;
       }
     }
 
@@ -937,12 +937,12 @@ export class StoryBoxBuilder {
       let intersectionElements = document.querySelectorAll('.sphere-intersection');
       intersectionElements.forEach(item => {
         let action = item.getAttribute('intersectAction');
-        if (action !== null && typeof window.StoryBoxBuilder[action] === 'function') {
-          window.StoryBoxBuilder.intersectAction = window.StoryBoxBuilder[action];
+        if (action !== null && typeof window.StoryBoxNavigator[action] === 'function') {
+          window.StoryBoxNavigator.intersectAction = window.StoryBoxNavigator[action];
         }
       });
     }
-    window.StoryBoxBuilder.modelLoadedEvent = this.modelLoadedEvent;
+    window.StoryBoxNavigator.modelLoadedEvent = this.modelLoadedEvent;
   }
 
   render(target) {
