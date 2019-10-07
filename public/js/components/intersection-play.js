@@ -3,7 +3,7 @@ export function registerComponent() {
   AFRAME.registerComponent('intersection-play', {
     schema: {
       name: {default: 'intersection-play-element'},
-      sceneTarget: {default: null},
+      intersectTarget: {default: null},
       action: {default: null},
     },
     init: function() {
@@ -16,15 +16,17 @@ export function registerComponent() {
       });
       this.el.addEventListener('hitend', (e) => {
         console.log('hitend');
-        console.log(e.detail.el);
         if (e.detail !== undefined && e.detail.el !== undefined) {
         let id = e.detail.el.getAttribute('id');
         let intersectAction = e.detail.el.getAttribute('intersect-action');
-        let sceneTarget = e.detail.el.getAttribute('scene-target');
+        let intersectTarget = e.detail.el.getAttribute('intersect-target');
         //
         // //@TODO get head position
         //
-        console.log(id, intersectAction, sceneTarget); // ,
+        console.log(id, intersectAction, intersectTarget); // ,
+        if (intersectAction === 'fadeInObject') {
+
+        }
       }
         // vrlog('hitend');
       });

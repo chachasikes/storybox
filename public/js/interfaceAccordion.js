@@ -197,7 +197,7 @@ export function buildHandPropInterface(
         if (item.intersect !== undefined) {
 
           intersection = `
-            sphere-intersection="objects: .head" intersect-action="${item.intersectAction}" scene-target="${item.sceneTarget}"
+            sphere-intersection="objects: .head" intersect-action="${item.intersectAction}" intersect-target="${item.intersectTarget}"
             `;
 
           className=`class="stretch-object"`;

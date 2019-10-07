@@ -10,6 +10,7 @@ import { registerComponent as behaviorYButtonListener } from "./components/y-but
 import { registerComponent as behaviorAButtonListener } from "./components/a-button-listener.js";
 import { registerComponent as behaviorBButtonListener } from "./components/b-button-listener.js";
 import { registerComponent as behaviorSphereIntersection } from "./components/sphere-intersection.js";
+import { registerComponent as gltfOpacity } from "./components/gltf-model-opacity.js";
 
 
 export class StoryBoxBuilder {
@@ -399,6 +400,7 @@ export class StoryBoxBuilder {
     behaviorAccordionStretch();
     behaviorIntersectionPlay();
     behaviorSphereIntersection();
+    gltfOpacity();
   }
 
   debounce(fn, delay) {

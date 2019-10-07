@@ -81,7 +81,7 @@ export let Scene = {
             id: "citronellol-intersect",
             intersect: true,
             collisionClass: "head",
-            sceneTarget: "citronellol-scene",
+            intersectTarget: "nosina_1",
             intersectAction: 'fadeInObject',
             radius: 2,
           },
@@ -96,7 +96,7 @@ export let Scene = {
             id: "pea-intersect",
             intersect: true,
             collisionClass: "head",
-            sceneTarget: "pea-scene",
+            intersectTarget: "nosina_2",
             intersectAction: 'fadeInObject',
             radius: 0.4,
           },
@@ -111,7 +111,7 @@ export let Scene = {
             id: "geraniol-intersect",
             intersect: true,
             collisionClass: "head",
-            sceneTarget: "geraniol-scene",
+            intersectTarget: "nosina_3",
             intersectAction: 'fadeInObject',
             radius: 0.4,
           }
@@ -164,10 +164,10 @@ export let Scene = {
     mesh: {
       name: "Nosina",
       credit: "Sarah Chalek & Chacha Sikes",
-      id: "nosina",
+      id: "nosina_1",
       art:
         "https://www.dropbox.com/s/z9q199hf0utq5px/nosina_alembic_test.glb?dl=0",
-      opacity: 1,
+      opacity: 0,
       scale: {
         x: 1.5,
         y: 1.5,
@@ -180,6 +180,56 @@ export let Scene = {
       },
       position: {
         x: -2,
+        y: 0.25,
+        z: -2
+      }
+    }
+  },
+  nosina2: {
+    mesh: {
+      name: "Nosina",
+      credit: "Sarah Chalek & Chacha Sikes",
+      id: "nosina_2",
+      art:
+        "https://www.dropbox.com/s/z9q199hf0utq5px/nosina_alembic_test.glb?dl=0",
+      opacity: 0,
+      scale: {
+        x: 5,
+        y: 5,
+        z: 5
+      },
+      rotation: {
+        x: 0,
+        y: 210,
+        z: 0
+      },
+      position: {
+        x: -5,
+        y: 0.25,
+        z: -10
+      }
+    }
+  },
+  nosina3: {
+    mesh: {
+      name: "Nosina",
+      credit: "Sarah Chalek & Chacha Sikes",
+      id: "nosina_3",
+      art:
+        "https://www.dropbox.com/s/z9q199hf0utq5px/nosina_alembic_test.glb?dl=0",
+      opacity: 0,
+      scale: {
+        x: 2,
+        y: 2,
+        z: 2
+      },
+      rotation: {
+        x: 0,
+        y: 210,
+        z: 0
+      },
+      position: {
+        x: 3,
         y: 0.25,
         z: -2
       }

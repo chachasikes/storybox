@@ -220,7 +220,7 @@ export class StoryboxAframe {
       let className = `class="${classProps.attribute} glb-animation"`;
       // console.log('texture', props.texture);
       let texture = props.texture !== undefined ? `gltf-material="path:${props.texture}"` : ``;
-      let opacity = props.opacity !== undefined ? `model-opacity="${props.opacity}"` : ``;
+      let opacity = props.opacity !== undefined ? `gltf-model-opacity="${props.opacity}"` : ``;
       let glb_legacy = props.glb_legacy !== undefined ? props.glb_legacy : false;
 
       if (fileType === 'glb') {
