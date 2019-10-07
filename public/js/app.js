@@ -21,10 +21,12 @@ export class App {
    * Set up modules and initialize to render gallery or target content.
    */
   init(target) {
-    window.StoryboxNavigator = new StoryboxNavigator(target);
-    window.StoryboxAframe = new StoryboxAframe();
-    let rendered = window.StoryboxNavigator.render(target);
-    window.StoryboxNavigator.init(this);
+    if (document.querySelector("a-assets") === null) {
+      window.StoryboxNavigator = new StoryboxNavigator(target);
+      window.StoryboxAframe = new StoryboxAframe();
+      let rendered = window.StoryboxNavigator.render(target);
+      window.StoryboxNavigator.init(this);
+    }
   }
 
   /**
