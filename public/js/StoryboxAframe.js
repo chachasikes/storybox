@@ -7,7 +7,7 @@ import { buildHandPropInterface } from './components/accordion-stretch.js';
  */
 export class StoryboxAframe {
   constructor() {
-    this.getCoordinates = this.getCoordinates.bind(this);
+    this.getAxisCoordinates = this.getAxisCoordinates.bind(this);
     this.getValue = this.getValue.bind(this);
     // Set default player height, arms
     this.playerHeight = 1.6;
@@ -26,7 +26,8 @@ export class StoryboxAframe {
    * Some of the assets are too large for github or glitch repos.
    * This also helps letting artists collaborate and replace files easily.
    *
-   * @param {object} data - the values for the item
+   * @param {object} data - The values for the item
+   * @param {object} data - Return formatted data
    */
   formatDropboxDataRecursive(data)  {
     let propKeys = Object.keys(data);
@@ -69,8 +70,9 @@ export class StoryboxAframe {
   /**
    * Create tags and attributes from JSON settings for AFrame markup.
    *
-   * @param {string} name - the attribute name to look up in data
-   * @param {object} data - the values for the item
+   * @param {string} name - The attribute name to look up in data
+   * @param {object} data - The values for the item
+   * @returns {object} - Object with tag and attribute
    */
   getValue(name, data) {
     if (data !== undefined && data[name] !== undefined) {
@@ -90,6 +92,7 @@ export class StoryboxAframe {
    *
    * @param {string} name - the attribute name to look up in data
    * @param {object} data - the values for the item
+   * @returns {string} - Property string for HTML
    */
   getProperty(name, data) {
     if (data !== undefined && data[name] !== undefined) {
@@ -108,8 +111,12 @@ export class StoryboxAframe {
    *
    * @param {string} name - the attribute name to look up in data
    * @param {object} data - the values for the item
+   * @param {number} data.x - X coordinate
+   * @param {number} data.y - Y coordinate
+   * @param {number} data.z - Z coordinate
+   * @returns {object} - Object with tag and attribute
    */
-  getCoordinates(name, data) {
+  getAxisCoordinates(name, data) {
     if (
       data !== undefined &&
       data[name] !== undefined &&
@@ -133,6 +140,10 @@ export class StoryboxAframe {
    *
    * @param {string} name - the attribute name to look up in data
    * @param {object} data - the values for the item
+   * @param {number} data.width - Width coordinate
+   * @param {number} data.height - Height coordinate
+   * @param {number} data.depth - Depth coordinate
+   * @returns {string} - Property string for HTML
    */
   getDimensions(name, data) {
     if (
@@ -156,6 +167,7 @@ export class StoryboxAframe {
 
   /**
    * Compose a cube map with individual images.
+   * Key: imagecube
    *
    * @param {object} data - the values for the item
    * @param {object} data.art - Urls to image files.
@@ -175,9 +187,9 @@ export class StoryboxAframe {
    * @param {number} data.rotation.z - Z coordinate
    * @param {number} data.scale - Scale coordinate
 
-   * @returns {number}
+   * @returns {object} - Cube object with formatted markup.
    */
-  getCube(data) {
+  buildCubemap(data) {
     // @TODO see also cube-map-env aframe extras
     // <a-box cube-map-env src="https://dl.dropboxusercontent.com/s/q5sndy1rk2drufh/hand-drawn--bake1.jpg" position="2 0.5 -4"></a-box>
     let cube = [
@@ -217,15 +229,19 @@ export class StoryboxAframe {
 
   /**
    * Build skybox with equirectangular image.
+   * Key: sky
    * @constructor
    * @param {object} props - The JSON Settings.
+   * @param {string} props.color - Color of sky
+   * @param {string} props.art - Url to equirectangular image
+   * @param {string} props.id - Element ID
    * @param {string} innerMarkup - The current AFrame markup insert
    * @param {array} childElements - The items to insert into <a-assets> tag for preloading.
    * @param {array} preloadElements - The current AFrame markup insert
    * @param {object} aframeTags - Composed attribute tags to insert as AFrame options
-   * @returns {object} -
+   * @returns {object} - Preloaded elements, Aframe markup and Child elements.
    */
-  buildSky(props, innerMarkup, childElements, preloadElements, aframeTags) {
+  buildSkybox(props, innerMarkup, childElements, preloadElements, aframeTags) {
     if (props.color !== undefined) {
       innerMarkup = `${innerMarkup}<a-sky color="${
         aframeTags.color.attribute
@@ -262,14 +278,30 @@ export class StoryboxAframe {
 
   /**
    * Given JSON settings, output a mesh object.
+   * Key: mesh
    * JSON Parameters
    * @constructor
    * @param {object} props - The JSON Settings.
    * @param {string} props.art - The JSON Settings.
+   * @param {string} props.classname - Classname to add for interactivity
+   * @param {string} props.texture -
+   * @param {string} props.id -
+   * @param {float} props.opacity -
+   * @param {object} props.position - Position object
+   * @param {number} props.position.x - X coordinate
+   * @param {number} props.position.y - Y coordinate
+   * @param {number} props.position.z - Z coordinate
+   * @param {object} props.rotation - Rotation object
+   * @param {number} props.rotation.x - X coordinate
+   * @param {number} props.rotation.y - Y coordinate
+   * @param {number} props.rotation.z - Z coordinate
+   * @param {number} props.scale - Scale coordinate
+   * @param {boolean} props.glb_legacy - If GLB files is GLTF Version 1.0
    * @param {string} innerMarkup - The current AFrame markup insert
    * @param {array} childElements - The current AFrame markup insert
    * @param {array} preloadElements - The current AFrame markup insert
    * @param {object} aframeTags - Composed attribute tags to insert as AFrame options
+   * @returns {object} - Preloaded elements, Aframe markup and Child elements.
    */
   buildMesh(props, innerMarkup, childElements, preloadElements, aframeTags) {
     if (props.art !== undefined) {
@@ -343,10 +375,10 @@ export class StoryboxAframe {
   }
 
   buildTags(props) {
-    let scale = this.getCoordinates("scale", props);
-    let rotation = this.getCoordinates("rotation", props);
-    let position = this.getCoordinates("position", props);
-    let offset = this.getCoordinates("offset", props);
+    let scale = this.getAxisCoordinates("scale", props);
+    let rotation = this.getAxisCoordinates("rotation", props);
+    let position = this.getAxisCoordinates("position", props);
+    let offset = this.getAxisCoordinates("offset", props);
     let color = this.getValue("color", props);
     let text = this.getValue("text", props);
     let dimensions = this.getDimensions("dimensions", props);
@@ -425,15 +457,15 @@ export class StoryboxAframe {
       // Can change hand controller
       if (props.touch.left.glb !== undefined) {
         props.touch.left = this.formatDropboxDataRecursive(props.touch.left);
-        let leftModelScale = this.getCoordinates(
+        let leftModelScale = this.getAxisCoordinates(
           "scale",
           props.touch.left
         );
-        let leftModelPosition = this.getCoordinates(
+        let leftModelPosition = this.getAxisCoordinates(
           "position",
           props.touch.left
         );
-        let leftModelRotation = this.getCoordinates(
+        let leftModelRotation = this.getAxisCoordinates(
           "rotation",
           props.touch.left
         );
@@ -465,11 +497,11 @@ export class StoryboxAframe {
         props.touch.right.glb !== undefined
       ) {
         props.touch.right = this.formatDropboxDataRecursive(props.touch.right);
-        let rightModelScale = this.getCoordinates(
+        let rightModelScale = this.getAxisCoordinates(
           "scale",
           props.touch.right
         );
-        let rightModelPosition = this.getCoordinates(
+        let rightModelPosition = this.getAxisCoordinates(
           "position",
           props.touch.right
         );
@@ -650,7 +682,7 @@ export class StoryboxAframe {
             switch (propKey) {
               case "sky":
                 props = this.formatDropboxDataRecursive(props);
-                let sky = this.buildSky(props, innerMarkup, childElements, preloadElements, aframeTags);
+                let sky = this.buildSkybox(props, innerMarkup, childElements, preloadElements, aframeTags);
                 innerMarkup = sky.innerMarkup;
                 childElements = sky.childElements;
                 preloadElements = sky.preloadElements;
@@ -702,7 +734,7 @@ export class StoryboxAframe {
                 break;
               case "imagecube":
                 props = this.formatDropboxDataRecursive(props);
-                let cube = this.getCube(props);
+                let cube = this.buildCubemap(props);
                 cube.map((face, index) => {
                   childElements.push(
                     `<img ${aframeTags.className} id="${props.id}-${index}" src="${
