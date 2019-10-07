@@ -91,7 +91,7 @@ export class StoryboxAframe {
    * Create property tags from JSON settings for AFrame markup.
    *
    * @param {string} name - the attribute name to look up in data
-   * @param {object} data - the values for the item
+   * @param {object} data - The properties for this element.
    * @returns {string} - Property string for HTML
    */
   getProperty(name, data) {
@@ -110,7 +110,7 @@ export class StoryboxAframe {
    * Return tags for x y z coordinates.
    *
    * @param {string} name - the attribute name to look up in data
-   * @param {object} data - the values for the item
+   * @param {object} data - The properties for this element.
    * @param {number} data.x - X coordinate
    * @param {number} data.y - Y coordinate
    * @param {number} data.z - Z coordinate
@@ -139,7 +139,7 @@ export class StoryboxAframe {
    * Return tags for w h l dimensions.
    *
    * @param {string} name - the attribute name to look up in data
-   * @param {object} data - the values for the item
+   * @param {object} data - The properties for this element.
    * @param {number} data.width - Width coordinate
    * @param {number} data.height - Height coordinate
    * @param {number} data.depth - Depth coordinate
@@ -166,10 +166,60 @@ export class StoryboxAframe {
   }
 
   /**
+   * Create all tags possible for an object, since AFrame settings can have similar optional properties.
+   *
+   * @param {object} props - The properties for this element.
+   * @param {number} props.dimensions - Dimensions
+   * @param {number} props.dimensions.width - Width coordinate
+   * @param {number} props.dimensions.height - Height coordinate
+   * @param {number} props.dimensions.depth - Depth coordinate
+   * @param {object} props.position - Position object
+   * @param {number} props.position.x - X coordinate
+   * @param {number} props.position.y - Y coordinate
+   * @param {number} props.position.z - Z coordinate
+   * @param {object} props.rotation - Rotation object
+   * @param {number} props.rotation.x - X coordinate
+   * @param {number} props.rotation.y - Y coordinate
+   * @param {number} props.rotation.z - Z coordinate
+   * @param {number} props.scale - Scale coordinate
+   * @param {float} props.offset - UV offset (@TODO confirm)
+   * @param {string} props.text - Text
+   * @param {string} props.color - Color (Hex)
+   * @param {string} props.className - class name to insert for interactivity
+   * @param {line} props.line - Line
+   * @returns {string} - Property string for HTML
+   */
+  buildTags(props) {
+    let scale = this.getAxisCoordinates("scale", props);
+    let rotation = this.getAxisCoordinates("rotation", props);
+    let position = this.getAxisCoordinates("position", props);
+    let offset = this.getAxisCoordinates("offset", props);
+    let color = this.getValue("color", props);
+    let text = this.getValue("text", props);
+    let dimensions = this.getDimensions("dimensions", props);
+    let classProps = this.getValue("className", props);
+    let className = `class="${classProps.attribute}"`;
+    let line = this.getProperty("line", props);
+
+    return {
+      scale,
+      rotation,
+      position,
+      offset,
+      color,
+      text,
+      dimensions,
+      classProps,
+      className,
+      line
+    }
+  }
+
+  /**
    * Compose a cube map with individual images.
    * Key: imagecube
    *
-   * @param {object} data - the values for the item
+   * @param {object} data - The properties for this element.
    * @param {object} data.art - Urls to image files.
    * @param {object} data.art.back - Back image
    * @param {object} data.art.front - Front image
@@ -282,10 +332,11 @@ export class StoryboxAframe {
    * JSON Parameters
    * @constructor
    * @param {object} props - The JSON Settings.
-   * @param {string} props.art - The JSON Settings.
+   * @param {string} props.art - The JSON Settings. Can be .obj or .glb (GLTF 1.0 or 2.0, GLB is the single file binary format)
    * @param {string} props.classname - Classname to add for interactivity
    * @param {string} props.texture -
    * @param {string} props.id -
+   * @param {string} props.material - Required if filetype is OBJ. Link to .mtl file.
    * @param {float} props.opacity -
    * @param {object} props.position - Position object
    * @param {number} props.position.x - X coordinate
@@ -341,7 +392,6 @@ export class StoryboxAframe {
           </a-entity>
           `;
       } else if (fileType === 'obj') {
-
         preloadElements.push(
           `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>
            <a-asset-item id="${props.id}-material" src="${props.material}"></a-asset-item>
@@ -366,6 +416,18 @@ export class StoryboxAframe {
     }
   }
 
+
+  /**
+   * Placeholder function for jumping between viewpoints
+   * Key: sky
+   * @constructor
+   * @param {object} props - The JSON Settings.
+   * @param {string} innerMarkup - The current AFrame markup insert
+   * @param {array} childElements - The items to insert into <a-assets> tag for preloading.
+   * @param {array} preloadElements - The current AFrame markup insert
+   * @param {object} aframeTags - Composed attribute tags to insert as AFrame options
+   * @returns {object} - Preloaded elements, Aframe markup and Child elements.
+   */
   buildStoryboxes(props, innerMarkup, childElements, preloadElements, aframeTags) {
     return {
       childElements,
@@ -374,32 +436,12 @@ export class StoryboxAframe {
     }
   }
 
-  buildTags(props) {
-    let scale = this.getAxisCoordinates("scale", props);
-    let rotation = this.getAxisCoordinates("rotation", props);
-    let position = this.getAxisCoordinates("position", props);
-    let offset = this.getAxisCoordinates("offset", props);
-    let color = this.getValue("color", props);
-    let text = this.getValue("text", props);
-    let dimensions = this.getDimensions("dimensions", props);
-    let classProps = this.getValue("className", props);
-    let className = `class="${classProps.attribute}"`;
-    let line = this.getProperty("line", props);
-
-    return {
-      scale,
-      rotation,
-      position,
-      offset,
-      color,
-      text,
-      dimensions,
-      classProps,
-      className,
-      line
-    }
-  }
-
+  /**
+   * Build a sphere for testing intersections with the head.
+   * @constructor
+   * @param {object} props - The JSON Settings.
+   * @returns {object} - Object with head markup.
+   */
   buildHead(props) {
     return {
       head: `
@@ -409,6 +451,36 @@ export class StoryboxAframe {
     }
   }
 
+  /**
+   * Build a VR compatible camera.
+   * Attach:
+   * Gaze cursor
+   * Hand props touch controllers
+   * Intersectable Head
+   * @param {object} props - The JSON Settings.
+   * @param {string} props.classname - Classname to add for interactivity
+   * @param {string} props.id - ID
+   * @param {string} props.name - Name
+   * @param {object} props.position - Position object
+   * @param {number} props.position.x - X coordinate
+   * @param {number} props.position.y - Y coordinate
+   * @param {number} props.position.z - Z coordinate
+   * @param {object} props.rotation - Rotation object
+   * @param {number} props.rotation.x - X coordinate
+   * @param {number} props.rotation.y - Y coordinate
+   * @param {number} props.rotation.z - Z coordinate
+   * @param {number} props.scale - Scale coordinate
+   * @param {boolean} props.cursorCamera - Include gaze cursor ring.
+   * @param {boolean} props.cursorTargetClass - Target class for cursor
+   * @param {string} innerMarkup - The current AFrame markup insert
+   * @param {array} childElements - The items to insert into <a-assets> tag for preloading.
+   * @param {array} preloadElements - The current AFrame markup insert
+   * @param {object} aframeTags - Composed attribute tags to insert as AFrame options
+   * @param {string} handProp.left - Connect a mesh to left hand
+   * @param {string} handProp.right - Connect a mesh to right hand
+   * @param {float} this.playerHeight - Current player height
+   * @returns {object} - Preloaded elements, Aframe markup and Child elements.
+   */
   buildCamera(props, innerMarkup, childElements, preloadElements, aframeTags, handProp) {
     let cursor = this.buildCursor(props);
     let touchContollers = this.buildTouchControllers(props, handProp, preloadElements, aframeTags);
@@ -439,6 +511,11 @@ export class StoryboxAframe {
     }
   }
 
+  /**
+   * Set up hand controls
+   * @TODO Document
+   * @constructor
+   */
   buildTouchControllers(props, handProp, preloadElements, aframeTags) {
     let leftModel = ``;
     let rightModel = ``;
@@ -562,6 +639,12 @@ export class StoryboxAframe {
     }
   }
 
+
+  /**
+   * Build debugger panel for wrist.
+   * @TODO Document
+   * @constructor
+   */
   buildWristDebugger() {
     // If not in headset, put the panel in view.
     let panelPosition = AFRAME.utils.device.checkHeadsetConnected() ? `position="0.1 0.1 0.1" rotation="-85 0 0"` : `position="0.0 ${this.playerHeight} -0.5"`;
@@ -614,6 +697,12 @@ export class StoryboxAframe {
     }
   }
 
+
+  /**
+   * Build laser. (@TODO Doesn't work.)
+   * @TODO Document
+   * @constructor
+   */
   buildLaser(props) {
     let laser = ``;
     if (props.laser !== undefined) {
@@ -629,6 +718,12 @@ export class StoryboxAframe {
     }
   }
 
+
+  /**
+   * Build gaze cursor object.
+   * @TODO Document
+   * @constructor
+   */
   buildCursor(props) {
     let cursorCameraControls = `movement-controls="controls: checkpoint"`;
     let cursor = ``;
@@ -641,7 +736,7 @@ export class StoryboxAframe {
         cursor="fuse: true"
         material="color: black; shader: flat"
         position="0 0 -3"
-        raycaster="objects: ${props.clickableClass};"
+        raycaster="objects: ${props.cursorTargetClass};"
         geometry="primitive: ring; radiusInner: 0.08; radiusOuter: 0.1;"
         >
       </a-entity>`;
@@ -652,6 +747,12 @@ export class StoryboxAframe {
     }
   }
 
+
+  /**
+   * Build light
+   * @TODO Document
+   * @constructor
+   */
   buildLight(props, innerMarkup, childElements, preloadElements, aframeTags) {
     innerMarkup = `${innerMarkup}
       <a-light ${aframeTags.className}
@@ -666,7 +767,13 @@ export class StoryboxAframe {
       }
   }
 
-  // Format json object as a-frame
+
+  /**
+   * Render scene JSON as AFrame
+   * @TODO Document
+   * @constructor
+   @param {object} json - Scene object.
+   */
   render(json) {
     let innerMarkup = ``;
     let childElements = [];
@@ -753,11 +860,6 @@ export class StoryboxAframe {
                 innerMarkup = `${innerMarkup}
                   <a-entity ${aframeTags.text.tag} ${aframeTags.position.tag}  ${aframeTags.rotation.tag} ${aframeTags.scale.tag}></a-entity>`;
                 break;
-              // case "text-geometry":
-              //   props = this.formatDropboxDataRecursive(props);
-              //   innerMarkup = `${innerMarkup}
-              //     <a-entity ${aframeTags.text.tag} ${aframeTags.position.tag} ${aframeTags.rotation.tag} ${aframeTags.scale.tag}></a-entity>`;
-              //   break;
               case "box":
                 props = this.formatDropboxDataRecursive(props);
                 if (props.type !== undefined && props.type === "button") {
@@ -795,7 +897,7 @@ export class StoryboxAframe {
           });
         }
       });
-
+    
       return {
         childElements: childElements,
         innerMarkup: innerMarkup,

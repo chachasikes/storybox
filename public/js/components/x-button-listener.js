@@ -5,14 +5,14 @@ export function registerComponent() {
       var el = this.el;
       el.addEventListener(
         "xbuttondown",
-        window.StoryBoxBuilder.xButtonEvent
+        window.StoryboxNavigator.xButtonEvent
       );
     },
     update: function() {
       var el = this.el;
       el.addEventListener(
         "xbuttondown",
-        window.StoryBoxBuilder.xButtonEvent
+        window.StoryboxNavigator.xButtonEvent
       );
     }
   });

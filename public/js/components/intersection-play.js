@@ -10,7 +10,7 @@ export function registerComponent() {
       },
       init: function() {
         this.el.addEventListener("hit", e => {
-          window.StoryBoxBuilder.hitEvent();
+          window.StoryboxNavigator.hitEvent();
 
           // console.log('hit');
           // console.log(e);

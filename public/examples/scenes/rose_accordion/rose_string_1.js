@@ -10,7 +10,6 @@ export let Scene = {
       name: "World camera",
       id: "camera_rose",
       cursorCamera: false,
-      fadeMask: false,
       position: {
         x: 0,
         y: 0,

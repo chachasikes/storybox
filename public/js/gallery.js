@@ -1,3 +1,7 @@
+/**
+ * Build Gallery (clickable images in rows)
+ * @module Gallery
+ */
 export class Gallery {
   constructor() {
     this.registry = null;
@@ -86,7 +90,7 @@ export class Gallery {
       );
     });
     return {
-      assetsElements: assets,
+      preloadElements: assets,
       tiles
     }
   }

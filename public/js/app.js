@@ -1,4 +1,4 @@
-import { StoryBoxBuilder } from './StoryBoxBuilder.js';
+import { StoryboxNavigator } from './StoryboxNavigator.js';
 import { StoryboxAframe } from "./StoryboxAframe.js";
 import { formatDropboxRawLinks } from "./utilities/dropbox-format.js";
 import { registry } from "./../examples/gallery/registry.js";
@@ -14,16 +14,17 @@ export class App {
     this.registryLocal = registry;
     this.registryRemote = this.loadExternalJSON(registryRemoteScenes);
     this.galleryScene = galleryScene;
+    this.registry = [];
   }
 
   /**
    * Set up modules and initialize to render gallery or target content.
    */
   init(target) {
-    window.StoryBoxBuilder = new StoryBoxBuilder(target);
+    window.StoryboxNavigator = new StoryboxNavigator(target);
     window.StoryboxAframe = new StoryboxAframe();
-    let rendered = window.StoryBoxBuilder.render(target);
-    window.StoryBoxBuilder.init(this);
+    let rendered = window.StoryboxNavigator.render(target);
+    window.StoryboxNavigator.init(this);
   }
 
   /**
@@ -32,8 +33,8 @@ export class App {
    * @param {object} data - Formatted scene.
    */
   formatUniqueProperties(scene) {
-    let scene = scene.id;
-    let sceneNumber = scene.scene;
+
+
     // Iterate over scene object.
     // Recursively read through looking for ID.
     // Console log for elements that were not unique.
@@ -62,7 +63,7 @@ export class App {
               let scenes = story.scenes.map(scene => {
                 scene.scene = count++;
                 totalDuration = totalDuration + Number(scene.duration);
-                scene = formatUniqueProperties(scene);
+                // scene = this.formatUniqueProperties(scene);
                 return scene;
               });
               story.currentScene = 0;

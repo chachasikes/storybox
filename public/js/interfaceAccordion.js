@@ -40,8 +40,8 @@ export function updateAccordionLine() {
     let cameraPosition = rig.object3D.position;
     let newPositionLeft, newPositionRight;
     if (!AFRAME.utils.device.checkHeadsetConnected()) {
-      newPositionLeft = window.StoryBoxBuilder.testPositions[window.StoryBoxBuilder.testPosition].left;
-      newPositionRight = window.StoryBoxBuilder.testPositions[window.StoryBoxBuilder.testPosition].right;
+      newPositionLeft = window.StoryboxNavigator.testPositions[window.StoryboxNavigator.testPosition].left;
+      newPositionRight = window.StoryboxNavigator.testPositions[window.StoryboxNavigator.testPosition].right;
       stretchLeft.setAttribute("position", newPositionLeft);
       stretchRight.setAttribute("position", newPositionRight);
     } else {
@@ -114,7 +114,7 @@ export function buildHandPropInterface(
   parent,
   props,
   innerMarkup,
-  assetsElements,
+  preloadElements,
   assetItemElements,
   aframeTags
 ) {
@@ -236,7 +236,7 @@ export function buildHandPropInterface(
 
   return {
     assetItemElements: assetItemElements,
-    assetsElements: assetsElements,
+    preloadElements: preloadElements,
     innerMarkup: innerMarkup,
     rope: rope,
     leftBox: leftBox,

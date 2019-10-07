@@ -10,7 +10,6 @@ export let Scene = {
       name: "World camera",
       id: "camera_scale",
       cursorCamera: false,
-      fadeMask: false,
       position: {
         x: 9,
         y: 1.6,

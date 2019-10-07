@@ -38,8 +38,7 @@ export let Scene = {
       name: "World camera",
       id: "camera_1",
       cursorCamera: true,
-      clickableClass: '.clickable',
-      fadeMask: true,
+      cursorTargetClass: '.clickable',
       position: {
         x:0,
         y:60,

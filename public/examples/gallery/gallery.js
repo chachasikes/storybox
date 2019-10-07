@@ -26,8 +26,7 @@ export let Scene = {
       name: "World camera",
       id: "gallery_camera",
       cursorCamera: true,
-      fadeMask: true,
-      clickableClass: '.clickable-tile',
+      cursorTargetClass: '.clickable-tile',
       position: {
         x:0,
         y:60,

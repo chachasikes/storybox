@@ -12,8 +12,11 @@ import { registerComponent as behaviorBButtonListener } from "./components/b-but
 import { registerComponent as behaviorSphereIntersection } from "./components/sphere-intersection.js";
 import { registerComponent as gltfOpacity } from "./components/gltf-model-opacity.js";
 
-
-export class StoryBoxBuilder {
+/**
+ * Build StoryboxNavigator
+ * @module StoryboxNavigator
+ */
+export class StoryboxNavigator {
   constructor() {
     this.storySettings = {};
     this.storySettings.timer = null;
@@ -32,18 +35,29 @@ export class StoryBoxBuilder {
     this.testPositions = testPositions;
     this.modelLoadedEvent = modelLoadedEvent;
   }
-
+  /**
+   * Using data from App
+   *
+   * @param {object} parent - Parent object
+   * @param {array} parent.registry - Parent object
+   * @param {object} parent.galleryScene - Scene describing Gallery environment
+   * @param {string} this.hash - Current hash for loading items
+   */
   init(parent) {
+    // Listen for desktop keystrokes.
     this.appKeyStrokes();
     if (parent !== undefined) {
       this.registry = parent.registry;
-      this.gallerySceneJson = parent.gallerySceneJson;
+      this.galleryScene = parent.galleryScene;
     }
     if (this.hash !== '') {
       console.log('hash', this.hash);
       this.galleryItemSelect(this.hash);
-
+      // @TODO Update hash when select item.
+      // @BUG Adding hash doesn't trigger rebuild & loading asset.
     } else {
+      console.log("Load Gallery.");
+      // @BUG This runs twice, why?
       this.setupGallery(parent);
     }
   }
@@ -61,12 +75,12 @@ export class StoryBoxBuilder {
       window.Gallery = new Gallery();
       let gallery = window.Gallery.render(this.registry);
       if (
-        typeof gallery.assetsElements !== "string" &&
-        gallery.assetsElements.length > 0 &&
+        typeof gallery.preloadElements !== "string" &&
+        gallery.preloadElements.length > 0 &&
         rebuildAssets === true
       ) {
         // Load all scene assets
-        gallery.assetsElements.map(asset => {
+        gallery.preloadElements.map(asset => {
           this.assetMarkupGallery += asset;
         });
       }
@@ -76,15 +90,16 @@ export class StoryBoxBuilder {
       sceneScript.type = "text/html";
       sceneScript.id = "gallery";
       document.getElementById("scenes").append(sceneScript);
-      let sceneMarkup = window.StoryboxAframe.render(this.gallerySceneJson);
+      let sceneMarkup = window.StoryboxAframe.render(this.galleryScene);
+      console.log(sceneMarkup);
       if (sceneMarkup !== undefined) {
         if (
-          typeof sceneMarkup.assetsElements !== "string" &&
-          sceneMarkup.assetsElements.length > 0 &&
+          typeof sceneMarkup.preloadElements !== "string" &&
+          sceneMarkup.preloadElements.length > 0 &&
           rebuildAssets === true
         ) {
           // Load all scene assets
-          sceneMarkup.assetsElements.map(asset => {
+          sceneMarkup.preloadElements.map(asset => {
             this.assetMarkupGallery += asset;
           });
         }
@@ -207,12 +222,12 @@ export class StoryBoxBuilder {
         }
 
         if (
-          typeof sceneMarkup.assetsElements !== "string" &&
-          sceneMarkup.assetsElements.length > 0 &&
+          typeof sceneMarkup.preloadElements !== "string" &&
+          sceneMarkup.preloadElements.length > 0 &&
           rebuildAssets
         ) {
           // Load all scene assets
-          sceneMarkup.assetsElements.map(asset => {
+          sceneMarkup.preloadElements.map(asset => {
             this.assetMarkup += asset;
           });
         }
@@ -252,7 +267,7 @@ export class StoryBoxBuilder {
          console.log("ENTERED VR");
 
          document.getElementById('scene-selector').setAttribute('entered-vr', true);
-         window.StoryBoxBuilder.update();
+         window.StoryboxNavigator.update();
       });
 
       document.querySelector("a-assets").addEventListener("loaded", () => {
@@ -379,7 +394,7 @@ export class StoryBoxBuilder {
 
   xButtonEvent(evt) {
     vrlog("X");
-    window.StoryBoxBuilder.loadGallery();
+    window.StoryboxNavigator.loadGallery();
   }
 
   yButtonEvent(evt) {
@@ -388,7 +403,7 @@ export class StoryBoxBuilder {
   }
 
   hitEvent(evt) {
-    window.StoryBoxBuilder.debounce(window.StoryBoxBuilder.hitEvent, 2000);
+    window.StoryboxNavigator.debounce(window.StoryboxNavigator.hitEvent, 2000);
   }
 
   setupAppBehaviors() {
@@ -450,9 +465,9 @@ export class StoryBoxBuilder {
       if (
         updateTestPosition !== undefined &&
         updateTestPosition !== null &&
-        typeof window.StoryBoxBuilder[updateTestPosition] === "function"
+        typeof window.StoryboxNavigator[updateTestPosition] === "function"
       ) {
-        window.StoryBoxBuilder[updateTestPosition](this);
+        window.StoryboxNavigator[updateTestPosition](this);
       }
     }
   }
@@ -482,7 +497,7 @@ export class StoryBoxBuilder {
             this.storySettings.transition = window.setTimeout(
               function() {
                 clearTimeout(this.storySettings.transition);
-                window.StoryBoxBuilder.nextScene();
+                window.StoryboxNavigator.nextScene();
               }.bind(this),
               5000
             );
@@ -532,7 +547,7 @@ export class StoryBoxBuilder {
           window.VRLog.logQueue = [];
         }
         if (mutation.target.id === "scene-selector") {
-          window.StoryBoxBuilder.sceneSelectorUpdateEvent();
+          window.StoryboxNavigator.sceneSelectorUpdateEvent();
         }
         this.updateEventListeners();
         this.setupAppBehaviors();
@@ -564,8 +579,8 @@ export class StoryBoxBuilder {
       }
     });
 
-    if (typeof window.StoryBoxBuilder.intersectAction === 'function') {
-      window.addEventListener("hit", window.StoryBoxBuilder.intersectAction);
+    if (typeof window.StoryboxNavigator.intersectAction === 'function') {
+      window.addEventListener("hit", window.StoryboxNavigator.intersectAction);
     }
   }
 
@@ -580,20 +595,20 @@ export class StoryBoxBuilder {
     }
     this.storySettings.galleryListeners = true;
     // Set globally readable event names
-    window.StoryBoxBuilder.xButtonEvent = this.xButtonEvent;
-    window.StoryBoxBuilder.yButtonEvent = this.yButtonEvent;
+    window.StoryboxNavigator.xButtonEvent = this.xButtonEvent;
+    window.StoryboxNavigator.yButtonEvent = this.yButtonEvent;
 
     // @TODO rethink.
     if (document.querySelectorAll('.sphere-intersection')) {
       let intersectionElements = document.querySelectorAll('.sphere-intersection');
       intersectionElements.forEach(item => {
         let action = item.getAttribute('intersectAction');
-        if (action !== null && typeof window.StoryBoxBuilder[action] === 'function') {
-          window.StoryBoxBuilder.intersectAction = window.StoryBoxBuilder[action];
+        if (action !== null && typeof window.StoryboxNavigator[action] === 'function') {
+          window.StoryboxNavigator.intersectAction = window.StoryboxNavigator[action];
         }
       });
     }
-    window.StoryBoxBuilder.modelLoadedEvent = this.modelLoadedEvent;
+    window.StoryboxNavigator.modelLoadedEvent = this.modelLoadedEvent;
   }
 
   render(target) {
