@@ -14,9 +14,18 @@ export function registerComponent() {
         // console.log(e);
         // vrlog('hit');
       });
-      this.el.addEventListener('hitend', (e, target) => {
+      this.el.addEventListener('hitend', (e) => {
         console.log('hitend');
-        console.log(e, target);
+        console.log(e.detail.el);
+        if (e.detail !== undefined && e.detail.el !== undefined) {
+        let id = e.detail.el.getAttribute('id');
+        let intersectAction = e.detail.el.getAttribute('intersect-action');
+        let sceneTarget = e.detail.el.getAttribute('scene-target');
+        //
+        // //@TODO get head position
+        //
+        console.log(id, intersectAction, sceneTarget); // ,
+      }
         // vrlog('hitend');
       });
     },
