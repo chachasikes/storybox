@@ -7,34 +7,14 @@ import { buildHandPropInterface } from './components/accordion-stretch.js';
  */
 export class StoryboxAframe {
   constructor() {
-    this.getAxis = this.getAxis.bind(this);
+    this.getCoordinates = this.getCoordinates.bind(this);
     this.getValue = this.getValue.bind(this);
+    // Set default player height, arms
     this.playerHeight = 1.6;
     this.playerArmOffset = -0.5;
+    // Collector for materials.
     this.materials = {};
   }
-
-  /**
-   * Create tags and attributes from JSON settings for AFrame markup.
-   *
-   * @param {string} name - the attribute name to look up in data
-   * @param {object} data - the values for the item
-   */
-  getValue(name, data) {
-    if (data !== undefined && data[name] !== undefined) {
-      return {
-        tag: `${name}="${data[name]}"`,
-        attribute: `${data[name]}`
-      };
-    }
-    return {
-      tag: ``,
-      attribute: ``
-    };
-  }
-  // This is the path to downloadable dropbox assets. Cannot have dl=0 & must be the user content URL.
-  // This allows for simple hosting for low traffic assets. Higher traffic assets would need to be hosted elsewhere.
-  // return url.replace('https://www.dropbox.com', 'https://dl.dropboxusercontent.com').replace('?dl=0', '');
 
   /**
    * Look for any urls hosted on Dropbox and convert to the immediately downloadable link.
@@ -45,7 +25,7 @@ export class StoryboxAframe {
    * Higher traffic assets would need to be hosted on a server most likely as there may be some limits on Dropbox.
    * Some of the assets are too large for github or glitch repos.
    * This also helps letting artists collaborate and replace files easily.
-   * 
+   *
    * @param {object} data - the values for the item
    */
   formatDropboxDataRecursive(data)  {
@@ -86,30 +66,60 @@ export class StoryboxAframe {
     return data;
   }
 
-  getProperties(label, data) {
-    if (data !== undefined && data[label] !== undefined) {
-      let props = data[label];
+  /**
+   * Create tags and attributes from JSON settings for AFrame markup.
+   *
+   * @param {string} name - the attribute name to look up in data
+   * @param {object} data - the values for the item
+   */
+  getValue(name, data) {
+    if (data !== undefined && data[name] !== undefined) {
+      return {
+        tag: `${name}="${data[name]}"`,
+        attribute: `${data[name]}`
+      };
+    }
+    return {
+      tag: ``,
+      attribute: ``
+    };
+  }
+
+  /**
+   * Create property tags from JSON settings for AFrame markup.
+   *
+   * @param {string} name - the attribute name to look up in data
+   * @param {object} data - the values for the item
+   */
+  getProperty(name, data) {
+    if (data !== undefined && data[name] !== undefined) {
+      let props = data[name];
       let options = ``;
       Object.keys(props).map(prop => {
         options = `${options}${prop}=${props[prop]};`;
       });
-      return `${label}=${options}`;
+      return `${name}=${options}`;
     }
     return ``;
   }
 
-  // Make tags or properties for aframe, multiple dimensions
-  getAxis(label, data) {
+  /**
+   * Return tags for x y z coordinates.
+   *
+   * @param {string} name - the attribute name to look up in data
+   * @param {object} data - the values for the item
+   */
+  getCoordinates(name, data) {
     if (
       data !== undefined &&
-      data[label] !== undefined &&
-      data[label].x !== undefined &&
-      data[label].y !== undefined &&
-      data[label].z !== undefined
+      data[name] !== undefined &&
+      data[name].x !== undefined &&
+      data[name].y !== undefined &&
+      data[name].z !== undefined
     ) {
       return {
-        tag: `${label}="${data[label].x} ${data[label].y} ${data[label].z}"`,
-        attributes: `${data[label].x} ${data[label].y} ${data[label].z}`
+        tag: `${name}="${data[name].x} ${data[name].y} ${data[name].z}"`,
+        attributes: `${data[name].x} ${data[name].y} ${data[name].z}`
       };
     }
     return {
@@ -118,86 +128,104 @@ export class StoryboxAframe {
     };
   }
 
-  getDimensions(label, data) {
+  /**
+   * Return tags for w h l dimensions.
+   *
+   * @param {string} name - the attribute name to look up in data
+   * @param {object} data - the values for the item
+   */
+  getDimensions(name, data) {
     if (
       data !== undefined &&
-      data[label] !== undefined &&
-      data[label].width !== undefined &&
-      data[label].height !== undefined &&
-      data[label].depth !== undefined
+      data[name] !== undefined &&
+      data[name].width !== undefined &&
+      data[name].height !== undefined &&
+      data[name].depth !== undefined
     ) {
       return {
-        tag: `width="${data[label].width}" height="${
-          data[label].height
-        }" depth="${data[label].depth}"`,
-        attributes: `${data[label].width} ${data[label].height} ${
-          data[label].depth
+        tag: `width="${data[name].width}" height="${
+          data[name].height
+        }" depth="${data[name].depth}"`,
+        attributes: `${data[name].width} ${data[name].height} ${
+          data[name].depth
         }`
       };
     }
     return ``;
   }
 
+  /**
+   * Compose a cube map with individual images.
+   *
+   * @param {object} data - the values for the item
+   * @param {object} data.art - Urls to image files.
+   * @param {object} data.art.back - Back image
+   * @param {object} data.art.front - Front image
+   * @param {object} data.art.bottom - Bottom image
+   * @param {object} data.art.top - Top image
+   * @param {object} data.art.left - Left image
+   * @param {object} data.art.right - Right image
+   * @param {object} data.position - Position object
+   * @param {number} data.position.x - X coordinate
+   * @param {number} data.position.y - Y coordinate
+   * @param {number} data.position.z - Z coordinate
+   * @param {object} data.rotation - Rotation object
+   * @param {number} data.rotation.x - X coordinate
+   * @param {number} data.rotation.y - Y coordinate
+   * @param {number} data.rotation.z - Z coordinate
+   * @param {number} data.scale - Scale coordinate
+
+   * @returns {number}
+   */
   getCube(data) {
-    // @TODO see also cube-map-env aframe extras <a-box cube-map-env src="https://dl.dropboxusercontent.com/s/q5sndy1rk2drufh/hand-drawn--bake1.jpg" position="2 0.5 -4"></a-box>
+    // @TODO see also cube-map-env aframe extras
+    // <a-box cube-map-env src="https://dl.dropboxusercontent.com/s/q5sndy1rk2drufh/hand-drawn--bake1.jpg" position="2 0.5 -4"></a-box>
     let cube = [
       {
-        position: `position="${data.position.x} ${data.position.y} ${data
-          .position.z -
-          data.scale.z / 2}"`,
-        rotation: `rotation="${data.rotation.x} ${data.rotation.y} ${
-          data.rotation.z
-        }"`,
+        position: `position="${data.position.x} ${data.position.y} ${data.position.z - data.scale.z / 2}"`,
+        rotation: `rotation="${data.rotation.x} ${data.rotation.y} ${data.rotation.z}"`,
         art: typeof data.art === "object" ? data.art.back : data.art
       },
       {
-        position: `position="${data.position.x} ${data.position.y} ${data
-          .position.z +
-          data.scale.z / 2}"`,
-        rotation: `rotation="${data.rotation.x} ${data.rotation.y} ${
-          data.rotation.z
-        }"`,
+        position: `position="${data.position.x} ${data.position.y} ${data.position.z + data.scale.z / 2}"`,
+        rotation: `rotation="${data.rotation.x} ${data.rotation.y} ${data.rotation.z}"`,
         art: typeof data.art === "object" ? data.art.front : data.art
       },
       {
-        position: `position="${data.position.x} ${data.position.y -
-          data.scale.y / 2} ${data.position.z}"`,
-        rotation: `rotation="${data.rotation.x - 90} ${data.rotation.y} ${
-          data.rotation.z
-        }"`,
+        position: `position="${data.position.x} ${data.position.y - data.scale.y / 2} ${data.position.z}"`,
+        rotation: `rotation="${data.rotation.x - 90} ${data.rotation.y} ${ data.rotation.z }"`,
         art: typeof data.art === "object" ? data.art.bottom : data.art
       },
       {
-        position: `position="${data.position.x} ${data.position.y +
-          data.scale.y / 2} ${data.position.z}"`,
-        rotation: `rotation="${data.rotation.x + 90} ${data.rotation.y} ${
-          data.rotation.z
-        }"`,
+        position: `position="${data.position.x} ${data.position.y + data.scale.y / 2} ${data.position.z}"`,
+        rotation: `rotation="${data.rotation.x + 90} ${data.rotation.y} ${data.rotation.z}"`,
         art: typeof data.art === "object" ? data.art.top : data.art
       },
       {
-        position: `position="${data.position.x - data.scale.x / 2} ${
-          data.position.y
-        } ${data.position.z}"`,
-        rotation: `rotation="${data.rotation.x} ${data.rotation.y - 90} ${
-          data.rotation.z
-        }"`,
+        position: `position="${data.position.x - data.scale.x / 2} ${data.position.y} ${data.position.z}"`,
+        rotation: `rotation="${data.rotation.x} ${data.rotation.y - 90} ${data.rotation.z}"`,
         art: typeof data.art === "object" ? data.art.left : data.art
       },
       {
-        position: `position="${data.position.x + data.scale.x / 2} ${
-          data.position.y
-        } ${data.position.z}"`,
-        rotation: `rotation="${data.rotation.x} ${data.rotation.y + 90} ${
-          data.rotation.z
-        }"`,
+        position: `position="${data.position.x + data.scale.x / 2} ${data.position.y} ${data.position.z}"`,
+        rotation: `rotation="${data.rotation.x} ${data.rotation.y + 90} ${data.rotation.z}"`,
         art: typeof data.art === "object" ? data.art.right : data.art
       }
     ];
     return cube;
   }
 
-  buildSky(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
+  /**
+   * Build skybox with equirectangular image.
+   * @constructor
+   * @param {object} props - The JSON Settings.
+   * @param {string} innerMarkup - The current AFrame markup insert
+   * @param {array} childElements - The items to insert into <a-assets> tag for preloading.
+   * @param {array} preloadElements - The current AFrame markup insert
+   * @param {object} aframeTags - Composed attribute tags to insert as AFrame options
+   * @returns {object} -
+   */
+  buildSky(props, innerMarkup, childElements, preloadElements, aframeTags) {
     if (props.color !== undefined) {
       innerMarkup = `${innerMarkup}<a-sky color="${
         aframeTags.color.attribute
@@ -207,7 +235,7 @@ export class StoryboxAframe {
       props.art !== undefined &&
       props.id !== undefined
     ) {
-      assetsElements.push(
+      childElements.push(
         `<img ${aframeTags.className} id="${props.id}" src="${
           props.art
         }" crossorigin="anonymous" preload="true" />`
@@ -226,9 +254,9 @@ export class StoryboxAframe {
     }
 
     return {
-      assetsElements,
+      childElements,
       innerMarkup,
-      assetItemElements
+      preloadElements
     }
   }
 
@@ -239,11 +267,11 @@ export class StoryboxAframe {
    * @param {object} props - The JSON Settings.
    * @param {string} props.art - The JSON Settings.
    * @param {string} innerMarkup - The current AFrame markup insert
-   * @param {array} assetsElements - The current AFrame markup insert
-   * @param {array} assetItemElements - The current AFrame markup insert
+   * @param {array} childElements - The current AFrame markup insert
+   * @param {array} preloadElements - The current AFrame markup insert
    * @param {object} aframeTags - Composed attribute tags to insert as AFrame options
    */
-  buildMesh(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
+  buildMesh(props, innerMarkup, childElements, preloadElements, aframeTags) {
     if (props.art !== undefined) {
       let fileType = props.art.split('.').pop();
       let classProps = this.getValue("className", props);
@@ -257,7 +285,7 @@ export class StoryboxAframe {
         className = `class="glb-animation ${classProps.attribute} ${props.texture !== undefined ? 'textured' : ''}"`;
 
         // https://aframe.io/docs/0.9.0/components/gltf-model.html
-        assetItemElements.push(
+        preloadElements.push(
           `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>`
         );
         // Support GLTF 1.0 and 2.0. Tiltbrush exports glb1, which need to be renamed as glb
@@ -282,7 +310,7 @@ export class StoryboxAframe {
           `;
       } else if (fileType === 'obj') {
 
-        assetItemElements.push(
+        preloadElements.push(
           `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>
            <a-asset-item id="${props.id}-material" src="${props.material}"></a-asset-item>
           `
@@ -300,31 +328,31 @@ export class StoryboxAframe {
     }
 
     return {
-      assetsElements,
+      childElements,
       innerMarkup,
-      assetItemElements
+      preloadElements
     }
   }
 
-  buildStoryboxes(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
+  buildStoryboxes(props, innerMarkup, childElements, preloadElements, aframeTags) {
     return {
-      assetsElements,
+      childElements,
       innerMarkup,
-      assetItemElements
+      preloadElements
     }
   }
 
   buildTags(props) {
-    let scale = this.getAxis("scale", props);
-    let rotation = this.getAxis("rotation", props);
-    let position = this.getAxis("position", props);
-    let offset = this.getAxis("offset", props);
+    let scale = this.getCoordinates("scale", props);
+    let rotation = this.getCoordinates("rotation", props);
+    let position = this.getCoordinates("position", props);
+    let offset = this.getCoordinates("offset", props);
     let color = this.getValue("color", props);
     let text = this.getValue("text", props);
     let dimensions = this.getDimensions("dimensions", props);
     let classProps = this.getValue("className", props);
     let className = `class="${classProps.attribute}"`;
-    let line = this.getProperties("line", props);
+    let line = this.getProperty("line", props);
 
     return {
       scale,
@@ -349,9 +377,9 @@ export class StoryboxAframe {
     }
   }
 
-  buildCamera(props, innerMarkup, assetsElements, assetItemElements, aframeTags, handProp) {
+  buildCamera(props, innerMarkup, childElements, preloadElements, aframeTags, handProp) {
     let cursor = this.buildCursor(props);
-    let touchContollers = this.buildTouchControllers(props, handProp, assetItemElements, aframeTags);
+    let touchContollers = this.buildTouchControllers(props, handProp, preloadElements, aframeTags);
     let headBox = this.buildHead(props);
     innerMarkup = `${innerMarkup}
     <a-entity
@@ -373,13 +401,13 @@ export class StoryboxAframe {
     </a-entity>
     `;
     return {
-      assetItemElements: assetItemElements,
-      assetsElements: assetsElements,
+      preloadElements: preloadElements,
+      childElements: childElements,
       innerMarkup: innerMarkup,
     }
   }
 
-  buildTouchControllers(props, handProp, assetItemElements, aframeTags) {
+  buildTouchControllers(props, handProp, preloadElements, aframeTags) {
     let leftModel = ``;
     let rightModel = ``;
     let orientationOffsetLeft = ``;
@@ -397,15 +425,15 @@ export class StoryboxAframe {
       // Can change hand controller
       if (props.touch.left.glb !== undefined) {
         props.touch.left = this.formatDropboxDataRecursive(props.touch.left);
-        let leftModelScale = this.getAxis(
+        let leftModelScale = this.getCoordinates(
           "scale",
           props.touch.left
         );
-        let leftModelPosition = this.getAxis(
+        let leftModelPosition = this.getCoordinates(
           "position",
           props.touch.left
         );
-        let leftModelRotation = this.getAxis(
+        let leftModelRotation = this.getCoordinates(
           "rotation",
           props.touch.left
         );
@@ -414,7 +442,7 @@ export class StoryboxAframe {
           orientationOffsetLeft = `offsetOrientation="${props.touch.left.orientationOffset}"`;
         }
         // https://aframe.io/docs/0.9.0/components/gltf-model.html
-        assetItemElements.push(
+        preloadElements.push(
           `<a-asset-item id="${props.touch.left.id}" src="${props.touch.left.glb}"></a-asset-item>`
         );
 
@@ -437,11 +465,11 @@ export class StoryboxAframe {
         props.touch.right.glb !== undefined
       ) {
         props.touch.right = this.formatDropboxDataRecursive(props.touch.right);
-        let rightModelScale = this.getAxis(
+        let rightModelScale = this.getCoordinates(
           "scale",
           props.touch.right
         );
-        let rightModelPosition = this.getAxis(
+        let rightModelPosition = this.getCoordinates(
           "position",
           props.touch.right
         );
@@ -450,7 +478,7 @@ export class StoryboxAframe {
           orientationOffsetRight = `offsetOrientation="${props.touch.right.orientationOffset}"`;
         }
         // https://aframe.io/docs/0.9.0/components/gltf-model.html
-        assetItemElements.push(
+        preloadElements.push(
           `<a-asset-item id="${props.touch.right.id}" src="${props.touch.right.glb}"></a-asset-item>`
         );
 
@@ -558,8 +586,8 @@ export class StoryboxAframe {
     let laser = ``;
     if (props.laser !== undefined) {
       // Can change hand controller
-      let leftLine = this.getProperties("line", props.left);
-      let rightLine = this.getProperties("line", props.right);
+      let leftLine = this.getProperty("line", props.left);
+      let rightLine = this.getProperty("line", props.right);
       laser = `
       <a-entity laser-controls="hand: left" ${leftLine}></a-entity>
       <a-entity laser-controls="hand: right" ${rightLine}></a-entity>`;
@@ -592,7 +620,7 @@ export class StoryboxAframe {
     }
   }
 
-  buildLight(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
+  buildLight(props, innerMarkup, childElements, preloadElements, aframeTags) {
     innerMarkup = `${innerMarkup}
       <a-light ${aframeTags.className}
       type="${props.type ? props.type : "point"}"
@@ -600,8 +628,8 @@ export class StoryboxAframe {
        ${aframeTags.color.tag} ${aframeTags.position.tag}>
       </a-light>`;
       return {
-        assetItemElements: assetItemElements,
-        assetsElements: assetsElements,
+        preloadElements: preloadElements,
+        childElements: childElements,
         innerMarkup: innerMarkup,
       }
   }
@@ -609,8 +637,8 @@ export class StoryboxAframe {
   // Format json object as a-frame
   render(json) {
     let innerMarkup = ``;
-    let assetsElements = [];
-    let assetItemElements = [];
+    let childElements = [];
+    let preloadElements = [];
 
     if (json !== undefined) {
       Object.keys(json).map(item => {
@@ -622,49 +650,49 @@ export class StoryboxAframe {
             switch (propKey) {
               case "sky":
                 props = this.formatDropboxDataRecursive(props);
-                let sky = this.buildSky(props, innerMarkup, assetsElements, assetItemElements, aframeTags);
+                let sky = this.buildSky(props, innerMarkup, childElements, preloadElements, aframeTags);
                 innerMarkup = sky.innerMarkup;
-                assetsElements = sky.assetsElements;
-                assetItemElements = sky.assetItemElements;
+                childElements = sky.childElements;
+                preloadElements = sky.preloadElements;
                 break;
               case "mesh":
                 props = this.formatDropboxDataRecursive(props);
-                let mesh = this.buildMesh(props, innerMarkup, assetsElements, assetItemElements, aframeTags);
+                let mesh = this.buildMesh(props, innerMarkup, childElements, preloadElements, aframeTags);
                 innerMarkup = mesh.innerMarkup;
-                assetsElements = mesh.assetsElements;
-                assetItemElements = mesh.assetItemElements;
+                childElements = mesh.childElements;
+                preloadElements = mesh.preloadElements;
                 break;
               case "storyboxes":
                 props = this.formatDropboxDataRecursive(props);
-                let storyboxes = this.buildStoryboxes(props, innerMarkup, assetsElements, assetItemElements, aframeTags);
+                let storyboxes = this.buildStoryboxes(props, innerMarkup, childElements, preloadElements, aframeTags);
                 innerMarkup = storyboxes.innerMarkup;
-                assetsElements = storyboxes.assetsElements;
-                assetItemElements = storyboxes.assetItemElements;
+                childElements = storyboxes.childElements;
+                preloadElements = storyboxes.preloadElements;
                 break;
               case "camera":
                 props = this.formatDropboxDataRecursive(props);
-                let handPropInterface = buildHandPropInterface(this, props.handProp, innerMarkup, assetsElements, assetItemElements, aframeTags);
-                let camera = this.buildCamera(props, innerMarkup, assetsElements, assetItemElements, aframeTags, handPropInterface);
+                let handPropInterface = buildHandPropInterface(this, props.handProp, innerMarkup, childElements, preloadElements, aframeTags);
+                let camera = this.buildCamera(props, innerMarkup, childElements, preloadElements, aframeTags, handPropInterface);
                 innerMarkup = camera.innerMarkup;
-                assetsElements = camera.assetsElements;
-                assetItemElements = camera.assetItemElements;
+                childElements = camera.childElements;
+                preloadElements = camera.preloadElements;
                 break;
               case "light":
                 props = this.formatDropboxDataRecursive(props);
-                let light = this.buildLight(props, innerMarkup, assetsElements, assetItemElements, aframeTags);
+                let light = this.buildLight(props, innerMarkup, childElements, preloadElements, aframeTags);
                 innerMarkup = light.innerMarkup;
-                assetsElements = light.assetsElements;
-                assetItemElements = light.assetItemElements;
+                childElements = light.childElements;
+                preloadElements = light.preloadElements;
                 break;
               case "audio":
                 props = this.formatDropboxDataRecursive(props);
-                assetsElements.push(
+                childElements.push(
                   `<audio id="${props.id}" ${aframeTags.className} preload="auto" crossorigin="anonymous" src="${props.src}" ${aframeTags.position.tag}></audio>`
                 );
                 break;
               case "image":
                 props = this.formatDropboxDataRecursive(props);
-                assetsElements.push(
+                childElements.push(
                   `<img ${aframeTags.className} id="${props.id}" src="${props.art}" crossorigin="anonymous" preload="true" />`
                 );
                 // HACK: force a quick rotation to easily fix any weirdly oriented skybox art.
@@ -676,7 +704,7 @@ export class StoryboxAframe {
                 props = this.formatDropboxDataRecursive(props);
                 let cube = this.getCube(props);
                 cube.map((face, index) => {
-                  assetsElements.push(
+                  childElements.push(
                     `<img ${aframeTags.className} id="${props.id}-${index}" src="${
                       face.art
                     }" crossorigin="anonymous" preload="true" />`
@@ -737,9 +765,9 @@ export class StoryboxAframe {
       });
 
       return {
-        assetsElements: assetsElements,
+        childElements: childElements,
         innerMarkup: innerMarkup,
-        assetItemElements: assetItemElements,
+        preloadElements: preloadElements,
       };
     }
   }
