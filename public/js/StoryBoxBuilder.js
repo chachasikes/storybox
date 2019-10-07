@@ -9,6 +9,7 @@ import { registerComponent as behaviorXButtonListener } from "./components/x-but
 import { registerComponent as behaviorYButtonListener } from "./components/y-button-listener.js";
 import { registerComponent as behaviorAButtonListener } from "./components/a-button-listener.js";
 import { registerComponent as behaviorBButtonListener } from "./components/b-button-listener.js";
+import { registerComponent as behaviorSphereIntersection } from "./components/sphere-intersection.js";
 
 
 export class StoryBoxBuilder {
@@ -397,6 +398,7 @@ export class StoryBoxBuilder {
     behaviorGltfMaterial();
     behaviorAccordionStretch();
     behaviorIntersectionPlay();
+    behaviorSphereIntersection();
   }
 
   debounce(fn, delay) {
