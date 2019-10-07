@@ -4,7 +4,6 @@ export function registerComponent() {
     AFRAME.registerComponent("gltf-model-opacity", {
       schema: { default: 1 },
       init: function() {
-        console.log('model opacity init');
         // this.el.addEventListener('model-loaded', this.update.bind(this));
         this.el.addEventListener(
           "model-loaded",
@@ -21,7 +20,6 @@ export function registerComponent() {
             }
             mesh.traverse(function(node) {
               if (node !== undefined && node.isMesh) {
-
                 node.material.opacity = data;
                 node.material.transparent = data < 1.0;
                 node.material.needsUpdate = true;
@@ -37,7 +35,6 @@ export function registerComponent() {
         if (!mesh) {
           return;
         }
-            console.log('model', node);
         mesh.traverse(function(node) {
           if (node !== undefined && node.isMesh) {
             console.log(data);

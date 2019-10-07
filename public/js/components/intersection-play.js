@@ -25,6 +25,12 @@ export function registerComponent() {
         //
         console.log(id, intersectAction, intersectTarget); // ,
         if (intersectAction === 'fadeInObject') {
+          let intersectTargetEl = document.getElementById(`${intersectTarget}-gltf`);
+          console.log(`${intersectTarget}-gltf`);
+          if (intersectTargetEl !== undefined) {
+            console.log(intersectTargetEl);
+            intersectTargetEl.setAttribute("gltf-model-opacity", "1");
+          }
 
         }
       }

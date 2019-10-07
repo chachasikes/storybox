@@ -253,7 +253,7 @@ export class StoryboxAframe {
 
         innerMarkup = `${innerMarkup}
           <a-entity
-          id="#${props.id}-gltf"
+          id="${props.id}-gltf"
           ref="${props.id}"
           ${className}
           ${gltf_model}="#${props.id}"

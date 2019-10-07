@@ -98,7 +98,7 @@ export let Scene = {
             collisionClass: "head",
             intersectTarget: "nosina_2",
             intersectAction: 'fadeInObject',
-            radius: 0.4,
+            radius: 0.1,
           },
           {
             type: "percentage",
@@ -113,7 +113,7 @@ export let Scene = {
             collisionClass: "head",
             intersectTarget: "nosina_3",
             intersectAction: 'fadeInObject',
-            radius: 0.4,
+            radius: 0.1,
           }
         ]
       }
@@ -167,7 +167,7 @@ export let Scene = {
       id: "nosina_1",
       art:
         "https://www.dropbox.com/s/z9q199hf0utq5px/nosina_alembic_test.glb?dl=0",
-      opacity: 0,
+      opacity: 0.1,
       scale: {
         x: 1.5,
         y: 1.5,
@@ -192,7 +192,7 @@ export let Scene = {
       id: "nosina_2",
       art:
         "https://www.dropbox.com/s/z9q199hf0utq5px/nosina_alembic_test.glb?dl=0",
-      opacity: 0,
+      opacity: 0.5,
       scale: {
         x: 5,
         y: 5,
@@ -206,7 +206,7 @@ export let Scene = {
       position: {
         x: -5,
         y: 0.25,
-        z: -10
+        z: -2
       }
     }
   },
@@ -217,7 +217,7 @@ export let Scene = {
       id: "nosina_3",
       art:
         "https://www.dropbox.com/s/z9q199hf0utq5px/nosina_alembic_test.glb?dl=0",
-      opacity: 0,
+      opacity: 1,
       scale: {
         x: 2,
         y: 2,
