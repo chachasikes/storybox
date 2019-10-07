@@ -1,6 +1,10 @@
 import { formatDropboxRawLinks  } from './utilities/dropbox-format.js';
 import { buildHandPropInterface } from './components/accordion-stretch.js';
 
+/**
+ * Build AFrame markup from JSON settings.
+ * @module StoryboxAframe
+ */
 export class StoryboxAframe {
   constructor() {
     this.getAxis = this.getAxis.bind(this);
@@ -10,12 +14,17 @@ export class StoryboxAframe {
     this.materials = {};
   }
 
-  // Make tags or properties for aframe
-  getValue(label, data) {
-    if (data !== undefined && data[label] !== undefined) {
+  /**
+   * Create tags and attributes from JSON settings for AFrame markup.
+   *
+   * @param {string} name - the attribute name to look up in data
+   * @param {object} data - the values for the item
+   */
+  getValue(name, data) {
+    if (data !== undefined && data[name] !== undefined) {
       return {
-        tag: `${label}="${data[label]}"`,
-        attribute: `${data[label]}`
+        tag: `${name}="${data[name]}"`,
+        attribute: `${data[name]}`
       };
     }
     return {
@@ -23,23 +32,38 @@ export class StoryboxAframe {
       attribute: ``
     };
   }
+  // This is the path to downloadable dropbox assets. Cannot have dl=0 & must be the user content URL.
+  // This allows for simple hosting for low traffic assets. Higher traffic assets would need to be hosted elsewhere.
+  // return url.replace('https://www.dropbox.com', 'https://dl.dropboxusercontent.com').replace('?dl=0', '');
 
+  /**
+   * Look for any urls hosted on Dropbox and convert to the immediately downloadable link.
+   * The Dropbox share link outputs a www.dropbox.com/path/filename?dl=0 and this is an HTML page
+   * https://dl.dropboxusercontent.com is the correct path
+   * and the ?dl=0 needs to be removed
+   * This allows for simple hosting for low traffic assets.
+   * Higher traffic assets would need to be hosted on a server most likely as there may be some limits on Dropbox.
+   * Some of the assets are too large for github or glitch repos.
+   * This also helps letting artists collaborate and replace files easily.
+   * 
+   * @param {object} data - the values for the item
+   */
   formatDropboxDataRecursive(data)  {
-    // For each data item, look for .art or other assets & change any dropbox links to the correct version.
-    // console.log(data);
     let propKeys = Object.keys(data);
     for (let i=0; i < propKeys.length; i++) {
       let propKey = propKeys[i];
       switch(propKey) {
+        // All tags that need conversion
+        // @TODO there may be some tags not converted. Check.
         case 'art':
         case 'panel':
         case 'material':
         case 'glb':
         case 'texture':
-          // console.log(propKey);
           if (typeof data[propKey].replace === 'function') {
             data[propKey] = data[propKey].replace('https://www.dropbox.com', 'https://dl.dropboxusercontent.com').replace('?dl=0', '');
           }
+          // For cubemaps
           if (typeof data[propKey] === 'object' &&
             (data[propKey].top !== undefined ||
              data[propKey].bottom !== undefined ||
@@ -59,11 +83,6 @@ export class StoryboxAframe {
         break;
       }
     }
-
-    // This is the path to downloadable dropbox assets. Cannot have dl=0 & must be the user content URL.
-    // This allows for simple hosting for low traffic assets. Higher traffic assets would need to be hosted elsewhere.
-    // return url.replace('https://www.dropbox.com', 'https://dl.dropboxusercontent.com').replace('?dl=0', '');
-
     return data;
   }
 
@@ -213,6 +232,17 @@ export class StoryboxAframe {
     }
   }
 
+  /**
+   * Given JSON settings, output a mesh object.
+   * JSON Parameters
+   * @constructor
+   * @param {object} props - The JSON Settings.
+   * @param {string} props.art - The JSON Settings.
+   * @param {string} innerMarkup - The current AFrame markup insert
+   * @param {array} assetsElements - The current AFrame markup insert
+   * @param {array} assetItemElements - The current AFrame markup insert
+   * @param {object} aframeTags - Composed attribute tags to insert as AFrame options
+   */
   buildMesh(props, innerMarkup, assetsElements, assetItemElements, aframeTags) {
     if (props.art !== undefined) {
       let fileType = props.art.split('.').pop();
@@ -230,25 +260,7 @@ export class StoryboxAframe {
         assetItemElements.push(
           `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>`
         );
-
-        // https://github.com/donmccurdy/aframe-extras/issues/167
-
-        // var textureMaterial = new THREE.TextureLoader().load( `${props.art}` );
-        // textureMaterial.flipY = false;
-        // this.materials[props.id] = new THREE.MeshStandardMaterial({
-        //     map: textureMaterial,
-        //     color : 0x000000,
-        //     side: "double",
-        //     alphaTest: 100,
-        //     flatShading: true,
-        //     transparent: true,
-        //     opacity: 0.5,
-        //     fog: false,
-        // });
-
-
-        // @TODO texture
-
+        // Support GLTF 1.0 and 2.0. Tiltbrush exports glb1, which need to be renamed as glb
         let gltf_model = glb_legacy ? 'gltf-model-legacy' : 'gltf-model';
 
         innerMarkup = `${innerMarkup}
@@ -267,12 +279,7 @@ export class StoryboxAframe {
           animation-mixer
           >
           </a-entity>
-
           `;
-
-
-
-
       } else if (fileType === 'obj') {
 
         assetItemElements.push(
@@ -335,7 +342,6 @@ export class StoryboxAframe {
 
   buildHead(props) {
     return {
-      //material="side: double; shader: flat;color: #000; transparent: true; opacity: 0.3"
       head: `
       <a-sphere render-order="head" intersection-play="" class="head" id="head" radius="0.2">
       </a-sphere>
