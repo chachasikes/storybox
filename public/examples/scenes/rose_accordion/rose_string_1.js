@@ -9,9 +9,8 @@ export let Scene = {
     camera: {
       name: "World camera",
       id: "camera_rose",
-      cursorCamera: true,
+      cursorCamera: false,
       fadeMask: false,
-      testUpdateFunction: "updateAccordionLine",
       position: {
         x: 0,
         y: 0,
@@ -33,7 +32,6 @@ export let Scene = {
         ropeColor: "#000000",
         a: {
           id: "leftStretch",
-          // tickFunction: 'updateAccordionLine',
           color: "#FA8072",
           dimensions: {
             width: 0.02,
@@ -54,7 +52,6 @@ export let Scene = {
         b: {
           id: "rightStretch",
           color: "#FA8072",
-          // tickFunction: 'updateAccordionLine',
           dimensions: {
             width: 0.02,
             height: 0.4,
@@ -84,8 +81,9 @@ export let Scene = {
             id: "citronellol-intersect",
             intersect: true,
             collisionClass: "head",
-            // intersectAction: 'intersectSceneAccordion',
-            sceneTarget: "citronellol-scene"
+            sceneTarget: "citronellol-scene",
+            intersectAction: 'fadeInObject',
+            radius: 2,
           },
           {
             type: "percentage",
@@ -98,8 +96,9 @@ export let Scene = {
             id: "pea-intersect",
             intersect: true,
             collisionClass: "head",
-            // intersectAction: 'intersectSceneAccordion',
-            sceneTarget: "pea-scene"
+            sceneTarget: "pea-scene",
+            intersectAction: 'fadeInObject',
+            radius: 0.4,
           },
           {
             type: "percentage",
@@ -112,8 +111,9 @@ export let Scene = {
             id: "geraniol-intersect",
             intersect: true,
             collisionClass: "head",
-            // intersectAction: 'intersectSceneAccordion',
-            sceneTarget: "geraniol-scene"
+            sceneTarget: "geraniol-scene",
+            intersectAction: 'fadeInObject',
+            radius: 0.4,
           }
         ]
       }

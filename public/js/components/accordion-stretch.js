@@ -223,7 +223,7 @@ export function buildHandPropInterface(
             data-percentage-x="${obj.percentageX}"
             data-percentage-y="${obj.percentageY}"
             data-percentage-z="${obj.percentageZ}"
-            radius="0.075"
+            radius="${item.radius}"
             color="${item.color}"
             material="shader:flat"
             transparent="true"

@@ -3,7 +3,7 @@ import { vrlog } from "./utilities/vrlog.js";
 import { testPositions } from "./utilities/testPositions.js";
 import modelLoadedEvent from "./utilities/modelUpdates.js";
 import { registerComponent as behaviorAccordionStretch } from "./components/accordion-stretch.js";
-import { registerComponent as behaviorIntersectionPlay } from "./components/accordion-stretch.js";
+import { registerComponent as behaviorIntersectionPlay } from "./components/intersection-play.js";
 import { registerComponent as behaviorGltfMaterial } from "./components/accordion-stretch.js";
 import { registerComponent as behaviorXButtonListener } from "./components/x-button-listener.js";
 import { registerComponent as behaviorYButtonListener } from "./components/y-button-listener.js";
