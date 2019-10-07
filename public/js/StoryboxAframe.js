@@ -772,7 +772,8 @@ export class StoryboxAframe {
    * Render scene JSON as AFrame
    * @TODO Document
    * @constructor
-   @param {object} json - Scene object.
+   * @param {object} json - Scene object.
+   * @returns {object} - Preloaded elements, Aframe markup and Child elements.
    */
   render(json) {
     let innerMarkup = ``;
@@ -785,10 +786,10 @@ export class StoryboxAframe {
           Object.keys(json[item]).map(propKey => {
             // Set up variables
             let props = json[item][propKey];
-            let aframeTags = this.buildTags(props);
+            let aframeTags = this.buildTags(props); // @TODO this returns null values if value not set. Keep this way?
             switch (propKey) {
               case "sky":
-                props = this.formatDropboxDataRecursive(props);
+                props = this.formatDropboxDataRecursive(props); // @TODO Could move this up to app level.
                 let sky = this.buildSkybox(props, innerMarkup, childElements, preloadElements, aframeTags);
                 innerMarkup = sky.innerMarkup;
                 childElements = sky.childElements;
@@ -838,6 +839,7 @@ export class StoryboxAframe {
                 innerMarkup = `${innerMarkup}
                   <a-image ${aframeTags.className} src="#${props.id}" material="alphaTest: 0.5" ${aframeTags.position.tag} ${aframeTags.scale.tag} ${aframeTags.rotation.tag}>
                   </a-image>`;
+
                 break;
               case "imagecube":
                 props = this.formatDropboxDataRecursive(props);
@@ -897,7 +899,7 @@ export class StoryboxAframe {
           });
         }
       });
-    
+
       return {
         childElements: childElements,
         innerMarkup: innerMarkup,

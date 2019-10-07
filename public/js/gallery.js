@@ -21,7 +21,12 @@ export class Gallery {
     };
   }
 
-  getPosition(item, index) {
+  /**
+   * Get position of item in grid.
+   * @param {string} item - Item in registry
+   * @param {number} index - Current item index
+   */
+  getGridPosition(item, index) {
     index = index + 2; // Skip any zeroes
     let length = this.registry.length;
     let overflowRow = length % this.gallery.rowLength;
@@ -54,6 +59,10 @@ export class Gallery {
     }
   }
 
+  /**
+   * Build markup of grid with clickable images.
+   * @param {registry} registry - Array of registry items.
+   */
   render(registry) {
     this.registry = registry;
     let content = ``;
@@ -66,7 +75,7 @@ export class Gallery {
 
     registry.map((item, index) => {
 
-      position = this.getPosition(registry[index], index);
+      position = this.getGridPosition(registry[index], index);
 
       assets.push(
         `<img id="select-${item.id}" src="${item.panel}" crossorigin="anonymous" preload="true" />`

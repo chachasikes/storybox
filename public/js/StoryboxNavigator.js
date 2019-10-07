@@ -35,6 +35,7 @@ export class StoryboxNavigator {
     this.testPositions = testPositions;
     this.modelLoadedEvent = modelLoadedEvent;
   }
+
   /**
    * Using data from App
    *
@@ -62,12 +63,17 @@ export class StoryboxNavigator {
     }
   }
 
+  /**
+   * Create interactive gallery.
+   *
+   * @param {object} parent - Parent object
+   */
   setupGallery(parent) {
     clearTimeout(this.storySettings.timer);
 
     if (this.registry !== undefined) {
       let rebuildAssets = true;
-      // Already built before
+      // Already built before @TODO May be buggy.
       // if (this.assetMarkupGallery !== ``) {
       //   rebuildAssets = false;
       // }
@@ -89,9 +95,11 @@ export class StoryboxNavigator {
       var sceneScript = document.createElement("script");
       sceneScript.type = "text/html";
       sceneScript.id = "gallery";
-      document.getElementById("scenes").append(sceneScript);
+      if (document.getElementById("gallery") === null) {
+        document.getElementById("scenes").append(sceneScript);
+      }
       let sceneMarkup = window.StoryboxAframe.render(this.galleryScene);
-      console.log(sceneMarkup);
+
       if (sceneMarkup !== undefined) {
         if (
           typeof sceneMarkup.preloadElements !== "string" &&
@@ -108,11 +116,9 @@ export class StoryboxNavigator {
         gallery.tiles.forEach(tile => {
           tiles = `${tiles}${tile}`;
         });
-
         if (document.getElementById(`gallery`) !== null) {
           document.getElementById(`gallery`).innerHTML = tiles;
         }
-
         if (
           document.querySelector("a-assets") !== undefined &&
           document.querySelector("a-assets") !== null
@@ -158,11 +164,19 @@ export class StoryboxNavigator {
     }
   }
 
+  /**
+   * Load gallery.
+
+   */
   loadGallery() {
     this.setupGallery();
   }
 
-  // Update the selected story
+  /**
+   * Select and update story.
+   *
+   * @param {string} id - Id from hash
+   */
   galleryItemSelect(id) {
     console.log('id', id);
     // Set the story id.
@@ -173,7 +187,11 @@ export class StoryboxNavigator {
     this.setupStory();
   }
 
-  // Load the current story.
+  /**
+   * Load the current story.
+   *
+   * @param {string} id - Id from hash
+   */
   getCurrentStory(id) {
     if (this.registry !== undefined) {
       let story = this.registry.filter(item => item.id === id);
@@ -185,7 +203,11 @@ export class StoryboxNavigator {
     return null;
   }
 
-  // Load data from the current scene
+  /**
+   * Load data from the current scene
+   *
+   * @param {string} id - Id from hash
+   */
   getCurrentScene(id) {
     let story = this.registry.filter(item => item.id === id);
     if (story !== undefined && story.length > 0) {
@@ -194,7 +216,9 @@ export class StoryboxNavigator {
     return null;
   }
 
-  // Build assets for all story scenes
+  /**
+   * Build assets for all scenes in current story.
+   */
   setupStory() {
     // Stop any timers.
     clearTimeout(this.storySettings.timer);
@@ -285,6 +309,11 @@ export class StoryboxNavigator {
     }
   }
 
+  /**
+   * Play current scene (duration and animation)
+   *
+   * @param {string} id - Id from hash
+   */
   playScene() {
     let currentScene = this.getCurrentScene(this.storySettings.currentStory);
     if (currentScene && currentScene.duration) {
@@ -301,21 +330,33 @@ export class StoryboxNavigator {
     this.playGLBAnimation();
   }
 
+  /**
+   * Play GLTF animation
+   */
   playGLBAnimation() {
     let animation = document.querySelector(".glb-animation");
     // @TODO
   }
 
+  /**
+   * Pause current scene.
+   */
   pauseScene() {
     clearTimeout(this.storySettings.timer);
     this.update();
   }
 
+  /**
+   * Stop current scene.
+   */
   stopScene() {
     clearTimeout(this.storySettings.timer);
     this.update();
   }
 
+  /**
+   * Go to previous scene
+   */
   previousScene() {
     let currentStory = this.getCurrentStory(this.storySettings.currentStory);
     currentStory.currentScene =
@@ -325,6 +366,9 @@ export class StoryboxNavigator {
     this.playScene();
   }
 
+  /**
+   * Go to next scene
+   */
   nextScene() {
     let currentStory = this.getCurrentStory(this.storySettings.currentStory);
     currentStory.currentScene =
@@ -336,6 +380,9 @@ export class StoryboxNavigator {
     this.playScene();
   }
 
+  /**
+   * Go to first scene
+   */
   firstScene() {
     let currentStory = this.getCurrentStory(this.storySettings.currentStory);
     currentStory.currentScene = 0;
@@ -343,6 +390,9 @@ export class StoryboxNavigator {
     this.update();
   }
 
+  /**
+   * Go to last scene
+   */
   lastScene() {
     let currentStory = this.getCurrentStory(this.storySettings.currentStory);
     currentStory.currentScene = currentStory.numberScenes;
@@ -350,6 +400,9 @@ export class StoryboxNavigator {
     this.update();
   }
 
+  /**
+   * Play story
+   */
   play() {
     let currentStory = this.getCurrentStory(this.storySettings.currentStory);
     currentStory.currentScene = 0;
@@ -357,15 +410,28 @@ export class StoryboxNavigator {
     this.playScene();
   }
 
+  /**
+   * Replay story
+   */
   replayScene() {
     this.playScene();
   }
 
+  /**
+   * Update scene element with template.
+   * Requires aframe-template-component.min.js
+   * @param {string} el - target element to update;
+   * @param {string} id - id to use when updating target element
+   */
   updateTemplate(el, id) {
     el.setAttribute("template", `src: #${id}`);
+    // Listen for observed DOM mutations.
     this.aframeMutations();
   }
 
+  /**
+   * Update scene
+   */
   update() {
     this.render(this.storySettings.target);
     let currentScene = this.getCurrentScene(this.storySettings.currentStory);
@@ -392,20 +458,37 @@ export class StoryboxNavigator {
     }
   }
 
-  xButtonEvent(evt) {
+  /**
+   * Global behavior of X button
+   * @param {object} e - Javascript event.
+   */
+  xButtonEvent(e) {
     vrlog("X");
     window.StoryboxNavigator.loadGallery();
   }
 
-  yButtonEvent(evt) {
+  /**
+   * Global behavior of Y button
+   * @param {object} e - Javascript event.
+   */
+  yButtonEvent(e) {
     vrlog("Y");
     this.updateTestPositions();
   }
 
-  hitEvent(evt) {
+  /**
+   * Behavior of hit event.
+   * @param {object} e - Javascript event.
+   */
+  hitEvent(e) {
+    // @TODO still necessary?
+    // Debounced hit event.
     window.StoryboxNavigator.debounce(window.StoryboxNavigator.hitEvent, 2000);
   }
 
+  /**
+   * Load Storybox Aframe components
+   */
   setupAppBehaviors() {
     behaviorXButtonListener();
     behaviorYButtonListener();
@@ -418,6 +501,11 @@ export class StoryboxNavigator {
     gltfOpacity();
   }
 
+  /**
+   * Debounce function
+   * @param {function} fn - Callback function
+   * @param {number} delay - Debouce delay in milliseconds
+   */
   debounce(fn, delay) {
     var timer = null;
     return function() {
@@ -432,6 +520,12 @@ export class StoryboxNavigator {
     };
   }
 
+  /**
+   * Throttle function
+   * @param {function} fn - Callback function
+   * @param {number} threshold - Debouce delay in milliseconds
+   * @param scope -
+   */
   throttle(fn, threshhold, scope) {
     threshhold || (threshhold = 250);
     var last, deferTimer;
@@ -454,6 +548,9 @@ export class StoryboxNavigator {
     };
   }
 
+  /**
+   * Update location of hands for testing in browser or viewing in desktop.
+   */
   updateTestPositions() {
     this.testPosition = this.testPosition + 1;
     if (this.testPosition >= this.testPositions.length) {
@@ -472,6 +569,9 @@ export class StoryboxNavigator {
     }
   }
 
+  /**
+   * Update scene & log it.
+   */
   sceneSelectorUpdateEvent() {
     let currentStory = this.getCurrentStory(this.storySettings.currentStory);
     if (
@@ -483,6 +583,10 @@ export class StoryboxNavigator {
     }
   }
 
+  /**
+   * Listen for scene selection.
+   * @param {object} e - Event
+   */
   sceneSelectorEventListeners(e) {
     if (e.target.id !== null && e.target.id !== "") {
       let el = document.getElementById(e.target.id);
@@ -528,6 +632,9 @@ export class StoryboxNavigator {
     }
   }
 
+  /**
+   * Listen for DOM mutations (required to ensure Aframe and ThreeJS events have fully propagated.)
+   */
   aframeMutations() {
     // Options for the observer (which mutations to observe)
     var config = {
@@ -564,6 +671,9 @@ export class StoryboxNavigator {
     // observer.disconnect();
   }
 
+  /**
+   * Listen for key strokes
+   */
   appKeyStrokes() {
     window.addEventListener("keydown", e => {
       // console.log(e.code);
@@ -584,6 +694,9 @@ export class StoryboxNavigator {
     }
   }
 
+  /**
+   * Change event listeners when the story changes
+   */
   updateEventListeners() {
     // Reset debugger message throttler.
     window.debugCounter = 0;
@@ -611,6 +724,10 @@ export class StoryboxNavigator {
     window.StoryboxNavigator.modelLoadedEvent = this.modelLoadedEvent;
   }
 
+  /**
+   * Set the current story.
+   * @param {string} target - Id target of selected story.
+   */
   render(target) {
     this.storySettings.target = target;
   }

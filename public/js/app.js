@@ -33,8 +33,6 @@ export class App {
    * @param {object} data - Formatted scene.
    */
   formatUniqueProperties(scene) {
-
-
     // Iterate over scene object.
     // Recursively read through looking for ID.
     // Console log for elements that were not unique.
