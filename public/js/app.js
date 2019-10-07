@@ -1,7 +1,6 @@
 import { StoryBoxBuilder } from './StoryBoxBuilder.js';
 import { StoryboxAframe } from "./StoryboxAframe.js";
-import { updateAccordionLine, intersectSceneAccordion } from "./interfaceAccordion.js";
-import { formatDropboxRawLinks } from "./utilities.js";
+import { formatDropboxRawLinks } from "./utilities/dropbox-format.js";
 import { registry } from "./../examples/gallery/registry.js";
 import { Scene as gallerySceneJson } from "./../examples/gallery/gallery.js";
 // @TODO Dropbox registry or registry via input + URL.
@@ -16,8 +15,6 @@ export class App {
   init(target) {
     window.StoryBoxBuilder = new StoryBoxBuilder(target);
     window.StoryboxAframe = new StoryboxAframe();
-    window.StoryBoxBuilder.updateAccordionLine = updateAccordionLine;
-    window.StoryBoxBuilder.intersectSceneAccordion = intersectSceneAccordion; // @TODO abstract out after getting it to work.
     let rendered = window.StoryBoxBuilder.render(target);
     window.StoryBoxBuilder.init(this);
   }

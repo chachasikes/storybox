@@ -1,7 +1,15 @@
 import { Gallery } from "./gallery.js";
-import { vrlog } from "./vrlog.js";
-import { testPositions } from "./testPositions.js";
-import modelLoadedEvent  from './modelUpdates.js';
+import { vrlog } from "./utilities/vrlog.js";
+import { testPositions } from "./utilities/testPositions.js";
+import modelLoadedEvent from "./utilities/modelUpdates.js";
+import { registerComponent as behaviorAccordionStretch } from "./components/accordion-stretch.js";
+import { registerComponent as behaviorIntersectionPlay } from "./components/accordion-stretch.js";
+import { registerComponent as behaviorGltfMaterial } from "./components/accordion-stretch.js";
+import { registerComponent as behaviorXButtonListener } from "./components/x-button-listener.js";
+import { registerComponent as behaviorYButtonListener } from "./components/y-button-listener.js";
+import { registerComponent as behaviorAButtonListener } from "./components/a-button-listener.js";
+import { registerComponent as behaviorBButtonListener } from "./components/b-button-listener.js";
+
 
 export class StoryBoxBuilder {
   constructor() {
@@ -110,8 +118,6 @@ export class StoryBoxBuilder {
             this.pauseScene();
           }
         });
-
-
 
         let sceneSelector;
         this.storySettings.currentStory = "gallery";
@@ -245,7 +251,6 @@ export class StoryBoxBuilder {
 
          document.getElementById('scene-selector').setAttribute('entered-vr', true);
          window.StoryBoxBuilder.update();
-
       });
 
       document.querySelector("a-assets").addEventListener("loaded", () => {
@@ -277,7 +282,6 @@ export class StoryBoxBuilder {
     }
     this.update();
     this.playGLBAnimation();
-
   }
 
   playGLBAnimation() {
@@ -383,327 +387,16 @@ export class StoryBoxBuilder {
 
   hitEvent(evt) {
     window.StoryBoxBuilder.debounce(window.StoryBoxBuilder.hitEvent, 2000);
-
   }
 
-  setupAppButtons() {
-    if (AFRAME.components["x-button-listener"] === undefined) {
-      AFRAME.registerComponent("x-button-listener", {
-        init: function() {
-          var el = this.el;
-          el.addEventListener(
-            "xbuttondown",
-            window.StoryBoxBuilder.xButtonEvent
-          );
-        },
-        update: function() {
-          var el = this.el;
-          el.addEventListener(
-            "xbuttondown",
-            window.StoryBoxBuilder.xButtonEvent
-          );
-        }
-      });
-    }
-
-    if (AFRAME.components["y-button-listener"] === undefined) {
-      AFRAME.registerComponent("y-button-listener", {
-        init: function() {
-          var el = this.el;
-          el.addEventListener(
-            "ybuttondown",
-            window.StoryBoxBuilder.yButtonEvent
-          );
-        },
-        update: function() {
-          var el = this.el;
-          el.addEventListener(
-            "ybuttondown",
-            window.StoryBoxBuilder.yButtonEvent
-          );
-        }
-      });
-    }
-
-    if (AFRAME.components["a-button-listener"] === undefined) {
-      AFRAME.registerComponent("a-button-listener", {
-        init: function() {
-          var el = this.el;
-          el.addEventListener("abuttondown", function(evt) {
-            vrlog("A");
-          });
-        }
-      });
-    }
-
-    if (AFRAME.components["gltf-material"] === undefined) {
-      AFRAME.registerComponent('gltf-material', {
-          schema: {
-            path: {default: ''},
-            normalPath: {default: null},
-            bumpPath: {default: null},
-            alphaPath: {default: null},
-            displacementPath: {default: null},
-            roughnessPath: {default: null},
-            environmentPath: {default: null},
-            emissivePath: {default: null},
-            lightMapPath: {default: null},
-            ambientOcculsionPath: {default: null},
-            opacity: {default: null},
-            extension: {default: 'jpg'},
-            format: {default: 'RGBFormat'},
-            enableBackground: {default: false}
-          },
-          multiple: true,
-          init: function() {
-            const data = this.data;
-            var el = this.el;
-
-            let materialSettings = {};
-            // https://threejs.org/docs/#api/en/materials/MeshStandardMaterial
-
-            let scale = {
-              u: 8,
-              v: 8
-            }
-
-            materialSettings.metalness = 0;
-            if (data.opacity !== null) {
-              materialSettings.opacity = typeof data.opacity === 'string' ? parseFloat(data.opacity) : data.opacity;
-            }
-
-            if (data.path !== null && data.path !== '') {
-              console.log("texture path: ", data.path);
-              var baseTexture = new THREE.TextureLoader().load(data.path);
-              baseTexture.wrapS = THREE.RepeatWrapping;
-              baseTexture.wrapT = THREE.RepeatWrapping;
-              baseTexture.repeat.set(scale.u, scale.v);
-              materialSettings.map = baseTexture;
-            }
-
-            if (data.normalPath !== null) {
-              var normalPathTexture = new THREE.TextureLoader().load(data.normalPath);
-              normalPathTexture.wrapS = THREE.RepeatWrapping;
-              normalPathTexture.wrapT = THREE.RepeatWrapping;
-              normalPathTexture.repeat.set(scale.u, scale.v);
-              materialSettings.normalMap = normalPathTexture;
-            }
-
-            if (data.bumpPath !== null) {
-              var bumpTexture = new THREE.TextureLoader().load(data.bumpPath);
-              bumpTexture.wrapS = THREE.RepeatWrapping;
-              bumpTexture.wrapT = THREE.RepeatWrapping;
-              bumpTexture.repeat.set(scale.u, scale.v);
-              materialSettings.bumpMap = bumpTexture;
-              materialSettings.bumpScale = 0.5;
-            }
-
-            if (data.alphaPath !== null) {
-              var alphaTexture = new THREE.TextureLoader().load(data.alphaPath);
-              alphaTexture.wrapS = THREE.RepeatWrapping;
-              alphaTexture.wrapT = THREE.RepeatWrapping;
-              alphaTexture.repeat.set(scale.u, scale.v);
-              materialSettings.alphaMap = alphaTexture;
-            }
-
-            if (data.displacementPath !== null) {
-              var displacementTexture = new THREE.TextureLoader().load(data.displacementPath);
-              displacementTexture.wrapS = THREE.RepeatWrapping;
-              displacementTexture.wrapT = THREE.RepeatWrapping;
-              displacementTexture.repeat.set(scale.u, scale.v);
-              materialSettings.displacementMap = displacementTexture;
-              // materialSettings.displacementScale = 0.5;
-            }
-
-            if (data.environmentPath !== null) {
-              var environmentTexture = new THREE.TextureLoader().load(data.environmentPath);
-              environmentTexture.wrapS = THREE.RepeatWrapping;
-              environmentTexture.wrapT = THREE.RepeatWrapping;
-              environmentTexture.repeat.set(scale.u, scale.v);
-              materialSettings.envMap = environmentTexture;
-              // materialSettings.envMapIntensity = 2;
-            }
-
-            if (data.emissivePath !== null) {
-              var emissiveTexture = new THREE.TextureLoader().load(data.emissivePath);
-              emissiveTexture.wrapS = THREE.RepeatWrapping;
-              emissiveTexture.wrapT = THREE.RepeatWrapping;
-              emissiveTexture.repeat.set(scale.u, scale.v);
-              materialSettings.emissiveMap = emissiveTexture;
-            }
-
-            if (data.ambientOcculsionPath !== null) {
-              var ambientOcculsionTexture = new THREE.TextureLoader().load(data.ambientOcculsionPath);
-              materialSettings.aoMap = ambientOcculsionTexture;
-              materialSettings.aoMapIntensity = 0.1;
-            }
-            //
-            if (data.roughnessPath !== null) {
-              var roughnessTexture = new THREE.TextureLoader().load(data.roughnessPath);
-              roughnessTexture.wrapS = THREE.RepeatWrapping;
-              roughnessTexture.wrapT = THREE.RepeatWrapping;
-              roughnessTexture.repeat.set(scale.u, scale.v);
-              materialSettings.roughnessMap = roughnessTexture;
-            }
-
-            if (data.lightMapPath !== null) {
-              var lightMapTexture = new THREE.TextureLoader().load(data.lightMapPath);
-              materialSettings.lightMap = lightMapTexture;
-            }
-
-            // materialSettings.emissive = #ffffff;
-            // materialSettings.emissiveIntensity = 0.3;
-            this.material = new THREE.MeshStandardMaterial(materialSettings);
-
-            this.el.addEventListener('model-loaded', () => {
-              console.log('update model loaded');
-
-              this.update();
-            });
-          },
-          update: function() {
-            let object;
-            if (this.el !== undefined) {
-              object = this.el.getObject3D('mesh');
-              if (!object) return;
-              object.traverse((node) => {
-                if (node !== undefined && node.isMesh) {
-                  node.material = this.material;
-                  if (node.material.map) {
-                    // node.material.map.encoding = THREE.sRGBEncoding;
-                    // node.material.needsUpdate = true;
-
-                  }
-                }
-              });
-            }
-          },
-          remove: function () {
-            var data = this.data;
-            var el = this.el;
-
-            // Remove event listener.
-            if (data.event) {
-              el.removeEventListener(data.event, this.eventHandlerFn);
-            }
-          }
-        }
-      );
-
-    }
-
-    if (AFRAME.components["b-button-listener"] === undefined) {
-      AFRAME.registerComponent("b-button-listener", {
-        init: function() {
-          var el = this.el;
-          el.addEventListener("bbuttondown", function(evt) {
-            vrlog("B");
-          });
-        }
-      });
-    }
-
-
-
-    if (AFRAME.components["intersection-play"] === undefined) {
-    AFRAME.registerComponent('intersection-play', {
-      schema: {
-        name: {default: 'intersection-play-element'},
-        sceneTarget: {default: null},
-        action: {default: null},
-      },
-      init: function() {
-        console.log('intersection-play init', this.el);
-        this.el.addEventListener('hit', (e) => {
-          window.StoryBoxBuilder.hitEvent();
-
-          // console.log('hit');
-          // console.log(e);
-          // vrlog('hit');
-        });
-        this.el.addEventListener('hitend', (e) => {
-          console.log('hitend');
-          // console.log(e);
-          // vrlog('hitend');
-        });
-      },
-      update: function() {
-        console.log('intersection-play update', this.el.getAttribute('id'));
-        // var data = this.data;
-        // var el = this.el;
-        //
-        // // Remove event listener.
-        // if (data.event) {
-        //   el.removeEventListener(data.event, this.eventHandlerFn);
-        // }
-        // this.el.addEventListener('hit', (e) => {
-        //   console.log('hit');
-        //   console.log(e);
-        // });
-        // this.el.addEventListener('hitend', (e) => {
-        //   console.log('hitend')
-        //   console.log(e)
-        // });
-      },
-      // remove: function() {
-      //   console.log('remove intersection-play');
-      //   var data = this.data;
-      //   var el = this.el;
-      //
-      //   // Remove event listener.
-      //   if (data.event) {
-      //     el.removeEventListener(data.event, this.eventHandlerFn);
-      //   }
-      // },
-
-    });
-  }
-
-    if (AFRAME.components["left-controller-listener"] === undefined) {
-      AFRAME.registerComponent("left-controller-listener", {
-        init: function() {
-          var el = this.el;
-          if (
-            typeof window.StoryBoxBuilder.leftControllerTickEvent === "function"
-          ) {
-            // vrlog(window.StoryBoxBuilder.leftControllerTickEvent);
-            window.StoryBoxBuilder.leftControllerTickEvent();
-          }
-        },
-        tick: function() {
-          if (
-            typeof window.StoryBoxBuilder.leftControllerTickEvent === "function"
-          ) {
-            vrlog(window.StoryBoxBuilder.leftControllerTickEvent);
-            window.StoryBoxBuilder.leftControllerTickEvent();
-          }
-        }
-      });
-    }
-
-    if (AFRAME.components["right-controller-listener"] === undefined) {
-      AFRAME.registerComponent("right-controller-listener", {
-        init: function() {
-          var el = this.el;
-          if (
-            typeof window.StoryBoxBuilder.rightControllerTickEvent ===
-            "function"
-          ) {
-            // vrlog(typeof window.StoryBoxBuilder.rightControllerTickEvent);
-            window.StoryBoxBuilder.rightControllerTickEvent();
-          }
-        },
-        tick: function() {
-          if (
-            typeof window.StoryBoxBuilder.rightControllerTickEvent ===
-            "function"
-          ) {
-            // vrlog(typeof window.StoryBoxBuilder.rightControllerTickEvent);
-            window.StoryBoxBuilder.rightControllerTickEvent();
-          }
-        }
-      });
-    }
+  setupAppBehaviors() {
+    behaviorXButtonListener();
+    behaviorYButtonListener();
+    behaviorAButtonListener();
+    behaviorBButtonListener();
+    behaviorGltfMaterial();
+    behaviorAccordionStretch();
+    behaviorIntersectionPlay();
   }
 
   debounce(fn, delay) {
@@ -838,7 +531,7 @@ export class StoryBoxBuilder {
           window.StoryBoxBuilder.sceneSelectorUpdateEvent();
         }
         this.updateEventListeners();
-        this.setupAppButtons();
+        this.setupAppBehaviors();
         this.modelLoadedEvent();
       }
     }.bind(this);
@@ -886,54 +579,7 @@ export class StoryBoxBuilder {
     window.StoryBoxBuilder.xButtonEvent = this.xButtonEvent;
     window.StoryBoxBuilder.yButtonEvent = this.yButtonEvent;
 
-    if (document.getElementById("leftHand") !== null) {
-      let tickFunctionLeft = document
-        .getElementById("leftHand")
-        .getAttribute("tickFunction");
-
-      if (
-        tickFunctionLeft !== undefined &&
-        window.StoryBoxBuilder[tickFunctionLeft] !== undefined &&
-        typeof window.StoryBoxBuilder[tickFunctionLeft] === "function"
-      ) {
-        window.StoryBoxBuilder.leftControllerTickEvent = window.StoryBoxBuilder[tickFunctionLeft];
-
-      } else {
-        window.StoryBoxBuilder.leftControllerTickEvent = null;
-      }
-    }
-    if (document.getElementById("rightHand") !== null) {
-      let tickFunctionRight = document
-        .getElementById("rightHand")
-        .getAttribute("tickFunction");
-      if (
-        tickFunctionRight !== undefined &&
-        window.StoryBoxBuilder[tickFunctionRight] !== undefined &&
-        typeof window.StoryBoxBuilder[tickFunctionRight] === "function"
-      ) {
-        window.StoryBoxBuilder.rightControllerTickEvent =
-          window.StoryBoxBuilder[tickFunctionRight];
-      } else {
-        window.StoryBoxBuilder.rightControllerTickEvent = null;
-      }
-    }
-
-    if (document.getElementById("rig") !== null) {
-      let tickFunctionRig = document
-        .getElementById("rig")
-        .getAttribute("updateTestPosition");
-      if (
-        tickFunctionRig !== undefined &&
-        window.StoryBoxBuilder[tickFunctionRig] !== undefined &&
-        typeof window.StoryBoxBuilder[tickFunctionRig] === "function"
-      ) {
-        window.StoryBoxBuilder.rigControllerTickEvent =
-          window.StoryBoxBuilder[tickFunctionRig];
-      } else {
-        window.StoryBoxBuilder.rigControllerTickEvent = null;
-      }
-    }
-
+    // @TODO rethink.
     if (document.querySelectorAll('.sphere-intersection')) {
       let intersectionElements = document.querySelectorAll('.sphere-intersection');
       intersectionElements.forEach(item => {

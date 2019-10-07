@@ -1,19 +1,30 @@
-import { vrlog } from "./utilities/vrlog.js";
+export function registerComponent() {
+  if (AFRAME.components["accordion-stretch"] === undefined) {
+  AFRAME.registerComponent('accordion-stretch', {
+    schema: {
+      name: {default: 'accordion-element'},
+      sceneTarget: {default: null},
+      action: {default: null},
+    },
+    init: function() {
+      console.log('accordion init', this.el);
+      updateAccordionLine();
+      // this.el.addEventListener('stretch', (e) => {
+      //
+      // });
 
-export function intersectSceneAccordion(e) {
-  console.log('intersectSceneAccordion', e);
-  vrlog('intersected');
-  // Test removal of object if intersect
-  let testHand = document.getElementById('middleHand');
-  testHand.parentNode.removeChild(testHand);
-
-  // Actual behavior:
-  /**
-  - if intersect = fade in and play target scene, if playable
-  - if next level & intersect any & length is short  - play the final scene
-
-
-  */
+    },
+    update: function() {
+      console.log('accordion update', this.el.getAttribute('id'));
+      updateAccordionLine();
+    },
+    tick: function () {
+      updateAccordionLine();
+    },
+    remove: function() {
+    }
+  });
+}
 }
 
 // @TODO function accordion line length shorter for a min duration & then longer - step through song array until over - (with repeat)
@@ -125,7 +136,6 @@ export function buildHandPropInterface(
   let left = {};
   let right = {};
   let className=`class="stretch-object"`;
-  console.log('set up hand props');
   if (props !== undefined && props.type === "stretch") {
     left = props.a;
     right = props.b;
@@ -223,7 +233,7 @@ export function buildHandPropInterface(
       });
     }
 
-    rope = `<a-entity id="${props.id}"
+    rope = `<a-entity accordion-stretch id="${props.id}"
         line="start: ${props.a.position.x}, ${props.a.position.y}, ${
       props.a.position.z
     }; end: ${props.b.position.x}, ${props.b.position.y}, ${

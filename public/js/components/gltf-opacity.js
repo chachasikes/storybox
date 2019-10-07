@@ -1,4 +1,5 @@
 //https://glitch.com/edit/#!/stack-52423883?path=index.html:32:10
+export function registerComponent() {
 AFRAME.registerComponent('model-opacity', {
        schema: {default: 0.5},
        init: function () {
@@ -38,3 +39,4 @@ AFRAME.registerComponent('model-opacity', {
          });
        }
      });
+}

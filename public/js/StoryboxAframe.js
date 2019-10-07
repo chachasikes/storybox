@@ -1,5 +1,5 @@
-import { formatDropboxRawLinks  } from './utilities.js';
-import { buildHandPropInterface } from './interfaceAccordion.js';
+import { formatDropboxRawLinks  } from './utilities/dropbox-format.js';
+import { buildHandPropInterface } from './components/accordion-stretch.js';
 
 export class StoryboxAframe {
   constructor() {
@@ -349,7 +349,6 @@ export class StoryboxAframe {
       ${aframeTags.position.tag}
       ${aframeTags.rotation.tag}
       ${aframeTags.scale.tag}
-      updateTestPosition="${props.testUpdateFunction}"
     >
       <a-camera
         ${aframeTags.className}
@@ -468,7 +467,6 @@ export class StoryboxAframe {
       x-button-listener
       y-button-listener
       left-controller-listener
-      tickFunction="${handProp.left.tickFunction}"
     >
       ${leftModel}${handProp.leftBox}
     </a-entity>
@@ -480,7 +478,6 @@ export class StoryboxAframe {
       a-button-listener
       b-button-listener
       right-controller-listener
-      tickFunction="${handProp.right.tickFunction}"
     >
       ${rightModel}
       ${debuggerPanelWrist.debuggerPanelWrist}
@@ -636,8 +633,8 @@ export class StoryboxAframe {
                 break;
               case "camera":
                 props = this.formatDropboxDataRecursive(props);
-                let handPropScent = buildHandPropInterface(this, props.handProp, innerMarkup, assetsElements, assetItemElements, aframeTags);
-                let camera = this.buildCamera(props, innerMarkup, assetsElements, assetItemElements, aframeTags, handPropScent);
+                let handPropInterface = buildHandPropInterface(this, props.handProp, innerMarkup, assetsElements, assetItemElements, aframeTags);
+                let camera = this.buildCamera(props, innerMarkup, assetsElements, assetItemElements, aframeTags, handPropInterface);
                 innerMarkup = camera.innerMarkup;
                 assetsElements = camera.assetsElements;
                 assetItemElements = camera.assetItemElements;

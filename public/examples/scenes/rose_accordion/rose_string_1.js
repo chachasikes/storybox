@@ -11,7 +11,7 @@ export let Scene = {
       id: "camera_rose",
       cursorCamera: true,
       fadeMask: false,
-      testUpdateFunction: 'updateAccordionLine',
+      testUpdateFunction: "updateAccordionLine",
       position: {
         x: 0,
         y: 0,
@@ -23,118 +23,118 @@ export let Scene = {
         z: 0
       },
       headProp: {
-        id: '#head-bubble',
-        type: 'intersect',
-        color: 'pink',
+        id: "#head-bubble",
+        type: "intersect",
+        color: "pink"
       },
       handProp: {
         id: "rose-stretch",
         type: "stretch",
         ropeColor: "#000000",
         a: {
-            id: "leftStretch",
-            tickFunction: 'updateAccordionLine',
-            color: "#FA8072",
-            dimensions: {
-              width: 0.02,
-              height: 0.4,
-              depth: 0.2,
-            },
-            position: {
-              x: 0,
-              y: 0.01,
-              z: -0.02,
-            },
-            rotation: {
-              x: -15,
-              y: 0,
-              z: 0,
-            }
+          id: "leftStretch",
+          // tickFunction: 'updateAccordionLine',
+          color: "#FA8072",
+          dimensions: {
+            width: 0.02,
+            height: 0.4,
+            depth: 0.2
+          },
+          position: {
+            x: 0,
+            y: 0.01,
+            z: -0.02
+          },
+          rotation: {
+            x: -15,
+            y: 0,
+            z: 0
+          }
         },
         b: {
-            id: "rightStretch",
-            color: "#FA8072",
-            tickFunction: 'updateAccordionLine',
-            dimensions: {
-              width: 0.02,
-              height: 0.4,
-              depth: 0.2,
-            },
-            position: {
-              x: 0,
-              y: 0.01,
-              z: -0.02,
-            },
-            rotation: {
-              x: -15,
-              y: 0,
-              z: 0,
-            }
+          id: "rightStretch",
+          color: "#FA8072",
+          // tickFunction: 'updateAccordionLine',
+          dimensions: {
+            width: 0.02,
+            height: 0.4,
+            depth: 0.2
+          },
+          position: {
+            x: 0,
+            y: 0.01,
+            z: -0.02
+          },
+          rotation: {
+            x: -15,
+            y: 0,
+            z: 0
+          }
         },
-        stretchAxis: 'x',
+        stretchAxis: "x",
         positions: [
           {
             type: "percentage",
             position: {
-              x: 0.2,
-              y: 0,
-              z: 0,
+              x: 0.3,
+              y: 0.001,
+              z: 0
             },
             color: "#f4eea8",
-            id: 'citronellol-intersect',
+            id: "citronellol-intersect",
             intersect: true,
             collisionClass: "head",
-            intersectAction: 'intersectSceneAccordion',
-            sceneTarget: 'citronellol-scene',
+            // intersectAction: 'intersectSceneAccordion',
+            sceneTarget: "citronellol-scene"
           },
           {
             type: "percentage",
             position: {
-              x: 0.4,
-              y: -0.2,
-              z: -0.002,
+              x: 0.6,
+              y: 0.001,
+              z: 0
             },
             color: "#f4a8e1",
-            id: 'pea-intersect',
+            id: "pea-intersect",
             intersect: true,
             collisionClass: "head",
-            intersectAction: 'intersectSceneAccordion',
-            sceneTarget: 'pea-scene',
+            // intersectAction: 'intersectSceneAccordion',
+            sceneTarget: "pea-scene"
           },
           {
             type: "percentage",
             position: {
-              x: 0.7,
-              y: 0.01, // These would just be offsets
-              z: 0.001,
+              x: 0.85,
+              y: 0.001, // These would just be offsets
+              z: 0
             },
             color: "#bbe266",
-            id: 'geraniol-intersect',
+            id: "geraniol-intersect",
             intersect: true,
             collisionClass: "head",
-            intersectAction: 'intersectSceneAccordion',
-            sceneTarget: 'geraniol-scene',
-          },
+            // intersectAction: 'intersectSceneAccordion',
+            sceneTarget: "geraniol-scene"
+          }
         ]
       }
     }
   },
   ambientLight: {
     light: {
-      type: 'ambient',
+      type: "ambient",
       position: {
         x: 100,
         y: 100,
         z: 200
       },
-      color: '#ffffff',
+      color: "#ffffff"
     }
   },
   skybox: {
     sky: {
       color: "#ededed",
       id: "light-background",
-      name: "Fade in",
+      name: "Fade in"
     }
   },
   grid: {
@@ -144,78 +144,55 @@ export let Scene = {
       name: "Grid",
       credit: "Chacha Sikes",
       rotation: {
-        x:0,
-        y:0,
-        z:0
-      },
-      position: {
-        x:0,
-        y:5,
-        z:0
-      },
-      scale: {
-        x: 10,
-        y: 10,
-        z: 10
-      },
-    }
-  },
-  nosina: {
-mesh: {
-  name: "Nosina",
-  credit: "Sarah Chalek & Chacha Sikes",
-  id: "nosina",
-  art: "https://www.dropbox.com/s/z9q199hf0utq5px/nosina_alembic_test.glb?dl=0",
-  opacity: 1,
-  scale: {
-    x: 1.5,
-    y: 1.5,
-    z: 1.5,
-  },
-  rotation: {
-    x: 0,
-    y: 210,
-    z: 0
-  },
-  position: {
-    x: -2,
-    y: 0.25,
-    z: -2
-  }
-},
-  },
-
-  train_station: {
-    mesh: {
-      name: "Set",
-      credit: "Chacha Sikes & Sarah Chalek",
-      id: "train-station",
-      art: "https://www.dropbox.com/s/bca80aqnz14chxb/rose-accordion-animation.glb?dl=0",
-      opacity: 1,
-      scale: {
-        x: 10,
-        y: 10,
-        z: 10,
-      },
-      rotation: {
         x: 0,
         y: 0,
         z: 0
       },
       position: {
-        x: 4,
-        y: 0,
-        z: 2.5
+        x: 0,
+        y: 5,
+        z: 0
+      },
+      scale: {
+        x: 10,
+        y: 10,
+        z: 10
       }
-    },
+    }
   },
-  // citronellol: {
+  nosina: {
+    mesh: {
+      name: "Nosina",
+      credit: "Sarah Chalek & Chacha Sikes",
+      id: "nosina",
+      art:
+        "https://www.dropbox.com/s/z9q199hf0utq5px/nosina_alembic_test.glb?dl=0",
+      opacity: 1,
+      scale: {
+        x: 1.5,
+        y: 1.5,
+        z: 1.5
+      },
+      rotation: {
+        x: 0,
+        y: 210,
+        z: 0
+      },
+      position: {
+        x: -2,
+        y: 0.25,
+        z: -2
+      }
+    }
+  }
+
+  // train_station: {
   //   mesh: {
-  //     name: "Citronellol",
-  //     credit: "Chacha Sikes",
-  //     id: "citronellol",
-  //     art: "https://dl.dropboxusercontent.com/s/9yp0liedpg0fiji/citronellol.glb",
-  //     opacity: 0.9,
+  //     name: "Set",
+  //     credit: "Chacha Sikes & Sarah Chalek",
+  //     id: "train-station",
+  //     art: "https://www.dropbox.com/s/bca80aqnz14chxb/rose-accordion-animation.glb?dl=0",
+  //     opacity: 1,
   //     scale: {
   //       x: 10,
   //       y: 10,
@@ -223,64 +200,14 @@ mesh: {
   //     },
   //     rotation: {
   //       x: 0,
-  //       y: 90,
+  //       y: 0,
   //       z: 0
   //     },
   //     position: {
-  //       x: 5,
+  //       x: 4,
   //       y: 0,
-  //       z: 0
+  //       z: 2.5
   //     }
   //   },
-  // },
-  // geraniol: {
-  //   mesh: {
-  //     name: "Geraniol",
-  //     credit: "Chacha Sikes",
-  //     id: "geraniol",
-  //     art: "https://dl.dropboxusercontent.com/s/9zvwzs2a4c9ef1e/geraniol.glb",
-  //     opacity: 0.6,
-  //     // texture: "opacity:0.6;normalPath:https://dl.dropboxusercontent.com/s/lzbhks37mnd1cs0/Tiles_025_normal.jpg;path:https://dl.dropboxusercontent.com/s/1zr2u9xl5fpyjtv/Tiles_025_Base_Color.jpg",
-  //     // ;bumpPath:https://dl.dropboxusercontent.com/s/6vw8mi8k4t8txuy/Tiles_025_height.png;roughnessPath:https://dl.dropboxusercontent.com/s/1yasqzucfva4ja4/Tiles_025_roughness.jpg;ambientOcculsionPath:https://www.dropbox.com/s/xzh6yhhlrtxh183/Tiles_025_ambientOcclusion.jpg:
-  //     scale: {
-  //       x: 10,
-  //       y: 10,
-  //       z: 10,
-  //     },
-  //     rotation: {
-  //       x: 0,
-  //       y: 90,
-  //       z: 0
-  //     },
-  //     position: {
-  //       x: 5,
-  //       y: 0,
-  //       z: 0
-  //     }
-  //   }
-  // },
-  // pea: {
-  //   mesh: {
-  //     name: "pea",
-  //     credit: "Chacha Sikes",
-  //     id: "pea",
-  //     art: "https://dl.dropboxusercontent.com/s/7lrq77w9fb6boeo/pea.glb",
-  //     opacity: 0.2,
-  //     scale: {
-  //       x: 10,
-  //       y: 10,
-  //       z: 10,
-  //     },
-  //     rotation: {
-  //       x: 0,
-  //       y: 90,
-  //       z: 0
-  //     },
-  //     position: {
-  //       x: 5,
-  //       y: 0,
-  //       z: 0
-  //     }
-  //   }
   // },
 };
