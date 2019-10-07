@@ -6,10 +6,10 @@ import { story as texture } from './../scenes/texture/scenes.js';
 // import { dropboxRegistry } from './../../dropbox/dropbox-tincture-sea.js';
 
 export let registry = [
-  storyHelloWorld,
+  // storyHelloWorld,
   roseAccordion,
-  lights,
-  scale,
-  texture
+  // lights,
+  // scale,
+  // texture
   // dropboxRegistry
 ];
