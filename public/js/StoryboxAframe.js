@@ -196,7 +196,7 @@ export class StoryboxAframe {
 
       // HACK force a quick rotation to easily fix any weirdly oriented skybox art.
       innerMarkup = `${innerMarkup}
-        <a-sky ${aframeTags.className} src="#${props.id}" ${
+        <a-sky render-order="sky" ${aframeTags.className} src="#${props.id}" ${
         aframeTags.color.attribute
       } animation="property: rotation; to: ${
         aframeTags.rotation.attributes
@@ -335,7 +335,11 @@ export class StoryboxAframe {
 
   buildHead(props) {
     return {
-      head: `<a-sphere intersection-play="" class="head" id="head"></a-sphere>`
+      //material="side: double; shader: flat;color: #000; transparent: true; opacity: 0.3"
+      head: `
+      <a-sphere render-order="head" intersection-play="" class="head" id="head" radius="0.2">
+      </a-sphere>
+      `
     }
   }
 

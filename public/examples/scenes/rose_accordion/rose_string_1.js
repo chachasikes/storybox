@@ -83,7 +83,7 @@ export let Scene = {
             collisionClass: "head",
             intersectTarget: "nosina_1",
             intersectAction: 'fadeInObject',
-            radius: 0.1,
+            radius: 0.2,
           },
           {
             type: "percentage",
@@ -98,7 +98,7 @@ export let Scene = {
             collisionClass: "head",
             intersectTarget: "nosina_2",
             intersectAction: 'fadeInObject',
-            radius: 0.1,
+            radius: 0.2,
           },
           {
             type: "percentage",
@@ -113,7 +113,7 @@ export let Scene = {
             collisionClass: "head",
             intersectTarget: "nosina_3",
             intersectAction: 'fadeInObject',
-            radius: 0.1,
+            radius: 0.2,
           }
         ]
       }
