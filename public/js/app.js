@@ -17,14 +17,19 @@ export class App {
     this.registry = [];
   }
 
+  load(target) {
+    if (document.querySelector("scene-selector") === null) {
+      window.StoryboxNavigator = new StoryboxNavigator(target);
+      window.StoryboxAframe = new StoryboxAframe();
+      let rendered = window.StoryboxNavigator.setTarget(target);
+    }
+  }
+
   /**
    * Set up modules and initialize to render gallery or target content.
    */
-  init(target) {
-    if (document.querySelector("a-assets") === null) {
-      window.StoryboxNavigator = new StoryboxNavigator(target);
-      window.StoryboxAframe = new StoryboxAframe();
-      let rendered = window.StoryboxNavigator.render(target);
+  init() {
+    if (document.querySelector("scene-selector") === null) {
       window.StoryboxNavigator.init(this);
     }
   }

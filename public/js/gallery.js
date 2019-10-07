@@ -66,7 +66,7 @@ export class Gallery {
   render(registry) {
     this.registry = registry;
     let content = ``;
-    let tiles = [];
+    let grid = [];
     let assets = [];
 
     let position = `position="0 0 0"`;
@@ -80,7 +80,7 @@ export class Gallery {
       assets.push(
         `<img id="select-${item.id}" src="${item.panel}" crossorigin="anonymous" preload="true" />`
       );
-      tiles.push(`
+      grid.push(`
         <a-image
         data-clickable
         cursor-listener
@@ -99,8 +99,8 @@ export class Gallery {
       );
     });
     return {
-      preloadElements: assets,
-      tiles
+      childElements: assets,
+      grid
     }
   }
 }

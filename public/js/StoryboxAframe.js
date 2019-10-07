@@ -354,7 +354,7 @@ export class StoryboxAframe {
    * @param {object} aframeTags - Composed attribute tags to insert as AFrame options
    * @returns {object} - Preloaded elements, Aframe markup and Child elements.
    */
-  buildMesh(props, innerMarkup, childElements, preloadElements, aframeTags) {
+  x(props, innerMarkup, childElements, preloadElements, aframeTags) {
     if (props.art !== undefined) {
       let fileType = props.art.split('.').pop();
       let classProps = this.getValue("className", props);
