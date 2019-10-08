@@ -433,7 +433,7 @@ export class StoryboxAframe {
       } else if (fileType === 'obj') {
 
         console.log(props);
-        let texture = props.texture !== undefined ? `obj-material="${textures}"` : ``;
+        let texture = props.texture !== undefined && textures !== undefined ? `obj-material="${textures}"` : ``;
         let opacity = props.opacity !== undefined ? `obj-model-opacity="${props.opacity}"` : ``;
 
         let material = ``;
