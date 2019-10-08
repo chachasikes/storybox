@@ -63,9 +63,9 @@ export let Scene = {
       // art: "https://www.dropbox.com/s/syjpoyk305zq2a2/ladybug.obj?dl=0",
       // material: "https://www.dropbox.com/s/1t98l8tlcegh4cj/heart_plane_test_blender.mtl?dl=0",
       scale: {
-        x: 0.2,
-        y: 0.2,
-        z: 0.2,
+        x: 1,
+        y: 1,
+        z: 1,
       },
       rotation: {
         x: 0,
@@ -74,19 +74,54 @@ export let Scene = {
       },
       position: {
         x: 0,
-        y: 0,
-        z: -0.4
+        y: -10,
+        z: -2
       },
       texture: {
-        src: "https://www.dropbox.com/s/hnc7epprjw7lhqg/heart_diffuse_color.jpg?dl=0",
+        alphaTest: 0.5,
+        src: "https://www.dropbox.com/s/vjtsdo7leto00g8/heart_diffuse_color_alpha.png?dl=0",
         alphaMap: "https://www.dropbox.com/s/c8e9bbmc7pws0f2/heart_alpha.png?dl=0",
         repeatScale: {
-          u: 2,
-          v: 2
+          u: 3,
+          v: 3
         },
       }
     },
   },
+    leaf_obj: {
+      mesh: {
+        name: "Leaf",
+        credit: "Chacha Sikes",
+        id: "leaf-obj",
+        art: "https://www.dropbox.com/s/7npa0fpnsl0nkgs/heart_plane_test_blender.obj?dl=0",
+        // art: "https://www.dropbox.com/s/syjpoyk305zq2a2/ladybug.obj?dl=0",
+        // material: "https://www.dropbox.com/s/1t98l8tlcegh4cj/heart_plane_test_blender.mtl?dl=0",
+        scale: {
+          x: 0.2,
+          y: 0.2,
+          z: 0.2,
+        },
+        rotation: {
+          x: 0,
+          y: 0,
+          z: 0
+        },
+        position: {
+          x: 2,
+          y: 0,
+          z: -3
+        },
+        texture: {
+          src: "https://www.dropbox.com/s/d2u705tszx6pkj8/leaf_color_alpha.png?dl=0",
+          alphaMap: "https://www.dropbox.com/s/pqx3thl7u7iczdv/leaf_alpha.png?dl=0",
+          alphaTest: 0.5,
+          repeatScale: {
+            u: 3,
+            v: 3
+          },
+        }
+      },
+  }
 
 
 };

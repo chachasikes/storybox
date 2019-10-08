@@ -3,19 +3,25 @@ export function registerComponent() {
   AFRAME.registerComponent('gltf-material', {
       schema: {
         path: {default: ''},
-        normalPath: {default: null},
-        bumpPath: {default: null},
-        alphaPath: {default: null},
-        displacementPath: {default: null},
-        roughnessPath: {default: null},
-        environmentPath: {default: null},
-        emissivePath: {default: null},
-        lightMapPath: {default: null},
-        ambientOcculsionPath: {default: null},
+        src: {default: ''},
+        normalMap: {default: null},
+        bumpMap: {default: null},
+        alphaMap: {default: null},
+        displacementMap: {default: null},
+        roughnessMap: {default: null},
+        environmentMap: {default: null},
+        emissiveMap: {default: null},
+        lightMapMap: {default: null},
+        ambientOcculsionMap: {default: null},
         opacity: {default: null},
         extension: {default: 'jpg'},
         format: {default: 'RGBFormat'},
-        enableBackground: {default: false}
+        enableBackground: {default: false},
+        repeatScaleU: {default: 1},
+        repeatScaleV: {default: 1},
+        colorWrite: {default: null},
+        alphaTest:  {default: 0.5},
+        transparent: {default: null},
       },
       multiple: true,
       init: function() {
@@ -26,34 +32,62 @@ export function registerComponent() {
         // https://threejs.org/docs/#api/en/materials/MeshStandardMaterial
 
         let scale = {
-          u: 8,
-          v: 8
+          u: data.repeatScaleU,
+          v: data.repeatScaleV
         }
-
+        console.log(data);
         materialSettings.metalness = 0;
         if (data.opacity !== null) {
           materialSettings.opacity = typeof data.opacity === 'string' ? parseFloat(data.opacity) : data.opacity;
         }
 
+        if (data.transparent !== null) {
+          materialSettings.transparent = data.transparent;
+        }
+
+        if (data.alphaTest !== null) {
+          materialSettings.alphaTest = data.alphaTest;
+        }
+
+        if (data.roughness !== null) {
+          materialSettings.roughness = data.roughness;
+        }
+
+        if (data.metalness !== null) {
+          materialSettings.metalness = data.metalness;
+        }
+
+        // if (data.repeatScale !== undefined) {
+        //   repeatScale = data.repeatScale;
+        // }
         if (data.path !== null && data.path !== '') {
           console.log("texture path: ", data.path);
-          var baseTexture = new THREE.TextureLoader().load(data.path);
+          let baseTexture = new THREE.TextureLoader().load(data.path);
           baseTexture.wrapS = THREE.RepeatWrapping;
           baseTexture.wrapT = THREE.RepeatWrapping;
           baseTexture.repeat.set(scale.u, scale.v);
           materialSettings.map = baseTexture;
         }
 
-        if (data.normalPath !== null) {
-          var normalPathTexture = new THREE.TextureLoader().load(data.normalPath);
-          normalPathTexture.wrapS = THREE.RepeatWrapping;
-          normalPathTexture.wrapT = THREE.RepeatWrapping;
-          normalPathTexture.repeat.set(scale.u, scale.v);
-          materialSettings.normalMap = normalPathTexture;
+        if (data.src!== null && data.src !== '') {
+          console.log("texture path: ", data.src);
+          let baseTexture = new THREE.TextureLoader().load(data.src);
+          baseTexture.wrapS = THREE.RepeatWrapping;
+          baseTexture.wrapT = THREE.RepeatWrapping;
+          baseTexture.repeat.set(scale.u, scale.v);
+          materialSettings.map = baseTexture;
         }
 
-        if (data.bumpPath !== null) {
-          var bumpTexture = new THREE.TextureLoader().load(data.bumpPath);
+        if (data.normalMap !== null) {
+          let normalMapTexture = new THREE.TextureLoader().load(data.normalMap);
+          normalMapTexture.wrapS = THREE.RepeatWrapping;
+          normalMapTexture.wrapT = THREE.RepeatWrapping;
+          normalMapTexture.repeat.set(scale.u, scale.v);
+          materialSettings.normalMap = normalMapTexture;
+        }
+
+        if (data.bumpMap !== null) {
+          let bumpTexture = new THREE.TextureLoader().load(data.bumpMap);
           bumpTexture.wrapS = THREE.RepeatWrapping;
           bumpTexture.wrapT = THREE.RepeatWrapping;
           bumpTexture.repeat.set(scale.u, scale.v);
@@ -61,16 +95,16 @@ export function registerComponent() {
           materialSettings.bumpScale = 0.5;
         }
 
-        if (data.alphaPath !== null) {
-          var alphaTexture = new THREE.TextureLoader().load(data.alphaPath);
+        if (data.alphaMap !== null) {
+          let alphaTexture = new THREE.TextureLoader().load(data.alphaMap);
           alphaTexture.wrapS = THREE.RepeatWrapping;
           alphaTexture.wrapT = THREE.RepeatWrapping;
           alphaTexture.repeat.set(scale.u, scale.v);
           materialSettings.alphaMap = alphaTexture;
         }
 
-        if (data.displacementPath !== null) {
-          var displacementTexture = new THREE.TextureLoader().load(data.displacementPath);
+        if (data.displacementMap !== null) {
+          let displacementTexture = new THREE.TextureLoader().load(data.displacementMap);
           displacementTexture.wrapS = THREE.RepeatWrapping;
           displacementTexture.wrapT = THREE.RepeatWrapping;
           displacementTexture.repeat.set(scale.u, scale.v);
@@ -78,8 +112,8 @@ export function registerComponent() {
           // materialSettings.displacementScale = 0.5;
         }
 
-        if (data.environmentPath !== null) {
-          var environmentTexture = new THREE.TextureLoader().load(data.environmentPath);
+        if (data.environmentMap !== null) {
+          let environmentTexture = new THREE.TextureLoader().load(data.environmentMap);
           environmentTexture.wrapS = THREE.RepeatWrapping;
           environmentTexture.wrapT = THREE.RepeatWrapping;
           environmentTexture.repeat.set(scale.u, scale.v);
@@ -87,30 +121,30 @@ export function registerComponent() {
           // materialSettings.envMapIntensity = 2;
         }
 
-        if (data.emissivePath !== null) {
-          var emissiveTexture = new THREE.TextureLoader().load(data.emissivePath);
+        if (data.emissiveMap !== null) {
+          let emissiveTexture = new THREE.TextureLoader().load(data.emissiveMap);
           emissiveTexture.wrapS = THREE.RepeatWrapping;
           emissiveTexture.wrapT = THREE.RepeatWrapping;
           emissiveTexture.repeat.set(scale.u, scale.v);
           materialSettings.emissiveMap = emissiveTexture;
         }
 
-        if (data.ambientOcculsionPath !== null) {
-          var ambientOcculsionTexture = new THREE.TextureLoader().load(data.ambientOcculsionPath);
+        if (data.ambientOcculsionMap !== null) {
+          let ambientOcculsionTexture = new THREE.TextureLoader().load(data.ambientOcculsionMap);
           materialSettings.aoMap = ambientOcculsionTexture;
           materialSettings.aoMapIntensity = 0.1;
         }
         //
-        if (data.roughnessPath !== null) {
-          var roughnessTexture = new THREE.TextureLoader().load(data.roughnessPath);
+        if (data.roughnessMap !== null) {
+          let roughnessTexture = new THREE.TextureLoader().load(data.roughnessMap);
           roughnessTexture.wrapS = THREE.RepeatWrapping;
           roughnessTexture.wrapT = THREE.RepeatWrapping;
           roughnessTexture.repeat.set(scale.u, scale.v);
           materialSettings.roughnessMap = roughnessTexture;
         }
 
-        if (data.lightMapPath !== null) {
-          var lightMapTexture = new THREE.TextureLoader().load(data.lightMapPath);
+        if (data.lightMapMap !== null) {
+          let lightMapTexture = new THREE.TextureLoader().load(data.lightMapMap);
           materialSettings.lightMap = lightMapTexture;
         }
 

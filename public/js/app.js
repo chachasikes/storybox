@@ -54,6 +54,7 @@ export class App {
     // @TODO Get promise code from intersection branch and try to make it work here.
     let registryRemote = files.forEach(file => {
       let remoteFilePath = formatDropboxRawLinks(file);
+      console.log(remoteFilePath);
       try {
         let filesData = fetch(remoteFilePath)
           .then(response => response.json())

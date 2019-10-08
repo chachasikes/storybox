@@ -335,7 +335,7 @@ export class StoryboxAframe {
       textures += `normalMap: ${formatDropboxRawLinks(props.normalMap)}; `;
     }
     if (props.alphaMap !== undefined) {
-      textures += `alphaMap: ${formatDropboxRawLinks(props.alphaMap)}; transparent: true; alphaTest: 0.5; `;
+      textures += `alphaMap: ${formatDropboxRawLinks(props.alphaMap)}; transparent: true; alphaTest: ${props.alphaTest ? props.alphaTest : 0.5}; colorWrite: false; `;
     }
     console.log(props);
     if (props.repeatScale !== undefined && props.repeatScale.u !== undefined && props.repeatScale.v !== undefined) {
@@ -394,11 +394,13 @@ export class StoryboxAframe {
       let classProps = this.getValue("className", props);
       let className = `class="${classProps.attribute} glb-animation"`;
       // console.log('texture', props.texture);
-      let textures = this.buildTextures(props.texture);
+      if (props.texture !== undefined) {
+        let textures = this.buildTextures(props.texture);
+      }
 
       if (fileType === 'glb') {
 
-        let texture = props.texture !== undefined ? `gltf-material="textures"` : ``;
+        let texture = props.texture !== undefined && textures !== undefined ? `gltf-material="${textures}"` : ``;
         let opacity = props.opacity !== undefined ? `gltf-model-opacity="${props.opacity}"` : ``;
         let glb_legacy = props.glb_legacy !== undefined ? props.glb_legacy : false;
 

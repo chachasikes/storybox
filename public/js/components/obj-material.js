@@ -19,6 +19,9 @@ export function registerComponent() {
         enableBackground: {default: false},
         repeatScaleU: {default: 1},
         repeatScaleV: {default: 1},
+        colorWrite: {default: null},
+        alphaTest:  {default: 0.5},
+        transparent: {default: null},
       },
       multiple: true,
       init: function() {
@@ -36,6 +39,22 @@ export function registerComponent() {
         materialSettings.metalness = 0;
         if (data.opacity !== null) {
           materialSettings.opacity = typeof data.opacity === 'string' ? parseFloat(data.opacity) : data.opacity;
+        }
+
+        if (data.transparent !== null) {
+          materialSettings.transparent = data.transparent;
+        }
+
+        if (data.alphaTest !== null) {
+          materialSettings.alphaTest = data.alphaTest;
+        }
+
+        if (data.roughness !== null) {
+          materialSettings.roughness = data.roughness;
+        }
+
+        if (data.metalness !== null) {
+          materialSettings.metalness = data.metalness;
         }
 
         // if (data.repeatScale !== undefined) {
