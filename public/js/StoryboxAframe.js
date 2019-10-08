@@ -326,6 +326,40 @@ export class StoryboxAframe {
     }
   }
 
+  buildTextures(props) {
+    let textures = `roughness: 1; metalness: 0;`;
+    if (props.src !== undefined) {
+      textures += `src: ${formatDropboxRawLinks(props.src)}; `;
+    }
+    if (props.normalMap !== undefined) {
+      textures += `normalMap: ${formatDropboxRawLinks(props.normalMap)}; `;
+    }
+    if (props.alphaMap !== undefined) {
+      textures += `alphaMap: ${formatDropboxRawLinks(props.alphaMap)}; transparent: true; alphaTest: 0.5; `;
+    }
+    console.log(props);
+    if (props.repeatScale !== undefined && props.repeatScale.u !== undefined && props.repeatScale.v !== undefined) {
+      textures += `repeatScaleU: ${props.repeatScale.u}; repeatScaleV: ${props.repeatScale.v};`;
+    }
+
+    // textures = `src: formatDropboxRawLinks(props.normalPath); color: #696969; roughness: 1; metalness: 0`;
+    return textures;
+    // path: {default: ''},
+    // normalPath: {default: null},
+    // bumpPath: {default: null},
+    // alphaPath: {default: null},
+    // displacementPath: {default: null},
+    // roughnessPath: {default: null},
+    // environmentPath: {default: null},
+    // emissivePath: {default: null},
+    // lightMapPath: {default: null},
+    // ambientOcculsionPath: {default: null},
+    // opacity: {default: null},
+    // extension: {default: 'jpg'},
+    // format: {default: 'RGBFormat'},
+    // enableBackground: {default: false}
+  }
+
   /**
    * Given JSON settings, output a mesh object.
    * Key: mesh
@@ -354,17 +388,20 @@ export class StoryboxAframe {
    * @param {object} aframeTags - Composed attribute tags to insert as AFrame options
    * @returns {object} - Preloaded elements, Aframe markup and Child elements.
    */
-  x(props, innerMarkup, childElements, preloadElements, aframeTags) {
+  buildMesh(props, innerMarkup, childElements, preloadElements, aframeTags) {
     if (props.art !== undefined) {
       let fileType = props.art.split('.').pop();
       let classProps = this.getValue("className", props);
       let className = `class="${classProps.attribute} glb-animation"`;
       // console.log('texture', props.texture);
-      let texture = props.texture !== undefined ? `gltf-material="path:${props.texture}"` : ``;
-      let opacity = props.opacity !== undefined ? `gltf-model-opacity="${props.opacity}"` : ``;
-      let glb_legacy = props.glb_legacy !== undefined ? props.glb_legacy : false;
+      let textures = this.buildTextures(props.texture);
 
       if (fileType === 'glb') {
+
+        let texture = props.texture !== undefined ? `gltf-material="textures"` : ``;
+        let opacity = props.opacity !== undefined ? `gltf-model-opacity="${props.opacity}"` : ``;
+        let glb_legacy = props.glb_legacy !== undefined ? props.glb_legacy : false;
+
         className = `class="glb-animation ${classProps.attribute} ${props.texture !== undefined ? 'textured' : ''}"`;
 
         // https://aframe.io/docs/0.9.0/components/gltf-model.html
@@ -392,16 +429,37 @@ export class StoryboxAframe {
           </a-entity>
           `;
       } else if (fileType === 'obj') {
+
+        console.log(props);
+        let texture = props.texture !== undefined ? `obj-material="${textures}"` : ``;
+        let opacity = props.opacity !== undefined ? `obj-model-opacity="${props.opacity}"` : ``;
+
+        let material = ``;
+        let materialProp = ``;
+        // if (props.material !== undefined && props.material !== null) {
+        //   material = `<a-asset-item id="${props.id}-material" src="${props.material}"></a-asset-item>`;
+        //   materialProp = `material="#${props.id}-material"`;
+        // } else {
+
+          // materialProp = `material="${textures}"`;
+        // }
+// ${material}
         preloadElements.push(
           `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>
-           <a-asset-item id="${props.id}-material" src="${props.material}"></a-asset-item>
+
           `
         );
 
         innerMarkup = `${innerMarkup}
           <a-obj-model
           src="#${props.id}"
-          mtl="#${props.id}-material"
+          ref="${props.id}"
+          ${texture}
+          ${className}
+          ${opacity}
+          ${aframeTags.scale.tag}
+          ${aframeTags.position.tag}
+          ${aframeTags.rotation.tag}
           crossorigin="anonymous"
           preload="true"
           >

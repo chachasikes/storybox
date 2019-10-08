@@ -9,6 +9,6 @@ export let registry = [
   roseAccordion,
   // lights,
   // scale,
-  // texture
+  texture
   // dropboxRegistry
 ];
