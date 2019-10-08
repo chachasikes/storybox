@@ -394,13 +394,14 @@ export class StoryboxAframe {
       let classProps = this.getValue("className", props);
       let className = `class="${classProps.attribute} glb-animation"`;
       // console.log('texture', props.texture);
+      let textures = ``;
       if (props.texture !== undefined) {
-        let textures = this.buildTextures(props.texture);
+        textures = this.buildTextures(props.texture);
       }
 
       if (fileType === 'glb') {
 
-        let texture = props.texture !== undefined && textures !== undefined ? `gltf-material="${textures}"` : ``;
+        let texture = props.texture !== undefined? `gltf-material="${textures}"` : ``;
         let opacity = props.opacity !== undefined ? `gltf-model-opacity="${props.opacity}"` : ``;
         let glb_legacy = props.glb_legacy !== undefined ? props.glb_legacy : false;
 
@@ -433,7 +434,7 @@ export class StoryboxAframe {
       } else if (fileType === 'obj') {
 
         console.log(props);
-        let texture = props.texture !== undefined && textures !== undefined ? `obj-material="${textures}"` : ``;
+        let texture = props.texture !== undefined ? `obj-material="${textures}"` : ``;
         let opacity = props.opacity !== undefined ? `obj-model-opacity="${props.opacity}"` : ``;
 
         let material = ``;
