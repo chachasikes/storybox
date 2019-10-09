@@ -339,7 +339,11 @@ export class StoryboxAframe {
     }
     console.log(props);
     if (props.repeatScale !== undefined && props.repeatScale.u !== undefined && props.repeatScale.v !== undefined) {
-      textures += `repeatScaleU: ${props.repeatScale.u}; repeatScaleV: ${props.repeatScale.v};`;
+      textures += `repeatScaleU: ${props.repeatScale.u}; repeatScaleV: ${props.repeatScale.v}; `;
+    }
+
+    if (props.color !== undefined) {
+      textures += `color: ${props.color}; `;
     }
 
     // textures = `src: formatDropboxRawLinks(props.normalPath); color: #696969; roughness: 1; metalness: 0`;
@@ -400,8 +404,7 @@ export class StoryboxAframe {
       }
 
       if (fileType === 'glb') {
-
-        let texture = props.texture !== undefined? `gltf-material="${textures}"` : ``;
+        let texture = props.texture !== undefined? `model-material="${textures}"` : ``;
         let opacity = props.opacity !== undefined ? `gltf-model-opacity="${props.opacity}"` : ``;
         let glb_legacy = props.glb_legacy !== undefined ? props.glb_legacy : false;
 
@@ -434,7 +437,7 @@ export class StoryboxAframe {
       } else if (fileType === 'obj') {
 
         console.log(props);
-        let texture = props.texture !== undefined ? `obj-material="${textures}"` : ``;
+        let texture = props.texture !== undefined ? `model-material="${textures}"` : ``;
         let opacity = props.opacity !== undefined ? `obj-model-opacity="${props.opacity}"` : ``;
 
         let material = ``;
@@ -449,7 +452,6 @@ export class StoryboxAframe {
 // ${material}
         preloadElements.push(
           `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>
-
           `
         );
 

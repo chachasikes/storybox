@@ -11,8 +11,7 @@ import { registerComponent as behaviorAButtonListener } from "./components/a-but
 import { registerComponent as behaviorBButtonListener } from "./components/b-button-listener.js";
 import { registerComponent as behaviorSphereIntersection } from "./components/sphere-intersection.js";
 import { registerComponent as gltfOpacity } from "./components/gltf-model-opacity.js";
-import { registerComponent as gltfMaterial } from "./components/gltf-material.js";
-import { registerComponent as objMaterial } from "./components/obj-material.js";
+import { registerComponent as modelMaterial } from "./components/model-material.js";
 import { registerComponent as objOpacity } from "./components/obj-model-opacity.js";
 
 /**
@@ -646,8 +645,7 @@ export class StoryboxNavigator {
     behaviorSphereIntersection();
     gltfOpacity();
     objOpacity();
-    objMaterial();
-    gltfMaterial();
+    modelMaterial();
   }
 
   /**

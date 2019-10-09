@@ -1,6 +1,6 @@
 export function registerComponent() {
-  if (AFRAME.components["obj-material"] === undefined) {
-  AFRAME.registerComponent('obj-material', {
+  if (AFRAME.components["model-material"] === undefined) {
+  AFRAME.registerComponent('model-material', {
       schema: {
         path: {default: ''},
         src: {default: ''},
@@ -20,8 +20,11 @@ export function registerComponent() {
         repeatScaleU: {default: 1},
         repeatScaleV: {default: 1},
         colorWrite: {default: null},
-        alphaTest:  {default: 0.5},
+        alphaTest:  {default: null},
         transparent: {default: null},
+        roughness: {default: null},
+        metalness: {default: null},
+        color: {default: null},
       },
       multiple: true,
       init: function() {
@@ -35,7 +38,6 @@ export function registerComponent() {
           u: data.repeatScaleU,
           v: data.repeatScaleV
         }
-        console.log(data);
         materialSettings.metalness = 0;
         if (data.opacity !== null) {
           materialSettings.opacity = typeof data.opacity === 'string' ? parseFloat(data.opacity) : data.opacity;
@@ -57,24 +59,31 @@ export function registerComponent() {
           materialSettings.metalness = data.metalness;
         }
 
-        // if (data.repeatScale !== undefined) {
-        //   repeatScale = data.repeatScale;
-        // }
+        if (data.shader !== null) {
+          materialSettings.shader = data.shader;
+        }
+
+        if (data.color !== null) {
+          materialSettings.color = data.color;
+          materialSettings.combine = THREE.NormalBlending;
+        }
+
         if (data.path !== null && data.path !== '') {
-          console.log("texture path: ", data.path);
           let baseTexture = new THREE.TextureLoader().load(data.path);
           baseTexture.wrapS = THREE.RepeatWrapping;
           baseTexture.wrapT = THREE.RepeatWrapping;
           baseTexture.repeat.set(scale.u, scale.v);
+          // baseTexture.userData = { fitTo : 1 };
           materialSettings.map = baseTexture;
         }
 
-        if (data.src!== null && data.src !== '') {
-          console.log("texture path: ", data.src);
+        if (data.src !== null && data.src !== '') {
           let baseTexture = new THREE.TextureLoader().load(data.src);
           baseTexture.wrapS = THREE.RepeatWrapping;
           baseTexture.wrapT = THREE.RepeatWrapping;
           baseTexture.repeat.set(scale.u, scale.v);
+
+
           materialSettings.map = baseTexture;
         }
 
@@ -153,7 +162,7 @@ export function registerComponent() {
         this.material = new THREE.MeshStandardMaterial(materialSettings);
 
         this.el.addEventListener('model-loaded', () => {
-          console.log('update model loaded');
+          console.log('update model-material: loaded');
 
           this.update();
         });
@@ -163,8 +172,11 @@ export function registerComponent() {
         if (this.el !== undefined) {
           object = this.el.getObject3D('mesh');
           if (!object) return;
+          object.scale.set( 1, 1, 1 );
+          console.log('mat', this.material);
           object.traverse((node) => {
             if (node !== undefined && node.isMesh) {
+
               node.material = this.material;
               if (node.material.map) {
                 // node.material.map.encoding = THREE.sRGBEncoding;
