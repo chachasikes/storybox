@@ -393,16 +393,16 @@ export class StoryboxAframe {
    * @returns {object} - Preloaded elements, Aframe markup and Child elements.
    */
   buildMesh(props, innerMarkup, childElements, preloadElements, aframeTags) {
+    let classProps = this.getValue("className", props);
+    let className = `class="${classProps.attribute}"`;
+    let textures = ``;
+    if (props.texture !== undefined) {
+      textures = this.buildTextures(props.texture);
+    }
+
     if (props.art !== undefined) {
       let fileType = props.art.split('.').pop();
-      let classProps = this.getValue("className", props);
-      let className = `class="${classProps.attribute} glb-animation"`;
-      // console.log('texture', props.texture);
-      let textures = ``;
-      if (props.texture !== undefined) {
-        textures = this.buildTextures(props.texture);
-      }
-
+      className = `class="${classProps.attribute} glb-animation"`;
       if (fileType === 'glb') {
         let texture = props.texture !== undefined? `model-material="${textures}"` : ``;
         let opacity = props.opacity !== undefined ? `gltf-model-opacity="${props.opacity}"` : ``;
@@ -431,12 +431,11 @@ export class StoryboxAframe {
           crossorigin="anonymous"
           preload="true"
           animation-mixer
+          ${props.component}
           >
           </a-entity>
           `;
       } else if (fileType === 'obj') {
-
-        console.log(props);
         let texture = props.texture !== undefined ? `model-material="${textures}"` : ``;
         let opacity = props.opacity !== undefined ? `obj-model-opacity="${props.opacity}"` : ``;
 
@@ -467,9 +466,24 @@ export class StoryboxAframe {
           ${aframeTags.rotation.tag}
           crossorigin="anonymous"
           preload="true"
+          ${props.component}
           >
           </a-obj-model>`;
       }
+    } else if (props.geometry === "plane") {
+      console.log(aframeTags);
+      innerMarkup = `${innerMarkup}
+        <a-entity
+        geometry="primitive: plane; height: ${props.dimensions.height}; width: ${props.dimensions.width}"
+        ref="${props.id}"
+        ${className}
+        ${aframeTags.scale.tag}
+        ${aframeTags.position.tag}
+        ${aframeTags.rotation.tag}
+        ${props.component}
+        >
+        </a-entity>`;
+
     }
 
     return {

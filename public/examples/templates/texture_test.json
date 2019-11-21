@@ -1,0 +1,112 @@
+{
+  "id": "sarah",
+  "name": "Sarah Playground (11/21/19)",
+  "panel": "https://dl.dropboxusercontent.com/s/502gyke9ydp75ly/lemon.jpg",
+  "scenes": [
+    {
+      "scene": 1,
+      "published": true,
+      "id": "sarah_playground",
+      "name": "Sarah Playground",
+      "duration": 60000,
+      "autoPlay": true,
+      "camera_1": {
+        "camera": {
+          "name": "World camera",
+          "id": "sarah_camera_1",
+          "cursorCamera": false,
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        }
+      },
+      "ambientLight": {
+        "light": {
+          "type": "ambient",
+          "position": {
+            "x": 0,
+            "y": 15,
+            "z": 0
+          },
+          "color": "#ffffff"
+        }
+      },
+      "skybox_texture": {
+        "sky": {
+          "color": "#FFFFFF"
+        }
+      },
+      "test_sphere_1": {
+        "mesh": {
+          "name": "Sphere 1",
+          "id": "sphere-obj-1",
+          "art": "https://www.dropbox.com/s/zrloz4b68vaayb4/sphere.glb?dl=0",
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "position": {
+            "x": -15,
+            "y": 0,
+            "z": -25
+          },
+          "texture": {
+            "src": "https://www.dropbox.com/s/d2u705tszx6pkj8/leaf_color_alpha.png?dl=0",
+            "alphaMap": "https://www.dropbox.com/s/pqx3thl7u7iczdv/leaf_alpha.png?dl=0",
+            "alphaTest": 0.5,
+            "shader": "flat",
+            "repeatScale": {
+              "u": 3,
+              "v": 3
+            }
+          }
+        }
+      },
+      "test_sphere_2": {
+        "mesh": {
+          "name": "Sphere 2",
+          "id": "sphere-obj-2",
+          "art": "https://www.dropbox.com/s/zrloz4b68vaayb4/sphere.glb?dl=0",
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "position": {
+            "x": 15,
+            "y": 0,
+            "z": -25
+          },
+          "texture": {
+            "src": "https://www.dropbox.com/s/d2u705tszx6pkj8/leaf_color_alpha.png?dl=0",
+            "alphaMap": "https://www.dropbox.com/s/pqx3thl7u7iczdv/leaf_alpha.png?dl=0",
+            "alphaTest": 0.5,
+            "shader": "flat",
+            "repeatScale": {
+              "u": 3,
+              "v": 3
+            }
+          }
+        }
+      }
+    }
+  ]
+}
