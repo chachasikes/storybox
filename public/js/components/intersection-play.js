@@ -17,7 +17,7 @@ export function registerComponent() {
           // vrlog('hit');
         });
         this.el.addEventListener("hitend", e => {
-          console.log("hitend");
+          // console.log("hitend");
           if (e.detail !== undefined && e.detail.el !== undefined) {
             let id = e.detail.el.getAttribute("id");
             let intersectAction = e.detail.el.getAttribute("intersect-action");

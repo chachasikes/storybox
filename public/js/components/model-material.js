@@ -173,7 +173,7 @@ export function registerComponent() {
           object = this.el.getObject3D('mesh');
           if (!object) return;
           object.scale.set( 1, 1, 1 );
-          console.log('mat', this.material);
+          // console.log('mat', this.material);
           object.traverse((node) => {
             if (node !== undefined && node.isMesh) {
 

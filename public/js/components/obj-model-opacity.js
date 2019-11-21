@@ -37,7 +37,7 @@ export function registerComponent() {
         }
         mesh.traverse(function(node) {
           if (node !== undefined && node.isMesh) {
-            console.log(data);
+            // console.log(data);
             node.material.opacity = data;
             node.material.transparent = data < 1.0;
             node.material.needsUpdate = true;

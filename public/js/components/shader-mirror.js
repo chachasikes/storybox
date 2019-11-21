@@ -338,12 +338,22 @@ export function registerComponent() {
       },
       init: function() {
         var scene = this.el.sceneEl;
+        console.log("init", scene);
         scene.addEventListener(
           "render-target-loaded",
           this.OnRenderLoaded.bind(this)
-        );
+        );;
+      },
+      update: function() {
+        var scene = this.el.sceneEl;
+        console.log("update", scene);
+        scene.addEventListener(
+          "render-target-loaded",
+          this.OnRenderLoaded.bind(this)
+        );;
       },
       OnRenderLoaded: function() {
+        console.log("render target loaded");
         var mirrorObj = this.el.getOrCreateObject3D("mesh", THREE.Mesh);
         var cameraEl = document.querySelector("a-entity[camera]");
         if (!cameraEl) {
@@ -367,6 +377,7 @@ export function registerComponent() {
         } else {
           var mirrors = [];
           var mirrorEls = document.querySelectorAll("a-entity[mirror]");
+
           for (var i = 0; i < mirrorEls.length; i++) {
             if (mirrorEls[i] != this.el) {
               mirrors.push(mirrorEls[i].components.mirror.mirror);

@@ -7,7 +7,7 @@ export function registerComponent() {
       action: {default: null},
     },
     init: function() {
-      console.log('accordion init', this.el);
+      // console.log('accordion init', this.el);
       updateAccordionLine();
       // this.el.addEventListener('stretch', (e) => {
       //
@@ -15,7 +15,7 @@ export function registerComponent() {
 
     },
     update: function() {
-      console.log('accordion update', this.el.getAttribute('id'));
+      // console.log('accordion update', this.el.getAttribute('id'));
       updateAccordionLine();
     },
     tick: function () {
