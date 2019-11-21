@@ -10,5 +10,4 @@ export let registry = [
   // lights,
   // scale,
   texture
-  // dropboxRegistry
 ];

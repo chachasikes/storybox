@@ -60,44 +60,44 @@ export let Scene = {
       }
     }
   },
-  // heart_obj: {
-  //   mesh: {
-  //     name: "Heart",
-  //     credit: "Sarah Chalek",
-  //     id: "heart-obj",
-  //     art:
-  //       "https://www.dropbox.com/s/7npa0fpnsl0nkgs/heart_plane_test_blender.obj?dl=0",
-  //     // art: "https://www.dropbox.com/s/syjpoyk305zq2a2/ladybug.obj?dl=0",
-  //     // material: "https://www.dropbox.com/s/1t98l8tlcegh4cj/heart_plane_test_blender.mtl?dl=0",
-  //     scale: {
-  //       x: 1,
-  //       y: 1,
-  //       z: 1
-  //     },
-  //     rotation: {
-  //       x: 0,
-  //       y: 0,
-  //       z: 0
-  //     },
-  //     position: {
-  //       x: 0,
-  //       y: -10,
-  //       z: -2
-  //     },
-  //     texture: {
-  //       alphaTest: 0.5,
-  //       src:
-  //         "https://www.dropbox.com/s/vjtsdo7leto00g8/heart_diffuse_color_alpha.png?dl=0",
-  //       alphaMap:
-  //         "https://www.dropbox.com/s/c8e9bbmc7pws0f2/heart_alpha.png?dl=0",
-  //       repeatScale: {
-  //         u: 3,
-  //         v: 3
-  //       },
-  //       shader: "flat"
-  //     }
-  //   }
-  // },
+  heart_obj: {
+    mesh: {
+      name: "Heart",
+      credit: "Sarah Chalek",
+      id: "heart-obj",
+      art:
+        "https://www.dropbox.com/s/7npa0fpnsl0nkgs/heart_plane_test_blender.obj?dl=0",
+      // art: "https://www.dropbox.com/s/syjpoyk305zq2a2/ladybug.obj?dl=0",
+      // material: "https://www.dropbox.com/s/1t98l8tlcegh4cj/heart_plane_test_blender.mtl?dl=0",
+      scale: {
+        x: 1,
+        y: 1,
+        z: 1
+      },
+      rotation: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      position: {
+        x: -5,
+        y: -10,
+        z: -20
+      },
+      texture: {
+        alphaTest: 0.5,
+        src:
+          "https://www.dropbox.com/s/vjtsdo7leto00g8/heart_diffuse_color_alpha.png?dl=0",
+        alphaMap:
+          "https://www.dropbox.com/s/c8e9bbmc7pws0f2/heart_alpha.png?dl=0",
+        repeatScale: {
+          u: 3,
+          v: 3
+        },
+        shader: "flat"
+      }
+    }
+  },
   baked_cube_gltf: {
     mesh: {
       name: "baked_cube",
@@ -156,15 +156,25 @@ export let Scene = {
         z: -6
       },
       texture: {
-        src: "./examples/scenes/texture/images/texture.png",
-          // "https://www.dropbox.com/s/d2u705tszx6pkj8/leaf_color_alpha.png?dl=0",
-        // alphaMap: "https://www.dropbox.com/s/pqx3thl7u7iczdv/leaf_alpha.png?dl=0",
         alphaTest: 0.5,
-        shader: "flat",
+        src:
+          "https://www.dropbox.com/s/vjtsdo7leto00g8/heart_diffuse_color_alpha.png?dl=0",
+        alphaMap:
+          "https://www.dropbox.com/s/c8e9bbmc7pws0f2/heart_alpha.png?dl=0",
         repeatScale: {
-          u:12,
-          v:12
-        }
+          u: 3,
+          v: 3
+        },
+        shader: "flat"
+        // src: "./examples/scenes/texture/images/texture.png",
+        //   // "https://www.dropbox.com/s/d2u705tszx6pkj8/leaf_color_alpha.png?dl=0",
+        // // alphaMap: "https://www.dropbox.com/s/pqx3thl7u7iczdv/leaf_alpha.png?dl=0",
+        // alphaTest: 0.5,
+        // shader: "flat",
+        // repeatScale: {
+        //   u:12,
+        //   v:12
+        // }
         // alphaTest: 0.5,
         // transparent: false,
         // color:  "#ffcc00",

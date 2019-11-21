@@ -168,6 +168,7 @@ export class StoryboxNavigator {
       document.getElementById("scenes").append(sceneSelectorEl);
     }
   }
+
   updateGallery() {
     this.storySettings.currentStory = "gallery";
     // Set current story.
@@ -212,7 +213,6 @@ export class StoryboxNavigator {
 
          window.Gallery = new Gallery();
          let gallery = window.Gallery.render(this.registry);
-
          if (
            typeof gallery.childElements !== "string" &&
            gallery.childElements.length > 0 &&
@@ -248,8 +248,6 @@ export class StoryboxNavigator {
              // console.log(item);
              scene += item;
            });
-
-
 
            if (document.getElementById("gallery") !== null) {
              document.getElementById("gallery").innerHTML = scene;
@@ -298,9 +296,6 @@ export class StoryboxNavigator {
              this.updateTemplate(sceneSelector, "gallery");
            }
          }
-
-
-
     }
   }
 
