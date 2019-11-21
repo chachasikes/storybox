@@ -471,10 +471,11 @@ export class StoryboxAframe {
           </a-obj-model>`;
       }
     } else if (props.geometry === "plane") {
-      console.log(aframeTags);
+
       innerMarkup = `${innerMarkup}
         <a-entity
-        geometry="primitive: plane; height: ${props.dimensions.height}; width: ${props.dimensions.width}"
+        geometry="primitive: plane; height: ${props.dimensions.height}; width: ${props.dimensions.width};"
+        material="color: ${props.color}; shader: flat;"
         ref="${props.id}"
         ${className}
         ${aframeTags.scale.tag}
@@ -483,8 +484,20 @@ export class StoryboxAframe {
         ${props.component}
         >
         </a-entity>`;
+    } else if (props.geometry === "sphere") {
+      innerMarkup = `${innerMarkup}
+        <a-entity
+        geometry="primitive: sphere; radius: ${props.dimensions.radius}"
+        material="color: ${props.color}; shader: flat;"
+        ref="${props.id}"
+        ${aframeTags.position.tag}
+        ${aframeTags.rotation.tag}
+        ${props.component}
+        >
+        </a-entity>`;
 
     }
+
 
     return {
       childElements,
