@@ -1,6 +1,6 @@
 {
   "id": "sarah",
-  "name": "Sarah Playground (11/21/19)",
+  "name": "Sarah",
   "panel": "https://dl.dropboxusercontent.com/s/502gyke9ydp75ly/lemon.jpg",
   "scenes": [
     {
@@ -38,6 +38,7 @@
           "color": "#ffffff"
         }
       },
+
       "skybox_texture": {
         "sky": {
           "color": "#FFFFFF"
@@ -45,8 +46,8 @@
       },
       "test_sphere_1": {
         "mesh": {
-          "name": "Sphere 1",
-          "id": "sphere-obj-1",
+          "name": "Transparent PNG and alphaMap on sphere",
+          "id": "sphere-1",
           "art": "https://www.dropbox.com/s/zrloz4b68vaayb4/sphere.glb?dl=0",
           "scale": {
             "x": 1,
@@ -77,8 +78,8 @@
       },
       "test_sphere_2": {
         "mesh": {
-          "name": "Sphere 2",
-          "id": "sphere-obj-2",
+          "name": "Sphere GLB - Cardboard texture",
+          "id": "sphere-2",
           "art": "https://www.dropbox.com/s/zrloz4b68vaayb4/sphere.glb?dl=0",
           "scale": {
             "x": 1,
@@ -91,20 +92,112 @@
             "z": 0
           },
           "position": {
-            "x": 15,
+            "x": 0,
             "y": 0,
-            "z": -25
+            "z": -10
           },
           "texture": {
-            "src": "https://www.dropbox.com/s/d2u705tszx6pkj8/leaf_color_alpha.png?dl=0",
-            "alphaMap": "https://www.dropbox.com/s/pqx3thl7u7iczdv/leaf_alpha.png?dl=0",
-            "alphaTest": 0.5,
-            "shader": "flat",
+            "src": "https://www.dropbox.com/s/hjyds7sb3ffjjam/Paper_Recycled_001_COLOR.jpg?dl=0",
+            "repeatScale": {
+              "u": 5,
+              "v": 5
+            },
+            "ambientOcculsionMap": "https://www.dropbox.com/s/vw66azxdp21ws03/Paper_Recycled_001_OCC.jpg?dl=0",
+            "normalMap": "https://www.dropbox.com/s/4r57sz174iz3aux/Paper_Recycled_001_NORM.jpg?dl=0",
+            "displacementMap": "https://www.dropbox.com/s/kpuus85pt8gytop/Paper_Recycled_001_DISP.png?dl=0",
+            "roughnessMap": "https://www.dropbox.com/s/uio3sshwr8pldtz/Paper_Recycled_001_ROUGH.jpg?dl=0"
+          }
+        }
+      },
+
+      "detailLight": {
+        "light": {
+          "type": "point",
+          "intensity": 0.5,
+          "position": {
+            "x": -100,
+            "y": 100,
+            "z": -10
+          },
+          "color": "#ffffff"
+        }
+      },
+      "test_sphere_3": {
+        "mesh": {
+          "name": "Sphere - Tile texture",
+          "id": "sphere-3",
+          "art": "https://www.dropbox.com/s/zrloz4b68vaayb4/sphere.glb?dl=0",
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "position": {
+            "x": 10,
+            "y": 0,
+            "z": -10
+          },
+          "texture": {
+            "src": "https://www.dropbox.com/s/izf5z8alc36taua/Tiles_Lantern_001_basecolor.jpg?dl=0",
+            "ambientOcculsionMap": "https://www.dropbox.com/s/sshg9993mxy6d4p/Tiles_Lantern_001_ambientOcclusion.jpg?dl=0",
+            "bumpMap": "https://www.dropbox.com/s/1704l855lflv573/Tiles_Lantern_001_height.png?dl=0",
+            "normalMap": "https://www.dropbox.com/s/bp7dwguc1ohwuhu/Tiles_Lantern_001_normal.jpg?dl=0",
+            "roughnessMap": "https://www.dropbox.com/s/qcxar6refjsk4wr/Tiles_Lantern_001_roughness.jpg?dl=0",
             "repeatScale": {
               "u": 3,
               "v": 3
             }
           }
+        }
+      },
+      "mirror_plane": {
+        "mesh": {
+          "geometry": "plane",
+          "name": "Mirror plane",
+          "id": "mirror-1",
+          "position": {
+            "x": 0,
+            "y": 10,
+            "z": -20
+          },
+          "rotation": {
+            "x": 80,
+            "y": 0,
+            "z": 0
+          },
+          "dimensions": {
+            "width": 30,
+            "height": 30,
+            "depth": 0
+          },
+          "color": "#7BC8A4",
+          "component": "aframe-mirror=\"color:#848485;intensity:0.4;textureWidth:2048;textureHeight:2048;\""
+        }
+      },
+      "mirror_sphere": {
+        "mesh": {
+          "geometry": "sphere",
+          "name": "Mirror sphere",
+          "id": "mirror-sphere",
+          "position": {
+            "x": 5,
+            "y": 0,
+            "z": -5
+          },
+          "rotation": {
+            "x": -90,
+            "y": 0,
+            "z": 0
+          },
+          "dimensions": {
+            "radius": 2
+          },
+          "color": "#ffcc00"
         }
       }
     }
