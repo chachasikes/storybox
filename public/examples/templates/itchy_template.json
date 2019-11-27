@@ -1,0 +1,59 @@
+{
+  "id": "itchy_itchy",
+  "name": "Itchy",
+  "panel": "https://dl.dropboxusercontent.com/s/md3vax6p0vchj8i/itchy.png",
+  "scenes": [
+    {
+      "scene": 1,
+      "published": true,
+      "id": "itchy_scene",
+      "name": "Itchy",
+      "duration": 60000,
+      "autoPlay": true,
+      "camera_1": {
+        "camera": {
+          "name": "World camera",
+          "id": "itchy_camera_1",
+          "cursorCamera": false,
+          "clickableClass": ".clickable",
+          "fadeMask": false,
+          "position": {
+            "x": 10,
+            "y": -0.6,
+            "z": -40
+          },
+          "rotation": {
+            "x": 0,
+            "y": 15,
+            "z": 0
+          }
+        }
+      },
+      "ambientLight": {
+        "light": {
+          "type": "ambient",
+          "position": {
+            "x": 0,
+            "y": 15,
+            "z": 0
+          },
+          "color": "#ffffff"
+        }
+      },
+      "skybox": {
+        "sky": {
+          "art": "https://dl.dropboxusercontent.com/s/v3vvb1uhow9fzcg/kelp%20forest.png",
+          "id": "itchy_sky-photo-2",
+          "name": "Gray sky",
+          "credit": "Chacha Sikes",
+          "rotation": {
+            "x": 0,
+            "y": 90,
+            "z": 0
+          }
+        }
+      }
+    }
+
+  ]
+}
