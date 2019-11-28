@@ -556,27 +556,31 @@ export class StoryboxNavigator {
     audioElement.src = 'audio-file-foa-acn.wav';
 
 
-    var entity = window.document.querySelector('[sound]');
-    var sound = entity.components.sound;
+    var entities = window.document.querySelectorAll('[sound]');
 
-      //
-      // // Create AudioContext, MediaElementSourceNode and FOARenderer.
-      // const audioContext = new AudioContext();
-      // const audioElementSource = audioContext.createMediaElementSource(entity);
-      // const foaRenderer = Omnitone.createFOARenderer(audioContext);
-      //
-      // // Make connection and start play. Hook up the user input for the playback.
-      // foaRenderer.initialize().then(function() {
-      //   audioElementSource.connect(foaRenderer.input);
-      //   foaRenderer.output.connect(audioContext.destination);
-      //
-      //   // This is necessary to activate audio playback out of autoplay block.
-      //   someButton.onclick = () => {
-      //     audioContext.resume();
-      //     audioElement.play();
-      //   };
-      // });
+    entities.map(entity => {
+      var sound = entity.components.sound;
+      // original aframe sound player. entity.components.sound.playSound();
+        //
+        // Create AudioContext, MediaElementSourceNode and FOARenderer.
 
+        // https://github.com/GoogleChrome/omnitone#omnitone-spatial-audio-on-the-web
+        const audioContext = new AudioContext();
+        const audioElementSource = audioContext.createMediaElementSource(entity);
+        const foaRenderer = Omnitone.createFOARenderer(audioContext);
+
+        // Make connection and start play. Hook up the user input for the playback.
+        foaRenderer.initialize().then(function() {
+          audioElementSource.connect(foaRenderer.input);
+          foaRenderer.output.connect(audioContext.destination);
+
+          // This is necessary to activate audio playback out of autoplay block.
+          someButton.onclick = () => {
+            audioContext.resume();
+            audioElement.play();
+          };
+        });
+    })
 
   }
 
@@ -585,7 +589,7 @@ export class StoryboxNavigator {
     var entity = window.document.querySelector('[sound]');
     console.log('entity', entity);
     if (entity !== null) {
-      entity.components.sound.playSound();
+      this.setupAmbisonicSound();
     }
   }
 
