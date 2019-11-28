@@ -333,7 +333,7 @@ export class StoryboxAframe {
       textures += `src: ${formatDropboxRawLinks(props.src)}; `;
     }
     if (props.normalMap !== undefined) {
-      // @TODO Figure this out, seems unsupported? normalScale: ${props.normalScale ? new THREE.Vector2( props.normalScale[0], props.normalScale[1] ) : new THREE.Vector2(1,1)}; 
+      // @TODO Figure this out, seems unsupported? normalScale: ${props.normalScale ? new THREE.Vector2( props.normalScale[0], props.normalScale[1] ) : new THREE.Vector2(1,1)};
       textures += `normalMap: ${formatDropboxRawLinks(props.normalMap)}; `;
     }
 
@@ -448,7 +448,14 @@ export class StoryboxAframe {
           `<audio id="${props.sound.id}" src="${props.sound.src}" preload="auto"></audio>
           `
         );
-        console.log(preloadElements);
+      }
+
+      let animation = ``;
+      if (props.fadeInObject !== undefined) {
+        // https://aframe.io/docs/0.9.0/components/animation.html
+       animation = `
+               animation="begin: ${props.id}-fadeInObject; property: gltf-model-opacity; from: 0; to: 1; dur: 3000; easing: linear; autoplay: false; enabled: true;"
+               `;
       }
 
       if (fileType === 'glb') {
@@ -479,7 +486,9 @@ export class StoryboxAframe {
           preload="true"
           animation-mixer
           ${props.component !== undefined ? props.component : ``}
+          ${animation}
           >
+
           </a-entity>
           `;
       } else if (fileType === 'obj') {
@@ -511,7 +520,9 @@ export class StoryboxAframe {
           crossorigin="anonymous"
           preload="true"
           ${props.component !== undefined ? props.component : ``}
+          ${animation}
           >
+
           </a-obj-model>`;
       }
     } else if (props.geometry === "plane") {
@@ -527,7 +538,9 @@ export class StoryboxAframe {
         ${aframeTags.rotation.tag}
         ${props.component !== undefined ? props.component : ``}
         ${soundMarkup}
+        ${animation}
         >
+
         </a-entity>`;
     } else if (props.geometry === "sphere") {
       innerMarkup = `${innerMarkup}
@@ -539,7 +552,9 @@ export class StoryboxAframe {
         ${aframeTags.rotation.tag}
         ${props.component !== undefined ? props.component : ``}
         ${soundMarkup}
+        ${animation}
         >
+
         </a-entity>`;
     }
 

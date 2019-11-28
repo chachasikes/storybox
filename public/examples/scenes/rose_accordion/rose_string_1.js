@@ -174,13 +174,20 @@ export let Scene = {
       },
       rotation: {
         x: 0,
-        y: 210,
+        y: 0,
         z: 0
       },
       position: {
-        x: -2,
-        y: 0.25,
-        z: -2
+        x: 0,
+        y: 3,
+        z: -4
+      },
+      fadeInObject: {
+        attribute: "model-opacity",
+        duraction: "10000",
+        from: "0",
+        to: "1",
+        repeat: "indefinite"
       }
     }
   },
@@ -206,6 +213,13 @@ export let Scene = {
         x: -5,
         y: 0.25,
         z: -2
+      },
+      fadeInObject: {
+        attribute: "model-opacity",
+        duraction: "10000",
+        from: "0",
+        to: "1",
+        repeat: "indefinite"
       }
     }
   },
@@ -231,6 +245,13 @@ export let Scene = {
         x: 3,
         y: 0.25,
         z: -2
+      },
+      fadeInObject: {
+        attribute: "model-opacity",
+        duraction: "10000",
+        from: "0",
+        to: "1",
+        repeat: "indefinite"
       }
     }
   }

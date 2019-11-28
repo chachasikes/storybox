@@ -16,6 +16,9 @@ export function registerComponent() {
           // console.log(e);
           // vrlog('hit');
         });
+
+
+
         this.el.addEventListener("hitend", e => {
           // console.log("hitend");
           if (e.detail !== undefined && e.detail.el !== undefined) {
@@ -33,8 +36,21 @@ export function registerComponent() {
               console.log(`${intersectTarget}-gltf`);
               if (intersectTargetEl !== undefined) {
                 console.log(intersectTargetEl);
-                intersectTargetEl.setAttribute("gltf-model-opacity", "1");
+                // intersectTargetEl.setAttribute("gltf-model-opacity", "1");
+                // intersectTargetEl.emit('fadeInObject');
+
+                var event = document.createEvent('Event');
+                event.initEvent(`${intersectTarget}-fadeInObject`, true, true);
+
+
+
+                  // Dispatch the event.
+                intersectTargetEl.addEventListener(`${intersectTarget}-fadeInObject`, (e) => {
+                  console.log('event dispatched');
+                }, false);
+                intersectTargetEl.dispatchEvent(event);
               }
+
             }
           }
           vrlog("hitend");
