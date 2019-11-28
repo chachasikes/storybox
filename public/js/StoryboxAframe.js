@@ -333,7 +333,8 @@ export class StoryboxAframe {
       textures += `src: ${formatDropboxRawLinks(props.src)}; `;
     }
     if (props.normalMap !== undefined) {
-      textures += `normalMap: ${formatDropboxRawLinks(props.normalMap)}; normalScale: ${props.normalScale ? props.normalScale : 1.0}; `;
+      // @TODO Figure this out, seems unsupported? normalScale: ${props.normalScale ? new THREE.Vector2( props.normalScale[0], props.normalScale[1] ) : new THREE.Vector2(1,1)}; 
+      textures += `normalMap: ${formatDropboxRawLinks(props.normalMap)}; `;
     }
 
     if (props.ambientOcclusionMap !== undefined) {
@@ -556,7 +557,8 @@ export class StoryboxAframe {
     let className = `class="${classProps.attribute}"`;
     if (props.src !== undefined) {
       let fileType = props.src.split('.').pop();
-      className = `class="${classProps.attribute} glb-animation"`;
+      // @TODO see if firefox will actually play mp3 files
+      // Requires browser permissions.
 
       let soundAttributes = Object.assign({}, props);
       let soundTag = ``;
@@ -564,6 +566,7 @@ export class StoryboxAframe {
       delete soundAttributes.id;
       delete soundAttributes.description;
       delete soundAttributes.name;
+      delete soundAttributes.credit;
       Object.keys(soundAttributes).map(tag => {
         soundTag = `${soundTag}${tag}: ${soundAttributes[tag]};`
       });

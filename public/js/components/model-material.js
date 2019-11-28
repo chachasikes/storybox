@@ -59,7 +59,7 @@ export function registerComponent() {
           materialSettings.metalness = data.metalness;
         }
 
-        if (data.shader !== null) {
+        if (data.shader !== undefined && data.shader !== null) {
           materialSettings.shader = data.shader;
         }
 

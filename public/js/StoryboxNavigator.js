@@ -549,6 +549,37 @@ export class StoryboxNavigator {
     this.playSound();
   }
 
+  setupAmbisonicSound() {
+
+    // Set up an audio element to feed the ambisonic source audio feed.
+    const audioElement = document.createElement('audio');
+    audioElement.src = 'audio-file-foa-acn.wav';
+
+
+    var entity = window.document.querySelector('[sound]');
+    var sound = entity.components.sound;
+
+      //
+      // // Create AudioContext, MediaElementSourceNode and FOARenderer.
+      // const audioContext = new AudioContext();
+      // const audioElementSource = audioContext.createMediaElementSource(entity);
+      // const foaRenderer = Omnitone.createFOARenderer(audioContext);
+      //
+      // // Make connection and start play. Hook up the user input for the playback.
+      // foaRenderer.initialize().then(function() {
+      //   audioElementSource.connect(foaRenderer.input);
+      //   foaRenderer.output.connect(audioContext.destination);
+      //
+      //   // This is necessary to activate audio playback out of autoplay block.
+      //   someButton.onclick = () => {
+      //     audioContext.resume();
+      //     audioElement.play();
+      //   };
+      // });
+
+
+  }
+
   playSound() {
     console.log("play");
     var entity = window.document.querySelector('[sound]');
@@ -559,9 +590,11 @@ export class StoryboxNavigator {
   }
 
   pauseSound() {
-    var entity = document.querySelector('[sound]');
+    var entity = window.document.querySelector('[sound]');
+    console.log('ent pause', entity)
     if (entity !== null) {
       entity.components.sound.pauseSound();
+      console.log('pausing sound');
     }
   }
 
@@ -636,6 +669,7 @@ export class StoryboxNavigator {
   yButtonEvent(e) {
     vrlog("Y");
     this.updateTestPositions();
+    window.StoryboxNavigator.pauseSound();
   }
 
   /**
@@ -850,6 +884,7 @@ export class StoryboxNavigator {
         vrlog("Y");
         // console.log('Y')
         this.updateTestPositions();
+        this.pauseSound();
       }
     });
 
