@@ -37,6 +37,7 @@ export class StoryboxAframe {
         // All tags that need conversion
         // @TODO there may be some tags not converted. Check.
         case 'art':
+        case 'src':
         case 'panel':
         case 'material':
         case 'glb':
@@ -332,12 +333,44 @@ export class StoryboxAframe {
       textures += `src: ${formatDropboxRawLinks(props.src)}; `;
     }
     if (props.normalMap !== undefined) {
-      textures += `normalMap: ${formatDropboxRawLinks(props.normalMap)}; `;
+      textures += `normalMap: ${formatDropboxRawLinks(props.normalMap)}; normalScale: ${props.normalScale ? props.normalScale : 1.0}; `;
     }
+
+    if (props.ambientOcclusionMap !== undefined) {
+      textures += `ambientOcclusionMap: ${formatDropboxRawLinks(props.ambientOcclusionMap)}; `;
+    }
+
+    if (props.displacementMap !== undefined) {
+      textures += `displacementMap: ${formatDropboxRawLinks(props.displacementMap)}; displacementScale: ${props.displacementScale ? props.displacementScale : 1.0};  displacementBias: ${props.displacementBias ? props.displacementBias : 1.0};`;
+    }
+    // "displacementMap": "https://www.dropbox.com/s/kpuus85pt8gytop/Paper_Recycled_001_DISP.png?dl=0",
+    // "displacementScale": 3.0,
+    // "displacementBias": 0,
+
+    if (props.roughnessMap !== undefined) {
+      textures += `roughnessMap: ${formatDropboxRawLinks(props.roughnessMap)}; roughness: ${props.roughness ? props.roughness : 0.5};`;
+    }
+
+    if (props.bumpMap !== undefined) {
+      textures += `bumpMap: ${formatDropboxRawLinks(props.bumpMap)}; bumpScale: ${props.bumpScale ? props.bumpScale : 1.0}; `;
+    }
+
+    if (props.environmentMap !== undefined) {
+      textures += `environmentMap: ${formatDropboxRawLinks(props.environmentMap)}; envMapIntensity: ${props.envMapIntensity ? props.envMapIntensity : 1.0}; refractionRatio: ${props.refractionRatio ? props.refractionRatio : 0.98}`;
+    }
+
+    if (props.emissiveMap !== undefined) {
+      textures += `emissiveMap: ${formatDropboxRawLinks(props.emissiveMap)}; `;
+    }
+
+    if (props.lightMap !== undefined) {
+      textures += `lightMap: ${formatDropboxRawLinks(props.lightMap)}; lightMapIntensity: ${props.lightMapIntensity ? props.lightMapIntensity : 1.0}  `;
+    }
+
     if (props.alphaMap !== undefined) {
       textures += `alphaMap: ${formatDropboxRawLinks(props.alphaMap)}; transparent: true; alphaTest: ${props.alphaTest ? props.alphaTest : 0.5}; colorWrite: false; `;
     }
-    console.log(props);
+
     if (props.repeatScale !== undefined && props.repeatScale.u !== undefined && props.repeatScale.v !== undefined) {
       textures += `repeatScaleU: ${props.repeatScale.u}; repeatScaleV: ${props.repeatScale.v}; `;
     }
@@ -401,8 +434,6 @@ export class StoryboxAframe {
       textures = this.buildTextures(props.texture);
     }
 
-
-
     if (props.art !== undefined) {
       let fileType = props.art.split('.').pop();
       className = `class="${classProps.attribute} glb-animation"`;
@@ -411,6 +442,13 @@ export class StoryboxAframe {
         `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>`
       );
 
+      if (props.sound !== undefined && props.sound.id !== undefined && props.sound.src !== undefined) {
+        preloadElements.push(
+          `<a-asset-item ${aframeTags.className} id="${props.sound.id}" src="${props.sound.src}" preload="auto" loaded></a-asset-item>
+          `
+        );
+        console.log(preloadElements);
+      }
 
       if (fileType === 'glb') {
         let texture = props.texture !== undefined? `model-material="${textures}"` : ``;
@@ -457,13 +495,6 @@ export class StoryboxAframe {
           // materialProp = `material="${textures}"`;
         // }
 // ${material}
-
-        if (props.sound !== undefined && props.sound.id !== undefined && props.sound.src !== undefined) {
-          preloadElements.push(
-            `<a-asset-item ${aframeTags.className} id="${props.sound.id}" src="${props.sound.src}" preload="auto" loaded></a-asset-item>
-            `
-          );
-        }
 
         innerMarkup = `${innerMarkup}
           <a-obj-model
@@ -522,13 +553,14 @@ export class StoryboxAframe {
 
   buildSound(props, innerMarkup, childElements, preloadElements, aframeTags) {
     let tag = ``;
+    props = this.formatDropboxDataRecursive(props);
     let classProps = this.getValue("className", props);
     let className = `class="${classProps.attribute}"`;
     if (props.src !== undefined) {
       let fileType = props.src.split('.').pop();
       className = `class="${classProps.attribute} glb-animation"`;
 
-      let soundAttributes = props;
+      let soundAttributes = Object.assign({}, props);
       let soundTag = ``;
       soundAttributes.src = `url(#${props.id})`;
       delete soundAttributes.id;

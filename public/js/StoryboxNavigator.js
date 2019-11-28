@@ -538,6 +538,35 @@ export class StoryboxNavigator {
     currentStory.currentScene = 0;
     clearTimeout(this.storySettings.timer);
     this.playScene();
+    this.playSound();
+  }
+
+  playSound() {
+    console.log("play");
+    var entity = window.document.querySelector('[sound]');
+    if (entity !== null) {
+      entity.components.sound.playSound();
+    }
+    document.addEventListener("click", function(){
+      console.log("click event");
+    });
+    document.addEventListener("sound-ended", function(){
+      console.log("sound ended");
+    });
+  }
+
+  pauseSound() {
+    var entity = document.querySelector('[sound]');
+    if (entity !== null) {
+      entity.components.sound.pauseSound();
+    }
+  }
+
+  stopSound() {
+    var entity = document.querySelector('[sound]');
+    if (entity !== null) {
+      entity.components.sound.pauseSound();
+    }
   }
 
   /**

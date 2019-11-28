@@ -12,7 +12,7 @@ export function registerComponent() {
         environmentMap: {default: null},
         emissiveMap: {default: null},
         lightMapMap: {default: null},
-        ambientOcculsionMap: {default: null},
+        ambientOcclusionMap: {default: null},
         opacity: {default: null},
         extension: {default: 'jpg'},
         format: {default: 'RGBFormat'},
@@ -138,8 +138,8 @@ export function registerComponent() {
           materialSettings.emissiveMap = emissiveTexture;
         }
 
-        if (data.ambientOcculsionMap !== null) {
-          let ambientOcculsionTexture = new THREE.TextureLoader().load(data.ambientOcculsionMap);
+        if (data.ambientOcclusionMap !== null) {
+          let ambientOcculsionTexture = new THREE.TextureLoader().load(data.ambientOcclusionMap);
           materialSettings.aoMap = ambientOcculsionTexture;
           materialSettings.aoMapIntensity = 0.1;
         }
