@@ -436,6 +436,14 @@ export class StoryboxNavigator {
           this.pauseScene();
         }
       });
+
+      document.querySelector("a-assets").addEventListener("sound-loaded", function(){
+        console.log("sound loaded");
+      });
+
+      document.addEventListener("sound-ended", function(){
+        console.log("sound ended");
+      });
     }
   }
 
@@ -544,15 +552,10 @@ export class StoryboxNavigator {
   playSound() {
     console.log("play");
     var entity = window.document.querySelector('[sound]');
+    console.log('entity', entity);
     if (entity !== null) {
       entity.components.sound.playSound();
     }
-    document.addEventListener("click", function(){
-      console.log("click event");
-    });
-    document.addEventListener("sound-ended", function(){
-      console.log("sound ended");
-    });
   }
 
   pauseSound() {

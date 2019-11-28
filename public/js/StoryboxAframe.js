@@ -444,7 +444,7 @@ export class StoryboxAframe {
 
       if (props.sound !== undefined && props.sound.id !== undefined && props.sound.src !== undefined) {
         preloadElements.push(
-          `<a-asset-item ${aframeTags.className} id="${props.sound.id}" src="${props.sound.src}" preload="auto" loaded></a-asset-item>
+          `<audio id="${props.sound.id}" src="${props.sound.src}" preload="auto"></audio>
           `
         );
         console.log(preloadElements);
@@ -540,9 +540,7 @@ export class StoryboxAframe {
         ${soundMarkup}
         >
         </a-entity>`;
-
     }
-
 
     return {
       childElements,
@@ -562,22 +560,15 @@ export class StoryboxAframe {
 
       let soundAttributes = Object.assign({}, props);
       let soundTag = ``;
-      soundAttributes.src = `url(#${props.id})`;
+      soundAttributes.src = `#${props.id}`;
       delete soundAttributes.id;
+      delete soundAttributes.description;
+      delete soundAttributes.name;
       Object.keys(soundAttributes).map(tag => {
         soundTag = `${soundTag}${tag}: ${soundAttributes[tag]};`
       });
 
-
-      //https://aframe.io/docs/0.9.0/components/sound.html
-      // <a-entity id="river" geometry="primitive: plane" material="color: blue"
-      // position="-10 0 0" sound="src: url(river.mp3); autoplay: true"></a-entity>
-      //
-
-      tag = `
-      sound="${soundTag}"
-        `;
-        console.log(tag);
+      tag = ` sound="${soundTag}" `;
     }
 
     return tag;
