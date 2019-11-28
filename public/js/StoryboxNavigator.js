@@ -575,10 +575,10 @@ export class StoryboxNavigator {
           foaRenderer.output.connect(audioContext.destination);
 
           // This is necessary to activate audio playback out of autoplay block.
-          someButton.onclick = () => {
-            audioContext.resume();
-            audioElement.play();
-          };
+          // someButton.onclick = () => {
+          //   audioContext.resume();
+          //   audioElement.play();
+          // };
         });
     })
 
@@ -589,7 +589,8 @@ export class StoryboxNavigator {
     var entity = window.document.querySelector('[sound]');
     console.log('entity', entity);
     if (entity !== null) {
-      this.setupAmbisonicSound();
+      entity.components.sound.playSound();
+      // this.setupAmbisonicSound(); // Actually not necessary?
     }
   }
 
