@@ -392,7 +392,8 @@ export class StoryboxAframe {
    * @param {object} aframeTags - Composed attribute tags to insert as AFrame options
    * @returns {object} - Preloaded elements, Aframe markup and Child elements.
    */
-  buildMesh(props, innerMarkup, childElements, preloadElements, aframeTags) {
+  buildMesh(props, innerMarkup, childElements, preloadElements, aframeTags, soundMarkup) {
+    console.log('building mesh');
     let classProps = this.getValue("className", props);
     let className = `class="${classProps.attribute}"`;
     let textures = ``;
@@ -400,9 +401,17 @@ export class StoryboxAframe {
       textures = this.buildTextures(props.texture);
     }
 
+
+
     if (props.art !== undefined) {
       let fileType = props.art.split('.').pop();
       className = `class="${classProps.attribute} glb-animation"`;
+
+      preloadElements.push(
+        `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>`
+      );
+
+
       if (fileType === 'glb') {
         let texture = props.texture !== undefined? `model-material="${textures}"` : ``;
         let opacity = props.opacity !== undefined ? `gltf-model-opacity="${props.opacity}"` : ``;
@@ -411,9 +420,7 @@ export class StoryboxAframe {
         className = `class="glb-animation ${classProps.attribute} ${props.texture !== undefined ? 'textured' : ''}"`;
 
         // https://aframe.io/docs/0.9.0/components/gltf-model.html
-        preloadElements.push(
-          `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>`
-        );
+
         // Support GLTF 1.0 and 2.0. Tiltbrush exports glb1, which need to be renamed as glb
         let gltf_model = glb_legacy ? 'gltf-model-legacy' : 'gltf-model';
 
@@ -428,10 +435,11 @@ export class StoryboxAframe {
           ${aframeTags.scale.tag}
           ${aframeTags.position.tag}
           ${aframeTags.rotation.tag}
+          ${soundMarkup}
           crossorigin="anonymous"
           preload="true"
           animation-mixer
-          ${props.component}
+          ${props.component !== undefined ? props.component : ``}
           >
           </a-entity>
           `;
@@ -449,10 +457,13 @@ export class StoryboxAframe {
           // materialProp = `material="${textures}"`;
         // }
 // ${material}
-        preloadElements.push(
-          `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>
-          `
-        );
+
+        if (props.sound !== undefined && props.sound.id !== undefined && props.sound.src !== undefined) {
+          preloadElements.push(
+            `<a-asset-item ${aframeTags.className} id="${props.sound.id}" src="${props.sound.src}" preload="auto" loaded></a-asset-item>
+            `
+          );
+        }
 
         innerMarkup = `${innerMarkup}
           <a-obj-model
@@ -464,9 +475,10 @@ export class StoryboxAframe {
           ${aframeTags.scale.tag}
           ${aframeTags.position.tag}
           ${aframeTags.rotation.tag}
+          ${soundMarkup}
           crossorigin="anonymous"
           preload="true"
-          ${props.component}
+          ${props.component !== undefined ? props.component : ``}
           >
           </a-obj-model>`;
       }
@@ -481,7 +493,8 @@ export class StoryboxAframe {
         ${aframeTags.scale.tag}
         ${aframeTags.position.tag}
         ${aframeTags.rotation.tag}
-        ${props.component}
+        ${props.component !== undefined ? props.component : ``}
+        ${soundMarkup}
         >
         </a-entity>`;
     } else if (props.geometry === "sphere") {
@@ -492,7 +505,8 @@ export class StoryboxAframe {
         ref="${props.id}"
         ${aframeTags.position.tag}
         ${aframeTags.rotation.tag}
-        ${props.component}
+        ${props.component !== undefined ? props.component : ``}
+        ${soundMarkup}
         >
         </a-entity>`;
 
@@ -504,6 +518,37 @@ export class StoryboxAframe {
       innerMarkup,
       preloadElements
     }
+  }
+
+  buildSound(props, innerMarkup, childElements, preloadElements, aframeTags) {
+    let tag = ``;
+    let classProps = this.getValue("className", props);
+    let className = `class="${classProps.attribute}"`;
+    if (props.src !== undefined) {
+      let fileType = props.src.split('.').pop();
+      className = `class="${classProps.attribute} glb-animation"`;
+
+      let soundAttributes = props;
+      let soundTag = ``;
+      soundAttributes.src = `url(#${props.id})`;
+      delete soundAttributes.id;
+      Object.keys(soundAttributes).map(tag => {
+        soundTag = `${soundTag}${tag}: ${soundAttributes[tag]};`
+      });
+
+
+      //https://aframe.io/docs/0.9.0/components/sound.html
+      // <a-entity id="river" geometry="primitive: plane" material="color: blue"
+      // position="-10 0 0" sound="src: url(river.mp3); autoplay: true"></a-entity>
+      //
+
+      tag = `
+      sound="${soundTag}"
+        `;
+        console.log(tag);
+    }
+
+    return tag;
   }
 
 
@@ -887,7 +932,13 @@ export class StoryboxAframe {
                 break;
               case "mesh":
                 props = this.formatDropboxDataRecursive(props);
-                let mesh = this.buildMesh(props, innerMarkup, childElements, preloadElements, aframeTags);
+                let soundMarkup = ``;
+                if (props.sound !== undefined) {
+                  soundMarkup = this.buildSound(props.sound, innerMarkup, childElements, preloadElements, aframeTags);
+                }
+                console.log('sm', soundMarkup);
+                let mesh = this.buildMesh(props, innerMarkup, childElements, preloadElements, aframeTags, soundMarkup);
+
                 innerMarkup = mesh.innerMarkup;
                 childElements = mesh.childElements;
                 preloadElements = mesh.preloadElements;

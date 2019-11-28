@@ -54,6 +54,7 @@ export class StoryboxNavigator {
   init(parent) {
     // Listen for desktop keystrokes.
     this.appKeyStrokes();
+    console.log('init');
     window.addEventListener("hashchange", this.handleHashChange, false);
     if (parent !== undefined) {
       this.registry = parent.registry;
@@ -312,7 +313,7 @@ export class StoryboxNavigator {
    * @param {string} id - Id from hash
    */
   galleryItemSelect(id) {
-    // console.log("id", id);
+    console.log("id", id);
     // Set the story id.
     this.storySettings.currentStory = id;
     this.storySettings.timer = null;
@@ -368,17 +369,6 @@ export class StoryboxNavigator {
       currentStory.scenes.map(sceneJson => {
         // Get markup chunks for aframe
         let sceneMarkup = window.StoryboxAframe.render(sceneJson);
-
-        if (
-          typeof sceneMarkup.preloadElements !== "string" &&
-          sceneMarkup.preloadElements.length > 0 &&
-          rebuildGalleryGrid
-        ) {
-          // Load all scene assets
-          sceneMarkup.preloadElements.map(asset => {
-            this.assetMarkup += asset;
-          });
-        }
 
         if (
           typeof sceneMarkup.preloadElements !== "string" &&

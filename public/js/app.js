@@ -70,6 +70,7 @@ export class App {
    */
   loadExternalJSON(files) {
     try {
+      let counter = 0;
       // @TODO Get promise code from intersection branch and try to make it work here.
       let registryRemote = files.forEach(file => {
         let remoteFilePath = formatDropboxRawLinks(file);
@@ -104,9 +105,16 @@ export class App {
                   }
                 });
                 // Remote data loaded asynchronously - continue.
-                this.init();
+
+
+                counter = counter + 1;
+                if (counter === files.length) {
+                  // Just initialize after last item completed loading.
+                  this.init();
+                }
               } else {
                 console.log("not valid", remoteFilePath);
+                counter = counter + 1;
               }
             })
             .catch(error => {
