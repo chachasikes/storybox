@@ -54,6 +54,7 @@ export class StoryboxNavigator {
   init(parent) {
     // Listen for desktop keystrokes.
     this.appKeyStrokes();
+    window.StoryboxNavigator.sceneEvents = [];
     console.log('init');
     window.addEventListener("hashchange", this.handleHashChange, false);
     if (parent !== undefined) {
