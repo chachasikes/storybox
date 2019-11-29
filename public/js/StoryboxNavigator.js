@@ -367,6 +367,9 @@ export class StoryboxNavigator {
     // Read all scenes in the story & convert JSON to aframe tags.
     if (currentStory !== null) {
       currentStory.scenes.map(sceneJson => {
+        // Clear out scene events registry;
+        window.StoryboxNavigator.sceneEvents = [];
+        window.StoryboxNavigator.sceneEventHandlers = {};
         // Get markup chunks for aframe
         let sceneMarkup = window.StoryboxAframe.render(sceneJson);
 
@@ -391,6 +394,7 @@ export class StoryboxNavigator {
           document.getElementById(`${sceneJson.id}`).innerHTML =
             sceneMarkup.innerMarkup;
         }
+
       });
 
       // Aggregate assets in loader

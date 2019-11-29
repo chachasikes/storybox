@@ -84,36 +84,36 @@ export let Scene = {
             intersectAction: 'fadeInObject',
             radius: 0.2,
           },
-          {
-            type: "percentage",
-            position: {
-              x: 0.6,
-              y: 0.001,
-              z: 0
-            },
-            color: "#f4a8e1",
-            id: "pea-intersect",
-            intersect: true,
-            collisionClass: "head",
-            intersectTarget: "nosina_2",
-            intersectAction: 'fadeInObject',
-            radius: 0.2,
-          },
-          {
-            type: "percentage",
-            position: {
-              x: 0.85,
-              y: 0.001, // These would just be offsets
-              z: 0
-            },
-            color: "#bbe266",
-            id: "geraniol-intersect",
-            intersect: true,
-            collisionClass: "head",
-            intersectTarget: "nosina_3",
-            intersectAction: 'fadeInObject',
-            radius: 0.2,
-          }
+          // {
+          //   type: "percentage",
+          //   position: {
+          //     x: 0.6,
+          //     y: 0.001,
+          //     z: 0
+          //   },
+          //   color: "#f4a8e1",
+          //   id: "pea-intersect",
+          //   intersect: true,
+          //   collisionClass: "head",
+          //   intersectTarget: "nosina_2",
+          //   intersectAction: 'fadeInObject',
+          //   radius: 0.2,
+          // },
+          // {
+          //   type: "percentage",
+          //   position: {
+          //     x: 0.85,
+          //     y: 0.001, // These would just be offsets
+          //     z: 0
+          //   },
+          //   color: "#bbe266",
+          //   id: "geraniol-intersect",
+          //   intersect: true,
+          //   collisionClass: "head",
+          //   intersectTarget: "nosina_3",
+          //   intersectAction: 'fadeInObject',
+          //   radius: 0.2,
+          // }
         ]
       }
     }
@@ -182,79 +182,82 @@ export let Scene = {
         y: 3,
         z: -4
       },
-      fadeInObject: {
+      events: [{
+        id: 'nosina_1',
+        eventName: 'fadeInObject',
+        type: 'intersection-play',
         attribute: "model-opacity",
-        duraction: "10000",
+        duration: "10000",
         from: "0",
         to: "1",
         repeat: "indefinite"
-      }
+      }]
     }
   },
-  nosina2: {
-    mesh: {
-      name: "Nosina",
-      credit: "Sarah Chalek & Chacha Sikes",
-      id: "nosina_2",
-      art:
-        "https://www.dropbox.com/s/z9q199hf0utq5px/nosina_alembic_test.glb?dl=0",
-      opacity: 0.5,
-      scale: {
-        x: 5,
-        y: 5,
-        z: 5
-      },
-      rotation: {
-        x: 0,
-        y: 210,
-        z: 0
-      },
-      position: {
-        x: -5,
-        y: 0.25,
-        z: -2
-      },
-      fadeInObject: {
-        attribute: "model-opacity",
-        duraction: "10000",
-        from: "0",
-        to: "1",
-        repeat: "indefinite"
-      }
-    }
-  },
-  nosina3: {
-    mesh: {
-      name: "Nosina",
-      credit: "Sarah Chalek & Chacha Sikes",
-      id: "nosina_3",
-      art:
-        "https://www.dropbox.com/s/z9q199hf0utq5px/nosina_alembic_test.glb?dl=0",
-      opacity: 1,
-      scale: {
-        x: 2,
-        y: 2,
-        z: 2
-      },
-      rotation: {
-        x: 0,
-        y: 210,
-        z: 0
-      },
-      position: {
-        x: 3,
-        y: 0.25,
-        z: -2
-      },
-      fadeInObject: {
-        attribute: "model-opacity",
-        duraction: "10000",
-        from: "0",
-        to: "1",
-        repeat: "indefinite"
-      }
-    }
-  }
+  // nosina2: {
+  //   mesh: {
+  //     name: "Nosina",
+  //     credit: "Sarah Chalek & Chacha Sikes",
+  //     id: "nosina_2",
+  //     art:
+  //       "https://www.dropbox.com/s/z9q199hf0utq5px/nosina_alembic_test.glb?dl=0",
+  //     opacity: 0.5,
+  //     scale: {
+  //       x: 5,
+  //       y: 5,
+  //       z: 5
+  //     },
+  //     rotation: {
+  //       x: 0,
+  //       y: 210,
+  //       z: 0
+  //     },
+  //     position: {
+  //       x: -2,
+  //       y: 3,
+  //       z: -4
+  //     },
+  //     fadeInObject: {
+  //       attribute: "model-opacity",
+  //       duraction: "10000",
+  //       from: "0",
+  //       to: "1",
+  //       repeat: "indefinite"
+  //     }
+  //   }
+  // },
+  // nosina3: {
+  //   mesh: {
+  //     name: "Nosina",
+  //     credit: "Sarah Chalek & Chacha Sikes",
+  //     id: "nosina_3",
+  //     art:
+  //       "https://www.dropbox.com/s/z9q199hf0utq5px/nosina_alembic_test.glb?dl=0",
+  //     opacity: 1,
+  //     scale: {
+  //       x: 1,
+  //       y: 1,
+  //       z: 1
+  //     },
+  //     rotation: {
+  //       x: 0,
+  //       y: 210,
+  //       z: 0
+  //     },
+  //     position: {
+  //       x: 2,
+  //       y: 3,
+  //       z: -4
+  //     },
+  //     fadeInObject: {
+  //       attribute: "model-opacity",
+  //       duraction: "10000",
+  //       from: "0",
+  //       to: "1",
+  //       repeat: "indefinite"
+  //     }
+  //   }
+  // }
 
   // train_station: {
   //   mesh: {

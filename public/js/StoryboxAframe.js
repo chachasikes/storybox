@@ -430,11 +430,27 @@ export class StoryboxAframe {
     console.log('building mesh');
     let classProps = this.getValue("className", props);
     let className = `class="${classProps.attribute}"`;
+    // Set up textures.
     let textures = ``;
     if (props.texture !== undefined) {
       textures = this.buildTextures(props.texture);
     }
 
+    // Create animation behvior.
+    let animation = ``;
+    if (props.events !== undefined) {
+      // @TODO build specific animation events.
+      // https://aframe.io/docs/0.9.0/components/animation.html
+     animation = `
+       animation="startEvents: fade; property: gltf-model-opacity; from: 0; to: 1; dur: 3000; easing: linear; autoplay: false; enabled: true;"
+       `;
+    }
+    if (props.events !== undefined) {
+      window.StoryboxNavigator.sceneEvents.push(props.events);
+    }
+
+
+    // Depending on the kind of source file (or aframe shapes), build mesh object.
     if (props.art !== undefined) {
       let fileType = props.art.split('.').pop();
       className = `class="${classProps.attribute} glb-animation"`;
@@ -448,14 +464,6 @@ export class StoryboxAframe {
           `<audio id="${props.sound.id}" src="${props.sound.src}" preload="auto"></audio>
           `
         );
-      }
-
-      let animation = ``;
-      if (props.fadeInObject !== undefined) {
-        // https://aframe.io/docs/0.9.0/components/animation.html
-       animation = `
-               animation="begin: ${props.id}-fadeInObject; property: gltf-model-opacity; from: 0; to: 1; dur: 3000; easing: linear; autoplay: false; enabled: true;"
-               `;
       }
 
       if (fileType === 'glb') {
@@ -488,7 +496,6 @@ export class StoryboxAframe {
           ${props.component !== undefined ? props.component : ``}
           ${animation}
           >
-
           </a-entity>
           `;
       } else if (fileType === 'obj') {
@@ -868,6 +875,8 @@ export class StoryboxAframe {
       ></a-entity>
       </a-box>`;
     // }
+
+      debuggerPanelWrist = ``;
     return {
       debuggerPanelWrist: debuggerPanelWrist
     }
