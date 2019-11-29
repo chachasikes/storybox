@@ -589,7 +589,8 @@ export class StoryboxNavigator {
 
   }
 
-  playSound() {
+  playSound(e) {
+    // @TODO get target sound
     console.log("play");
     var entity = window.document.querySelector('[sound]');
     console.log('entity', entity);
@@ -599,20 +600,25 @@ export class StoryboxNavigator {
     }
   }
 
-  pauseSound() {
-    var entity = window.document.querySelector('[sound]');
-    console.log('ent pause', entity)
-    if (entity !== null) {
-      entity.components.sound.pauseSound();
-      console.log('pausing sound');
-    }
+  pauseSound(e) {
+    // @TODO get target sound
+    var entities = window.document.querySelectorAll('[sound]');
+    entities.forEach((entity) => {
+      if (entity !== null) {
+        entity.components.sound.pauseSound();
+        console.log('pausing sound');
+      }
+    });
   }
 
   stopSound() {
-    var entity = document.querySelector('[sound]');
-    if (entity !== null) {
-      entity.components.sound.pauseSound();
-    }
+    var entities = window.document.querySelectorAll('[sound]');
+    entities.forEach((entity) => {
+      if (entity !== null) {
+        entity.components.sound.pauseSound();
+        console.log('pausing sound');
+      }
+    });
   }
 
   /**
