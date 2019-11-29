@@ -447,9 +447,21 @@ export class StoryboxAframe {
         if (item.type === 'intersection-play') {
           // @TODO can add more behaviors here if needed (like rotating, moving, pulsing etc.)
           animation = `
-            animation="startEvents: ${item.id}-${item.eventName}; property: ${props.attribute ? props.attribute : 'gtlf-model-opacity'}; from: ${props.from ? props.from : 0}; to: ${props.to ? props.to : 1}; dur: ${props.duration ? props.duration : 1000}; easing: ${props.easing ? props.easing : 'linear'}; autoplay: ${props.autoplay ? props.autoplay : false}; enabled: ${props.enabled ? props.enabled : true};"
-            `;
-
+            animation="
+              startEvents: ${item.id}-${item.eventName};
+              property: ${item.attribute ? item.attribute : 'gltf-model-opacity'};
+              from: ${item.from ? item.from : 0};
+              to: ${item.to ? item.to : 1};
+              dur: ${item.duration ? Number(item.duration) : 1000};
+              easing: ${item.easing ? item.easing : 'linear'};
+              autoplay: ${item.autoplay ? item.autoplay : false};
+              enabled: ${item.enabled ? item.enabled : true};
+              elasticity: ${item.elasticity ? item.elasticity : 400};
+              loop: ${item.loop ? item.loop : false};
+              delay: ${item.delay ? item.delay : false};
+              dir: ${item.dir ? item.dir : 'normal'};
+              round: ${item.round ? item.round : false};
+              " `;
         }
       });
     }

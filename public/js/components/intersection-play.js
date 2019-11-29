@@ -28,8 +28,10 @@ export function registerComponent() {
               );
               intersectTargetEl.addEventListener(`${item.id}-${item.eventName}`, (e) => {
                 console.log('trying to fade', e);
-
-              })
+              });
+              // intersectTargetEl.addEventListener(`fade`, (e) => {
+              //   console.log('trying to fade', e);
+              // });
 
             }
           })
@@ -54,6 +56,7 @@ export function registerComponent() {
               if (intersectTargetEl !== undefined) {
                 console.log(intersectTargetEl, `${intersectTarget}-${intersectAction}`);
                 intersectTargetEl.emit(`${intersectTarget}-${intersectAction}`);
+                // intersectTargetEl.emit(`fade`);
               }
             }
           }

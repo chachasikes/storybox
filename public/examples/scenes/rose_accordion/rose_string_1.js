@@ -190,7 +190,12 @@ export let Scene = {
         duration: "10000",
         from: "0",
         to: "1",
-        repeat: "indefinite"
+        repeat: true,
+        elasticity: 400,
+        loop: false,
+        delay: 0,
+        dir: 'alternate',
+        round: false
       }]
     }
   },
