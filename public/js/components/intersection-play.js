@@ -26,8 +26,9 @@ export function registerComponent() {
               let intersectTargetEl = document.getElementById(
                 `${item.id}-gltf`
               );
-              intersectTargetEl.addEventListener(`${item.id}-${item.eventName}`, () => {
-                console.log('trying to fade');
+              intersectTargetEl.addEventListener(`${item.id}-${item.eventName}`, (e) => {
+                console.log('trying to fade', e);
+
               })
 
             }
@@ -46,13 +47,13 @@ export function registerComponent() {
 
             //@TODO get head position
             if (intersectAction === "fadeInObject") {
-              console.log("fadeInObject");
+              console.log("head to fadeInObject");
               let intersectTargetEl = document.getElementById(
                 `${intersectTarget}-gltf`
               );
               if (intersectTargetEl !== undefined) {
-                console.log(intersectTargetEl, `${intersectTarget}-fadeInObject`);
-                intersectTargetEl.emit(`${intersectTarget}-fadeInObject`);
+                console.log(intersectTargetEl, `${intersectTarget}-${intersectAction}`);
+                intersectTargetEl.emit(`${intersectTarget}-${intersectAction}`);
               }
             }
           }
