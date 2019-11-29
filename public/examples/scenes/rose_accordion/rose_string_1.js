@@ -186,7 +186,7 @@ export let Scene = {
         id: 'nosina_1',
         eventName: 'fadeInObject',
         type: 'intersection-play',
-        attribute: "model-opacity",
+        attribute: "gltf-model-opacity",
         duration: "10000",
         from: "0",
         to: "1",

@@ -438,15 +438,20 @@ export class StoryboxAframe {
 
     // Create animation behvior.
     let animation = ``;
-    if (props.events !== undefined) {
-      // @TODO build specific animation events.
+    if (props.events !== undefined && props.events.length > 0) {
       // https://aframe.io/docs/0.9.0/components/animation.html
-     animation = `
-       animation="startEvents: fade; property: gltf-model-opacity; from: 0; to: 1; dur: 3000; easing: linear; autoplay: false; enabled: true;"
-       `;
-    }
-    if (props.events !== undefined) {
+
       window.StoryboxNavigator.sceneEvents.push(props.events);
+
+      props.events.map((item) => {
+        if (item.type === 'intersection-play') {
+          // @TODO can add more behaviors here if needed (like rotating, moving, pulsing etc.)
+          animation = `
+            animation="startEvents: ${item.id}-${item.eventName}; property: ${props.attribute ? props.attribute : 'gtlf-model-opacity'}; from: ${props.from ? props.from : 0}; to: ${props.to ? props.to : 1}; dur: ${props.duration ? props.duration : 1000}; easing: ${props.easing ? props.easing : 'linear'}; autoplay: ${props.autoplay ? props.autoplay : false}; enabled: ${props.enabled ? props.enabled : true};"
+            `;
+
+        }
+      });
     }
 
 

@@ -11,7 +11,6 @@ export function registerComponent() {
       init: function() {
         this.el.addEventListener("hit", e => {
           window.StoryboxNavigator.hitEvent();
-
           // console.log('hit');
           // console.log(e);
           // vrlog('hit');
@@ -21,67 +20,42 @@ export function registerComponent() {
         window.StoryboxNavigator.sceneEvents.map(events => {
           let sceneSelector = document.querySelector('#scene-selector');
           console.log('event set up', events);
+          if (events.length > 0) {
           events.map(item => {
             if (item.type === 'intersection-play') {
               let intersectTargetEl = document.getElementById(
                 `${item.id}-gltf`
               );
-              intersectTargetEl.addEventListener('fade', () => {
+              intersectTargetEl.addEventListener(`${item.id}-${item.eventName}`, () => {
                 console.log('trying to fade');
               })
 
             }
           })
+        }
         })
 
 
         this.el.addEventListener("hitend", e => {
-          console.log("hitend");
-          // if (e.detail !== undefined && e.detail.el !== undefined) {
+            // console.log("hitend");
+          if (e.detail !== undefined && e.detail.el !== undefined) {
             let id = e.detail.el.getAttribute("id");
             let intersectAction = e.detail.el.getAttribute("intersect-action");
             let intersectTarget = e.detail.el.getAttribute("intersect-target");
             let sceneSelector = document.querySelector('#scene-selector');
 
-
-
-            // sceneSelector.addEventListener(`${intersectTarget}-${intersectAction}`, e => {
-            //   let intersectTargetEl = document.getElementById(
-            //     `${intersectTarget}-gltf`
-            //   );
-            //   switch(intersectAction) {
-            //     case 'fadeInObject':
-            //       console.log('fade in object', intersectTarget);
-            //       // Trigger a-animation;
-            //       // intersectTargetEl.emit(`${intersectTarget}-${intersectAction}`);
-            //       break;
-            //     case 'fadeInAndPlay':
-            //       break;
-            //     default:
-            //       break;
-            //   }
-            // });
-//
-            // //@TODO get head position
-            //
-            // console.log(id, intersectAction, intersectTarget); // ,
+            //@TODO get head position
             if (intersectAction === "fadeInObject") {
+              console.log("fadeInObject");
               let intersectTargetEl = document.getElementById(
                 `${intersectTarget}-gltf`
               );
-              // console.log(`${intersectTarget}-gltf`);
               if (intersectTargetEl !== undefined) {
-                console.log(intersectTargetEl);
-                intersectTargetEl.emit('fade');
-            //     // intersectTargetEl.setAttribute("gltf-model-opacity", "1");
-            //     // intersectTargetEl.dispatchEvent(`${id}-${intersectAction}`);
-            //
-            //     // this.dispatchEvent(new CustomEvent(`${intersectTarget}-${intersectAction}`, { bubbles: true, detail: { text: () => `${intersectAction} ${intersectTarget}` } }))
-            //     // intersectTargetEl.dispatchEvent(window.StoryboxNavigator.sceneEventHandlers.fade);
+                console.log(intersectTargetEl, `${intersectTarget}-fadeInObject`);
+                intersectTargetEl.emit(`${intersectTarget}-fadeInObject`);
               }
-            //
             }
-          // }
+          }
           vrlog("hitend");
         });
       },
