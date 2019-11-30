@@ -29,35 +29,48 @@ export let Scene = {
           type : 'ambient',
           position : {
             x : 0,
-            y : 15,
+            y : 30,
             z : 0
           },
-          color : '#ffffff'
+          color : '#ffffff',
+          intensity: 1
         }
       },
-      skybox : {
-        sky : {
-          color : '#ededed',
-          id : 'light-background',
-          name : 'Light background'
-        }
-      },
-      loading : {
-        image : {
-          id : 'loading-graphic',
-          art : './images/storybox-02.png',
-          scale : {
-            x : 150,
-            y : 75,
-            z : 1
-          },
-          position : {
-            x : 50,
-            y : 50,
-            z : 0
-          }
-        }
-      },
+      // pointLight : {
+      //   light : {
+      //     type : 'point',
+      //     position : {
+      //       x : 0,
+      //       y : 30,
+      //       z : 0
+      //     },
+      //     color : '#ffffff',
+      //     intensity: 1.3
+      //   }
+      // },
+      // skybox : {
+      //   sky : {
+      //     color : '#ffffff',
+      //     id : 'light-background',
+      //     name : 'Light background'
+      //   }
+      // },
+      // loading : {
+      //   image : {
+      //     id : 'loading-graphic',
+      //     art : './images/storybox-02.png',
+      //     scale : {
+      //       x : 150,
+      //       y : 75,
+      //       z : 1
+      //     },
+      //     position : {
+      //       x : 50,
+      //       y : 50,
+      //       z : 0
+      //     }
+      //   }
+      // },
       river_sound_test : {
         mesh : {
           name : 'Sphere GLB - Cardboard texture 1',
@@ -103,26 +116,50 @@ export let Scene = {
           }
         }
       },
+      peach: {
+        mesh: {
+          name: 'peachypeach',
+          id: 'itchy_v2_peach',
+          art: 'https://www.dropbox.com/s/nknj8a213a9mdks/peach_blender_fix.glb?dl=0',
+          // art: 'https://www.dropbox.com/s/dsknrain4eopjt7/rose_metal.glb?dl=0',
+          // art: 'https://www.dropbox.com/s/bsypjusxri5wp0b/peach_tiltbrush_chach.glb?dl=0',
+          scale : {
+            x : 1,
+            y : 1,
+            z : 1
+          },
+          rotation : {
+            x : 90,
+            y : 0,
+            z : 0
+          },
+          position : {
+            x : -5,
+            y : -10,
+            z : -5
+          },
+        }
+      },
       mosquito : {
         mesh : {
           name : 'Sphere GLB - Cardboard texture 2',
           id : 'itchy-sphere-2',
           className : 'clickable',
-          art : 'https://www.dropbox.com/s/9bc2abxgw1hodxx/mosquito_tiltbrush_chach.glb?dl=0',
+          art : 'https://www.dropbox.com/s/f3lz0z9j1h3og53/mosquito_tiltbrush_colorspace_test.glb?dl=0',
           scale : {
-            x : 3,
-            y : 3,
-            z : 3
+            x : 10,
+            y : 10,
+            z : 10
           },
           rotation : {
             x : 0,
-            y : 90,
+            y : 0,
             z : 0
           },
           position : {
             x : 2,
-            y : 2,
-            z : 3
+            y : -10,
+            z : 5
           },
           sound : {
             src : 'https://www.dropbox.com/s/9l04efr6eihexw8/mo.ogg?dl=0',
