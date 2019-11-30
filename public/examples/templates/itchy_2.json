@@ -1,0 +1,152 @@
+{
+  "id": "itchy",
+  "name": "Itchy",
+  "panel": "https://dl.dropboxusercontent.com/s/md3vax6p0vchj8i/itchy.png",
+  "scenes": [
+{
+  "scene": 1,
+  "ambientLight": {
+    "light": {
+      "color": "#ffffff",
+      "intensity": 1,
+      "position": {
+        "x": 0,
+        "y": 30,
+        "z": 0
+      },
+      "type": "ambient"
+    }
+  },
+  "autoPlay": true,
+  "camera_itchy": {
+    "camera": {
+      "clickableClass": ".clickable",
+      "cursorCamera": true,
+      "cursorTargetClass": ".clickable",
+      "id": "itchy_v2_camera_1",
+      "name": "World camera",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    }
+  },
+  "duration": 60000,
+  "id": "itchy_v2_scene",
+  "mosquito": {
+    "mesh": {
+      "art": "https://www.dropbox.com/s/f3lz0z9j1h3og53/mosquito_tiltbrush_colorspace_test.glb?dl=0",
+      "className": "clickable",
+      "id": "itchy-sphere-2",
+      "name": "Sphere GLB - Cardboard texture 2",
+      "position": {
+        "x": 2,
+        "y": -10,
+        "z": 5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 10,
+        "y": 10,
+        "z": 10
+      },
+      "sound": {
+        "autoplay": false,
+        "credit": "Free sound effects file (test only, not for production)",
+        "distanceModel": "inverse",
+        "id": "360_panning_mosquito",
+        "loop": true,
+        "maxDistance": 5,
+        "name": "Buzzing mosquito",
+        "on": "click",
+        "poolSize": 1,
+        "positional": true,
+        "refDistance": 1,
+        "rolloffFactor": 1,
+        "src": "https://www.dropbox.com/s/9l04efr6eihexw8/mo.ogg?dl=0",
+        "volume": 1
+      }
+    }
+  },
+  "name": "Itchy",
+  "peach": {
+    "mesh": {
+      "art": "https://www.dropbox.com/s/nknj8a213a9mdks/peach_blender_fix.glb?dl=0",
+      "id": "itchy_v2_peach",
+      "name": "peachypeach",
+      "position": {
+        "x": -5,
+        "y": -10,
+        "z": -5
+      },
+      "rotation": {
+        "x": 90,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    }
+  },
+  "published": true,
+  "river_sound_test": {
+    "mesh": {
+      "art": "https://www.dropbox.com/s/zrloz4b68vaayb4/sphere.glb?dl=0",
+      "className": "clickable",
+      "id": "itchy-sphere-1",
+      "name": "Sphere GLB - Cardboard texture 1",
+      "position": {
+        "x": -2,
+        "y": 2,
+        "z": -5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 0.2,
+        "y": 0.2,
+        "z": 0.2
+      },
+      "sound": {
+        "autoplay": true,
+        "credit": "Free sound effects file (test only, not for production)",
+        "distanceModel": "inverse",
+        "id": "french river",
+        "loop": true,
+        "maxDistance": 5,
+        "name": "River",
+        "on": "click",
+        "poolSize": 1,
+        "positional": true,
+        "refDistance": 1,
+        "rolloffFactor": 1,
+        "src": "https://www.dropbox.com/s/0xjyu13axxto84n/24511__glaneur-de-sons__riviere-river.ogg?dl=0",
+        "volume": 0.01
+      },
+      "texture": {
+        "ambientOcculsionMap": "https://www.dropbox.com/s/vw66azxdp21ws03/Paper_Recycled_001_OCC.jpg?dl=0",
+        "normalMap": "https://www.dropbox.com/s/4r57sz174iz3aux/Paper_Recycled_001_NORM.jpg?dl=0",
+        "roughnessMap": "https://www.dropbox.com/s/uio3sshwr8pldtz/Paper_Recycled_001_ROUGH.jpg?dl=0",
+        "src": "https://www.dropbox.com/s/hjyds7sb3ffjjam/Paper_Recycled_001_COLOR.jpg?dl=0"
+      }
+    }
+  }
+}
+]
+}
