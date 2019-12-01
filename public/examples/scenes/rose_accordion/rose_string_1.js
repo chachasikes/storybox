@@ -121,7 +121,38 @@ export let Scene = {
             intersectAction: 'fadeInObject',
             radius: 0.2,
           }
-        ]
+        ],
+        mesh: {
+          art: "https://www.dropbox.com/s/bap92gxc3ldd8s0/accordion_actions.glb?dl=0",
+          id: "accordion",
+          name: "Accordion",
+          autoPlay: false,
+          animationMixer: {
+            type: 'stretch',
+            squash: 'squash',
+            stretch: 'stretch',
+            duration: 10,
+            crossFadeDuration: 0,
+            loop: 'once',
+            repetitions: "Infinity",
+            timeScale: 1,
+          },
+          scale: {
+            x: 0.5,
+            y: 0.5,
+            z: 0.5
+          },
+          rotation: {
+            x: 90,
+            y: 0,
+            z: 0
+          },
+          position: {
+            x: 0,
+            y: 0,
+            z: 0
+          },
+        }
       }
     }
   },

@@ -427,7 +427,7 @@ export class StoryboxAframe {
    * @returns {object} - Preloaded elements, Aframe markup and Child elements.
    */
   buildMesh(props, innerMarkup, childElements, preloadElements, aframeTags, soundMarkup) {
-    console.log('building mesh');
+    props = this.formatDropboxDataRecursive(props);
     let classProps = this.getValue("className", props);
     let className = `class="${classProps.attribute}"`;
     // Set up textures.
@@ -436,13 +436,13 @@ export class StoryboxAframe {
       textures = this.buildTextures(props.texture);
     }
 
+    let tag = ``;
+
     // Create animation behvior.
     let animation = ``;
     if (props.events !== undefined && props.events.length > 0) {
       // https://aframe.io/docs/0.9.0/components/animation.html
-
       window.StoryboxNavigator.sceneEvents.push(props.events);
-
       props.events.map((item) => {
         if (item.type === 'intersection-play') {
           // @TODO can add more behaviors here if needed (like rotating, moving, pulsing etc.)
@@ -465,7 +465,6 @@ export class StoryboxAframe {
         }
       });
     }
-
 
     // Depending on the kind of source file (or aframe shapes), build mesh object.
     if (props.art !== undefined) {
@@ -495,25 +494,42 @@ export class StoryboxAframe {
         // Support GLTF 1.0 and 2.0. Tiltbrush exports glb1, which need to be renamed as glb
         let gltf_model = glb_legacy ? 'gltf-model-legacy' : 'gltf-model';
 
+        let animationMixer = ` animation-mixer `;
+        if (props.animationMixer !== undefined) {
+          if (props.animationMixer.type === 'stretch') {
+            animationMixer = ` animation-mixer="
+              clip: ${props.animationMixer.squash};
+              duration: ${props.animationMixer.duration ? props.animationMixer.duration : 'AUTO'};
+              crossFadeDuration: ${props.animationMixer.crossFadeDuration ? props.animationMixer.crossFadeDuration : 0};
+              loop: ${props.animationMixer.loop ? props.animationMixer.loop : 'once'};
+              repetitions: ${props.animationMixer.repetitions ? props.animationMixer.repetitions : "Infinity"};
+              timeScale: ${props.animationMixer.timeScale ? props.animationMixer.timeScale : 1};
+            " `;
+          }
+        }
+
+        tag = `<a-entity
+        id="${props.id}-gltf"
+        ref="${props.id}"
+        ${className}
+        ${gltf_model}="#${props.id}"
+        ${opacity}
+        ${texture}
+        ${aframeTags.scale.tag}
+        ${aframeTags.position.tag}
+        ${aframeTags.rotation.tag}
+        ${soundMarkup}
+        crossorigin="anonymous"
+        preload="true"
+        ${animationMixer}
+        ${props.component !== undefined ? props.component : ``}
+        ${animation}
+        ${props.autoPlay !== undefined && props.autoplay === true ? `data-autoplay="true"` : `data-autoplay="false"`}
+        >
+        </a-entity>`;
+
         innerMarkup = `${innerMarkup}
-          <a-entity
-          id="${props.id}-gltf"
-          ref="${props.id}"
-          ${className}
-          ${gltf_model}="#${props.id}"
-          ${opacity}
-          ${texture}
-          ${aframeTags.scale.tag}
-          ${aframeTags.position.tag}
-          ${aframeTags.rotation.tag}
-          ${soundMarkup}
-          crossorigin="anonymous"
-          preload="true"
-          animation-mixer
-          ${props.component !== undefined ? props.component : ``}
-          ${animation}
-          >
-          </a-entity>
+          ${tag}
           `;
       } else if (fileType === 'obj') {
         let texture = props.texture !== undefined ? `model-material="${textures}"` : ``;
@@ -521,71 +537,63 @@ export class StoryboxAframe {
 
         let material = ``;
         let materialProp = ``;
-        // if (props.material !== undefined && props.material !== null) {
-        //   material = `<a-asset-item id="${props.id}-material" src="${props.material}"></a-asset-item>`;
-        //   materialProp = `material="#${props.id}-material"`;
-        // } else {
-
-          // materialProp = `material="${textures}"`;
-        // }
-// ${material}
-
-        innerMarkup = `${innerMarkup}
-          <a-obj-model
-          src="#${props.id}"
-          ref="${props.id}"
-          ${texture}
-          ${className}
-          ${opacity}
-          ${aframeTags.scale.tag}
-          ${aframeTags.position.tag}
-          ${aframeTags.rotation.tag}
-          ${soundMarkup}
-          crossorigin="anonymous"
-          preload="true"
-          ${props.component !== undefined ? props.component : ``}
-          ${animation}
-          >
-
-          </a-obj-model>`;
-      }
-    } else if (props.geometry === "plane") {
-
-      innerMarkup = `${innerMarkup}
-        <a-entity
-        geometry="primitive: plane; height: ${props.dimensions.height}; width: ${props.dimensions.width};"
-        material="color: ${props.color}; shader: flat;"
+        tag = `<a-obj-model
+        src="#${props.id}"
         ref="${props.id}"
+        ${texture}
         ${className}
+        ${opacity}
         ${aframeTags.scale.tag}
         ${aframeTags.position.tag}
         ${aframeTags.rotation.tag}
-        ${props.component !== undefined ? props.component : ``}
         ${soundMarkup}
+        crossorigin="anonymous"
+        preload="true"
+        ${props.component !== undefined ? props.component : ``}
         ${animation}
         >
+        </a-obj-model>`;
+        innerMarkup = `${innerMarkup}
+          ${tag}`;
+      }
+    } else if (props.geometry === "plane") {
+      tag = `<a-entity
+      geometry="primitive: plane; height: ${props.dimensions.height}; width: ${props.dimensions.width};"
+      material="color: ${props.color}; shader: flat;"
+      ref="${props.id}"
+      ${className}
+      ${aframeTags.scale.tag}
+      ${aframeTags.position.tag}
+      ${aframeTags.rotation.tag}
+      ${props.component !== undefined ? props.component : ``}
+      ${soundMarkup}
+      ${animation}
+      >
+      </a-entity>`;
 
-        </a-entity>`;
-    } else if (props.geometry === "sphere") {
       innerMarkup = `${innerMarkup}
-        <a-entity
-        geometry="primitive: sphere; radius: ${props.dimensions.radius}"
-        material="color: ${props.color}; shader: flat;"
-        ref="${props.id}"
-        ${aframeTags.position.tag}
-        ${aframeTags.rotation.tag}
-        ${props.component !== undefined ? props.component : ``}
-        ${soundMarkup}
-        ${animation}
-        >
-
-        </a-entity>`;
+        ${tag}`;
+    } else if (props.geometry === "sphere") {
+      tag = `<a-entity
+      geometry="primitive: sphere; radius: ${props.dimensions.radius}"
+      material="color: ${props.color}; shader: flat;"
+      ref="${props.id}"
+      ${aframeTags.position.tag}
+      ${aframeTags.rotation.tag}
+      ${props.component !== undefined ? props.component : ``}
+      ${soundMarkup}
+      ${animation}
+      >
+      </a-entity>`;
+      innerMarkup = `${innerMarkup}
+        ${tag}`;
     }
 
     return {
       childElements,
       innerMarkup,
-      preloadElements
+      preloadElements,
+      tag
     }
   }
 
@@ -683,7 +691,7 @@ export class StoryboxAframe {
    */
   buildCamera(props, innerMarkup, childElements, preloadElements, aframeTags, handProp) {
     let cursor = this.buildCursor(props);
-    let touchContollers = this.buildTouchControllers(props, handProp, preloadElements, aframeTags);
+    let touchContollers = this.buildTouchControllers(props, handProp, preloadElements, aframeTags, innerMarkup, childElements);
     let headBox = this.buildHead(props);
     innerMarkup = `${innerMarkup}
     <a-entity
@@ -716,7 +724,9 @@ export class StoryboxAframe {
    * @TODO Document
    * @constructor
    */
-  buildTouchControllers(props, handProp, preloadElements, aframeTags) {
+
+
+  buildTouchControllers(props, handProp, preloadElements, aframeTags, innerMarkup, childElements) {
     let leftModel = ``;
     let rightModel = ``;
     let orientationOffsetLeft = ``;
@@ -724,12 +734,8 @@ export class StoryboxAframe {
     let modelLoaded = "model: false";
     let debuggerPanelWrist = {debuggerPanelWrist: ``};
     let laser = this.buildLaser(props);
-
     debuggerPanelWrist = this.buildWristDebugger();
-
-    // @TODO split out
     if (props.touch !== undefined) {
-
       // https://aframe.io/docs/0.9.0/introduction/interactions-and-controllers.html
       // Can change hand controller
       if (props.touch.left.glb !== undefined) {
@@ -805,6 +811,19 @@ export class StoryboxAframe {
       }
     }
 
+    let mesh = ``;
+
+    let soundMarkup = ``;
+    if (props.handProp.sound !== undefined) {
+
+      soundMarkup = this.buildSound(props.handProp.sound, innerMarkup, childElements, preloadElements, aframeTags);
+    }
+    if (props.handProp.mesh !== undefined) {
+      let builtMesh = this.buildMesh(props.handProp.mesh, innerMarkup, childElements, preloadElements, aframeTags, soundMarkup);
+      mesh = builtMesh.tag;
+    }
+
+
     let touchContollers = `
     <a-entity
       id="leftHand"
@@ -832,7 +851,8 @@ export class StoryboxAframe {
     </a-entity>
     ${laser.laser}
     ${handProp.rope}
-    ${handProp.objectPositions}`;
+    ${handProp.objectPositions}
+    ${mesh}`;
 
     return {
       touchContollers: touchContollers
@@ -1003,7 +1023,7 @@ export class StoryboxAframe {
                 if (props.sound !== undefined) {
                   soundMarkup = this.buildSound(props.sound, innerMarkup, childElements, preloadElements, aframeTags);
                 }
-                console.log('sm', soundMarkup);
+
                 let mesh = this.buildMesh(props, innerMarkup, childElements, preloadElements, aframeTags, soundMarkup);
 
                 innerMarkup = mesh.innerMarkup;
