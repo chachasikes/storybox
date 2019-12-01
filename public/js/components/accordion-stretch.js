@@ -57,11 +57,11 @@ export function registerComponent() {
       let counter = 0;
 
       if (poll.length > 1) {
-        vrlog('length' + poll.length);
-        vrlog(poll[0].left);
+        // vrlog('length' + poll.length);
+        // vrlog(poll[0].left);
         let last = Math.abs(poll[poll.length - 2].left) + Math.abs(poll[poll.length - 2].right);
         let current = Math.abs(poll[poll.length - 1].left) + Math.abs(poll[poll.length - 1].right);
-
+vrlog(current);
         let stretchMesh = document.querySelector('[data-animation-type="stretch"]');
 
         let data = stretchMesh.getAttribute('animation-mixer-storybox');
@@ -77,7 +77,7 @@ export function registerComponent() {
           stretchMesh.setAttribute("animation-mixer-storybox", data);
         }
 
-        vrlog(data.clip);
+        // vrlog(data.clip);
 
         // let stretchMesh = document.querySelector('[data-animation-type="stretch"]');
 
@@ -156,8 +156,7 @@ export function updateAccordionLine(parent) {
           right: newPositionRight.x
         }
       );
-      vrlog('left ' + newPositionLeft.x);
-
+      // vrlog('left ' + newPositionLeft.x);
     }
 
     // Push new values on change

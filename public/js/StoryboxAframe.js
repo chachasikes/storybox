@@ -925,7 +925,7 @@ export class StoryboxAframe {
       </a-box>`;
     // }
 
-
+    // debuggerPanelWrist = ``; // Disabled
     return {
       debuggerPanelWrist: debuggerPanelWrist
     }
