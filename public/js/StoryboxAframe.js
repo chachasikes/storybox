@@ -524,7 +524,7 @@ export class StoryboxAframe {
         ${animationMixer}
         ${props.component !== undefined ? props.component : ``}
         ${animation}
-        ${props.autoPlay !== undefined && props.autoplay === true ? `data-autoplay="true"` : `data-autoplay="false"`}
+        ${props.autoPlay !== undefined && props.autoPlay === true ? `data-autoplay="true"` : `data-autoplay="false"`}
         >
         </a-entity>`;
 
@@ -820,8 +820,8 @@ export class StoryboxAframe {
       }
     }
 
+    // Add a mesh and sound file connected to touch entity
     let mesh = ``;
-
     let soundMarkup = ``;
     if (props.handProp !== undefined && props.handProp.sound !== undefined) {
       soundMarkup = this.buildSound(props.handProp.sound, innerMarkup, childElements, preloadElements, aframeTags);
@@ -861,7 +861,8 @@ export class StoryboxAframe {
     ${laser.laser}
     ${handProp.rope}
     ${handProp.objectPositions}
-    ${mesh}`;
+    ${mesh}
+    `;
 
     return {
       touchContollers: touchContollers,
@@ -925,7 +926,7 @@ export class StoryboxAframe {
       </a-box>`;
     // }
 
-    // debuggerPanelWrist = ``; // Disabled
+    debuggerPanelWrist = ``; // Disabled
     return {
       debuggerPanelWrist: debuggerPanelWrist
     }

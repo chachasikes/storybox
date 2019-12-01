@@ -472,15 +472,13 @@ export class StoryboxNavigator {
       );
     }
     this.update();
-    this.playGLBAnimation();
   }
 
   /**
    * Play GLTF animation
    */
   playGLBAnimation() {
-    let animation = document.querySelector(".glb-animation");
-    // @TODO
+    console.log('playGLB');
   }
 
   /**
@@ -557,38 +555,35 @@ export class StoryboxNavigator {
   }
 
   setupAmbisonicSound() {
-
-    // Set up an audio element to feed the ambisonic source audio feed.
-    const audioElement = document.createElement('audio');
-    audioElement.src = 'audio-file-foa-acn.wav';
-
-
-    var entities = window.document.querySelectorAll('[sound]');
-
-    entities.map(entity => {
-      var sound = entity.components.sound;
-      // original aframe sound player. entity.components.sound.playSound();
-        //
-        // Create AudioContext, MediaElementSourceNode and FOARenderer.
-
-        // https://github.com/GoogleChrome/omnitone#omnitone-spatial-audio-on-the-web
-        const audioContext = new AudioContext();
-        const audioElementSource = audioContext.createMediaElementSource(entity);
-        const foaRenderer = Omnitone.createFOARenderer(audioContext);
-
-        // Make connection and start play. Hook up the user input for the playback.
-        foaRenderer.initialize().then(function() {
-          audioElementSource.connect(foaRenderer.input);
-          foaRenderer.output.connect(audioContext.destination);
-
-          // This is necessary to activate audio playback out of autoplay block.
-          // someButton.onclick = () => {
-          //   audioContext.resume();
-          //   audioElement.play();
-          // };
-        });
-    })
-
+    // // Set up an audio element to feed the ambisonic source audio feed.
+    // const audioElement = document.createElement('audio');
+    // audioElement.src = 'audio-file-foa-acn.wav';
+    //
+    // var entities = window.document.querySelectorAll('[sound]');
+    //
+    // entities.map(entity => {
+    //   var sound = entity.components.sound;
+    //   // original aframe sound player. entity.components.sound.playSound();
+    //     //
+    //     // Create AudioContext, MediaElementSourceNode and FOARenderer.
+    //
+    //     // https://github.com/GoogleChrome/omnitone#omnitone-spatial-audio-on-the-web
+    //     const audioContext = new AudioContext();
+    //     const audioElementSource = audioContext.createMediaElementSource(entity);
+    //     const foaRenderer = Omnitone.createFOARenderer(audioContext);
+    //
+    //     // Make connection and start play. Hook up the user input for the playback.
+    //     foaRenderer.initialize().then(function() {
+    //       audioElementSource.connect(foaRenderer.input);
+    //       foaRenderer.output.connect(audioContext.destination);
+    //
+    //       // This is necessary to activate audio playback out of autoplay block.
+    //       // someButton.onclick = () => {
+    //       //   audioContext.resume();
+    //       //   audioElement.play();
+    //       // };
+    //     });
+    // })
   }
 
   playSound(e) {

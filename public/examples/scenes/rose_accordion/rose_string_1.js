@@ -3,8 +3,8 @@ export let Scene = {
   published: true,
   id: "rose-accordion",
   name: "Rose Accordion",
-  duration: 60000,
-  autoPlay: false,
+  duration: 300000,
+  autoPlay: true,
   skybox: {
     sky: {
       color: "#ededed",
@@ -126,16 +126,16 @@ export let Scene = {
           art: "https://www.dropbox.com/s/bap92gxc3ldd8s0/accordion_actions.glb?dl=0",
           id: "accordion",
           name: "Accordion",
-          autoPlay: false,
+          autoPlay: true,
           animationMixer: {
             type: 'stretch',
             squash: 'squash',
             stretch: 'stretch',
-            // duration: 'AUTO',
+            
             // crossFadeDuration: 0.5,
             loop: 'once',
-            // repetitions: "Infinity",
-            timeScale: 0.5,
+            repetitions: "Infinity",
+            timeScale: 1,
           },
           scale: {
             x: 1,
@@ -148,7 +148,7 @@ export let Scene = {
             z: 0
           },
           position: {
-            x: -1,
+            x: 0,
             y: 1.6,
             z: -0.4
           },
