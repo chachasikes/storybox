@@ -148,7 +148,7 @@ export let Scene = {
             z: 0
           },
           position: {
-            x: 0,
+            x: -1,
             y: 1.6,
             z: -0.4
           },

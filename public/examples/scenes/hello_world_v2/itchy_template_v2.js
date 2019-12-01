@@ -48,29 +48,34 @@ export let Scene = {
       //     intensity: 1.3
       //   }
       // },
-      // skybox : {
-      //   sky : {
-      //     color : '#ffffff',
-      //     id : 'light-background',
-      //     name : 'Light background'
-      //   }
-      // },
-      // loading : {
-      //   image : {
-      //     id : 'loading-graphic',
-      //     art : './images/storybox-02.png',
-      //     scale : {
-      //       x : 150,
-      //       y : 75,
-      //       z : 1
-      //     },
-      //     position : {
-      //       x : 50,
-      //       y : 50,
-      //       z : 0
-      //     }
-      //   }
-      // },
+      skybox : {
+        sky : {
+          color : '#ffffff',
+          id : 'light-background',
+          name : 'Light background'
+        }
+      },
+      loading : {
+        image : {
+          id : 'loading-graphic',
+          art : './images/butterfly.png',
+          scale : {
+            x : 150,
+            y : 150,
+            z : 1
+          },
+          position : {
+            x : 0,
+            y : 0,
+            z : -30
+          },
+          rotation: {
+            x : 0,
+            y : 0,
+            z : 0
+          }
+        }
+      },
       river_sound_test : {
         mesh : {
           name : 'Sphere GLB - Cardboard texture 1',

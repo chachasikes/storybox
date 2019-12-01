@@ -1,3 +1,5 @@
+import { vrlog } from "./../utilities/vrlog.js";
+
 export function registerComponent() {
   if (AFRAME.components["accordion-stretch"] === undefined) {
   AFRAME.registerComponent('accordion-stretch', {
@@ -12,7 +14,7 @@ export function registerComponent() {
         directionPoll: [],
       };
 
-      this.throttleCheckDirection = AFRAME.utils.throttle(this.calculateDirection, 250, this);
+      this.throttleCheckDirection = AFRAME.utils.throttle(this.calculateDirection, 1000, this);
       updateAccordionLine(this);
     },
 
@@ -25,9 +27,10 @@ export function registerComponent() {
         // console.log(animMixer._actions[i]);
         if (animMixer._actions[i]._clip !== undefined && animMixer._actions[i]._clip.duration !== undefined) {
           timeInSeconds = (animMixer._actions[i]._clip.duration * percentTime) / animMixer._actions[i].timeScale;
-          timeInSeconds = 0;
+          // timeInSeconds = 0;
           // console.log(timeInSeconds, animMixer._actions[i]._clip.duration, percentTime);
           animMixer._actions[i].time = timeInSeconds;
+                vrlog(timeInSeconds);
           this.pauseCurrentAnimationAction(animation);
         }
       }
@@ -70,6 +73,8 @@ export function registerComponent() {
           data.clip = 'squash';
           stretchMesh.setAttribute("animation-mixer-storybox", data);
         }
+
+        vrlog(data.clip);
 
         // let stretchMesh = document.querySelector('[data-animation-type="stretch"]');
 
