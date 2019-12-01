@@ -14,6 +14,7 @@ import { registerComponent as gltfOpacity } from "./components/gltf-model-opacit
 import { registerComponent as modelMaterial } from "./components/model-material.js";
 import { registerComponent as objOpacity } from "./components/obj-model-opacity.js";
 import { registerComponent as animationMixer } from "./components/animation-mixer-storybox.js";
+import { registerComponent as midiPlayer } from "./components/midi-player.js";
 
 /**
  * Build StoryboxNavigator
@@ -715,6 +716,7 @@ export class StoryboxNavigator {
     objOpacity();
     modelMaterial();
     animationMixer();
+    midiPlayer();
   }
 
   /**

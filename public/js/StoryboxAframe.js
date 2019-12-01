@@ -626,6 +626,8 @@ export class StoryboxAframe {
       });
 
       tag = ` sound="${soundTag}" `;
+    } else if (props.type !== undefined && props.type === 'midi-player') {
+      tag = ` midi-player="soundfont: ${props.soundfont}; song: ${props.song};" `
     }
 
     return tag;
@@ -823,7 +825,6 @@ export class StoryboxAframe {
     let soundMarkup = ``;
     if (props.handProp !== undefined && props.handProp.sound !== undefined) {
       soundMarkup = this.buildSound(props.handProp.sound, innerMarkup, childElements, preloadElements, aframeTags);
-      console.log(preloadElements, soundMarkup);
     }
     if (props.handProp !== undefined && props.handProp.mesh !== undefined) {
       let aframeTags = this.buildTags(props.handProp.mesh)
