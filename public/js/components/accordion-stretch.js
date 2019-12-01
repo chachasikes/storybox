@@ -132,14 +132,16 @@ export function updateAccordionLine(parent) {
     if (poll.length > 100) {
       poll.shift();
     }
-    if (poll.length === 0 || poll.length === 1) {
+
+    if (poll.length < 2) {
       poll.push(
         {
-          left: positionLeft.x,
-          right: positionRight.x
+          left: positionLeftHand.x,
+          right: positionRightHand.x
         }
       );
-      vrlog('left' + poll[0].left);
+      vrlog('left ' + positionLeftHand.x);
+
     }
 
     // Push new values on change
