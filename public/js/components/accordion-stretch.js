@@ -125,40 +125,6 @@ export function updateAccordionLine(parent) {
     let positionRightHand = rightHand.object3D.position;
     let cameraPosition = rig.object3D.position;
     let newPositionLeft, newPositionRight;
-
-
-    let poll = window.StoryboxNavigator.accordionStretch.directionPoll;
-    // Store the direction of movement.
-    if (poll.length > 100) {
-      poll.shift();
-    }
-
-    if (poll.length < 2) {
-      poll.push(
-        {
-          left: positionLeftHand.x,
-          right: positionRightHand.x
-        }
-      );
-      vrlog('left ' + positionLeftHand.x);
-
-    }
-
-    // Push new values on change
-    if (poll[poll.length - 1] !== undefined &&
-        (poll[poll.length - 1].left !== positionLeft.x ||
-        poll[poll.length - 1].right !== positionRight.x)
-        ) {
-      poll.push(
-        {
-          left: positionLeftHand.x,
-          right: positionRightHand.x
-        }
-      );
-    }
-
-    parent.throttleCheckDirection();
-
     if (!AFRAME.utils.device.checkHeadsetConnected()) {
       newPositionLeft = window.StoryboxNavigator.testPositions[window.StoryboxNavigator.testPosition].left;
       newPositionRight = window.StoryboxNavigator.testPositions[window.StoryboxNavigator.testPosition].right;
@@ -176,6 +142,38 @@ export function updateAccordionLine(parent) {
         z: positionRightHand.z
       };
     }
+
+    let poll = window.StoryboxNavigator.accordionStretch.directionPoll;
+    // Store the direction of movement.
+    if (poll.length > 100) {
+      poll.shift();
+    }
+
+    if (poll.length < 2) {
+      poll.push(
+        {
+          left: newPositionLeft.x,
+          right: newPositionRight.x
+        }
+      );
+      vrlog('left ' + newPositionLeft.x);
+
+    }
+
+    // Push new values on change
+    if (poll[poll.length - 1] !== undefined &&
+        (poll[poll.length - 1].left !== newPositionLeft.x ||
+        poll[poll.length - 1].right !== newPositionRight.x)
+        ) {
+      poll.push(
+        {
+          left: newPositionLeft.x,
+          right: newPositionRight.x
+        }
+      );
+    }
+
+    parent.throttleCheckDirection();
 
     var stretch = document.querySelector("#rose-stretch");
     if (stretch !== null) {
