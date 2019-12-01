@@ -151,8 +151,8 @@ export function updateAccordionLine(parent) {
         ) {
       poll.push(
         {
-          left: positionLeft.x,
-          right: positionRight.x
+          left: positionLeftHand.x,
+          right: positionRightHand.x
         }
       );
     }
