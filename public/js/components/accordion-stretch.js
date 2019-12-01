@@ -7,19 +7,69 @@ export function registerComponent() {
       action: {default: null},
     },
     init: function() {
+      window.StoryboxNavigator.accordionStretch = {
+        direction: 1,
+        directionPoll: [],
+      };
+
+      this.throttleCheckDirection = AFRAME.utils.throttle(this.checkStretchDirection, 1000, this);
+      this.updateAccordionLine = updateAccordionLine;
       // console.log('accordion init', this.el);
-      updateAccordionLine();
+      this.updateAccordionLine(this);
       // this.el.addEventListener('stretch', (e) => {
       //
       // });
 
     },
+
+    calculateDirection: function() {
+      let poll = window.StoryboxNavigator.accordionStretch.directionPoll;
+      let direction = window.StoryboxNavigator.accordionStretch.direction;
+      let trendMatrix = [];
+      let trendChange = [];
+      let counter = 0;
+      poll.map(item => {
+        if (counter > 0) {
+          trendMatrix.push(Math.abs(item.left.x) + Math.abs(item.right.x));
+          if (trendMatrix[counter - 1] >= trendMatrix[counter]) {
+            direction = 1;
+          } else {
+            direction = -1;
+          }
+        }
+        counter = counter + 1;
+      });
+    },
+
+    checkStretchDirection: function() {
+
+        console.log('debounce');
+        // Store the direction of movement.
+        // let poll = window.StoryboxNavigator.accordionStretch.directionPoll;
+        // if (poll.length > 100) {
+        //   poll.shift();
+        // }
+        //
+        // poll.push(
+        //   {
+        //     left: positionLeft,
+        //     right: positionRight
+        //   }
+        // );
+        //
+        //
+        // calculateDirection();
+        // console.log(window.StoryboxNavigator.accordionStretch.direction);
+
+
+    },
+
     update: function() {
       // console.log('accordion update', this.el.getAttribute('id'));
-      updateAccordionLine();
+      updateAccordionLine(this);
     },
     tick: function () {
-      updateAccordionLine();
+      updateAccordionLine(this);
     },
     remove: function() {
     }
@@ -29,7 +79,7 @@ export function registerComponent() {
 
 // @TODO function accordion line length shorter for a min duration & then longer - step through song array until over - (with repeat)
 
-export function updateAccordionLine() {
+export function updateAccordionLine(parent) {
   var rig = document.querySelector("#rig");
   var stretchLeft = document.querySelector("#leftStretch");
   var stretchRight = document.querySelector("#rightStretch");
@@ -46,10 +96,14 @@ export function updateAccordionLine() {
   ) {
     let positionLeft = stretchLeft.object3D.position;
     let positionRight = stretchRight.object3D.position;
+
     let positionLeftHand = leftHand.object3D.position;
     let positionRightHand = rightHand.object3D.position;
     let cameraPosition = rig.object3D.position;
     let newPositionLeft, newPositionRight;
+
+    parent.throttleCheckDirection();
+
     if (!AFRAME.utils.device.checkHeadsetConnected()) {
       newPositionLeft = window.StoryboxNavigator.testPositions[window.StoryboxNavigator.testPosition].left;
       newPositionRight = window.StoryboxNavigator.testPositions[window.StoryboxNavigator.testPosition].right;
@@ -67,6 +121,8 @@ export function updateAccordionLine() {
         z: positionRightHand.z
       };
     }
+
+
 
     var stretch = document.querySelector("#rose-stretch");
     if (stretch !== null) {

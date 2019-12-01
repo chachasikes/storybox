@@ -716,53 +716,6 @@ export class StoryboxNavigator {
   }
 
   /**
-   * Debounce function
-   * @param {function} fn - Callback function
-   * @param {number} delay - Debouce delay in milliseconds
-   */
-  debounce(fn, delay) {
-    var timer = null;
-    return function() {
-      var context = this,
-        args = arguments;
-      clearTimeout(timer);
-      // console.log("debounce");
-      timer = setTimeout(function() {
-        // console.log("setting timeout");
-        fn.apply(context, args);
-      }, delay);
-    };
-  }
-
-  /**
-   * Throttle function
-   * @param {function} fn - Callback function
-   * @param {number} threshold - Debouce delay in milliseconds
-   * @param scope -
-   */
-  throttle(fn, threshhold, scope) {
-    threshhold || (threshhold = 250);
-    var last, deferTimer;
-    return function() {
-      var context = scope || this;
-
-      var now = +new Date(),
-        args = arguments;
-      if (last && now < last + threshhold) {
-        // hold on to it
-        clearTimeout(deferTimer);
-        deferTimer = setTimeout(function() {
-          last = now;
-          fn.apply(context, args);
-        }, threshhold);
-      } else {
-        last = now;
-        fn.apply(context, args);
-      }
-    };
-  }
-
-  /**
    * Update location of hands for testing in browser or viewing in desktop.
    */
   updateTestPositions() {
