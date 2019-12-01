@@ -1,3 +1,10 @@
+import { AnimationMixer, AnimationLoader, AnimationClip } from './../../lib/three.module.js';
+
+// Update Aframe's forked copy of Three
+THREE.AnimationMixer = AnimationMixer;
+THREE.AnimationLoader = AnimationLoader;
+THREE.AnimationClip = AnimationClip;
+
 export function registerComponent() {
   if (AFRAME.components["animation-mixer-storybox"] === undefined) {
 
@@ -23,7 +30,7 @@ export function registerComponent() {
           default: 0
         },
         clampWhenFinished: {
-          default: false,
+          default: true,
           type: 'boolean'
         },
         crossFadeDuration: {
