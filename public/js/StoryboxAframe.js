@@ -528,6 +528,8 @@ export class StoryboxAframe {
         >
         </a-entity>`;
 
+        console.log(tag);
+
         innerMarkup = `${innerMarkup}
           ${tag}
           `;
@@ -819,6 +821,7 @@ export class StoryboxAframe {
       soundMarkup = this.buildSound(props.handProp.sound, innerMarkup, childElements, preloadElements, aframeTags);
     }
     if (props.handProp.mesh !== undefined) {
+      let aframeTags = this.buildTags(props.handProp.mesh)
       let builtMesh = this.buildMesh(props.handProp.mesh, innerMarkup, childElements, preloadElements, aframeTags, soundMarkup);
       mesh = builtMesh.tag;
     }

@@ -131,26 +131,26 @@ export let Scene = {
             type: 'stretch',
             squash: 'squash',
             stretch: 'stretch',
-            duration: 10,
-            crossFadeDuration: 0,
+            // duration: 10,
+            // crossFadeDuration: 0,
             loop: 'once',
-            repetitions: "Infinity",
-            timeScale: 1,
+            // repetitions: "Infinity",
+            // timeScale: 1,
           },
           scale: {
-            x: 0.5,
-            y: 0.5,
-            z: 0.5
+            x: 1,
+            y: 1,
+            z: 1
           },
           rotation: {
-            x: 90,
+            x: 180,
             y: 0,
             z: 0
           },
           position: {
             x: 0,
-            y: 0,
-            z: 0
+            y: 1.6,
+            z: -0.4
           },
         }
       }
