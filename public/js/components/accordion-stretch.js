@@ -12,56 +12,31 @@ export function registerComponent() {
         directionPoll: [],
       };
 
-      this.throttleCheckDirection = AFRAME.utils.throttle(this.checkStretchDirection, 1000, this);
-      this.updateAccordionLine = updateAccordionLine;
-      // console.log('accordion init', this.el);
-      this.updateAccordionLine(this);
-      // this.el.addEventListener('stretch', (e) => {
-      //
-      // });
-
+      this.throttleCheckDirection = AFRAME.utils.throttle(this.calculateDirection, 250, this);
+      updateAccordionLine(this);
     },
 
     calculateDirection: function() {
+
       let poll = window.StoryboxNavigator.accordionStretch.directionPoll;
       let direction = window.StoryboxNavigator.accordionStretch.direction;
+
       let trendMatrix = [];
       let trendChange = [];
       let counter = 0;
-      poll.map(item => {
-        if (counter > 0) {
-          trendMatrix.push(Math.abs(item.left.x) + Math.abs(item.right.x));
-          if (trendMatrix[counter - 1] >= trendMatrix[counter]) {
-            direction = 1;
-          } else {
-            direction = -1;
-          }
+      // console.log(poll);
+
+      if (poll.length > 1) {
+        let last = Math.abs(poll[poll.length - 2].left) + Math.abs(poll[poll.length - 2].right);
+        let current = Math.abs(poll[poll.length - 1].left) + Math.abs(poll[poll.length - 1].right);
+        if (current > last) {
+          window.StoryboxNavigator.accordionStretch.direction = 1;
+        } else {
+          window.StoryboxNavigator.accordionStretch.direction = -1;
         }
-        counter = counter + 1;
-      });
-    },
+      }
 
-    checkStretchDirection: function() {
-
-        console.log('debounce');
-        // Store the direction of movement.
-        // let poll = window.StoryboxNavigator.accordionStretch.directionPoll;
-        // if (poll.length > 100) {
-        //   poll.shift();
-        // }
-        //
-        // poll.push(
-        //   {
-        //     left: positionLeft,
-        //     right: positionRight
-        //   }
-        // );
-        //
-        //
-        // calculateDirection();
-        // console.log(window.StoryboxNavigator.accordionStretch.direction);
-
-
+      console.log(window.StoryboxNavigator.accordionStretch.direction);
     },
 
     update: function() {
@@ -102,6 +77,33 @@ export function updateAccordionLine(parent) {
     let cameraPosition = rig.object3D.position;
     let newPositionLeft, newPositionRight;
 
+
+    let poll = window.StoryboxNavigator.accordionStretch.directionPoll;
+    // Store the direction of movement.
+    if (poll.length > 100) {
+      poll.shift();
+    }
+    if (poll.length === 0) {
+      poll.push(
+        {
+          left: positionLeft.x,
+          right: positionRight.x
+        }
+      );
+    }
+
+    // Push new values on change
+    if (poll[poll.length - 1] !== undefined && (poll[poll.length - 1].left !== positionLeft.x ||
+        poll[poll.length - 1].right !== positionRight.x)) {
+      poll.push(
+        {
+          left: positionLeft.x,
+          right: positionRight.x
+        }
+      );
+
+      console.log(poll);
+    }
     parent.throttleCheckDirection();
 
     if (!AFRAME.utils.device.checkHeadsetConnected()) {
