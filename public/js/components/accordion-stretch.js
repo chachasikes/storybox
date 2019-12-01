@@ -30,7 +30,7 @@ export function registerComponent() {
           // timeInSeconds = 0;
           // console.log(timeInSeconds, animMixer._actions[i]._clip.duration, percentTime);
           animMixer._actions[i].time = timeInSeconds;
-          vrlog(timeInSeconds);
+          // vrlog(timeInSeconds);
           this.pauseCurrentAnimationAction(animation);
         }
       }
@@ -57,7 +57,8 @@ export function registerComponent() {
       let counter = 0;
 
       if (poll.length > 1) {
-        vrlog(poll.length, poll[0].left);
+        vrlog('length' + poll.length);
+        vrlog(poll[0].left);
         let last = Math.abs(poll[poll.length - 2].left) + Math.abs(poll[poll.length - 2].right);
         let current = Math.abs(poll[poll.length - 1].left) + Math.abs(poll[poll.length - 1].right);
 
@@ -138,7 +139,7 @@ export function updateAccordionLine(parent) {
           right: positionRight.x
         }
       );
-      vrlog(poll[0].left);
+      vrlog('left' + poll[0].left);
     }
 
     // Push new values on change
