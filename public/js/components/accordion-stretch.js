@@ -12,7 +12,7 @@ export function registerComponent() {
         directionPoll: [],
       };
 
-      this.throttleCheckDirection = AFRAME.utils.throttle(this.calculateDirection, 1000, this);
+      this.throttleCheckDirection = AFRAME.utils.throttle(this.calculateDirection, 250, this);
       updateAccordionLine(this);
     },
 

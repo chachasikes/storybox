@@ -816,11 +816,11 @@ export class StoryboxAframe {
     let mesh = ``;
 
     let soundMarkup = ``;
-    if (props.handProp.sound !== undefined) {
+    if (props.handProp !== undefined && props.handProp.sound !== undefined) {
 
       soundMarkup = this.buildSound(props.handProp.sound, innerMarkup, childElements, preloadElements, aframeTags);
     }
-    if (props.handProp.mesh !== undefined) {
+    if (props.handProp !== undefined && props.handProp.mesh !== undefined) {
       let aframeTags = this.buildTags(props.handProp.mesh)
       let builtMesh = this.buildMesh(props.handProp.mesh, innerMarkup, childElements, preloadElements, aframeTags, soundMarkup);
       mesh = builtMesh.tag;

@@ -135,7 +135,7 @@ export let Scene = {
             // crossFadeDuration: 0.5,
             loop: 'once',
             // repetitions: "Infinity",
-            timeScale: 0.1,
+            timeScale: 0.5,
           },
           scale: {
             x: 1,
