@@ -14,7 +14,7 @@ export function vrlog(message) {
         if (typeof textParsed === 'object') {
           let logs =  textParsed.value.split('\n');
           let tailLogs = logs;
-          if (logs.length > 3) {
+          if (logs.length > 5) {
             tailLogs = logs.slice(Math.max(logs.length - 6), logs.length);
           }
           let logString = tailLogs.join('\n');

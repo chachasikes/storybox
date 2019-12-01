@@ -30,7 +30,7 @@ export function registerComponent() {
           // timeInSeconds = 0;
           // console.log(timeInSeconds, animMixer._actions[i]._clip.duration, percentTime);
           animMixer._actions[i].time = timeInSeconds;
-                vrlog(timeInSeconds);
+          vrlog(timeInSeconds);
           this.pauseCurrentAnimationAction(animation);
         }
       }
@@ -55,6 +55,7 @@ export function registerComponent() {
       let trendMatrix = [];
       let trendChange = [];
       let counter = 0;
+      vrlog('cd');
       if (poll.length > 1) {
         let last = Math.abs(poll[poll.length - 2].left) + Math.abs(poll[poll.length - 2].right);
         let current = Math.abs(poll[poll.length - 1].left) + Math.abs(poll[poll.length - 1].right);

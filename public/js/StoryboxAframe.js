@@ -886,8 +886,8 @@ export class StoryboxAframe {
       debuggerPanelWrist = `
       <a-box
         id="debugger-log-vr-bkg"
-        height="0.15"
-        width="0.15"
+        height="0.2"
+        width="0.2"
         depth="0.005"
         ${panelPosition}
         material="side: back; color: #f44242; transparent: true; opacity: 0.7"
@@ -899,7 +899,7 @@ export class StoryboxAframe {
         anchor: center;
         letterSpacing: 10;
         baseline: top;
-        width: 0.15;
+        width: 0.2;
         font: https://cdn.aframe.io/fonts/Roboto-msdf.json;
         height: 0.05;
         xOffset: 0.001;
@@ -914,12 +914,12 @@ export class StoryboxAframe {
         text="value: ;
         anchor: center;
         baseline: center;
-        width: 0.15;
+        width: 0.2;
         height: 0.10;
         xOffset: 0.001;
         yOffset: 0.001;
         zOffset: 0.001;
-        wrap-pixels: 700;
+        wrap-pixels: 750;
         color: #eeeeee"
       ></a-entity>
       </a-box>`;
