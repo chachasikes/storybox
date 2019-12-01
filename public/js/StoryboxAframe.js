@@ -494,12 +494,12 @@ export class StoryboxAframe {
         // Support GLTF 1.0 and 2.0. Tiltbrush exports glb1, which need to be renamed as glb
         let gltf_model = glb_legacy ? 'gltf-model-legacy' : 'gltf-model';
 
-        let animationMixer = ` animation-mixer `;
+        let animationMixer = ` animation-mixer-storybox `;
         if (props.animationMixer !== undefined) {
           if (props.animationMixer.type === 'stretch') {
-            animationMixer = ` animation-mixer="
-              clip: ${props.animationMixer.squash};
-              duration: ${props.animationMixer.duration ? props.animationMixer.duration : 'AUTO'};
+            animationMixer = `data-animation-type="stretch" animation-mixer-storybox="
+              clip: ${props.animationMixer.stretch};
+              ${props.animationMixer.duration ? 'duration: ' + props.animationMixer.duration : ''};
               crossFadeDuration: ${props.animationMixer.crossFadeDuration ? props.animationMixer.crossFadeDuration : 0};
               loop: ${props.animationMixer.loop ? props.animationMixer.loop : 'once'};
               repetitions: ${props.animationMixer.repetitions ? props.animationMixer.repetitions : "Infinity"};
@@ -528,7 +528,7 @@ export class StoryboxAframe {
         >
         </a-entity>`;
 
-        console.log(tag);
+        // console.log(tag);
 
         innerMarkup = `${innerMarkup}
           ${tag}

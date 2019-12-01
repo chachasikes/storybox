@@ -19,7 +19,7 @@ export function registerComponent() {
 
         window.StoryboxNavigator.sceneEvents.map(events => {
           let sceneSelector = document.querySelector('#scene-selector');
-          console.log('event set up', events);
+          // console.log('event set up', events);
           if (events.length > 0) {
           events.map(item => {
             if (item.type === 'intersection-play') {
@@ -27,7 +27,7 @@ export function registerComponent() {
                 `${item.id}-gltf`
               );
               intersectTargetEl.addEventListener(`${item.id}-${item.eventName}`, (e) => {
-                console.log('trying to fade', e);
+                // console.log('trying to fade', e);
               });
               // intersectTargetEl.addEventListener(`fade`, (e) => {
               //   console.log('trying to fade', e);
@@ -49,12 +49,12 @@ export function registerComponent() {
 
             //@TODO get head position
             if (intersectAction === "fadeInObject") {
-              console.log("head to fadeInObject");
+              // console.log("head to fadeInObject");
               let intersectTargetEl = document.getElementById(
                 `${intersectTarget}-gltf`
               );
               if (intersectTargetEl !== undefined) {
-                console.log(intersectTargetEl, `${intersectTarget}-${intersectAction}`);
+                // console.log(intersectTargetEl, `${intersectTarget}-${intersectAction}`);
                 intersectTargetEl.emit(`${intersectTarget}-${intersectAction}`);
                 // intersectTargetEl.emit(`fade`);
               }
@@ -65,7 +65,7 @@ export function registerComponent() {
       },
       update: function() {},
       remove: function() {
-        console.log("remove intersection-play");
+        // console.log("remove intersection-play");
         var data = this.data;
         var el = this.el;
 

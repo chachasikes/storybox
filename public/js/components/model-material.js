@@ -162,7 +162,7 @@ export function registerComponent() {
         this.material = new THREE.MeshStandardMaterial(materialSettings);
 
         this.el.addEventListener('model-loaded', () => {
-          console.log('update model-material: loaded');
+          // console.log('update model-material: loaded');
 
           this.update();
         });

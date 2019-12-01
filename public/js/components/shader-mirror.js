@@ -108,7 +108,7 @@ export function registerComponent() {
         this.camera = camera;
       } else {
         this.camera = new THREE.PerspectiveCamera();
-        console.log(this.name + ": camera is not a Perspective Camera!");
+        // console.log(this.name + ": camera is not a Perspective Camera!");
       }
 
       this.textureMatrix = new THREE.Matrix4();
@@ -338,7 +338,7 @@ export function registerComponent() {
       },
       init: function() {
         var scene = this.el.sceneEl;
-        console.log("init", scene);
+        // console.log("init", scene);
         scene.addEventListener(
           "render-target-loaded",
           this.OnRenderLoaded.bind(this)
@@ -346,14 +346,14 @@ export function registerComponent() {
       },
       update: function() {
         var scene = this.el.sceneEl;
-        console.log("update", scene);
+        // console.log("update", scene);
         scene.addEventListener(
           "render-target-loaded",
           this.OnRenderLoaded.bind(this)
         );;
       },
       OnRenderLoaded: function() {
-        console.log("render target loaded");
+        // console.log("render target loaded");
         var mirrorObj = this.el.getOrCreateObject3D("mesh", THREE.Mesh);
         var cameraEl = document.querySelector("a-entity[camera]");
         if (!cameraEl) {

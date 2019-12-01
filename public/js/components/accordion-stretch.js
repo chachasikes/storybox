@@ -12,31 +12,72 @@ export function registerComponent() {
         directionPoll: [],
       };
 
-      this.throttleCheckDirection = AFRAME.utils.throttle(this.calculateDirection, 250, this);
+      this.throttleCheckDirection = AFRAME.utils.throttle(this.calculateDirection, 1000, this);
       updateAccordionLine(this);
     },
 
-    calculateDirection: function() {
+    seekAnimationTime: function(animation, percentTime){
+      let timeInSeconds = 0;
+      let animMixer = animation.mixer;
+      // https://stackoverflow.com/questions/53004301/how-to-manually-control-animation-frame-by-frame
+      animMixer.time = 0;
+      for(var i=0; i < animMixer._actions.length; i++){
+        // console.log(animMixer._actions[i]);
+        if (animMixer._actions[i]._clip !== undefined && animMixer._actions[i]._clip.duration !== undefined) {
+          timeInSeconds = (animMixer._actions[i]._clip.duration * percentTime) / animMixer._actions[i].timeScale;
+          timeInSeconds = 0;
+          // console.log(timeInSeconds, animMixer._actions[i]._clip.duration, percentTime);
+          animMixer._actions[i].time = timeInSeconds;
+          this.pauseCurrentAnimationAction(animation);
+        }
+      }
+    },
 
+    pauseCurrentAnimationAction: function(animation) {
+      if (animation.activeActions !== undefined && animation.activeActions[0] !== undefined) {
+        animation.activeActions[0].paused = true;
+      }
+    },
+
+    playCurrentAnimationAction: function(animation) {
+      if (animation.activeActions !== undefined && animation.activeActions[0] !== undefined) {
+        animation.activeActions[0].paused = false;
+      }
+    },
+
+    calculateDirection: function() {
       let poll = window.StoryboxNavigator.accordionStretch.directionPoll;
       let direction = window.StoryboxNavigator.accordionStretch.direction;
 
       let trendMatrix = [];
       let trendChange = [];
       let counter = 0;
-      // console.log(poll);
-
       if (poll.length > 1) {
         let last = Math.abs(poll[poll.length - 2].left) + Math.abs(poll[poll.length - 2].right);
         let current = Math.abs(poll[poll.length - 1].left) + Math.abs(poll[poll.length - 1].right);
+
+        let stretchMesh = document.querySelector('[data-animation-type="stretch"]');
+
+        let data = stretchMesh.getAttribute('animation-mixer-storybox');
+
         if (current > last) {
           window.StoryboxNavigator.accordionStretch.direction = 1;
+          data.clip = 'stretch';
+          stretchMesh.setAttribute("animation-mixer-storybox", data);
+
         } else {
           window.StoryboxNavigator.accordionStretch.direction = -1;
+          data.clip = 'squash';
+          stretchMesh.setAttribute("animation-mixer-storybox", data);
+        }
+
+        // let stretchMesh = document.querySelector('[data-animation-type="stretch"]');
+
+        let animation = stretchMesh.components["animation-mixer-storybox"];
+        if (animation !== undefined) {
+          this.seekAnimationTime(animation, 0.1);
         }
       }
-
-      console.log(window.StoryboxNavigator.accordionStretch.direction);
     },
 
     update: function() {
@@ -93,17 +134,18 @@ export function updateAccordionLine(parent) {
     }
 
     // Push new values on change
-    if (poll[poll.length - 1] !== undefined && (poll[poll.length - 1].left !== positionLeft.x ||
-        poll[poll.length - 1].right !== positionRight.x)) {
+    if (poll[poll.length - 1] !== undefined &&
+        (poll[poll.length - 1].left !== positionLeft.x ||
+        poll[poll.length - 1].right !== positionRight.x)
+        ) {
       poll.push(
         {
           left: positionLeft.x,
           right: positionRight.x
         }
       );
-
-      console.log(poll);
     }
+
     parent.throttleCheckDirection();
 
     if (!AFRAME.utils.device.checkHeadsetConnected()) {
@@ -123,8 +165,6 @@ export function updateAccordionLine(parent) {
         z: positionRightHand.z
       };
     }
-
-
 
     var stretch = document.querySelector("#rose-stretch");
     if (stretch !== null) {

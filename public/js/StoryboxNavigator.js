@@ -13,6 +13,7 @@ import { registerComponent as behaviorSphereIntersection } from "./components/sp
 import { registerComponent as gltfOpacity } from "./components/gltf-model-opacity.js";
 import { registerComponent as modelMaterial } from "./components/model-material.js";
 import { registerComponent as objOpacity } from "./components/obj-model-opacity.js";
+import { registerComponent as animationMixer } from "./components/animation-mixer-storybox.js";
 
 /**
  * Build StoryboxNavigator
@@ -55,17 +56,17 @@ export class StoryboxNavigator {
     // Listen for desktop keystrokes.
     this.appKeyStrokes();
     window.StoryboxNavigator.sceneEvents = [];
-    console.log('init');
+    // console.log('init');
     window.addEventListener("hashchange", this.handleHashChange, false);
     if (parent !== undefined) {
       this.registry = parent.registry;
       this.galleryScene = parent.galleryScene;
     }
     if (this.hash !== "") {
-      console.log("hash", this.hash);
+      // console.log("hash", this.hash);
       this.galleryItemSelect(this.hash);
     } else {
-      console.log("Load Gallery.");
+      // console.log("Load Gallery.");
       this.setupGallery(parent);
     }
   }
@@ -74,7 +75,7 @@ export class StoryboxNavigator {
    * Handle hash change
    */
   handleHashChange() {
-    console.log("Hash change");
+    // console.log("Hash change");
     this.hash = window.location.hash.replace("#", "");
   }
 
@@ -314,7 +315,7 @@ export class StoryboxNavigator {
    * @param {string} id - Id from hash
    */
   galleryItemSelect(id) {
-    console.log("id", id);
+    // console.log("id", id);
     // Set the story id.
     this.storySettings.currentStory = id;
     this.storySettings.timer = null;
@@ -420,7 +421,7 @@ export class StoryboxNavigator {
       document
         .querySelector("a-scene")
         .addEventListener("enter-vr", function() {
-          console.log("ENTERED VR");
+          // console.log("ENTERED VR");
 
           document
             .getElementById("scene-selector")
@@ -443,11 +444,11 @@ export class StoryboxNavigator {
       });
 
       document.querySelector("a-assets").addEventListener("sound-loaded", function(){
-        console.log("sound loaded");
+        // console.log("sound loaded");
       });
 
       document.addEventListener("sound-ended", function(){
-        console.log("sound ended");
+        // console.log("sound ended");
       });
     }
   }
@@ -591,9 +592,9 @@ export class StoryboxNavigator {
 
   playSound(e) {
     // @TODO get target sound
-    console.log("play");
+    // console.log("play");
     var entity = window.document.querySelector('[sound]');
-    console.log('entity', entity);
+    // console.log('entity', entity);
     if (entity !== null) {
       entity.components.sound.playSound();
       // this.setupAmbisonicSound(); // Actually not necessary?
@@ -606,7 +607,7 @@ export class StoryboxNavigator {
     entities.forEach((entity) => {
       if (entity !== null) {
         entity.components.sound.pauseSound();
-        console.log('pausing sound');
+        // console.log('pausing sound');
       }
     });
   }
@@ -616,7 +617,7 @@ export class StoryboxNavigator {
     entities.forEach((entity) => {
       if (entity !== null) {
         entity.components.sound.pauseSound();
-        console.log('pausing sound');
+        // console.log('pausing sound');
       }
     });
   }
@@ -664,7 +665,7 @@ export class StoryboxNavigator {
       currentScene !== null
     ) {
       // Set the scene.
-      console.log("update template", currentScene.id);
+      // console.log("update template", currentScene.id);
       this.updateTemplate(sceneSelector, currentScene.id);
     }
   }
@@ -713,6 +714,7 @@ export class StoryboxNavigator {
     gltfOpacity();
     objOpacity();
     modelMaterial();
+    animationMixer();
   }
 
   /**

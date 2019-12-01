@@ -113,7 +113,6 @@ export class App {
                   this.init();
                 }
               } else {
-                console.log("not valid", remoteFilePath);
                 counter = counter + 1;
               }
             })

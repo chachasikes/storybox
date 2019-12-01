@@ -1,7 +1,7 @@
 import { vrlog } from "./utilities/vrlog.js";
 
 export function intersectSceneAccordion(e) {
-  console.log('intersectSceneAccordion', e);
+  // console.log('intersectSceneAccordion', e);
   vrlog('intersected');
   // Test removal of object if intersect
   let testHand = document.getElementById('middleHand');
@@ -125,7 +125,7 @@ export function buildHandPropInterface(
   let left = {};
   let right = {};
   let className=`class="stretch-object"`;
-  console.log('set up hand props');
+  // console.log('set up hand props');
   if (props !== undefined && props.type === "stretch") {
     left = props.a;
     right = props.b;

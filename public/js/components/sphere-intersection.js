@@ -143,7 +143,7 @@ AFRAME.registerComponent('sphere-intersection', {
   },
   handleHitEnd: function (targetEl) {
     targetEl.emit('hitend', {el: this.el});
-    console.log(this);
+    // console.log(this);
     targetEl.removeState(this.data.state);
     this.el.emit('hitend', {el: targetEl});
   }
