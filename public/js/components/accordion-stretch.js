@@ -55,8 +55,9 @@ export function registerComponent() {
       let trendMatrix = [];
       let trendChange = [];
       let counter = 0;
-      vrlog('cd');
+
       if (poll.length > 1) {
+        vrlog(poll.length, poll[0].left);
         let last = Math.abs(poll[poll.length - 2].left) + Math.abs(poll[poll.length - 2].right);
         let current = Math.abs(poll[poll.length - 1].left) + Math.abs(poll[poll.length - 1].right);
 
