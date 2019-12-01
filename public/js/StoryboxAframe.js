@@ -606,6 +606,11 @@ export class StoryboxAframe {
     let className = `class="${classProps.attribute}"`;
     if (props.src !== undefined) {
       let fileType = props.src.split('.').pop();
+
+      preloadElements.push(
+        `<audio id="${props.id}" src="${props.src}"></audio>`
+      );
+
       // @TODO see if firefox will actually play mp3 files
       // Requires browser permissions.
 
@@ -817,8 +822,8 @@ export class StoryboxAframe {
 
     let soundMarkup = ``;
     if (props.handProp !== undefined && props.handProp.sound !== undefined) {
-
       soundMarkup = this.buildSound(props.handProp.sound, innerMarkup, childElements, preloadElements, aframeTags);
+      console.log(preloadElements, soundMarkup);
     }
     if (props.handProp !== undefined && props.handProp.mesh !== undefined) {
       let aframeTags = this.buildTags(props.handProp.mesh)
@@ -858,7 +863,10 @@ export class StoryboxAframe {
     ${mesh}`;
 
     return {
-      touchContollers: touchContollers
+      touchContollers: touchContollers,
+      preloadElements: preloadElements,
+      childElements: childElements,
+      innerMarkup: innerMarkup,
     }
   }
 

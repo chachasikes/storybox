@@ -152,6 +152,21 @@ export let Scene = {
             y: 1.6,
             z: -0.4
           },
+        },
+        sound: {
+          src: 'https://www.dropbox.com/s/nyt7g9167iikmpz/tchaikovsky_flower_waltz_ACC.mp3?dl=0',
+          id: 'dance_of_flowers',
+          name : 'Dance of Flowers',
+          credit : 'https://www.8notes.com/scores/23736.asp?ftype=mp3',
+          autoplay : true,
+          distanceModel : 'inverse',
+          loop : true,
+          maxDistance : 5,
+          poolSize : 1,
+          positional : true,
+          refDistance : 1,
+          rolloffFactor : 1,
+          volume : 1
         }
       }
     }
