@@ -208,25 +208,24 @@ export function updateAccordionLine(parent) {
       });
     }
 
-
-      // let positionCarrying;
-      // if (carryMesh !== null && carryMesh.length > 0) {
-      //   carryMesh.forEach(obj => {
-      //     let id = obj.getAttribute("id");
-      //     let el = document.getElementById(id);
-      //     positionCarrying = updateStretchPosition(
-      //       newPositionLeft,
-      //       newPositionRight,
-      //       el,
-      //       cameraPosition,
-      //       {x: 50, y: 50, z: 50}
-      //     );
-      //     if (positionCarrying !== null) {
-      //       let propPosition = el.getAttribute("position");
-      //       el.setAttribute("position", positionCarrying);
-      //     }
-      //   });
-      // }
+      let positionCarrying;
+      if (carryMesh !== null && carryMesh.length > 0) {
+        carryMesh.forEach(obj => {
+          let id = obj.getAttribute("id");
+          let el = document.getElementById(id);
+          positionCarrying = updateStretchPosition(
+            newPositionLeft,
+            newPositionRight,
+            el,
+            cameraPosition,
+            {x: 50, y: 50, z: 50}
+          );
+          if (positionCarrying !== null) {
+            let propPosition = el.getAttribute("position");
+            el.setAttribute("position", positionCarrying);
+          }
+        });
+      }
 
   }
 }
@@ -238,13 +237,12 @@ export function updateStretchPosition(a, b, item, cameraPosition, fixed = null) 
     let percentageY = parseFloat(item.getAttribute("data-percentage-y"));
     let percentageZ = parseFloat(item.getAttribute("data-percentage-z"));
 
-    // if (fixed !== null) {
-    //   percentageX = fixed.x;
-    //   percentageY = fixed.y;
-    //   percentageZ = fixed.z;
-    // }
+    if (fixed !== null) {
+      percentageX = fixed.x;
+      percentageY = fixed.y;
+      percentageZ = fixed.z;
+    }
 
-    //
     let percentage = percentageX; // @TODO connect to stretch axis setting if needed.
     let data = {
       x: ((b.x - a.x) * percentage) + a.x,
@@ -398,7 +396,7 @@ export function buildHandPropInterface(
           "
         ></a-entity>`;
 
-    innerMarkup = `${innerMarkup}${mesh}${rope}${leftBox}${rightBox}${objectPositions}`;
+    innerMarkup = `${innerMarkup}${rope}${leftBox}${rightBox}${objectPositions}${mesh}`;
   }
 
   return {
