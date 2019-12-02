@@ -14,7 +14,7 @@ export function registerComponent() {
         directionPoll: [],
       };
 
-      this.throttleCheckDirection = AFRAME.utils.throttle(this.calculateDirection, 1000, this);
+      this.throttleCheckDirection = AFRAME.utils.throttle(this.calculateDirection, 250, this);
       updateAccordionLine(this);
     },
 
@@ -242,11 +242,6 @@ export function updatePivotPosition(a, b, item, cameraPosition) {
       let percentageX = 0.50;
       let percentageY = 0.50;
       let percentageZ = 0.50;
-      // let percentageX = position.attrValue.x;
-      // let percentageY = position.attrValue.y;
-      // let percentageZ = position.attrValue.z;
-
-      // console.log(position.attrValue);
 
       let data = {
         x: ((b.x - a.x) * percentageX) + a.x,
