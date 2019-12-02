@@ -14,7 +14,7 @@ export function registerComponent() {
         directionPoll: [],
       };
 
-      this.throttleCheckDirection = AFRAME.utils.throttle(this.calculateDirection, 250, this);
+      this.throttleCheckDirection = AFRAME.utils.throttle(this.calculateDirection, 200, this);
       updateAccordionLine(this);
     },
 
@@ -125,10 +125,17 @@ export function updateAccordionLine(parent) {
     let positionLeft = stretchLeft.object3D.position;
     let positionRight = stretchRight.object3D.position;
 
+
+
     let positionLeftHand = leftHand.object3D.position;
     let positionRightHand = rightHand.object3D.position;
+
+    let rotationLeftHand = stretchLeft.object3D.rotation;
+    let rotationRightHand = stretchRight.object3D.rotation;
+
     let cameraPosition = rig.object3D.position;
     let newPositionLeft, newPositionRight;
+
     if (!AFRAME.utils.device.checkHeadsetConnected()) {
       newPositionLeft = window.StoryboxNavigator.testPositions[window.StoryboxNavigator.testPosition].left;
       newPositionRight = window.StoryboxNavigator.testPositions[window.StoryboxNavigator.testPosition].right;
@@ -217,13 +224,17 @@ export function updateAccordionLine(parent) {
           positionCarrying = updatePivotPosition(
             newPositionLeft,
             newPositionRight,
+            rotationLeftHand,
+            rotationRightHand,
             el,
             cameraPosition,
             {x: 50, y: 50, z: 50}
           );
           if (positionCarrying !== null) {
             let propPosition = el.getAttribute("position");
-            el.setAttribute("position", positionCarrying);
+            let propRotation = el.getAttribute("position");
+            el.setAttribute("position", positionCarrying.position);
+            el.setAttribute("rotation", positionCarrying.rotation);
           }
         });
       }
@@ -232,31 +243,46 @@ export function updateAccordionLine(parent) {
 }
 
 
-export function updatePivotPosition(a, b, item, cameraPosition) {
+export function updatePivotPosition(a, b,   rotationLeftHand, rotationRightHand, item, cameraPosition) {
   if (a !== undefined && b !== undefined) {
 
     // console.log('item', item);
     let position = item.components.position;
-    if (position !== undefined && position.attrValue !== undefined) {
+    let rotation = item.components.rotation;
 
+    if (position !== undefined && position.attrValue !== undefined) {
       let percentageX = 0.50;
       let percentageY = 0.50;
       let percentageZ = 0.50;
 
-      let data = {
+      let dataPosition = {
         x: ((b.x - a.x) * percentageX) + a.x,
         y: ((b.y - a.y) * percentageY) + a.y,
         z: ((b.z - a.z) * percentageZ) + a.z
       };
-      let dataChecked = {
-        x: data.x !== Infinity ? data.x : 0,
-        y: data.y !== Infinity ? data.y : 0 ,
-        z: data.z !== Infinity ? data.z : 0
+
+      let dataRotation = {
+        x: ((rotationRightHand.x - rotationRightHand.x) * percentageX) + rotationRightHand.x,
+        y: ((rotationRightHand.y - rotationRightHand.y) * percentageY) + rotationRightHand.y,
+        z: ((rotationRightHand.z - rotationRightHand.z) * percentageZ) + rotationRightHand.z
       };
-      vrlog(dataChecked.x);
-      vrlog(dataChecked.y);
-      vrlog(dataChecked.z);
-      return dataChecked;
+
+      let positionChecked = {
+        x: dataPosition.x !== Infinity ? dataPosition.x : 0,
+        y: dataPosition.y !== Infinity ? dataPosition.y : 0 ,
+        z: dataPosition.z !== Infinity ? dataPosition.z : 0
+      };
+
+      let rotationChecked = {
+        x: dataRotation.x !== Infinity ? dataRotation.x : 0,
+        y: dataRotation.y !== Infinity ? dataRotation.y : 0 ,
+        z: dataRotation.z !== Infinity ? dataRotation.z : 0
+      };
+
+      return {
+        position: positionChecked,
+        rotation: rotationChecked
+      }
     }
     return null;
   }

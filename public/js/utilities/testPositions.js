@@ -12,7 +12,7 @@ export const testPositions = [
     },
     right: {
       x: 0.1,
-      y: 1.6,
+      y: 2.6,
       z: -0.5
     }
   },
@@ -29,7 +29,7 @@ export const testPositions = [
     },
     right: {
       x: 0.5,
-      y: 1.6,
+      y: 2.0,
       z: -0.5
     }
   },
