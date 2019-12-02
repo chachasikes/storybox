@@ -332,7 +332,7 @@ export let Scene = {
       },
       position: {
         x: 0,
-        y: -550,
+        y: -400,
         z: -800
       }
     },
