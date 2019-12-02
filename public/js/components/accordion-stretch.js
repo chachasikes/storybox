@@ -130,9 +130,6 @@ export function updateAccordionLine(parent) {
     let positionLeftHand = leftHand.object3D.position;
     let positionRightHand = rightHand.object3D.position;
 
-    let rotationLeftHand = stretchLeft.object3D.rotation;
-    let rotationRightHand = stretchRight.object3D.rotation;
-
     let cameraPosition = rig.object3D.position;
     let newPositionLeft, newPositionRight;
 
@@ -224,8 +221,6 @@ export function updateAccordionLine(parent) {
           positionCarrying = updatePivotPosition(
             newPositionLeft,
             newPositionRight,
-            rotationLeftHand,
-            rotationRightHand,
             el,
             cameraPosition,
             {x: 50, y: 50, z: 50}
@@ -235,6 +230,7 @@ export function updateAccordionLine(parent) {
             let propRotation = el.getAttribute("position");
             el.setAttribute("position", positionCarrying.position);
             el.setAttribute("rotation", positionCarrying.rotation);
+            // console.log(el.getAttribute("rotation"));
           }
         });
       }
@@ -242,15 +238,31 @@ export function updateAccordionLine(parent) {
   }
 }
 
+export function calculateAngle(a, b, offset) {
+  let hypotenuse = Math.hypot(a, b);
+  if (hypotenuse !== 0) {
+    // let hypotenuse = Math.sqrt((a * a) + (b * b));
+    let sinOfAngle = b / hypotenuse;
 
-export function updatePivotPosition(a, b,   rotationLeftHand, rotationRightHand, item, cameraPosition) {
+    let degrees = Math.asin(sinOfAngle) * 180/Math.PI;
+    // console.log('math', a, b, 'hypo', hypotenuse, 'sin', sinOfAngle, 'deg', degrees, 'offset', offset);
+    return degrees;
+  }
+  return 0;
+}
+
+
+export function updatePivotPosition(a, b, item, cameraPosition) {
   if (a !== undefined && b !== undefined) {
 
-    // console.log('item', item);
+    // console.log('item', item.components.rotation);
     let position = item.components.position;
     let rotation = item.components.rotation;
 
-    if (position !== undefined && position.attrValue !== undefined) {
+    if (position !== undefined &&
+        position.attrValue !== undefined &&
+        rotation !== undefined &&
+        rotation.data !== undefined) {
       let percentageX = 0.50;
       let percentageY = 0.50;
       let percentageZ = 0.50;
@@ -262,10 +274,11 @@ export function updatePivotPosition(a, b,   rotationLeftHand, rotationRightHand,
       };
 
       let dataRotation = {
-        x: ((rotationRightHand.x - rotationRightHand.x) * percentageX) + rotationRightHand.x,
-        y: ((rotationRightHand.y - rotationRightHand.y) * percentageY) + rotationRightHand.y,
-        z: ((rotationRightHand.z - rotationRightHand.z) * percentageZ) + rotationRightHand.z
+        x: calculateAngle(a.x, b.x, rotation.data.x),
+        y: calculateAngle(a.y, b.y, rotation.data.y),
+        z: calculateAngle(a.z, b.z, rotation.data.z),
       };
+      console.log(dataRotation);
 
       let positionChecked = {
         x: dataPosition.x !== Infinity ? dataPosition.x : 0,
