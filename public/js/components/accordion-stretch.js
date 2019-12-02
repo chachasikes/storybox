@@ -253,6 +253,9 @@ export function updatePivotPosition(a, b, item, cameraPosition) {
         y: data.y !== Infinity ? data.y : 0 ,
         z: data.z !== Infinity ? data.z : 0
       };
+      vrlog(dataChecked.x);
+      vrlog(dataChecked.y);
+      vrlog(dataChecked.z);
       return dataChecked;
     }
     return null;
