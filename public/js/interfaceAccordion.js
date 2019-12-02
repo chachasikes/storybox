@@ -115,7 +115,6 @@ export function buildHandPropInterface(
   props,
   innerMarkup,
   preloadElements,
-  assetItemElements,
   aframeTags
 ) {
   let rope = ``;
@@ -235,7 +234,6 @@ export function buildHandPropInterface(
   }
 
   return {
-    assetItemElements: assetItemElements,
     preloadElements: preloadElements,
     innerMarkup: innerMarkup,
     rope: rope,

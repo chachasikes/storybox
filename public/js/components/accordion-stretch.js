@@ -112,6 +112,7 @@ export function updateAccordionLine(parent) {
   var stretchRight = document.querySelector("#rightStretch");
   var leftHand = document.querySelector("#leftHand");
   var rightHand = document.querySelector("#rightHand");
+  var carryMesh = document.querySelectorAll(".carrying");
 
   if (
     (stretchLeft !== null &&
@@ -206,14 +207,44 @@ export function updateAccordionLine(parent) {
         }
       });
     }
+
+
+      // let positionCarrying;
+      // if (carryMesh !== null && carryMesh.length > 0) {
+      //   carryMesh.forEach(obj => {
+      //     let id = obj.getAttribute("id");
+      //     let el = document.getElementById(id);
+      //     positionCarrying = updateStretchPosition(
+      //       newPositionLeft,
+      //       newPositionRight,
+      //       el,
+      //       cameraPosition,
+      //       {x: 50, y: 50, z: 50}
+      //     );
+      //     if (positionCarrying !== null) {
+      //       let propPosition = el.getAttribute("position");
+      //       el.setAttribute("position", positionCarrying);
+      //     }
+      //   });
+      // }
+
   }
 }
 
-export function updateStretchPosition(a, b, item, cameraPosition) {
+export function updateStretchPosition(a, b, item, cameraPosition, fixed = null) {
   if (a !== undefined && b !== undefined) {
+
     let percentageX = parseFloat(item.getAttribute("data-percentage-x"));
     let percentageY = parseFloat(item.getAttribute("data-percentage-y"));
     let percentageZ = parseFloat(item.getAttribute("data-percentage-z"));
+
+    // if (fixed !== null) {
+    //   percentageX = fixed.x;
+    //   percentageY = fixed.y;
+    //   percentageZ = fixed.z;
+    // }
+
+    //
     let percentage = percentageX; // @TODO connect to stretch axis setting if needed.
     let data = {
       x: ((b.x - a.x) * percentage) + a.x,
@@ -234,14 +265,16 @@ export function buildHandPropInterface(
   parent,
   props,
   innerMarkup,
+  childElements,
   preloadElements,
-  assetItemElements,
   aframeTags
 ) {
   let rope = ``;
   let objectPositions = ``;
   let leftBox = ``;
   let rightBox = ``;
+  let mesh = ``;
+  let soundMarkup = ``;
   let left = {};
   let right = {};
   let className=`class="stretch-object"`;
@@ -270,8 +303,17 @@ export function buildHandPropInterface(
 
     let aTags = parent.buildTags(props.a);
     let bTags = parent.buildTags(props.b);
+    // Add a mesh and sound file connected to touch entity
+    if (props !== undefined && props.sound !== undefined) {
+      soundMarkup = window.StoryboxAframe.buildSound(props.sound, innerMarkup, childElements, preloadElements, aframeTags);
+    }
 
-    console.log('aTags', aTags);
+    if (props !== undefined && props.mesh !== undefined) {
+      let aframeTags = window.StoryboxAframe.buildTags(props.mesh);
+      let builtMesh = window.StoryboxAframe.buildMesh(props.mesh, innerMarkup, childElements, preloadElements, aframeTags, soundMarkup);
+      mesh = builtMesh.tag;
+    }
+
     leftBox = `
         <a-box
           id="${props.a.id}"
@@ -356,16 +398,16 @@ export function buildHandPropInterface(
           "
         ></a-entity>`;
 
-    innerMarkup = `${innerMarkup}${rope}${leftBox}${rightBox}${objectPositions}`;
+    innerMarkup = `${innerMarkup}${mesh}${rope}${leftBox}${rightBox}${objectPositions}`;
   }
 
   return {
-    assetItemElements: assetItemElements,
     preloadElements: preloadElements,
     innerMarkup: innerMarkup,
     rope: rope,
     leftBox: leftBox,
     rightBox: rightBox,
+    mesh: mesh,
     objectPositions: objectPositions,
     left,
     right

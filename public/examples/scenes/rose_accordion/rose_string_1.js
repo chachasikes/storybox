@@ -42,9 +42,12 @@ export let Scene = {
           id: "leftStretch",
           color: "#FA8072",
           dimensions: {
-            width: 0.02,
-            height: 0.4,
-            depth: 0.2
+            // width: 0.02,
+            // height: 0.4,
+            // depth: 0.2
+            width: 0,
+            height: 0,
+            depth: 0
           },
           position: {
             x: 0,
@@ -62,9 +65,12 @@ export let Scene = {
           id: "rightStretch",
           color: "#FA8072",
           dimensions: {
-            width: 0.02,
-            height: 0.4,
-            depth: 0.2
+            // width: 0.02,
+            // height: 0.4,
+            // depth: 0.2
+            width: 0,
+            height: 0,
+            depth: 0
           },
           position: {
             x: 0,
@@ -129,6 +135,7 @@ export let Scene = {
         mesh: {
           art: "https://www.dropbox.com/s/bap92gxc3ldd8s0/accordion_actions.glb?dl=0",
           id: "accordion",
+          class: 'carrying',
           name: "Accordion",
           autoPlay: true,
           animationMixer: {
@@ -326,7 +333,7 @@ export let Scene = {
       },
       position: {
         x: 0,
-        y: -700,
+        y: -600,
         z: -800
       }
     },

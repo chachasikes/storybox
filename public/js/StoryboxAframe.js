@@ -838,17 +838,17 @@ export class StoryboxAframe {
       }
     }
 
-    // Add a mesh and sound file connected to touch entity
-    let mesh = ``;
-    let soundMarkup = ``;
-    if (props.handProp !== undefined && props.handProp.sound !== undefined) {
-      soundMarkup = this.buildSound(props.handProp.sound, innerMarkup, childElements, preloadElements, aframeTags);
-    }
-    if (props.handProp !== undefined && props.handProp.mesh !== undefined) {
-      let aframeTags = this.buildTags(props.handProp.mesh)
-      let builtMesh = this.buildMesh(props.handProp.mesh, innerMarkup, childElements, preloadElements, aframeTags, soundMarkup);
-      mesh = builtMesh.tag;
-    }
+    // // Add a mesh and sound file connected to touch entity
+    // let mesh = ``;
+    // let soundMarkup = ``;
+    // if (props.handProp !== undefined && props.handProp.sound !== undefined) {
+    //   soundMarkup = this.buildSound(props.handProp.sound, innerMarkup, childElements, preloadElements, aframeTags);
+    // }
+    // if (props.handProp !== undefined && props.handProp.mesh !== undefined) {
+    //   let aframeTags = this.buildTags(props.handProp.mesh)
+    //   let builtMesh = this.buildMesh(props.handProp.mesh, innerMarkup, childElements, preloadElements, aframeTags, soundMarkup);
+    //   mesh = builtMesh.tag;
+    // }
 
 
     let touchContollers = `
@@ -879,7 +879,7 @@ export class StoryboxAframe {
     ${laser.laser}
     ${handProp.rope}
     ${handProp.objectPositions}
-    ${mesh}
+    ${handProp.mesh}
     `;
 
     return {
@@ -1070,6 +1070,7 @@ export class StoryboxAframe {
                 break;
               case "camera":
                 props = this.formatDropboxDataRecursive(props);
+
                 let handPropInterface = buildHandPropInterface(this, props.handProp, innerMarkup, childElements, preloadElements, aframeTags);
                 let camera = this.buildCamera(props, innerMarkup, childElements, preloadElements, aframeTags, handPropInterface);
                 innerMarkup = camera.innerMarkup;

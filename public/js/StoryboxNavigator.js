@@ -705,7 +705,8 @@ export class StoryboxNavigator {
   hitEvent(e) {
     // @TODO still necessary?
     // Debounced hit event.
-    window.StoryboxNavigator.debounce(window.StoryboxNavigator.hitEvent, 2000);
+    AFRAME.utils.throttle(window.StoryboxNavigator.hitEvent, 2000, this);
+    // window.StoryboxNavigator.debounce(window.StoryboxNavigator.hitEvent, 2000);
   }
 
   /**
