@@ -53,7 +53,8 @@ export let Scene = {
             x: -15,
             y: 0,
             z: 0
-          }
+          },
+          opacity: 0
         },
         b: {
           id: "rightStretch",
@@ -72,7 +73,8 @@ export let Scene = {
             x: -15,
             y: 0,
             z: 0
-          }
+          },
+          opacity: 0
         },
         stretchAxis: "x",
         positions: [
@@ -149,7 +151,7 @@ export let Scene = {
           },
           position: {
             x: 0,
-            y: 1.6,
+            y: 1,
             z: -0.4
           },
         },
@@ -323,7 +325,7 @@ export let Scene = {
       position: {
         x: 0,
         y: -700,
-        z: 1000
+        z: -1000
       }
     },
   }

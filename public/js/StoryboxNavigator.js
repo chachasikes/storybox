@@ -394,13 +394,14 @@ export class StoryboxNavigator {
         sceneScript.id = sceneJson.id;
         document.getElementById("scenes").append(sceneScript);
 
-        let renderSettings = `
-          antialias: true;
-          colorManagement: true;
-          logarithmicDepthBuffer: true;
-        `;
-
-        document.querySelector('a-scene').setAttribute('renderer', renderSettings);
+        // @TODO this doesn't load, need to try something else.
+        // let renderSettings = `
+        //   antialias: true;
+        //   colorManagement: true;
+        //   logarithmicDepthBuffer: true;
+        // `;
+        //
+        // document.querySelector('a-scene').setAttribute('renderer', renderSettings);
 
 
         // Load scene content into scene

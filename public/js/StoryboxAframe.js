@@ -201,6 +201,8 @@ export class StoryboxAframe {
     let classProps = this.getValue("className", props);
     let className = `class="${classProps.attribute}"`;
     let line = this.getProperty("line", props);
+    let opacityValue = this.getValue("opacity", props);
+    let opacity = `opacity="${opacityValue.attribute}"`;
 
     return {
       scale,
@@ -212,7 +214,8 @@ export class StoryboxAframe {
       dimensions,
       classProps,
       className,
-      line
+      line,
+      opacity
     }
   }
 

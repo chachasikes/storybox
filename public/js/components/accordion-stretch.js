@@ -271,6 +271,7 @@ export function buildHandPropInterface(
     let aTags = parent.buildTags(props.a);
     let bTags = parent.buildTags(props.b);
 
+    console.log('aTags', aTags);
     leftBox = `
         <a-box
           id="${props.a.id}"
@@ -279,6 +280,7 @@ export function buildHandPropInterface(
           ${aTags.position.tag}
           ${aTags.rotation.tag}
           ${aTags.dimensions.tag}
+          ${aTags.opacity}
         >
         </a-box>
         `;
@@ -291,6 +293,7 @@ export function buildHandPropInterface(
           ${bTags.position.tag}
           ${bTags.rotation.tag}
           ${bTags.dimensions.tag}
+          ${bTags.opacity}
         >
         </a-box>
         `;
@@ -342,12 +345,15 @@ export function buildHandPropInterface(
       });
     }
 
-    rope = `<a-entity accordion-stretch id="${props.id}"
-        line="start: ${props.a.position.x}, ${props.a.position.y}, ${
-      props.a.position.z
-    }; end: ${props.b.position.x}, ${props.b.position.y}, ${
-      props.b.position.z
-    }; color: ${props.ropeColor}"
+    rope = `<a-entity
+        accordion-stretch
+        id="${props.id}"
+        line="
+          start: ${props.a.position.x}, ${props.a.position.y}, ${props.a.position.z};
+          end: ${props.b.position.x}, ${props.b.position.y}, ${props.b.position.z};
+          color: ${props.ropeColor};
+          opacity: 0
+          "
         ></a-entity>`;
 
     innerMarkup = `${innerMarkup}${rope}${leftBox}${rightBox}${objectPositions}`;
