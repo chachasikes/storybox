@@ -17,6 +17,8 @@ export let Scene = {
       name: "World camera",
       id: "camera_rose",
       cursorCamera: false,
+      far: 30000,
+      fov: 70,
       position: {
         x: 0,
         y: 0,
@@ -91,7 +93,7 @@ export let Scene = {
             collisionClass: "head",
             intersectTarget: "rose_metal",
             intersectAction: 'fadeInObject',
-            radius: 0.2,
+            radius: 0.1,
           },
           {
             type: "percentage",
@@ -106,7 +108,7 @@ export let Scene = {
             collisionClass: "head",
             intersectTarget: "rosy_peachy",
             intersectAction: 'fadeInObject',
-            radius: 0.2,
+            radius: 0.1,
           },
           {
             type: "percentage",
@@ -121,7 +123,7 @@ export let Scene = {
             collisionClass: "head",
             intersectTarget: "four_am",
             intersectAction: 'fadeInObject',
-            radius: 0.2,
+            radius: 0.1,
           }
         ],
         mesh: {
@@ -196,9 +198,9 @@ export let Scene = {
       art: "https://www.dropbox.com/s/dsknrain4eopjt7/rose_metal.glb?dl=0",
       opacity: 0,
       scale: {
-        x: 1,
-        y: 1,
-        z: 1
+        x: 100,
+        y: 100,
+        z: 100
       },
       rotation: {
         x: 0,
@@ -206,9 +208,9 @@ export let Scene = {
         z: 0
       },
       position: {
-        x: 0,
-        y: 0,
-        z: -10
+        x: -200,
+        y: -200,
+        z: -200
       },
       events: [{
         id: 'rose_metal',
@@ -227,7 +229,7 @@ export let Scene = {
       }]
     }
   },
-  nosina2: {
+  rosy_peachy: {
     mesh: {
       name: "Rosy Peachy",
       credit: "Sarah Chalek & Chacha Sikes",
@@ -235,9 +237,9 @@ export let Scene = {
       art: "https://www.dropbox.com/s/dsknrain4eopjt7/rose_metal.glb?dl=0",
       opacity: 0,
       scale: {
-        x: 1,
-        y: 1,
-        z: 1
+        x: 100,
+        y: 100,
+        z: 100
       },
       rotation: {
         x: 0,
@@ -245,9 +247,9 @@ export let Scene = {
         z: 0
       },
       position: {
-        x: -5,
-        y: 0,
-        z: -10
+        x: 0,
+        y: -200,
+        z: -200
       },
       events: [{
         id: 'rosy_peachy',
@@ -274,9 +276,9 @@ export let Scene = {
       art: "https://www.dropbox.com/s/dsknrain4eopjt7/rose_metal.glb?dl=0",
       opacity: 0,
       scale: {
-        x: 1,
-        y: 1,
-        z: 1
+        x: 100,
+        y: 100,
+        z: 100
       },
       rotation: {
         x: 0,
@@ -284,9 +286,9 @@ export let Scene = {
         z: 0
       },
       position: {
-        x: 5,
-        y: 0,
-        z: -10
+        x: 200,
+        y: -200,
+        z: -200
       },
       events: [{
         id: 'four_am',
@@ -313,9 +315,9 @@ export let Scene = {
       art: "https://www.dropbox.com/s/u3i0e93bi7uu82y/train_station.glb?dl=0",
       opacity: 1,
       scale: {
-        x: 100,
-        y: 100,
-        z: 100,
+        x: 70,
+        y: 70,
+        z: 70,
       },
       rotation: {
         x: 0,
@@ -325,7 +327,7 @@ export let Scene = {
       position: {
         x: 0,
         y: -700,
-        z: -1000
+        z: -800
       }
     },
   }

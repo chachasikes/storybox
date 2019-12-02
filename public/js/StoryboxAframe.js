@@ -705,6 +705,13 @@ export class StoryboxAframe {
     let cursor = this.buildCursor(props);
     let touchContollers = this.buildTouchControllers(props, handProp, preloadElements, aframeTags, innerMarkup, childElements);
     let headBox = this.buildHead(props);
+
+    let fov = props.fov ? `fov="${props.fov}"` : ``;
+    let far = props.far ? `far="${props.far}"` : ``;
+    let near = props.near ? `near="${props.near}"` : ``;
+    let active = props.active ? `active="${props.active}"` : ``;
+    let spectator = props.spectator ? `spectator="${props.spectator}"` : ``;
+    let zoom = props.zoom ? `zoom="${props.zoom}"` : ``;
     innerMarkup = `${innerMarkup}
     <a-entity
       id="rig"
@@ -717,6 +724,12 @@ export class StoryboxAframe {
         id="${props.id}"
         ${cursor.cursorCameraControls}
         position="0 ${this.playerHeight} 0"
+        ${far}
+        ${near}
+        ${fov}
+        ${active}
+        ${spectator}
+        ${zoom}
       >
         ${cursor.cursor}
         ${headBox.head}
