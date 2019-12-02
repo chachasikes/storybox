@@ -131,7 +131,7 @@ export let Scene = {
             type: 'stretch',
             squash: 'squash',
             stretch: 'stretch',
-            
+
             // crossFadeDuration: 0.5,
             loop: 'once',
             repetitions: "Infinity",
@@ -322,8 +322,8 @@ export let Scene = {
       },
       position: {
         x: 0,
-        y: -20,
-        z: 0
+        y: -700,
+        z: 1000
       }
     },
   }

@@ -376,6 +376,7 @@ export class StoryboxNavigator {
         // Get markup chunks for aframe
         let sceneMarkup = window.StoryboxAframe.render(sceneJson);
 
+
         if (
           typeof sceneMarkup.preloadElements !== "string" &&
           sceneMarkup.preloadElements.length > 0 &&
@@ -392,6 +393,16 @@ export class StoryboxNavigator {
         sceneScript.type = "text/html";
         sceneScript.id = sceneJson.id;
         document.getElementById("scenes").append(sceneScript);
+
+        let renderSettings = `
+          antialias: true;
+          colorManagement: true;
+          logarithmicDepthBuffer: true;
+        `;
+
+        document.querySelector('a-scene').setAttribute('renderer', renderSettings);
+
+
         // Load scene content into scene
         if (document.getElementById(`${sceneJson.id}`) !== null) {
           document.getElementById(`${sceneJson.id}`).innerHTML =

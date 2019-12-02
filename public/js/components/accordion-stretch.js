@@ -24,81 +24,16 @@ export function registerComponent() {
       let animMixer = animation.mixer;
       // https://stackoverflow.com/questions/53004301/how-to-manually-control-animation-frame-by-frame
       animMixer.time = 0;
-
-      // console.log(animation);
-
-      // animation.stopAllAction();
-
       if (animation.activeActions !== undefined) {
         for(var i = 0; i < animation.activeActions.length; i++) {
           let percentTime = (100 * current) / (max);
-          // console.log(percentTime);
           let duration = animation.activeActions[i]._clip.duration;
           timeInSeconds = (duration * percentTime) / 100;
-          console.log(timeInSeconds);
-          // console.log(animation);
-          // animation.mixer.time = timeInSeconds;
-          // animation.setTime(timeInSeconds);
-
-          // animation.activeActions[i].stop();
-          // animation.activeActions[i].reset();
-
-          // console.log(animation.activeActions[i]);
-          // animation.activeActions[i].loop = 2201;
-
-          // animation.activeActions[i].time = timeInSeconds;
-          // animation.activeActions[i]._updateTime(timeInSeconds);
-          // animation.activeActions[i].startAt(timeInSeconds);
           animation.activeActions[i].reset();
           animation.activeActions[i]._mixer.setTime(timeInSeconds);
           animation.activeActions[i].paused = true;
-          // animation.activeActions[i].stop();
-
-
-          // animation.activeActions[i].play();
-          // animation.activeActions[i].stop();
-
-          // console.log(animation.activeActions[i]);
-          // animation.play();
-          // animation.pauseAction();
-          // timeInSeconds = 0;
-          // animMixer._actions[i].time = timeInSeconds;
-          // animation.activeActions[i].time = 0;
-          // animMixer.time = timeInSeconds;
-          // animation.timeScale = 1;
-          // https://stackoverflow.com/questions/53004301/how-to-manually-control-animation-frame-by-frame
-          // animation.activeActions[i]._mixer.update(timeInSeconds);
-          // animation.play(timeInSeconds);
-
-
-          // animation.data.time = timeInSeconds;
-
         }
       }
-      // for(var i = 0; i < animMixer._actions.length; i++) {
-        // let percentTime = (100 * current) / (max);
-      //   // console.log(animMixer._actions[i]);
-      //   if (animMixer._actions[i]._clip !== undefined && animMixer._actions[i]._clip.duration !== undefined) {
-
-      //     // console.log(percentTime);
-        // let duration = animMixer._actions[i]._clip.duration;
-        // timeInSeconds = (duration * percentTime) / 100;
-      //     // timeInSeconds = 0;
-      //     // animMixer._actions[i].time = timeInSeconds;
-      //     animMixer._actions[i].time = 0;
-      //     // animMixer.time = timeInSeconds;
-      //     animMixer.timeScale = 0.1;
-      //     // https://stackoverflow.com/questions/53004301/how-to-manually-control-animation-frame-by-frame
-      //     animMixer._actions[i]._mixer.update(timeInSeconds);
-      //     // animMixer._actions[i].clampWhenFinished = true;
-      //     // console.log(animMixer._actions[i]._mixer.update);
-      //     // console.log(timeInSeconds, animMixer._actions[i].time, animMixer._actions[i]._clip.duration, percentTime);
-      //     // vrlog(timeInSeconds);
-      //     // this.pauseCurrentAnimationAction(animation);
-      //   }
-      // }
-      // console.log(animation);
-      // animation.play(timeInSeconds);
     },
 
     pauseCurrentAnimationAction: function(animation) {
