@@ -245,8 +245,8 @@ export function calculateAngle(a, b, offset) {
     let sinOfAngle = b / hypotenuse;
 
     let degrees = Math.asin(sinOfAngle) * 180/Math.PI;
-    // console.log('math', a, b, 'hypo', hypotenuse, 'sin', sinOfAngle, 'deg', degrees, 'offset', offset);
-    return degrees;
+    console.log('math', a, b, 'hypo', hypotenuse, 'sin', sinOfAngle, 'deg', degrees, 'offset', offset);
+    return degrees - 90;
   }
   return 0;
 }
