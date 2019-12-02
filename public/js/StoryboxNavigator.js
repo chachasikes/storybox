@@ -15,6 +15,7 @@ import { registerComponent as modelMaterial } from "./components/model-material.
 import { registerComponent as objOpacity } from "./components/obj-model-opacity.js";
 import { registerComponent as animationMixer } from "./components/animation-mixer-storybox.js";
 import { registerComponent as midiPlayer } from "./components/midi-player.js";
+import { registerComponent as storyboxCamera } from "./components/storybox-camera.js";
 
 /**
  * Build StoryboxNavigator
@@ -724,6 +725,7 @@ export class StoryboxNavigator {
     modelMaterial();
     animationMixer();
     midiPlayer();
+    storyboxCamera();
   }
 
   /**

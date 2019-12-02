@@ -1,6 +1,7 @@
 import { formatDropboxRawLinks  } from './utilities/dropbox-format.js';
 import { buildHandPropInterface } from './components/accordion-stretch.js';
 
+
 /**
  * Build AFrame markup from JSON settings.
  * @module StoryboxAframe
@@ -730,6 +731,7 @@ export class StoryboxAframe {
         ${active}
         ${spectator}
         ${zoom}
+        storybox-camera
       >
         ${cursor.cursor}
         ${headBox.head}
