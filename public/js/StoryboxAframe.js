@@ -476,7 +476,7 @@ export class StoryboxAframe {
       className = `class="${classProps.attribute} glb-animation"`;
 
       preloadElements.push(
-        `<a-asset-item ${aframeTags.className} id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>`
+        `<a-asset-item id="${props.id}" src="${props.art}" preload="auto" loaded></a-asset-item>`
       );
 
       if (props.sound !== undefined && props.sound.id !== undefined && props.sound.src !== undefined) {

@@ -209,11 +209,12 @@ export function updateAccordionLine(parent) {
     }
 
       let positionCarrying;
+      // console.log('carryMesh', carryMesh);
       if (carryMesh !== null && carryMesh.length > 0) {
         carryMesh.forEach(obj => {
           let id = obj.getAttribute("id");
           let el = document.getElementById(id);
-          positionCarrying = updateStretchPosition(
+          positionCarrying = updatePivotPosition(
             newPositionLeft,
             newPositionRight,
             el,
@@ -230,18 +231,46 @@ export function updateAccordionLine(parent) {
   }
 }
 
-export function updateStretchPosition(a, b, item, cameraPosition, fixed = null) {
+
+export function updatePivotPosition(a, b, item, cameraPosition) {
+  if (a !== undefined && b !== undefined) {
+
+    // console.log('item', item);
+    let position = item.components.position;
+    if (position !== undefined && position.attrValue !== undefined) {
+
+      let percentageX = 0.50;
+      let percentageY = 0.50;
+      let percentageZ = 0.50;
+      // let percentageX = position.attrValue.x;
+      // let percentageY = position.attrValue.y;
+      // let percentageZ = position.attrValue.z;
+
+      // console.log(position.attrValue);
+
+      let data = {
+        x: ((b.x - a.x) * percentageX) + a.x,
+        y: ((b.y - a.y) * percentageY) + a.y,
+        z: ((b.z - a.z) * percentageZ) + a.z
+      };
+      let dataChecked = {
+        x: data.x !== Infinity ? data.x : 0,
+        y: data.y !== Infinity ? data.y : 0 ,
+        z: data.z !== Infinity ? data.z : 0
+      };
+      return dataChecked;
+    }
+    return null;
+  }
+  return null;
+}
+
+export function updateStretchPosition(a, b, item, cameraPosition) {
   if (a !== undefined && b !== undefined) {
 
     let percentageX = parseFloat(item.getAttribute("data-percentage-x"));
     let percentageY = parseFloat(item.getAttribute("data-percentage-y"));
     let percentageZ = parseFloat(item.getAttribute("data-percentage-z"));
-
-    if (fixed !== null) {
-      percentageX = fixed.x;
-      percentageY = fixed.y;
-      percentageZ = fixed.z;
-    }
 
     let percentage = percentageX; // @TODO connect to stretch axis setting if needed.
     let data = {

@@ -17,8 +17,7 @@ export let Scene = {
       name: "World camera",
       id: "camera_rose",
       cursorCamera: false,
-      far: 30000,
-      fov: 70,
+      fov: 40,
       position: {
         x: 0,
         y: 0,
@@ -42,12 +41,12 @@ export let Scene = {
           id: "leftStretch",
           color: "#FA8072",
           dimensions: {
-            // width: 0.02,
-            // height: 0.4,
-            // depth: 0.2
-            width: 0,
-            height: 0,
-            depth: 0
+            width: 0.02,
+            height: 0.4,
+            depth: 0.2
+            // width: 0,
+            // height: 0,
+            // depth: 0
           },
           position: {
             x: 0,
@@ -59,18 +58,18 @@ export let Scene = {
             y: 0,
             z: 0
           },
-          opacity: 0
+          opacity: 1
         },
         b: {
           id: "rightStretch",
           color: "#FA8072",
           dimensions: {
-            // width: 0.02,
-            // height: 0.4,
-            // depth: 0.2
-            width: 0,
-            height: 0,
-            depth: 0
+            width: 0.02,
+            height: 0.4,
+            depth: 0.2
+            // width: 0,
+            // height: 0,
+            // depth: 0
           },
           position: {
             x: 0,
@@ -82,7 +81,7 @@ export let Scene = {
             y: 0,
             z: 0
           },
-          opacity: 0
+          opacity: 1
         },
         stretchAxis: "x",
         positions: [
@@ -135,7 +134,7 @@ export let Scene = {
         mesh: {
           art: "https://www.dropbox.com/s/bap92gxc3ldd8s0/accordion_actions.glb?dl=0",
           id: "accordion",
-          class: 'carrying',
+          className: 'carrying',
           name: "Accordion",
           autoPlay: true,
           animationMixer: {
