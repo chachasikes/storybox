@@ -41,12 +41,12 @@ export let Scene = {
           id: "leftStretch",
           color: "#FA8072",
           dimensions: {
-            width: 0.02,
-            height: 0.4,
-            depth: 0.2
-            // width: 0,
-            // height: 0,
-            // depth: 0
+            // width: 0.02,
+            // height: 0.4,
+            // depth: 0.2
+            width: 0.01,
+            height: 0.01,
+            depth: 0.01
           },
           position: {
             x: 0,
@@ -58,18 +58,18 @@ export let Scene = {
             y: 0,
             z: 0
           },
-          opacity: 1
+          opacity: 0
         },
         b: {
           id: "rightStretch",
           color: "#FA8072",
           dimensions: {
-            width: 0.02,
-            height: 0.4,
-            depth: 0.2
-            // width: 0,
-            // height: 0,
-            // depth: 0
+            // width: 0.02,
+            // height: 0.4,
+            // depth: 0.2
+            width: 0.01,
+            height: 0.01,
+            depth: 0.01
           },
           position: {
             x: 0,
@@ -81,7 +81,7 @@ export let Scene = {
             y: 0,
             z: 0
           },
-          opacity: 1
+          opacity: 0
         },
         stretchAxis: "x",
         positions: [
@@ -89,7 +89,7 @@ export let Scene = {
             type: "percentage",
             position: {
               x: 0.3,
-              y: 0.001,
+              y: 0.2,
               z: 0
             },
             color: "#888888",
@@ -104,7 +104,7 @@ export let Scene = {
             type: "percentage",
             position: {
               x: 0.6,
-              y: 0.001,
+              y: 0.2,
               z: 0
             },
             color: "#f4a8e1",
@@ -119,7 +119,7 @@ export let Scene = {
             type: "percentage",
             position: {
               x: 0.85,
-              y: 0.001, // These would just be offsets
+              y: 0.2, // These would just be offsets
               z: 0
             },
             color: "#249411",
@@ -332,7 +332,7 @@ export let Scene = {
       },
       position: {
         x: 0,
-        y: -300,
+        y: -375,
         z: -800
       }
     },

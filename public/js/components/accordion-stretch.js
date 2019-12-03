@@ -238,15 +238,15 @@ export function updateAccordionLine(parent) {
   }
 }
 
-export function calculateAngle(a, b, offset) {
+export function calculateAngle(a, b) {
   let hypotenuse = Math.hypot(a, b);
   if (hypotenuse !== 0) {
     // let hypotenuse = Math.sqrt((a * a) + (b * b));
     let sinOfAngle = b / hypotenuse;
 
     let degrees = Math.asin(sinOfAngle) * 180/Math.PI;
-    console.log('math', a, b, 'hypo', hypotenuse, 'sin', sinOfAngle, 'deg', degrees, 'offset', offset);
-    return degrees - 90;
+    // console.log('math', a, b, 'hypo', hypotenuse, 'sin', sinOfAngle, 'deg', degrees);
+    return degrees;
   }
   return 0;
 }
@@ -274,11 +274,12 @@ export function updatePivotPosition(a, b, item, cameraPosition) {
       };
 
       let dataRotation = {
-        x: calculateAngle(a.x, b.x, rotation.data.x),
-        y: calculateAngle(a.y, b.y, rotation.data.y),
-        z: calculateAngle(a.z, b.z, rotation.data.z),
+        x: calculateAngle(a.x, b.x),
+        y: 0, //calculateAngle(a.y, b.y),
+        z: calculateAngle(a.z, b.z),
       };
-      console.log(dataRotation);
+
+      // console.log(dataRotation);
 
       let positionChecked = {
         x: dataPosition.x !== Infinity ? dataPosition.x : 0,
@@ -309,16 +310,20 @@ export function updateStretchPosition(a, b, item, cameraPosition) {
     let percentageY = parseFloat(item.getAttribute("data-percentage-y"));
     let percentageZ = parseFloat(item.getAttribute("data-percentage-z"));
 
+    let originalPositionX = item.getAttribute("data-position-x");
+    let originalPositionY = item.getAttribute("data-position-y");
+    let originalPositionZ = item.getAttribute("data-position-z");
+
     let percentage = percentageX; // @TODO connect to stretch axis setting if needed.
     let data = {
       x: ((b.x - a.x) * percentage) + a.x,
-      y: ((b.y - a.y) * percentage) + a.y,
+      y: ((b.y - a.y) * percentageY) + a.y,
       z: ((b.z - a.z) * percentage) + a.z
     };
     let dataChecked = {
       x: data.x !== Infinity ? data.x : 0,
       y: data.y !== Infinity ? data.y : 0 ,
-      z: data.z !== Infinity ? data.z : 0
+      z: data.z !== Infinity ? data.z : 0y
     };
     return dataChecked;
   }
@@ -416,22 +421,23 @@ export function buildHandPropInterface(
 
     if (props.positions !== undefined) {
       props.positions.forEach(item => {
+
         let obj = stretchPosition(
           props.a.position,
           props.b.position,
           item
         );
+
         let intersection = ``;
         if (item.intersect !== undefined) {
-
           intersection = `
             sphere-intersection="objects: .head" intersect-action="${item.intersectAction}" intersect-target="${item.intersectTarget}"
             `;
-
           className=`class="stretch-object"`;
         }
 
 
+        console.log('item', item);
         objectPositions = `${objectPositions}
             <a-sphere
             id="${item.id}"
@@ -441,6 +447,9 @@ export function buildHandPropInterface(
             data-percentage-x="${obj.percentageX}"
             data-percentage-y="${obj.percentageY}"
             data-percentage-z="${obj.percentageZ}"
+            data-position-x="${item.position.x}"
+            data-position-y="${item.position.y}"
+            data-position-z="${item.position.z}"
             radius="${item.radius}"
             color="${item.color}"
             material="shader:flat"
