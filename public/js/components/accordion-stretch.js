@@ -274,9 +274,9 @@ export function updatePivotPosition(a, b, item, cameraPosition) {
       };
 
       let dataRotation = {
-        x: calculateAngle(a.x, b.x),
+        x: calculateAngle(b.x, a.x),
         y: 0, //calculateAngle(a.y, b.y),
-        z: calculateAngle(a.z, b.z),
+        z: calculateAngle(b.z, a.z),
       };
 
       // console.log(dataRotation);

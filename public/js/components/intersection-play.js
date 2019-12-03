@@ -39,7 +39,7 @@ export function registerComponent() {
         })
 
 
-        this.el.addEventListener("hitend", e => {
+        this.el.addEventListener("hit", e => {
             // console.log("hitend");
           if (e.detail !== undefined && e.detail.el !== undefined) {
             let id = e.detail.el.getAttribute("id");
@@ -60,7 +60,7 @@ export function registerComponent() {
               }
             }
           }
-          vrlog("hitend");
+          // vrlog("hit");
         });
       },
       update: function() {},
