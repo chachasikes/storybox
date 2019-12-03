@@ -137,7 +137,7 @@ AFRAME.registerComponent('sphere-intersection', {
   })(),
 
   handleHit: function (targetEl) {
-    targetEl.emit('hit');
+    targetEl.emit('hit', {el: this.el});
     targetEl.addState(this.data.state);
     this.el.emit('hit', {el: targetEl});
   },

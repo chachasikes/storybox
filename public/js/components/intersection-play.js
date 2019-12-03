@@ -41,7 +41,7 @@ export function registerComponent() {
 
         this.el.addEventListener("hit", e => {
             // console.log("hitend");
-          if (e.detail !== undefined && e.detail.el !== undefined) {
+          if (e.detail !== undefined && e.detail !== null && e.detail.el !== undefined) {
             let id = e.detail.el.getAttribute("id");
             let intersectAction = e.detail.el.getAttribute("intersect-action");
             let intersectTarget = e.detail.el.getAttribute("intersect-target");
@@ -60,7 +60,7 @@ export function registerComponent() {
               }
             }
           }
-          // vrlog("hit");
+          vrlog("hitend");
         });
       },
       update: function() {},
