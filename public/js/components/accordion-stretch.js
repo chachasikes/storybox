@@ -323,7 +323,7 @@ export function updateStretchPosition(a, b, item, cameraPosition) {
     let dataChecked = {
       x: data.x !== Infinity ? data.x : 0,
       y: data.y !== Infinity ? data.y : 0 ,
-      z: data.z !== Infinity ? data.z : 0y
+      z: data.z !== Infinity ? data.z : 0
     };
     return dataChecked;
   }
