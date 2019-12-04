@@ -17,7 +17,7 @@ export let Scene = {
       name: "World camera",
       id: "camera_rose",
       cursorCamera: false,
-      fov: 40,
+      // fov: 40,
       position: {
         x: 0,
         y: 0,
@@ -88,7 +88,7 @@ export let Scene = {
           {
             type: "percentage",
             position: {
-              x: 0.3,
+              x: 0.25,
               y: 0.2,
               z: 0
             },
@@ -103,7 +103,7 @@ export let Scene = {
           {
             type: "percentage",
             position: {
-              x: 0.6,
+              x: 0.5,
               y: 0.2,
               z: 0
             },
@@ -118,7 +118,7 @@ export let Scene = {
           {
             type: "percentage",
             position: {
-              x: 0.85,
+              x: 0.75,
               y: 0.2, // These would just be offsets
               z: 0
             },
@@ -148,12 +148,12 @@ export let Scene = {
             timeScale: 1,
           },
           scale: {
-            x: 1,
-            y: 1,
-            z: 1
+            x: 0.1,
+            y: 0.1,
+            z: 0.1
           },
           rotation: {
-            x: 180,
+            x: 0,
             y: 0,
             z: 0
           },

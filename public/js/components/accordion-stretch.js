@@ -1,4 +1,5 @@
 import { vrlog } from "./../utilities/vrlog.js";
+import { Box3 } from './../../lib/three.module.js';
 
 export function registerComponent() {
   if (AFRAME.components["accordion-stretch"] === undefined) {
@@ -126,7 +127,6 @@ export function updateAccordionLine(parent) {
     let positionRight = stretchRight.object3D.position;
 
 
-
     let positionLeftHand = leftHand.object3D.position;
     let positionRightHand = rightHand.object3D.position;
 
@@ -230,7 +230,6 @@ export function updateAccordionLine(parent) {
             let propRotation = el.getAttribute("position");
             el.setAttribute("position", positionCarrying.position);
             el.setAttribute("rotation", positionCarrying.rotation);
-            // console.log(el.getAttribute("rotation"));
           }
         });
       }
@@ -238,14 +237,15 @@ export function updateAccordionLine(parent) {
   }
 }
 
-export function calculateAngle(a, b) {
-  let hypotenuse = Math.hypot(a, b);
+export function calculateAngle(a, b, c, d) {
+  let ac = Math.abs(a) + Math.abs(c);
+  let bd = Math.abs(b) + Math.abs(d);
+  let hypotenuse = Math.hypot(ac, bd);
   if (hypotenuse !== 0) {
-    // let hypotenuse = Math.sqrt((a * a) + (b * b));
-    let sinOfAngle = b / hypotenuse;
-
-    let degrees = Math.asin(sinOfAngle) * 180/Math.PI;
-    // console.log('math', a, b, 'hypo', hypotenuse, 'sin', sinOfAngle, 'deg', degrees);
+    let ratio = bd / hypotenuse;
+    let radians = Math.asin(ratio);
+    let degrees = radians * 180/Math.PI;
+    // console.log('math', a, b, c, d, 'ac', ac, 'bd', bd, 'hypo', hypotenuse, 'sin', sinOfAngle,'rad', radians, 'deg', degrees);
     return degrees;
   }
   return 0;
@@ -253,9 +253,8 @@ export function calculateAngle(a, b) {
 
 
 export function updatePivotPosition(a, b, item, cameraPosition) {
-  if (a !== undefined && b !== undefined) {
 
-    // console.log('item', item.components.rotation);
+  if (a !== undefined && b !== undefined) {
     let position = item.components.position;
     let rotation = item.components.rotation;
 
@@ -263,23 +262,29 @@ export function updatePivotPosition(a, b, item, cameraPosition) {
         position.attrValue !== undefined &&
         rotation !== undefined &&
         rotation.data !== undefined) {
-      let percentageX = 0.50;
-      let percentageY = 0.50;
-      let percentageZ = 0.50;
+
+      let percentage = 0.5;
 
       let dataPosition = {
-        x: ((b.x - a.x) * percentageX) + a.x,
-        y: ((b.y - a.y) * percentageY) + a.y,
-        z: ((b.z - a.z) * percentageZ) + a.z
+        x: ((b.x - a.x) * percentage) + a.x,
+        y: ((b.y - a.y) * percentage) + a.y,
+        z: ((b.z - a.z) * percentage) + a.z
+        // x: a.x + ((Math.abs(b.x) + Math.abs(a.x)) * percentage),
+        // y: a.y + ((Math.abs(b.y) + Math.abs(a.y)) * percentage),
+        // z: a.z + ((Math.abs(b.z) + Math.abs(a.z)) * percentage)
       };
 
       let dataRotation = {
-        x: calculateAngle(b.x, a.x),
-        y: 0, //calculateAngle(a.y, b.y),
-        z: calculateAngle(b.z, a.z),
+        x: calculateAngle(a.x, a.y, b.x, b.y),
+        y: calculateAngle(a.x, a.z, b.x, b.z),
+        z: calculateAngle(a.z, a.y, b.z, b.y),
       };
+      // console.log('dr', dataRotation);
 
-      // console.log(dataRotation);
+      // let mesh = item.getObject3D('mesh');
+      // // compute bounding box
+      // var bbox = new THREE.Box3().setFromObject(mesh);
+      // // console.log(bbox.min, bbox.max);
 
       let positionChecked = {
         x: dataPosition.x !== Infinity ? dataPosition.x : 0,
@@ -310,14 +315,10 @@ export function updateStretchPosition(a, b, item, cameraPosition) {
     let percentageY = parseFloat(item.getAttribute("data-percentage-y"));
     let percentageZ = parseFloat(item.getAttribute("data-percentage-z"));
 
-    let originalPositionX = item.getAttribute("data-position-x");
-    let originalPositionY = item.getAttribute("data-position-y");
-    let originalPositionZ = item.getAttribute("data-position-z");
-
     let percentage = percentageX; // @TODO connect to stretch axis setting if needed.
     let data = {
       x: ((b.x - a.x) * percentage) + a.x,
-      y: ((b.y - a.y) * percentageY) + a.y,
+      y: ((b.y - a.y) * percentage) + a.y,
       z: ((b.z - a.z) * percentage) + a.z
     };
     let dataChecked = {
@@ -369,6 +370,8 @@ export function buildHandPropInterface(
         return item;
       });
     }
+
+
 
     let aTags = parent.buildTags(props.a);
     let bTags = parent.buildTags(props.b);
@@ -436,8 +439,6 @@ export function buildHandPropInterface(
           className=`class="stretch-object"`;
         }
 
-
-        console.log('item', item);
         objectPositions = `${objectPositions}
             <a-sphere
             id="${item.id}"
