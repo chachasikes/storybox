@@ -316,14 +316,14 @@ export let Scene = {
   train_station: {
     mesh: {
       name: "Set",
-      credit: "Chacha Sikes & Sarah Chalek",
+      credit: "Concept: Sarah Chalek & Immersive illustration: Chacha Sieks",
       id: "train-station",
       art: "https://www.dropbox.com/s/u3i0e93bi7uu82y/train_station.glb?dl=0",
       opacity: 1,
       scale: {
-        x: 70,
-        y: 70,
-        z: 70,
+        x: 1,
+        y: 1,
+        z: 1,
       },
       rotation: {
         x: 0,
@@ -332,8 +332,8 @@ export let Scene = {
       },
       position: {
         x: 0,
-        y: -375,
-        z: -800
+        y: -6,
+        z: -12
       }
     },
   }
