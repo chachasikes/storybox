@@ -23,12 +23,12 @@ export const testPositions = [
       z: 0
     },
     left: {
-      x: -0.1,
+      x: -0.2,
       y: 0.8,
       z: -1
     },
     right: {
-      x: 0.1,
+      x: 0.2,
       y: 0.8,
       z: -1
     }

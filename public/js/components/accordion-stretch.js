@@ -238,14 +238,28 @@ export function updateAccordionLine(parent) {
 }
 
 export function calculateAngle(a, b, c, d) {
-  let ac = Math.abs(a) + Math.abs(c);
-  let bd = Math.abs(b) + Math.abs(d);
+  let ac = Math.abs(a - c);
+  let bd = Math.abs(b - d);
   let hypotenuse = Math.hypot(ac, bd);
   if (hypotenuse !== 0) {
     let ratio = bd / hypotenuse;
     let radians = Math.asin(ratio);
     let degrees = radians * 180/Math.PI;
-    // console.log('math', a, b, c, d, 'ac', ac, 'bd', bd, 'hypo', hypotenuse, 'sin', sinOfAngle,'rad', radians, 'deg', degrees);
+    if ((a < c && b > d) ||
+        (a > c && b < d)) {
+          console.log('cosine version');
+      ratio = ac / hypotenuse;
+      radians = Math.acos(ratio);
+      degrees = radians * 180/Math.PI;
+    }
+    if ((a < c && b > d) ||
+        (a > c && b > d)) {
+        degrees = degrees * -1;
+    }
+    // STILL WRONG
+    // math -1 2 1 -0.5 ac 2 bd 2.5 hypo 3.2015621187164243 sin 0.6246950475544243 rad 0.6747409422235527 deg 38.659808254090095
+
+    console.log('math', a, b, c, d, 'ac', ac, 'bd', bd, 'hypo', hypotenuse, 'sin', ratio,'rad', radians, 'deg', degrees);
     return degrees;
   }
   return 0;
@@ -275,11 +289,13 @@ export function updatePivotPosition(a, b, item, cameraPosition) {
       };
 
       let dataRotation = {
-        x: calculateAngle(a.x, a.y, b.x, b.y),
-        y: calculateAngle(a.x, a.z, b.x, b.z),
-        z: calculateAngle(a.z, a.y, b.z, b.y),
+        x: 0, // calculateAngle(a.x, a.z, b.x, b.z),
+        y: 0, //calculateAngle(a.z, a.x, b.z, b.x),
+        z: calculateAngle(a.x, a.y, b.x, b.y),
       };
       // console.log('dr', dataRotation);
+// WRONG:
+// math -1 2 1 -0.5 ac 2 bd 2.5 hypo 3.2015621187164243 sin 0.7808688094430304 rad 0.896055384571344 deg 51.34019174590992
 
       // let mesh = item.getObject3D('mesh');
       // // compute bounding box
