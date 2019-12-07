@@ -306,7 +306,7 @@ export class StoryboxAframe {
       props.art !== undefined &&
       props.id !== undefined
     ) {
-      childElements.push(
+      preloadElements.push(
         `<img ${aframeTags.className} id="${props.id}" src="${
           props.art
         }" crossorigin="anonymous" preload="true" />`
@@ -1042,6 +1042,7 @@ export class StoryboxAframe {
             let aframeTags = this.buildTags(props); // @TODO this returns null values if value not set. Keep this way?
             switch (propKey) {
               case "sky":
+              case "skybox":
                 props = this.formatDropboxDataRecursive(props); // @TODO Could move this up to app level.
                 let sky = this.buildSkybox(props, innerMarkup, childElements, preloadElements, aframeTags);
                 innerMarkup = sky.innerMarkup;
@@ -1105,7 +1106,7 @@ export class StoryboxAframe {
                 props = this.formatDropboxDataRecursive(props);
                 let cube = this.buildCubemap(props);
                 cube.map((face, index) => {
-                  childElements.push(
+                  preloadElements.push(
                     `<img ${aframeTags.className} id="${props.id}-${index}" src="${
                       face.art
                     }" crossorigin="anonymous" preload="true" />`
