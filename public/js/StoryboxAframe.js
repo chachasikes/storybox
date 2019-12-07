@@ -337,7 +337,7 @@ export class StoryboxAframe {
       props.id !== undefined
     ) {
       preloadElements.push(
-        `<video id="${props.id}" autoplay loop="${props.loop ? props:loop : true }" src="${props.src}" crossorigin="anonymous" preload="true"></video>`
+        `<video id="${props.id}" autoplay loop="${props.loop ? props.loop : true }" src="${props.src}" crossorigin="anonymous" preload="true"></video>`
       );
 
       innerMarkup = `${innerMarkup}
@@ -357,7 +357,7 @@ export class StoryboxAframe {
       props.id !== undefined
     ) {
       preloadElements.push(
-        `<video id="${props.id}" autoplay loop="${props.loop ? props:loop : true }" src="${props.src}" crossorigin="anonymous" preload="true"></video>`
+        `<video id="${props.id}" autoplay loop="${props.loop ? props.loop : true }" src="${props.src}" crossorigin="anonymous" preload="true"></video>`
       );
 
       innerMarkup = `${innerMarkup}
@@ -1106,7 +1106,7 @@ export class StoryboxAframe {
                 break;
               case "videosphere":
                 props = this.formatDropboxDataRecursive(props);
-                // https://aframe.io/docs/0.9.0/primitives/a-videosphere.html @TODO add more props & test 
+                // https://aframe.io/docs/0.9.0/primitives/a-videosphere.html @TODO add more props & test
                 let videosphere = this.buildVideosphere(props, innerMarkup, childElements, preloadElements, aframeTags, soundMarkup);
 
                 innerMarkup = videosphere.innerMarkup;
@@ -1116,11 +1116,11 @@ export class StoryboxAframe {
               case "video":
                 props = this.formatDropboxDataRecursive(props);
                 // https://aframe.io/docs/0.9.0/primitives/a-video.html @TODO add more props & test
-                let videosphere = this.buildVideo(props, innerMarkup, childElements, preloadElements, aframeTags, soundMarkup);
+                let video = this.buildVideo(props, innerMarkup, childElements, preloadElements, aframeTags, soundMarkup);
 
-                innerMarkup = videosphere.innerMarkup;
-                childElements = videosphere.childElements;
-                preloadElements = videosphere.preloadElements;
+                innerMarkup = video.innerMarkup;
+                childElements = video.childElements;
+                preloadElements = video.preloadElements;
                 break;
               case "storyboxes":
                 props = this.formatDropboxDataRecursive(props);
