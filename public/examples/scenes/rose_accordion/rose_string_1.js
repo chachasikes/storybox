@@ -148,9 +148,9 @@ export let Scene = {
             timeScale: 1,
           },
           scale: {
-            x: 0.1,
-            y: 0.1,
-            z: 0.1
+            x: 0.5,
+            y: 0.5,
+            z: 0.5
           },
           rotation: {
             x: 0,
