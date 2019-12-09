@@ -61,7 +61,7 @@ export let Scene = {
     }
   },
   skybox: {
-    sky: {
+    skybox: {
       color: "#ededed",
       id: "light-background",
       name: "Fade in",

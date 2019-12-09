@@ -491,8 +491,13 @@ export class StoryboxAframe {
       window.StoryboxNavigator.sceneEvents.push(props.events);
       props.events.map((item) => {
         if (item.type === 'intersection-play') {
+          let proximity = ``;
+          if (item.proximity !== undefined && item.proximity.radius !== undefined) {
+            proximity = `data-proximity="true" data-proximity-radius="${item.proximity.radius}"`;
+          }
           // @TODO can add more behaviors here if needed (like rotating, moving, pulsing etc.)
           animation = `
+            ${proximity}
             animation="
               startEvents: ${item.id}-${item.eventName};
               property: ${item.attribute ? item.attribute : 'gltf-model-opacity'};
@@ -508,7 +513,7 @@ export class StoryboxAframe {
               dir: ${item.dir ? item.dir : 'normal'};
               round: ${item.round ? item.round : false};
               " `;
-        }
+            }
       });
     }
 
@@ -1166,7 +1171,7 @@ export class StoryboxAframe {
                 props = this.formatDropboxDataRecursive(props);
                 let cube = this.buildCubemap(props);
                 cube.map((face, index) => {
-                  preloadElements.push(
+                  childElements.push(
                     `<img ${aframeTags.className} id="${props.id}-${index}" src="${
                       face.art
                     }" crossorigin="anonymous" preload="true" />`

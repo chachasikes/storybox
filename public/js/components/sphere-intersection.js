@@ -70,83 +70,84 @@ AFRAME.registerComponent('sphere-intersection', {
 
   tick: (function () {
     const position = new THREE.Vector3(),
-        meshPosition = new THREE.Vector3(),
-        colliderScale = new THREE.Vector3(),
-        size = new THREE.Vector3(),
-        box = new THREE.Box3(),
-        distanceMap = new Map();
+    meshPosition = new THREE.Vector3(),
+    colliderScale = new THREE.Vector3(),
+    size = new THREE.Vector3(),
+    box = new THREE.Box3(),
+    distanceMap = new Map();
+
     return function () {
-      const el = this.el,
-          data = this.data,
-          mesh = el.getObject3D('mesh'),
-          collisions = [];
-      let colliderRadius;
+          const el = this.el,
+              data = this.data,
+              mesh = el.getObject3D('mesh'),
+              collisions = [];
+          let colliderRadius;
 
-      if (!mesh) { return; }
+          if (!mesh) { return; }
 
-      distanceMap.clear();
-      el.object3D.getWorldPosition(position);
-      el.object3D.getWorldScale(colliderScale);
-      colliderRadius = data.radius * scaleFactor(colliderScale);
-      // Update collision list.
-      this.els.forEach(intersect);
+          distanceMap.clear();
+          el.object3D.getWorldPosition(position);
+          el.object3D.getWorldScale(colliderScale);
+          colliderRadius = data.radius * scaleFactor(colliderScale);
+          // Update collision list.
+          this.els.forEach(intersect);
 
-      // Emit events and add collision states, in order of distance.
-      collisions
-        .sort((a, b) => distanceMap.get(a) > distanceMap.get(b) ? 1 : -1)
-        .forEach(this.handleHit);
+          // Emit events and add collision states, in order of distance.
+          collisions
+            .sort((a, b) => distanceMap.get(a) > distanceMap.get(b) ? 1 : -1)
+            .forEach(this.handleHit);
 
-      // Remove collision state from current element.
-      if (collisions.length === 0) { el.emit('hit', {el: null}); }
+          // Remove collision state from current element.
+          if (collisions.length === 0) { el.emit('hit', {el: null}); }
 
-      // Remove collision state from other elements.
-      this.collisions
-        .filter((el) => !distanceMap.has(el))
-        .forEach(this.handleHitEnd);
+          // Remove collision state from other elements.
+          this.collisions
+            .filter((el) => !distanceMap.has(el))
+            .forEach(this.handleHitEnd);
 
-      // Store new collisions
-      this.collisions = collisions;
+          // Store new collisions
+          this.collisions = collisions;
 
-      // Bounding sphere collision detection
-      function intersect (el) {
-        let radius, mesh, distance, extent;
+          // Bounding sphere collision detection
+          function intersect (el) {
+            let radius, mesh, distance, extent;
 
-        if (!el.isEntity) { return; }
+            if (!el.isEntity) { return; }
 
-        mesh = el.getObject3D('mesh');
-        if (!mesh) { return; }
+            mesh = el.getObject3D('mesh');
+            if (!mesh) { return; }
 
-        box.setFromObject(mesh).getSize(size);
-        extent = Math.max(size.x, size.y, size.z) / 2;
-        radius = Math.sqrt(2 * extent * extent);
-        box.getCenter(meshPosition);
+            box.setFromObject(mesh).getSize(size);
+            extent = Math.max(size.x, size.y, size.z) / 2;
+            radius = Math.sqrt(2 * extent * extent);
+            box.getCenter(meshPosition);
 
-        if (!radius) { return; }
+            if (!radius) { return; }
 
-        distance = position.distanceTo(meshPosition);
-        if (distance < radius + colliderRadius) {
-          collisions.push(el);
-          distanceMap.set(el, distance);
-        }
+            distance = position.distanceTo(meshPosition);
+            if (distance < radius + colliderRadius) {
+              collisions.push(el);
+              distanceMap.set(el, distance);
+            }
+          }
+          // use max of scale factors to maintain bounding sphere collision
+          function scaleFactor (scaleVec) {
+            return Math.max.apply(null, scaleVec.toArray());
+          }
+        };
+      })(),
+
+      handleHit: function (targetEl) {
+        targetEl.emit('hit', {el: this.el});
+        targetEl.addState(this.data.state);
+        this.el.emit('hit', {el: targetEl});
+      },
+      handleHitEnd: function (targetEl) {
+        targetEl.emit('hitend', {el: this.el});
+        // console.log(this);
+        targetEl.removeState(this.data.state);
+        this.el.emit('hitend', {el: targetEl});
       }
-      // use max of scale factors to maintain bounding sphere collision
-      function scaleFactor (scaleVec) {
-        return Math.max.apply(null, scaleVec.toArray());
-      }
-    };
-  })(),
-
-  handleHit: function (targetEl) {
-    targetEl.emit('hit', {el: this.el});
-    targetEl.addState(this.data.state);
-    this.el.emit('hit', {el: targetEl});
-  },
-  handleHitEnd: function (targetEl) {
-    targetEl.emit('hitend', {el: this.el});
-    // console.log(this);
-    targetEl.removeState(this.data.state);
-    this.el.emit('hitend', {el: targetEl});
-  }
-});
-}
+    });
+    }
 }

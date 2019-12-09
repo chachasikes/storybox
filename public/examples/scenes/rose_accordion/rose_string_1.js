@@ -41,9 +41,6 @@ export let Scene = {
           id: "leftStretch",
           color: "#FA8072",
           dimensions: {
-            // width: 0.02,
-            // height: 0.4,
-            // depth: 0.2
             width: 0.01,
             height: 0.01,
             depth: 0.01
@@ -64,9 +61,6 @@ export let Scene = {
           id: "rightStretch",
           color: "#FA8072",
           dimensions: {
-            // width: 0.02,
-            // height: 0.4,
-            // depth: 0.2
             width: 0.01,
             height: 0.01,
             depth: 0.01
@@ -141,8 +135,6 @@ export let Scene = {
             type: 'stretch',
             squash: 'squash',
             stretch: 'stretch',
-
-            // crossFadeDuration: 0.5,
             loop: 'once',
             repetitions: "Infinity",
             timeScale: 1,
@@ -163,25 +155,25 @@ export let Scene = {
             z: -0.4
           },
         },
-        sound: {
-          // src: 'https://www.dropbox.com/s/nyt7g9167iikmpz/tchaikovsky_flower_waltz_ACC.mp3?dl=0',
-          // id: 'dance_of_flowers',
-          // name : 'Dance of Flowers',
-          // credit : 'https://www.8notes.com/scores/23736.asp?ftype=mp3',
-          // autoplay : true,
-          // distanceModel : 'inverse',
-          // loop : true,
-          // maxDistance : 5,
-          // poolSize : 1,
-          // positional : true,
-          // refDistance : 1,
-          // rolloffFactor : 1,
-          // volume : 1
-          type: 'midi-player',
-          soundfont: 'accordion',
-          id: 'accordion-song',
-          song: 'C4'
-        }
+        // sound: {
+        //   // src: 'https://www.dropbox.com/s/nyt7g9167iikmpz/tchaikovsky_flower_waltz_ACC.mp3?dl=0',
+        //   // id: 'dance_of_flowers',
+        //   // name : 'Dance of Flowers',
+        //   // credit : 'https://www.8notes.com/scores/23736.asp?ftype=mp3',
+        //   // autoplay : true,
+        //   // distanceModel : 'inverse',
+        //   // loop : true,
+        //   // maxDistance : 5,
+        //   // poolSize : 1,
+        //   // positional : true,
+        //   // refDistance : 1,
+        //   // rolloffFactor : 1,
+        //   // volume : 1
+        //   type: 'midi-player',
+        //   soundfont: 'accordion',
+        //   id: 'accordion-song',
+        //   song: 'C4'
+        // }
       }
     }
   },
@@ -202,11 +194,11 @@ export let Scene = {
       credit: "Sarah Chalek & Chacha Sikes",
       id: "rose_metal",
       art: "https://www.dropbox.com/s/dsknrain4eopjt7/rose_metal.glb?dl=0",
-      opacity: 0,
+      opacity: 1,
       scale: {
-        x: 100,
-        y: 100,
-        z: 100
+        x: 10,
+        y: 10,
+        z: 10
       },
       rotation: {
         x: 0,
@@ -214,9 +206,9 @@ export let Scene = {
         z: 0
       },
       position: {
-        x: -200,
-        y: -200,
-        z: -200
+        x: -15,
+        y: -15,
+        z: -15
       },
       events: [{
         id: 'rose_metal',
@@ -231,7 +223,10 @@ export let Scene = {
         loop: false,
         delay: 0,
         dir: 'alternate',
-        round: false
+        round: false,
+        proximity: {
+          radius: 10
+        }
       }]
     }
   },
@@ -241,11 +236,11 @@ export let Scene = {
       credit: "Sarah Chalek & Chacha Sikes",
       id: "rosy_peachy",
       art: "https://www.dropbox.com/s/dsknrain4eopjt7/rose_metal.glb?dl=0",
-      opacity: 0,
+      opacity: 1,
       scale: {
-        x: 100,
-        y: 100,
-        z: 100
+        x: 10,
+        y: 10,
+        z: 10
       },
       rotation: {
         x: 0,
@@ -254,8 +249,8 @@ export let Scene = {
       },
       position: {
         x: 0,
-        y: -200,
-        z: -200
+        y: -15,
+        z: -15
       },
       events: [{
         id: 'rosy_peachy',
@@ -270,7 +265,10 @@ export let Scene = {
         loop: false,
         delay: 0,
         dir: 'alternate',
-        round: false
+        round: false,
+        proximity: {
+          radius: 10
+        }
       }]
     }
   },
@@ -280,11 +278,11 @@ export let Scene = {
       credit: "Sarah Chalek & Chacha Sikes",
       id: "four_am",
       art: "https://www.dropbox.com/s/dsknrain4eopjt7/rose_metal.glb?dl=0",
-      opacity: 0,
+      opacity: 1,
       scale: {
-        x: 100,
-        y: 100,
-        z: 100
+        x: 10,
+        y: 10,
+        z: 10
       },
       rotation: {
         x: 0,
@@ -292,9 +290,9 @@ export let Scene = {
         z: 0
       },
       position: {
-        x: 200,
-        y: -200,
-        z: -200
+        x: 15,
+        y: -15,
+        z: -15
       },
       events: [{
         id: 'four_am',
@@ -309,7 +307,10 @@ export let Scene = {
         loop: false,
         delay: 0,
         dir: 'alternate',
-        round: false
+        round: false,
+        proximity: {
+          radius: 10
+        }
       }]
     }
   },

@@ -15,7 +15,7 @@ export function registerComponent() {
         directionPoll: [],
       };
 
-      this.throttleCheckDirection = AFRAME.utils.throttle(this.calculateDirection, 200, this);
+      this.throttleCheckDirection = AFRAME.utils.throttle(this.calculateDirection, 500, this);
       updateAccordionLine(this);
     },
 
@@ -78,11 +78,11 @@ export function registerComponent() {
 
         // vrlog(data.clip);
 
-        let min = 0.2;
-        let max = 2;
+        let min = 0.1;
+        let max = 0.99;
         if (AFRAME.utils.device.checkHeadsetConnected()) {
           min = 0.1;
-          max = 0.55;
+          max = 0.99;
         }
 
         let animation = stretchMesh.components["animation-mixer-storybox"];
@@ -100,6 +100,7 @@ export function registerComponent() {
       updateAccordionLine(this);
     },
     remove: function() {
+      // Fade out any scenes
     }
   });
 }
@@ -247,7 +248,6 @@ export function calculateAngle(a, b, c, d) {
     let degrees = radians * 180/Math.PI;
     if ((a < c && b > d) ||
         (a > c && b < d)) {
-          console.log('cosine version');
       ratio = ac / hypotenuse;
       radians = Math.acos(ratio);
       degrees = radians * 180/Math.PI;
@@ -259,7 +259,7 @@ export function calculateAngle(a, b, c, d) {
     // STILL WRONG
     // math -1 2 1 -0.5 ac 2 bd 2.5 hypo 3.2015621187164243 sin 0.6246950475544243 rad 0.6747409422235527 deg 38.659808254090095
 
-    console.log('math', a, b, c, d, 'ac', ac, 'bd', bd, 'hypo', hypotenuse, 'sin', ratio,'rad', radians, 'deg', degrees);
+    // console.log('math', a, b, c, d, 'ac', ac, 'bd', bd, 'hypo', hypotenuse, 'sin', ratio,'rad', radians, 'deg', degrees);
     return degrees;
   }
   return 0;

@@ -11,33 +11,28 @@ export function registerComponent() {
       init: function() {
         this.el.addEventListener("hit", e => {
           window.StoryboxNavigator.hitEvent();
-          // console.log('hit');
-          // console.log(e);
-          // vrlog('hit');
         });
-
 
         window.StoryboxNavigator.sceneEvents.map(events => {
           let sceneSelector = document.querySelector('#scene-selector');
           // console.log('event set up', events);
           if (events.length > 0) {
-          events.map(item => {
-            if (item.type === 'intersection-play') {
-              let intersectTargetEl = document.getElementById(
-                `${item.id}-gltf`
-              );
-              intersectTargetEl.addEventListener(`${item.id}-${item.eventName}`, (e) => {
-                // console.log('trying to fade', e);
-              });
-              // intersectTargetEl.addEventListener(`fade`, (e) => {
-              //   console.log('trying to fade', e);
-              // });
+            events.map(item => {
+              if (item.type === 'intersection-play') {
+                let intersectTargetEl = document.getElementById(
+                  `${item.id}-gltf`
+                );
+                intersectTargetEl.addEventListener(`${item.id}-${item.eventName}`, (e) => {
+                  console.log('trying to fade', e);
+                });
+                // intersectTargetEl.addEventListener(`fade`, (e) => {
+                //   console.log('trying to fade', e);
+                // });
 
-            }
-          })
-        }
-        })
-
+              }
+            })
+          }
+        });
 
         this.el.addEventListener("hit", e => {
             // console.log("hitend");
@@ -54,7 +49,8 @@ export function registerComponent() {
                 `${intersectTarget}-gltf`
               );
               if (intersectTargetEl !== undefined) {
-                // console.log(intersectTargetEl, `${intersectTarget}-${intersectAction}`);
+                let proximity = this.calculateProximity(intersectTargetEl);
+                console.log(intersectTargetEl, `${intersectTarget}-${intersectAction}`);
                 intersectTargetEl.emit(`${intersectTarget}-${intersectAction}`);
                 // intersectTargetEl.emit(`fade`);
               }
@@ -73,6 +69,17 @@ export function registerComponent() {
         if (data.event) {
           el.removeEventListener(data.event, this.eventHandlerFn);
         }
+      },
+      calculateProximity: function(el) {
+        let head = document.querySelector('#head');
+        let proximity = el.getAttribute('data-proximity');
+        let proximityRadius = el.getAttribute('data-proximity-radius');
+        console.log('proximity', proximity, proximityRadius);
+
+        let elPosition = el.getAttribute("position");
+        let headPosition = head.getAttribute("position");
+        console.log('positions', elPosition, headPosition);
+
       }
     });
   }
