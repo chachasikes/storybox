@@ -101,8 +101,8 @@ export function registerComponent() {
                 }
               break;
             case "NeonPulse":
-              if(node.material.alphaMap !== undefined) {
-                node.material.alphaMap.offset.y = this.time * 0.0015;
+              if(node.material.alphaMap !== undefined && node.material.alphaMap !== null) {
+                node.material.alphaMap.offset.x = this.time * 0.0015;
               }
               break;
             default:
@@ -118,25 +118,19 @@ export function registerComponent() {
         return new THREE.MeshStandardMaterial(materialSettings);
       },
       neonPulseMaterial: function(node) {
+        var texture = new THREE.TextureLoader().load('./../../images/textures/tiltbrush/NeonPulse/maintexture.png');
         var material = new THREE.MeshStandardMaterial({
-          color: "#444",
+          color: node.material.color,
           transparent: true,
           side: THREE.DoubleSide,
+          depthWrite: false,
           alphaTest: 0.5,
           opacity: 1,
           roughness: 1,
-          name: node.material.name
+          name: node.material.name,
+          alphaMap: texture,
+          vertexColors: THREE.VertexColors,
         });
-
-        // this image is loaded as data uri. Just copy and paste the string contained in "image.src" in your browser's url bar to see the image.
-        // alpha texture used to regulate transparency
-        var image = document.createElement('img');
-        var alphaMap = new THREE.Texture(image);
-        image.onload = function()  {
-          alphaMap.needsUpdate = true;
-        };
-        image.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAGUlEQVQoU2NkYGD4z4AHMP7//x+/gmFhAgCXphP14bko/wAAAABJRU5ErkJggg==';
-        material.alphaMap = alphaMap;
         material.alphaMap.magFilter = THREE.NearestFilter;
         material.alphaMap.wrapT = THREE.RepeatWrapping;
         material.alphaMap.repeat.y = 1;
@@ -144,16 +138,17 @@ export function registerComponent() {
       },
       smokeMaterial: function(node) {
         var texture = new THREE.ImageUtils.loadTexture('./../../images/textures/tiltbrush/Smoke/maintexture.png');
-
         var material = new THREE.MeshStandardMaterial({
           color: node.material.color,
           transparent: true,
           side: THREE.DoubleSide,
-          alphaTest: 0.5,
+          alphaTest: 0.01,
+          depthWrite: false,
           opacity: 1,
           roughness: 1,
           name: node.material.name,
-          map: texture
+          alphaMap: texture,
+          vertexColors: THREE.VertexColors,
         });
 
         // texture, #horiz, #vert, #total, duration.
