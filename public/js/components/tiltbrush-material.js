@@ -57,7 +57,11 @@ export function registerComponent() {
       assignChildMaterials: function(node) {
         if (node !== undefined) {
           node.time = 0;
-          switch(node.material.name) {
+          // console.log(node.material.name);
+          let materialName = node.material.name;
+          let materialNameUnique = materialName.replace(/[0-9]/g, '');
+
+          switch(materialNameUnique) {
             case "brush_Smoke":
             case "Smoke":
               return this.smokeMaterial(node);
@@ -67,33 +71,56 @@ export function registerComponent() {
               return this.neonPulseMaterial(node);
               break;
             case "brush_Rainbow":
+            case "Light":
             case "brush_Light":
+            case "brush_Fire":
             case "brush_Electricity":
             case "brush_Comet":
             case "brush_Stars":
+              return this.tiltbrushMaterial(node, {emissive: true, emissiveIntensity: 1});
+              break;
+            case "Bubbles":
             case "brush_Bubbles":
-            case "Light":
             case "brush_DiamondHull":
-              return this.tiltbrushMaterial(node, {emissive: true});
+            case "brush_Snow":
+            case "brush_HyperGrid":
+            case "brush_Embers":
+            case "brush_Hypercolor":
+            case "brush_Streamers":
+            case "brush_Waveform":
+            case "brush_Dots":
+            case "brush_ChromaticWave":
+            case "brush_SoftHighlighter":
+            case "brush_Highlighter":
+            case "brush_VelvetInk":
+              return this.tiltbrushMaterial(node, {emissive: true, emissiveIntensity: 0.7, glow: true});
               break;
             case "brush_Petal":
             case "brush_Lofted":
             case "brush_Spikes":
-            case "brush_Disco":
-            case "brush_ShinyHull":
-            case "brush_MatteHull":
-            case "brush_UnlitHull":
+            case "brush_DuctTape":
+            case "brush_CelVinyl":
             case "brush_Wire":
             case "brush_Toon":
-            case "brush_VelvetInk":
+            case "brush_Ink":
             case "brush_Paper":
             case "brush_CoarseBristles":
             case "brush_Icing":
-            case "brush_WigglyGraphite":
-            case "brush_CelVinyl":
-            case "Bubbles":
+            case "brush_TaperedFlat":
+            case "brush_DoubleTaperedMarker":
+            case "brush_ThickPaint":
+            case "brush_WetPaint":
+            case "brush_Splatter":
+              return this.tiltbrushMaterial(node, {emissive: true, emissiveIntensity: 0.3});
+              break;
+            case "brush_MatteHull":
+            case "brush_UnlitHull":
+
               return this.tiltbrushMaterial(node, {flat: true});
               break;
+            case "brush_WigglyGraphite":
+            case "brush_Disco":
+            case "brush_ShinyHull":
             default:
               return node.material;
               break;
@@ -125,7 +152,8 @@ export function registerComponent() {
             case "brush_NeonPulse":
             case "NeonPulse":
               if(node.material.alphaMap !== undefined && node.material.alphaMap !== null) {
-                node.material.alphaMap.offset.x = this.getOffset(node, 0.01, node.material.alphaMap.offset.x);
+                node.material.alphaMap.offset.x = this.getOffset(node, 0.001, node.material.alphaMap.offset.x);
+                // node.material.alphaMap.offset.y = this.getOffset(node, 0.001, node.material.alphaMap.offset.y);
               }
               break;
             case "brush_Light":
@@ -148,31 +176,37 @@ export function registerComponent() {
         return new THREE.MeshStandardMaterial(materialSettings);
       },
       getOffset: function(node, increment, offset) {
-        let value = node.time * increment;
-        if (value > 1) {
+        if (offset > 1) {
           node.time = 0;
         }
+        let value = node.time * increment;
         return value;
       },
       neonPulseMaterial: function(node) {
-        var texture = new THREE.TextureLoader().load('./../../images/textures/tiltbrush/NeonPulse/maintexture.png');
+        var texture = new THREE.TextureLoader().load('./../../images/textures/tiltbrush/NeonPulse/stripes.png');
         var material = new THREE.MeshStandardMaterial({
           color: node.material.color,
-          transparent: true,
-          side: THREE.DoubleSide,
+          // transparent: true,
+          // side: THREE.DoubleSide,
           depthWrite: false,
-          alphaTest: 0.5,
+          alphaTest: 1,
           opacity: 1,
-          roughness: 1,
+          roughness: 0.5,
+          metalness: 0.5,
           name: node.material.name,
           vertexColors: THREE.VertexColors,
-          alphaMap: texture
+          alphaMap: texture,
+          flatShading: false,
         });
-        if (node.material.texture !== undefined && node.material.texture !== null) {
+        // if (node.material.texture !== undefined && node.material.texture !== null) {
           material.alphaMap.magFilter = THREE.NearestFilter;
           material.alphaMap.wrapT = THREE.RepeatWrapping;
           material.alphaMap.repeat.y = 1;
-        }
+
+          material.emissiveMap = texture;
+          material.emissive = node.material.color;
+          material.emissiveIntensity = 0.5;
+        // }
 
         return material;
       },
@@ -213,18 +247,20 @@ export function registerComponent() {
       if (node.material.map !== undefined && node.material.map !== null) {
         let textureFile = node.material.map.image.currentSrc;
         var texture = new THREE.TextureLoader().load(textureFile);
-        // console.log(texture);
+        console.log(texture, node.material.name);
         if (texture !== undefined) {
           material.alphaMap = texture;
         }
-      }
+
 
       if (options.emissive === true) {
         material.emissiveMap = texture;
         material.emissive = node.material.color;
-        material.emissiveIntensity = 1;
-        // material.opacity = 0.6;
+        material.emissiveIntensity = options.emissiveIntensity;
       }
+    } else {
+
+    }
       // console.log(material);
 
       return material;
