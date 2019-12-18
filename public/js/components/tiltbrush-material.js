@@ -15,7 +15,6 @@ export function registerComponent() {
         }
       },
       update: function() {
-        this.time++;
         if (this.el !== undefined) {
           let object;
           object = this.el.getObject3D('mesh');
@@ -27,11 +26,29 @@ export function registerComponent() {
             object.traverse((node) => {
               if (node !== undefined && node.isMesh) {
                 node.material = this.material;
-                node.material.alphaMap.offset.y = this.time * 0.0015;
-                console.log(node.material.alphaMap.offset.y);
                 if (node.material.map) {
                   // node.material.map.encoding = THREE.sRGBEncoding;
                   node.material.needsUpdate = true;
+                }
+              }
+            });
+          }
+        }
+      },
+      tick: function() {
+        this.time++;
+        if (this.el !== undefined) {
+          let object;
+          object = this.el.getObject3D('mesh');
+          // execute this code every frame
+          if (object !== undefined) {
+            object.traverse((node) => {
+              if (node !== undefined && node.isMesh) {
+                node.material = this.material;
+                node.material.alphaMap.offset.y = this.time * 0.0015;
+                if (node.material.map) {
+                  // node.material.map.encoding = THREE.sRGBEncoding;
+                  // node.material.needsUpdate = true;
                 }
               }
             });
