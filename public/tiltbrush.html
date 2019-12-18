@@ -9,20 +9,21 @@
     registerComponent();
   </script>
 </head>
-
+<!-- src="https://dl.dropboxusercontent.com/s/cc6soy01wui2fmj/tb%20objects.glb" -->
+<!-- https://dl.dropboxusercontent.com/s/u2rhl1dq2bh76jj/Untitled_28.glb -->
+<!-- https://dl.dropboxusercontent.com/s/fejb0sy7s6dmpif/neonpulse.glb -->
 <body>
   <a-scene>
-    <a-assets
-      timeout="60000">
+    <a-assets timeout="60000">
       <a-asset-item
         id="u_tiltbrush_test"
-        src="https://dl.dropboxusercontent.com/s/cc6soy01wui2fmj/tb%20objects.glb"
+        src="https://dl.dropboxusercontent.com/s/u2rhl1dq2bh76jj/Untitled_28.glb"
         preload="auto"
         loaded=""
       >
       </a-asset-item>
     </a-assets>
-
+    <a-sky color="#333" material="" geometry="" scale=""></a-sky>
     <a-camera
       id="u_camera_5"
       movement-controls="controls: checkpoint"
@@ -41,15 +42,23 @@
     ></a-sphere> -->
 
 
+
+    <!-- <a-box
+      color="#ffcc00"
+      geometry="primitive: box; width: 1; height: 1; depth: 1"
+      position="2 2 -2"
+      tiltbrush-material
+    ></a-box> -->
+
     <a-entity
       id="u_tiltbrush_test-gltf"
       ref="u_tiltbrush_test"
       class="glb-animation"
       gltf-model="#u_tiltbrush_test"
       tiltbrush-material
-      scale="50 50 50"
-      position="10 -1 -60"
-      rotation="0 90 0"
+      scale="1 1 1"
+      position="0 0 0"
+      rotation="0 0 0"
       crossorigin="anonymous"
       preload="true"
     >

@@ -7,8 +7,6 @@ export function registerComponent() {
         let object;
         this.time = 0;
         if (this.el !== undefined) {
-          // let material = this.smokeMaterial();
-          // this.material = material;
           this.el.addEventListener('model-loaded', () => {
             this.update();
           });
@@ -26,11 +24,7 @@ export function registerComponent() {
             object.traverse((node) => {
               if (node !== undefined && node.isMesh) {
                 node.material = this.assignChildMaterials(node);
-              //   node.material = this.material;
-                // if (node.material.map) {
-                //   // node.material.map.encoding = THREE.sRGBEncoding;
-                //   node.material.needsUpdate = true;
-                // }
+                // console.log(node.material.name);
               }
             });
           }
@@ -47,11 +41,6 @@ export function registerComponent() {
             object.traverse((node) => {
               if (node !== undefined && node.isMesh) {
                 this.updateChildMaterials(node);
-
-                // if (node.material.map) {
-                  // node.material.map.encoding = THREE.sRGBEncoding;
-                  // node.material.needsUpdate = true;
-                // }
               }
             });
           }
@@ -67,12 +56,43 @@ export function registerComponent() {
       },
       assignChildMaterials: function(node) {
         if (node !== undefined) {
+          node.time = 0;
           switch(node.material.name) {
+            case "brush_Smoke":
             case "Smoke":
               return this.smokeMaterial(node);
               break;
+            case "brush_NeonPulse":
             case "NeonPulse":
               return this.neonPulseMaterial(node);
+              break;
+            case "brush_Rainbow":
+            case "brush_Light":
+            case "brush_Electricity":
+            case "brush_Comet":
+            case "brush_Stars":
+            case "brush_Bubbles":
+            case "Light":
+            case "brush_DiamondHull":
+              return this.tiltbrushMaterial(node, {emissive: true});
+              break;
+            case "brush_Petal":
+            case "brush_Lofted":
+            case "brush_Spikes":
+            case "brush_Disco":
+            case "brush_ShinyHull":
+            case "brush_MatteHull":
+            case "brush_UnlitHull":
+            case "brush_Wire":
+            case "brush_Toon":
+            case "brush_VelvetInk":
+            case "brush_Paper":
+            case "brush_CoarseBristles":
+            case "brush_Icing":
+            case "brush_WigglyGraphite":
+            case "brush_CelVinyl":
+            case "Bubbles":
+              return this.tiltbrushMaterial(node, {flat: true});
               break;
             default:
               return node.material;
@@ -81,8 +101,10 @@ export function registerComponent() {
         }
       },
       updateChildMaterials: function(node) {
+        node.time++;
         if (node !== undefined) {
           switch(node.material.name) {
+            case "brush_Smoke":
             case "Smoke":
               	this.currentDisplayTime += this.time;
                 if(node.material !== undefined) {
@@ -100,13 +122,21 @@ export function registerComponent() {
                 	}
                 }
               break;
+            case "brush_NeonPulse":
             case "NeonPulse":
               if(node.material.alphaMap !== undefined && node.material.alphaMap !== null) {
-                node.material.alphaMap.offset.x = this.time * 0.0015;
+                node.material.alphaMap.offset.x = this.getOffset(node, 0.01, node.material.alphaMap.offset.x);
               }
               break;
+            case "brush_Light":
+            case "Light":
+
+              break;
+            case "brush_Bubbles":
+            case "Bubbles":
+              break;
             default:
-              return node.material;
+
               break;
           }
         }
@@ -116,6 +146,13 @@ export function registerComponent() {
         materialSettings.emissive = "#ffffff";
         materialSettings.emissiveIntensity = 0.3;
         return new THREE.MeshStandardMaterial(materialSettings);
+      },
+      getOffset: function(node, increment, offset) {
+        let value = node.time * increment;
+        if (value > 1) {
+          node.time = 0;
+        }
+        return value;
       },
       neonPulseMaterial: function(node) {
         var texture = new THREE.TextureLoader().load('./../../images/textures/tiltbrush/NeonPulse/maintexture.png');
@@ -128,16 +165,19 @@ export function registerComponent() {
           opacity: 1,
           roughness: 1,
           name: node.material.name,
-          alphaMap: texture,
           vertexColors: THREE.VertexColors,
+          alphaMap: texture
         });
-        material.alphaMap.magFilter = THREE.NearestFilter;
-        material.alphaMap.wrapT = THREE.RepeatWrapping;
-        material.alphaMap.repeat.y = 1;
+        if (node.material.texture !== undefined && node.material.texture !== null) {
+          material.alphaMap.magFilter = THREE.NearestFilter;
+          material.alphaMap.wrapT = THREE.RepeatWrapping;
+          material.alphaMap.repeat.y = 1;
+        }
+
         return material;
       },
       smokeMaterial: function(node) {
-        var texture = new THREE.ImageUtils.loadTexture('./../../images/textures/tiltbrush/Smoke/maintexture.png');
+        var texture = new THREE.TextureLoader().load('./../../images/textures/tiltbrush/Smoke/maintexture.png');
         var material = new THREE.MeshStandardMaterial({
           color: node.material.color,
           transparent: true,
@@ -147,8 +187,8 @@ export function registerComponent() {
           opacity: 1,
           roughness: 1,
           name: node.material.name,
-          alphaMap: texture,
           vertexColors: THREE.VertexColors,
+          alphaMap: texture
         });
 
         // texture, #horiz, #vert, #total, duration.
@@ -156,7 +196,40 @@ export function registerComponent() {
         // material.map = texture;
         return material;
     },
-    TextureAnimator: function(texture, tilesHoriz, tilesVert, numTiles, tileDispDuration, material) {
+    tiltbrushMaterial: function(node, options) {
+      // console.log(node.material);
+      var material = new THREE.MeshStandardMaterial({
+        color: node.material.color,
+        transparent: true,
+        side: THREE.DoubleSide,
+        alphaTest: 0.5,
+        depthWrite: false,
+        opacity: 1,
+        roughness: 1,
+        name: node.material.name,
+        vertexColors: THREE.VertexColors,
+      });
+
+      if (node.material.map !== undefined && node.material.map !== null) {
+        let textureFile = node.material.map.image.currentSrc;
+        var texture = new THREE.TextureLoader().load(textureFile);
+        // console.log(texture);
+        if (texture !== undefined) {
+          material.alphaMap = texture;
+        }
+      }
+
+      if (options.emissive === true) {
+        material.emissiveMap = texture;
+        material.emissive = node.material.color;
+        material.emissiveIntensity = 1;
+        // material.opacity = 0.6;
+      }
+      // console.log(material);
+
+      return material;
+    },
+    TextureAnimator: function(texture, tilesHoriz, tilesVert, numTiles, tileDisplayDuration, material) {
       	// note: texture passed by reference, will be updated by the update function.
         // view-source:https://stemkoski.github.io/Three.js/Texture-Animation.html
       	material.tilesHorizontal = tilesHoriz;
@@ -169,7 +242,7 @@ export function registerComponent() {
       	texture.repeat.set( 1 / material.tilesHorizontal, 1 / material.tilesVertical );
 
       	// how long should each image be displayed?
-      	material.tileDisplayDuration = tileDispDuration;
+      	material.tileDisplayDuration = tileDisplayDuration;
 
       	// how long has the current image been displayed?
       	material.currentDisplayTime = 0;
