@@ -44,19 +44,27 @@ export function registerComponent() {
         }
 
         if (data.transparent !== null) {
-          materialSettings.transparent = data.transparent;
+          materialSettings.transparent = data.transparent === "true" ? true : false;
+          materialSettings.colorWrite = false;
         }
 
         if (data.alphaTest !== null) {
-          materialSettings.alphaTest = data.alphaTest;
+          materialSettings.alphaTest = Number(data.alphaTest);
+          // materialSettings.blendDstAlpha = true;
+          // materialSettings.blendSrcAlpha = true;
+          // materialSettings.premultipliedAlpha = true;
+        }
+
+        if (data.alphaBlend !== null) {
+          materialSettings.alphaBlend = data.alphaBlend;
         }
 
         if (data.roughness !== null) {
-          materialSettings.roughness = data.roughness;
+          materialSettings.roughness = Number(data.roughness);
         }
 
         if (data.metalness !== null) {
-          materialSettings.metalness = data.metalness;
+          materialSettings.metalness = Number(data.metalness);
         }
 
         if (data.shader !== undefined && data.shader !== null) {
@@ -82,8 +90,6 @@ export function registerComponent() {
           baseTexture.wrapS = THREE.RepeatWrapping;
           baseTexture.wrapT = THREE.RepeatWrapping;
           baseTexture.repeat.set(scale.u, scale.v);
-
-
           materialSettings.map = baseTexture;
         }
 
@@ -157,10 +163,15 @@ export function registerComponent() {
           materialSettings.lightMap = lightMapTexture;
         }
 
+        if (data.side !== null) {
+          materialSettings.side = data.side;
+        }
+
+
         // materialSettings.emissive = #ffffff;
         // materialSettings.emissiveIntensity = 0.3;
         this.material = new THREE.MeshStandardMaterial(materialSettings);
-
+        console.log(this.material);
         this.el.addEventListener('model-loaded', () => {
           // console.log('update model-material: loaded');
 
@@ -171,6 +182,7 @@ export function registerComponent() {
         let object;
         if (this.el !== undefined) {
           object = this.el.getObject3D('mesh');
+          object.renderOrder = 0;
           if (!object) return;
           object.scale.set( 1, 1, 1 );
           // console.log('mat', this.material);

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>My A-Frame Scene</title>
+  <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+
+  <script type="module">
+    import { registerComponent } from './js/components/tiltbrush-material.js';
+    registerComponent();
+  </script>
+</head>
+
+<body>
+  <a-scene>
+    <a-assets
+      timeout="60000">
+      <a-asset-item
+        id="u_tiltbrush_test"
+        src="https://dl.dropboxusercontent.com/s/cc6soy01wui2fmj/tb%20objects.glb"
+        preload="auto"
+        loaded=""
+      >
+      </a-asset-item>
+    </a-assets>
+
+    <a-camera
+      id="u_camera_5"
+      movement-controls="controls: checkpoint"
+      position="0 1.6 0"
+      storybox-camera=""
+      camera="" rotation="" look-controls=""
+      wasd-controls="" checkpoint-controls=""
+    >
+    </a-camera>
+
+    <a-sphere
+      color="#ffcc00"
+      radius="0.2"
+      position="2 2 -2"
+      tiltbrush-material
+    ></a-sphere>
+
+
+    <a-entity
+      id="u_tiltbrush_test-gltf"
+      ref="u_tiltbrush_test"
+      class="glb-animation"
+      gltf-model="#u_tiltbrush_test"
+      tiltbrush-material
+      scale="50 50 50"
+      position="10 -1 -60"
+      rotation="0 90 0"
+      crossorigin="anonymous"
+      preload="true"
+      animation-mixer-storybox=""
+      data-autoplay="false"
+    >
+    </a-entity>
+
+  </a-scene>
+</body>
+</html>

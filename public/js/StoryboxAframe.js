@@ -415,7 +415,11 @@ export class StoryboxAframe {
     }
 
     if (props.alphaMap !== undefined) {
-      textures += `alphaMap: ${formatDropboxRawLinks(props.alphaMap)}; transparent: true; alphaTest: ${props.alphaTest ? props.alphaTest : 0.5}; colorWrite: false; `;
+      textures += `alphaMap: ${formatDropboxRawLinks(props.alphaMap)}; transparent: true; alphaTest: ${props.alphaTest ? props.alphaTest : 0.5};`;
+    }
+
+    if (props.transparent === true) {
+      textures += `transparent: true; alphaTest: ${props.alphaTest ? props.alphaTest : 0.5}; colorWrite: false; `;
     }
 
     if (props.repeatScale !== undefined && props.repeatScale.u !== undefined && props.repeatScale.v !== undefined) {
@@ -534,7 +538,7 @@ export class StoryboxAframe {
       }
 
       if (fileType === 'glb') {
-        let texture = props.texture !== undefined? `model-material="${textures}"` : ``;
+        let texture = props.texture !== undefined ? `model-material="${textures}"` : ``;
         let opacity = props.opacity !== undefined ? `gltf-model-opacity="${props.opacity}"` : ``;
         let glb_legacy = props.glb_legacy !== undefined ? props.glb_legacy : false;
 
