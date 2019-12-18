@@ -7,8 +7,8 @@ export function registerComponent() {
         let object;
         this.time = 0;
         if (this.el !== undefined) {
-          let material = this.animatedMaterial();
-          this.material = material;
+          // let material = this.animatedMaterial();
+          // this.material = material;
           this.el.addEventListener('model-loaded', () => {
             this.update();
           });
@@ -25,11 +25,12 @@ export function registerComponent() {
             object.scale.set(1,1,1);
             object.traverse((node) => {
               if (node !== undefined && node.isMesh) {
-                node.material = this.material;
-                if (node.material.map) {
-                  // node.material.map.encoding = THREE.sRGBEncoding;
-                  node.material.needsUpdate = true;
-                }
+                node.material = this.assignChildMaterials(node);
+              //   node.material = this.material;
+                // if (node.material.map) {
+                //   // node.material.map.encoding = THREE.sRGBEncoding;
+                //   node.material.needsUpdate = true;
+                // }
               }
             });
           }
@@ -44,12 +45,12 @@ export function registerComponent() {
           if (object !== undefined) {
             object.traverse((node) => {
               if (node !== undefined && node.isMesh) {
-                node.material = this.material;
-                node.material.alphaMap.offset.y = this.time * 0.0015;
-                if (node.material.map) {
+                this.updateChildMaterials(node);
+
+                // if (node.material.map) {
                   // node.material.map.encoding = THREE.sRGBEncoding;
                   // node.material.needsUpdate = true;
-                }
+                // }
               }
             });
           }
@@ -58,10 +59,30 @@ export function registerComponent() {
       remove: function () {
         var data = this.data;
         var el = this.el;
-
         // Remove event listener.
         if (data.event) {
           el.removeEventListener(data.event, this.eventHandlerFn);
+        }
+      },
+      updateChildMaterials: function(node) {
+        if (node !== undefined) {
+          if (node.material.name === "Smoke") {
+            if(node.material.alphaMap !== undefined) {
+              node.material.alphaMap.offset.y = this.time * 0.0015;
+            }
+          }
+        }
+      },
+      assignChildMaterials: function(node) {
+        if (node !== undefined) {
+          switch(node.material.name) {
+            case "Smoke":
+              return this.animatedMaterial(node);
+              break;
+            default:
+              return node.material;
+              break;
+          }
         }
       },
       simpleMaterial: function() {
@@ -70,14 +91,15 @@ export function registerComponent() {
         materialSettings.emissiveIntensity = 0.3;
         return new THREE.MeshStandardMaterial(materialSettings);
       },
-      animatedMaterial: function() {
+      animatedMaterial: function(node) {
         var material = new THREE.MeshStandardMaterial({
           color: "#444",
           transparent: true,
           side: THREE.DoubleSide,
           alphaTest: 0.5,
           opacity: 1,
-          roughness: 1
+          roughness: 1,
+          name: node.material.name
         });
 
         // this image is loaded as data uri. Just copy and paste the string contained in "image.src" in your browser's url bar to see the image.
