@@ -20,13 +20,14 @@
 <body>
   <a-scene id="scene-selector">
     <a-assets timeout="60000">
-      <a-asset-item
+      <!-- <a-asset-item
         id="u_tiltbrush_test"
         src="https://dl.dropboxusercontent.com/s/e7o5apgo8sxgb3t/glow-test.glb"
         preload="auto"
         loaded=""
+        crossorigin="anonymous"
       >
-      </a-asset-item>
+      </a-asset-item> -->
       <img id="sky" src="https://dl.dropboxusercontent.com/s/1kmvdbhjgujvjfu/previewfile_1539778120.png">
     </a-assets>
 
@@ -47,13 +48,20 @@
     >
     </a-camera>
 
-    <!-- <a-box
-      glow="side: front; scale: 2; color: #FFCC00; c: 0.05 ; p: 4.5;"
+    <a-box
+      glow-material="side: front; scale: 2; color: #FFCC00; c: 0.05 ; p: 4.5;"
       dimensions="1 1 1"
       position="0 1.5 -2"
-    /> -->
+    >
+    <a-box
+      glow-material="side: front; scale: 2; color: #FFFFFF; c: 0.05 ; p: 4.5;"
+      dimensions="0.5 1 0.5"
+      position="-2 -2 -2"
+    >
+  </a-box>
+  </a-box>
 
-
+<!--
     <a-entity
       id="u_tiltbrush_test-gltf"
       ref="u_tiltbrush_test"
@@ -66,7 +74,7 @@
       crossorigin="anonymous"
       preload="true"
     >
-    </a-entity>
+    </a-entity> -->
 
   </a-scene>
 </body>

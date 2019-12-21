@@ -3,8 +3,8 @@ AFRAME.registerComponent('glow', {
   // view-source:http://stemkoski.github.io/Three.js/Shader-Glow.html
   schema: {
     enabled: {default: true},
-    c: {type: 'number', default: 1 },
-    p: {type: 'number', default: 1.4 },
+    c: {type: 'number', default: 0.2 },
+    p: {type: 'number', default: 1 },
     color: {type: 'color', default: '#FFFF00'},
     scale: {type: 'number', default: 2 },
     side: {type: 'string', default: "front" },
