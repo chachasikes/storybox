@@ -76,11 +76,12 @@ export function registerComponent() {
             case "NeonPulse":
               return this.neonPulseMaterial(node);
               break;
+              //https://github.com/googlevr/tilt-brush-toolkit/tree/master/UnitySDK/Assets/TiltBrush/Assets/Brushes/Basic/Light
             case "brush_Rainbow":
             case "Light":
             case "brush_Light":
             case "cdbaaeecaefeed_brush_Light":
-              return this.tiltbrushMaterial(node, {visible: true, emissive: true, emissiveIntensity: 1, glow: true});
+              return this.tiltbrushMaterial(node, {visible: true, emissive: true, transparent: true, alphaTest: 1, emissiveIntensity: 0.5, glow: true});
               break;
             case "brush_Fire":
             case "brush_Electricity":
@@ -142,34 +143,66 @@ export function registerComponent() {
       updateChildMaterials: function(node) {
       },
       tiltbrushMaterial: function(node, options = {}, e) {
-        var material = new THREE.MeshStandardMaterial({
-          color: node.material.color,
-          transparent: options.transparent ? options.transparent : false,
-          side: options.side ? options.side : 'front',
-          alphaTest: options.alphaTest ? options.alphaTest : 1,
-          depthWrite: false,
-          opacity: options.opacity ? options.opacity : 1,
-          roughness: options.roughness ? options.roughness : 1,
-          name: node.material.name,
-          vertexColors: THREE.VertexColors,
-        });
 
-        if (node.material.map !== undefined && node.material.map !== null) {
-          let textureFile = node.material.map.image.currentSrc;
-          var texture = new THREE.TextureLoader().load(textureFile);
-          if (texture !== undefined) {
-            material.alphaMap = texture;
-          }
-        }
 
-        if (options.emissive === true) {
-          material.emissiveMap = texture;
-          material.emissive = new THREE.Color(node.material.color.r, node.material.color.g, node.material.color.b);
-          material.emissiveIntensity = options.emissiveIntensity;
-        }
+
 
         if (options.glow === true) {
-          this.glowMaterial(node, {}, e);
+          var material = new THREE.MeshStandardMaterial({
+            color: node.material.color,
+            // transparent: options.transparent ? options.transparent : false,
+            // side: options.side ? options.side : 'front',
+            // alphaTest: 0.1,
+            // depthWrite: false,
+            // opacity: options.opacity ? options.opacity : 1,
+            // roughness: options.roughness ? options.roughness : 1,
+            name: node.material.name,
+            vertexColors: THREE.VertexColors,
+            blending: THREE.MultiplyBlending,
+          });
+
+          if (node.material.map !== undefined && node.material.map !== null) {
+            let textureFile = node.material.map.image.currentSrc;
+            var texture = new THREE.TextureLoader().load(textureFile);
+            if (texture !== undefined) {
+              material.map = texture;
+              // material.alphaMap = texture;
+            }
+          }
+
+          if (options.emissive === true) {
+            material.emissiveMap = texture;
+            material.emissive = new THREE.Color(node.material.color.r, node.material.color.g, node.material.color.b);
+            material.emissiveIntensity = 1;
+          }
+
+          // this.glowMaterial(node, {}, e);
+        } else {
+          var material = new THREE.MeshStandardMaterial({
+            color: node.material.color,
+            transparent: options.transparent ? options.transparent : false,
+            side: options.side ? options.side : 'front',
+            alphaTest: options.alphaTest ? options.alphaTest : 1,
+            depthWrite: false,
+            opacity: options.opacity ? options.opacity : 1,
+            roughness: options.roughness ? options.roughness : 1,
+            name: node.material.name,
+            vertexColors: THREE.VertexColors,
+          });
+
+          if (node.material.map !== undefined && node.material.map !== null) {
+            let textureFile = node.material.map.image.currentSrc;
+            var texture = new THREE.TextureLoader().load(textureFile);
+            if (texture !== undefined) {
+              material.alphaMap = texture;
+            }
+          }
+
+          if (options.emissive === true) {
+            material.emissiveMap = texture;
+            material.emissive = new THREE.Color(node.material.color.r, node.material.color.g, node.material.color.b);
+            material.emissiveIntensity = options.emissiveIntensity;
+          }
         }
 
       return material;
@@ -241,7 +274,7 @@ export function registerComponent() {
     	    uniforms: {
     			"c":   { type: "f", value: this.data.c },
     			"p":   { type: "f", value: this.data.p },
-    			glowColor: { type: "c", value: new THREE.Color(this.data.color) },
+    			glowColor: { type: "c", value: new THREE.Color(this.data.color) },//not using anymore
     			viewVector: { type: "v3", value: camera.position }
     		},
     		vertexShader:   THREE.__GlowShader.vertexShader,
@@ -249,21 +282,21 @@ export function registerComponent() {
     		side: sideRender,
     		blending: THREE.AdditiveBlending,
     		transparent: true,
-        // vertexColors: THREE.VertexColors
+        vertexColors: THREE.VertexColors
     	});
-      // console.log(node);
+      console.log(node);
 
       var object = node.geometry;
       if (object !== undefined && object.clone !== undefined) {
         try {
           let child = object.clone();
           if (child !== undefined) {
-            this.applyGlowMaterial(child, node);
+            this.applyGlowMaterial(child, node, false);
           }
         } catch (error) {
-          // console.error(error);
-          // // console.log(child);
-          // console.log(object);
+          console.error(error);
+          // console.log(child);
+          console.log(object);
         }
       } else {
         mesh.traverse((node) => {
@@ -271,30 +304,32 @@ export function registerComponent() {
           if (node.geometry !== undefined && node.geometry.clone !== undefined) {
             let child = node.geometry.clone();
             if (child !== undefined) {
-              this.applyGlowMaterial(child, node);
+              this.applyGlowMaterial(child, node, true);
             }
           }
           } catch (error) {
-            // console.error(error);
-            // console.log(child);
+            console.error(error);
+            console.log(child);
           }
         });
       }
     },
-    applyGlowMaterial(object, parent) {
+    applyGlowMaterial(object, parent, isChild) {
 
       object = new THREE.Geometry().fromBufferGeometry(object);
       var modifier = new THREE.BufferSubdivisionModifier( 3 );
       object = modifier.modify( object );
-
       object.glowMesh = new THREE.Mesh( object, this.glowShaderMaterial);
-      object.glowMesh.rotation.set(this.el.object3D.rotation.x, this.el.object3D.rotation.y, this.el.object3D.rotation.z);
-      object.glowMesh.scale.set(this.el.object3D.scale.x*this.data.glowScale, this.el.object3D.scale.y*this.data.glowScale, this.el.object3D.scale.z*this.data.glowScale);
+        if (isChild === true){
+        object.glowMesh.rotation.set(this.el.object3D.rotation.x, this.el.object3D.rotation.y, this.el.object3D.rotation.z);
+        object.glowMesh.scale.set(this.el.object3D.scale.x*this.data.glowScale, this.el.object3D.scale.y*this.data.glowScale, this.el.object3D.scale.z*this.data.glowScale);
+        if (parent !== null ) {
+          //@todo position is wrong
+          object.glowMesh.position.set(parent.position.x, parent.position.y, parent.position.z);
+          // object.glowMesh.position.set(this.el.object3D.position.x, this.el.object3D.position.y, this.el.object3D.position.z);
 
-      if (parent !== null) {
-        object.glowMesh.position.set(parent.position.x, parent.position.y, parent.position.z);
+        }
       }
-
 
       if (!this.data.enabled) {
        object.glowMesh.visible = false;
@@ -308,8 +343,6 @@ export function registerComponent() {
 
 
 THREE.__GlowShader = {
-
-
 //view-source:http://stemkoski.github.io/Three.js/Shader-Halo.html
 	vertexShader: [
 
@@ -322,7 +355,8 @@ THREE.__GlowShader = {
     "{",
       "vec3 vNormal = normalize( normalMatrix * normal );",
     	"vec3 vNormel = normalize( normalMatrix * viewVector );", // Not using, if used this makes a bubble/shell effect.
-    	"intensity = pow( c - dot(vNormal, vec3( 0.0, 0.0, 1.0 )), p );",//pow( c - dot(vNormal, vec3( 0.0, 0.0, 1.0 )), p );
+    	// "intensity = vec3( 1.0, 1.0, 1.0 );",//pow( c - dot(vNormal, vec3( 0.0, 0.0, 1.0 )), p );
+      "intensity = pow( c - dot(vNormal, vec3( 0.0, 0.0, 1.0 )), p );",//pow( c - dot(vNormal, vec3( 0.0, 0.0, 1.0 )), p );
 
       "gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
     "}"
@@ -336,7 +370,7 @@ THREE.__GlowShader = {
     "varying float intensity;",
     "void main() ",
     "{",
-    	"vec3 glow = vColor * intensity;",
+    	"vec3 glow = glowColor * intensity;",
       "gl_FragColor = vec4( glow, 1.0 );",
     "}"
 
