@@ -73,6 +73,8 @@ export function registerComponent() {
             case "brush_Rainbow":
             case "Light":
             case "brush_Light":
+              return this.tiltbrushMaterial(node, {visible: true, emissive: true, emissiveIntensity: 1});
+              break;
             case "brush_Fire":
             case "brush_Electricity":
             case "brush_Comet":
@@ -121,6 +123,8 @@ export function registerComponent() {
             case "brush_WigglyGraphite":
             case "brush_Disco":
             case "brush_ShinyHull":
+              return this.tiltbrushMaterial(node);
+              break;
             default:
               return node.material;
               break;
@@ -230,7 +234,7 @@ export function registerComponent() {
         // material.map = texture;
         return material;
     },
-    tiltbrushMaterial: function(node, options) {
+    tiltbrushMaterial: function(node, options = {}) {
       // console.log(node.material);
       var material = new THREE.MeshStandardMaterial({
         color: node.material.color,
@@ -240,6 +244,7 @@ export function registerComponent() {
         depthWrite: false,
         opacity: 1,
         roughness: 1,
+        visible: options.visible || false,
         name: node.material.name,
         vertexColors: THREE.VertexColors,
       });
@@ -247,17 +252,16 @@ export function registerComponent() {
       if (node.material.map !== undefined && node.material.map !== null) {
         let textureFile = node.material.map.image.currentSrc;
         var texture = new THREE.TextureLoader().load(textureFile);
-        console.log(texture, node.material.name);
         if (texture !== undefined) {
           material.alphaMap = texture;
         }
-
 
       if (options.emissive === true) {
         material.emissiveMap = texture;
         material.emissive = node.material.color;
         material.emissiveIntensity = options.emissiveIntensity;
       }
+      
     } else {
 
     }
