@@ -81,7 +81,7 @@ export function registerComponent() {
             case "Light":
             case "brush_Light":
             case "cdbaaeecaefeed_brush_Light":
-              return this.tiltbrushMaterial(node, {visible: true, emissive: true, transparent: true, alphaTest: 1, emissiveIntensity: 0.5, glow: true});
+              return this.tiltbrushMaterial(node, {visible: true, emissive: true, transparent: true, alphaTest: 1, emissiveIntensity: 0.5, glow: true, side: 'back'});
               break;
             case "brush_Fire":
             case "brush_Electricity":
@@ -121,13 +121,12 @@ export function registerComponent() {
             case "brush_ThickPaint":
             case "brush_WetPaint":
             case "brush_Splatter":
-              return this.tiltbrushMaterial(node, {emissive: true, emissiveIntensity: 0.1, transparent: false});
+              return this.tiltbrushMaterial(node, {emissive: true, emissiveIntensity: 0.1, visible: false, transparent: false});
               break;
             case "brush_MatteHull":
             case "brush_UnlitHull":
             case "deeceaa_brush_MatteHull":
-
-              return this.tiltbrushMaterial(node, {transparent: false});
+              return this.tiltbrushMaterial(node, {transparent: false, alphaTest: 1, visible: false});
               break;
             case "brush_WigglyGraphite":
             case "brush_Disco":
@@ -143,22 +142,19 @@ export function registerComponent() {
       updateChildMaterials: function(node) {
       },
       tiltbrushMaterial: function(node, options = {}, e) {
-
-
-
-
         if (options.glow === true) {
           var material = new THREE.MeshStandardMaterial({
             color: node.material.color,
             // transparent: options.transparent ? options.transparent : false,
-            // side: options.side ? options.side : 'front',
-            // alphaTest: 0.1,
-            // depthWrite: false,
-            // opacity: options.opacity ? options.opacity : 1,
-            // roughness: options.roughness ? options.roughness : 1,
+            side: options.side ? options.side : 'front',
+            // alphaTest: options.alphaTest ? options.alphaTest : 0.5,
+            depthWrite: true,
+            opacity: options.opacity ? options.opacity : 1,
+            roughness: options.roughness ? options.roughness : 1,
             name: node.material.name,
             vertexColors: THREE.VertexColors,
             blending: THREE.MultiplyBlending,
+            visible: options.visible ? options.visible : true
           });
 
           if (node.material.map !== undefined && node.material.map !== null) {
@@ -183,11 +179,12 @@ export function registerComponent() {
             transparent: options.transparent ? options.transparent : false,
             side: options.side ? options.side : 'front',
             alphaTest: options.alphaTest ? options.alphaTest : 1,
-            depthWrite: false,
+            depthWrite: true,
             opacity: options.opacity ? options.opacity : 1,
             roughness: options.roughness ? options.roughness : 1,
             name: node.material.name,
             vertexColors: THREE.VertexColors,
+            visible: options.visible ? options.visible : true,
           });
 
           if (node.material.map !== undefined && node.material.map !== null) {
