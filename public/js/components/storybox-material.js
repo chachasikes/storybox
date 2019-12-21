@@ -66,7 +66,7 @@ export function registerComponent() {
           // console.log(node.material.name);
           let materialName = node.material.name;
           let materialNameUnique = materialName.replace(/[0-9]/g, '').replace('.', '');
-          // console.log(materialNameUnique);
+          console.log(materialNameUnique);
           switch(materialNameUnique) {
             case "brush_Smoke":
             case "Smoke":
@@ -79,6 +79,7 @@ export function registerComponent() {
             case "brush_Rainbow":
             case "Light":
             case "brush_Light":
+            case "cdbaaeecaefeed_brush_Light":
               return this.tiltbrushMaterial(node, {visible: true, emissive: true, emissiveIntensity: 1, glow: true});
               break;
             case "brush_Fire":
@@ -101,7 +102,7 @@ export function registerComponent() {
             case "brush_SoftHighlighter":
             case "brush_Highlighter":
             case "brush_VelvetInk":
-              return this.tiltbrushMaterial(node, {emissive: true, emissiveIntensity: 0.7});
+              return this.tiltbrushMaterial(node, {emissive: true, emissiveIntensity: 0.7, transparent: false});
               break;
             case "brush_Petal":
             case "brush_Lofted":
@@ -119,12 +120,13 @@ export function registerComponent() {
             case "brush_ThickPaint":
             case "brush_WetPaint":
             case "brush_Splatter":
-              return this.tiltbrushMaterial(node, {emissive: true, emissiveIntensity: 0.1});
+              return this.tiltbrushMaterial(node, {emissive: true, emissiveIntensity: 0.1, transparent: false});
               break;
             case "brush_MatteHull":
             case "brush_UnlitHull":
+            case "deeceaa_brush_MatteHull":
 
-              return this.tiltbrushMaterial(node, {flat: true});
+              return this.tiltbrushMaterial(node, {transparent: false});
               break;
             case "brush_WigglyGraphite":
             case "brush_Disco":
@@ -142,12 +144,12 @@ export function registerComponent() {
       tiltbrushMaterial: function(node, options = {}, e) {
         var material = new THREE.MeshStandardMaterial({
           color: node.material.color,
-          transparent: true,
-          side: THREE.DoubleSide,
-          alphaTest: 0.5,
+          transparent: options.transparent ? options.transparent : false,
+          side: options.side ? options.side : 'front',
+          alphaTest: options.alphaTest ? options.alphaTest : 1,
           depthWrite: false,
-          opacity: 1,
-          roughness: 1,
+          opacity: options.opacity ? options.opacity : 1,
+          roughness: options.roughness ? options.roughness : 1,
           name: node.material.name,
           vertexColors: THREE.VertexColors,
         });
