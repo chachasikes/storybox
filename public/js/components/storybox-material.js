@@ -1,12 +1,12 @@
 export function registerComponent() {
-   if (AFRAME.components["glow-material"] === undefined) {
-  AFRAME.registerComponent('glow-material', {
+   if (AFRAME.components["storybox-material"] === undefined) {
+  AFRAME.registerComponent('storybox-material', {
       schema: {
         enabled: {default: true},
         c: {type: 'number', default: 1 },
         p: {type: 'number', default: 1.4 },
         color: {type: 'color', default: '#FFFF00'},
-        scale: {type: 'number', default: 2 },
+        glowScale: {type: 'number', default: 2 },
         side: {type: 'string', default: "front" },
       },
       init: function() {
@@ -70,15 +70,23 @@ export function registerComponent() {
           switch(materialNameUnique) {
             case "brush_Smoke":
             case "Smoke":
+              return this.smokeMaterial(node);
+              break;
             case "brush_NeonPulse":
             case "NeonPulse":
+              return this.neonPulseMaterial(node);
+              break;
             case "brush_Rainbow":
             case "Light":
             case "brush_Light":
+              return this.tiltbrushMaterial(node, {visible: true, emissive: true, emissiveIntensity: 1, glow: true});
+              break;
             case "brush_Fire":
             case "brush_Electricity":
             case "brush_Comet":
             case "brush_Stars":
+              return this.tiltbrushMaterial(node, {emissive: true, emissiveIntensity: 1, glow: true});
+              break;
             case "Bubbles":
             case "brush_Bubbles":
             case "brush_DiamondHull":
@@ -93,6 +101,8 @@ export function registerComponent() {
             case "brush_SoftHighlighter":
             case "brush_Highlighter":
             case "brush_VelvetInk":
+              return this.tiltbrushMaterial(node, {emissive: true, emissiveIntensity: 0.7});
+              break;
             case "brush_Petal":
             case "brush_Lofted":
             case "brush_Spikes":
@@ -109,17 +119,21 @@ export function registerComponent() {
             case "brush_ThickPaint":
             case "brush_WetPaint":
             case "brush_Splatter":
+              return this.tiltbrushMaterial(node, {emissive: true, emissiveIntensity: 0.1});
+              break;
             case "brush_MatteHull":
             case "brush_UnlitHull":
+
+              return this.tiltbrushMaterial(node, {flat: true});
+              break;
             case "brush_WigglyGraphite":
             case "brush_Disco":
             case "brush_ShinyHull":
-            case "Material":
-            case "": // default
-              return this.tiltbrushMaterial(node, {visible: true, emissive: true, emissiveIntensity: 1, glow: true}, e);
+              return this.tiltbrushMaterial(node);
+              break;
             default:
               return node.material;
-            break;
+              break;
           }
         }
       },
@@ -158,6 +172,54 @@ export function registerComponent() {
 
       return material;
     },
+    neonPulseMaterial: function(node) {
+      var texture = new THREE.TextureLoader().load('./../../images/textures/tiltbrush/NeonPulse/stripes.png');
+      var material = new THREE.MeshStandardMaterial({
+        color: node.material.color,
+        // transparent: true,
+        // side: THREE.DoubleSide,
+        depthWrite: false,
+        alphaTest: 1,
+        opacity: 1,
+        roughness: 0.5,
+        metalness: 0.5,
+        name: node.material.name,
+        vertexColors: THREE.VertexColors,
+        alphaMap: texture,
+        flatShading: false,
+      });
+      // if (node.material.texture !== undefined && node.material.texture !== null) {
+        material.alphaMap.magFilter = THREE.NearestFilter;
+        material.alphaMap.wrapT = THREE.RepeatWrapping;
+        material.alphaMap.repeat.y = 1;
+
+        material.emissiveMap = texture;
+        material.emissive = node.material.color;
+        material.emissiveIntensity = 0.5;
+      // }
+
+      return material;
+    },
+    smokeMaterial: function(node) {
+      var texture = new THREE.TextureLoader().load('./../../images/textures/tiltbrush/Smoke/maintexture.png');
+      var material = new THREE.MeshStandardMaterial({
+        color: node.material.color,
+        transparent: true,
+        side: THREE.DoubleSide,
+        alphaTest: 0.01,
+        depthWrite: false,
+        opacity: 1,
+        roughness: 1,
+        name: node.material.name,
+        vertexColors: THREE.VertexColors,
+        alphaMap: texture
+      });
+
+      // texture, #horiz, #vert, #total, duration.
+      // var animatedTexture = new this.TextureAnimator(texture, 4, 4, 16, 55, material);
+      // material.map = texture;
+      return material;
+    },
     glowMaterial: function(node, options = {}, e) {
 
       var camera = document.querySelector('[camera]').object3D;
@@ -187,17 +249,32 @@ export function registerComponent() {
     		transparent: true,
         // vertexColors: THREE.VertexColors
     	});
-      console.log(node);
+      // console.log(node);
 
       var object = node.geometry;
-      if (object !== undefined) {
-        let child = object.clone();
-        this.applyGlowMaterial(child, node);
+      if (object !== undefined && object.clone !== undefined) {
+        try {
+          let child = object.clone();
+          if (child !== undefined) {
+            this.applyGlowMaterial(child, node);
+          }
+        } catch (error) {
+          // console.error(error);
+          // // console.log(child);
+          // console.log(object);
+        }
       } else {
         mesh.traverse((node) => {
-          if (node.geometry !== undefined) {
+          try {
+          if (node.geometry !== undefined && node.geometry.clone !== undefined) {
             let child = node.geometry.clone();
-            this.applyGlowMaterial(child, node);
+            if (child !== undefined) {
+              this.applyGlowMaterial(child, node);
+            }
+          }
+          } catch (error) {
+            // console.error(error);
+            // console.log(child);
           }
         });
       }
@@ -210,7 +287,7 @@ export function registerComponent() {
 
       object.glowMesh = new THREE.Mesh( object, this.glowShaderMaterial);
       object.glowMesh.rotation.set(this.el.object3D.rotation.x, this.el.object3D.rotation.y, this.el.object3D.rotation.z);
-      object.glowMesh.scale.set(this.el.object3D.scale.x*this.data.scale, this.el.object3D.scale.y*this.data.scale, this.el.object3D.scale.z*this.data.scale);
+      object.glowMesh.scale.set(this.el.object3D.scale.x*this.data.glowScale, this.el.object3D.scale.y*this.data.glowScale, this.el.object3D.scale.z*this.data.glowScale);
 
       if (parent !== null) {
         object.glowMesh.position.set(parent.position.x, parent.position.y, parent.position.z);
@@ -238,10 +315,11 @@ THREE.__GlowShader = {
     "uniform float c;",
     "uniform float p;",
     "varying float intensity;",
+    "varying vec3 vColor;",
     "void main() ",
     "{",
       "vec3 vNormal = normalize( normalMatrix * normal );",
-    	// "vec3 vNormel = normalize( normalMatrix * viewVector );", // Not using, if used this makes a bubble/shell effect.
+    	"vec3 vNormel = normalize( normalMatrix * viewVector );", // Not using, if used this makes a bubble/shell effect.
     	"intensity = pow( c - dot(vNormal, vec3( 0.0, 0.0, 1.0 )), p );",//pow( c - dot(vNormal, vec3( 0.0, 0.0, 1.0 )), p );
 
       "gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
@@ -252,10 +330,11 @@ THREE.__GlowShader = {
 	fragmentShader: [
 
 		"uniform vec3 glowColor;",
+    "varying vec3 vColor;",
     "varying float intensity;",
     "void main() ",
     "{",
-    	"vec3 glow = glowColor * intensity;",
+    	"vec3 glow = vColor * intensity;",
       "gl_FragColor = vec4( glow, 1.0 );",
     "}"
 

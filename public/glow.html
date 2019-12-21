@@ -6,7 +6,7 @@
   <!-- <script src="./js/components/aframe-glow-component.js"></script> -->
 
   <script type="module">
-    import { registerComponent } from './js/components/glow-material.js';
+    import { registerComponent } from './js/components/storybox-material.js';
 
     registerComponent();
   </script>
@@ -22,7 +22,7 @@
     <a-assets timeout="60000">
       <a-asset-item
         id="u_tiltbrush_test"
-        src="https://dl.dropboxusercontent.com/s/e7o5apgo8sxgb3t/glow-test.glb"
+        src="https://dl.dropboxusercontent.com/s/u2rhl1dq2bh76jj/Untitled_28.glb"
         preload="auto"
         loaded=""
         crossorigin="anonymous"
@@ -67,7 +67,7 @@
       ref="u_tiltbrush_test"
       class="glb-animation"
       gltf-model="#u_tiltbrush_test"
-      glow-material="side: front; scale: 2; color: #FFCC00; c: 0.05 ; p: 4.5;"
+      storybox-material="side: front; scale: 2; color: #FFCC00; c: 0.05 ; p: 4.5;"
       scale="1 1 1"
       position="2 0 -10"
       rotation="0 90 0"
