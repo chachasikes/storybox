@@ -255,7 +255,7 @@ export function registerComponent() {
       return material;
     },
     neonPulseMaterial: function(node) {
-      var texture = new THREE.TextureLoader().load('./../../images/textures/tiltbrush/NeonPulse/stripes.png');
+      var texture = new THREE.TextureLoader().load('./images/textures/tiltbrush/NeonPulse/stripes.png');
       var material = new THREE.MeshStandardMaterial({
         color: node.material.color,
         transparent: true,
