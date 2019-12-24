@@ -195,7 +195,7 @@ export function registerComponent() {
             transparent: options.transparent ? options.transparent : false,
             side: options.side ? options.side : 'front',
             alphaTest: options.alphaTest ? options.alphaTest : 0.5,
-            depthWrite: true,
+            depthWrite: false,
             opacity: options.opacity ? options.opacity : 1,
             roughness: options.roughness ? options.roughness : 1,
             name: node.material.name,
