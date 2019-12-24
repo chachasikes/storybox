@@ -30,7 +30,6 @@ export function registerComponent() {
             object.traverse((node) => {
               if (node !== undefined && node.isMesh) {
                 node.material = this.assignChildMaterials(node, e);
-                // console.log(node.material.name);
               }
             });
           }
@@ -63,6 +62,7 @@ export function registerComponent() {
       assignChildMaterials: function(node, e) {
         if (node !== undefined) {
           node.time = 0;
+          node.direction = 0;
           // console.log(node.material.name);
           let materialName = node.material.name;
           let materialNameUnique = materialName.replace(/[0-9]/g, '').replace('.', '');
@@ -70,7 +70,9 @@ export function registerComponent() {
           switch(materialNameUnique) {
             case "brush_Smoke":
             case "Smoke":
-              return this.smokeMaterial(node);
+            let material = this.smokeMaterial(node);
+                            console.log(material.alphaMap);
+            return material;
               break;
             case "brush_NeonPulse":
             case "NeonPulse":
@@ -81,13 +83,18 @@ export function registerComponent() {
             case "Light":
             case "brush_Light":
             case "cdbaaeecaefeed_brush_Light":
-              return this.tiltbrushMaterial(node, {visible: true, emissive: true, transparent: true, alphaTest: 0.01, emissiveIntensity: 0.8, glow: true, side: 'back'});
-              break;
             case "brush_Fire":
             case "brush_Electricity":
             case "brush_Comet":
             case "brush_Stars":
-              return this.tiltbrushMaterial(node, {visible: true, emissive: true, transparent: true, alphaTest: 0.01, emissiveIntensity: 0.8, glow: true, side: 'back'});
+              return this.tiltbrushMaterial(node, {
+                visible: true,
+                emissive: true,
+                transparent: true,
+                alphaTest: 0.001,
+                emissiveIntensity: 0.9,
+                glow: true, side: 'back'
+              });
               break;
             case "Bubbles":
             case "brush_Bubbles":
@@ -139,33 +146,63 @@ export function registerComponent() {
           }
         }
       },
+      addParallax: function(node) {
+        // console.log('test');
+        // on tick, reposition element towards the camera.
+        // var camera = document.querySelector('[camera]').object3D;
+        // this.camera = camera;
+        // console.log(this.camera.position);
+        // node.lookAt(this.camera.position);
+        // console.log(node);
+
+        let increment = this.getClampedIncrement(node, 0.02, node.material.alphaMap, 0.02);
+
+        node.material.alphaMap.offset.x = increment.x;
+        node.material.alphaMap.offset.y = increment.y;
+        // node.material.alphaMap.center = (increment,increment);
+
+        // node.material.alphaMap.rotation = increment;
+      },
+      getClampedIncrement: function(node, increment, map, max) {
+          node.time++;
+          let valueX = Math.sin(node.time * increment) * max;
+          let valueY = Math.cos(node.time * increment) * max;
+          return {
+            x: valueX,
+            y: valueY
+          }
+      },
       updateChildMaterials: function(node) {
-        node.time++;
         if (node !== undefined) {
           switch(node.material.name) {
             case "brush_Smoke":
             case "Smoke":
-                this.currentDisplayTime += this.time;
-                if(node.material !== undefined) {
-                  let material = node.material;
-                  // console.log(material.currentDisplayTime, material.tileDisplayDuration);
-                  while (material.currentDisplayTime > material.tileDisplayDuration) {
-                    material.currentDisplayTime -= material.tileDisplayDuration;
-                    material.currentTile++;
-                    if (material.currentTile == material.numberOfTiles)
-                      material.currentTile = 0;
-                    var currentColumn = material.currentTile % material.tilesHorizontal;
-                    material.texture.offset.x = currentColumn / material.tilesHorizontal;
-                    var currentRow = Math.floor( material.currentTile / material.tilesHorizontal );
-                    material.texture.offset.y = currentRow / material.tilesVertical;
-                  }
-                }
+                // this.currentDisplayTime += this.time;
+                // if(node.material !== undefined) {
+                //   let material = node.material;
+                //   // console.log(material.currentDisplayTime, material.tileDisplayDuration);
+                //   while (material.currentDisplayTime > material.tileDisplayDuration) {
+                //     material.currentDisplayTime -= material.tileDisplayDuration;
+                //     material.currentTile++;
+                //     if (material.currentTile == material.numberOfTiles)
+                //       material.currentTile = 0;
+                //     var currentColumn = material.currentTile % material.tilesHorizontal;
+                //     material.texture.offset.x = currentColumn / material.tilesHorizontal;
+                //     var currentRow = Math.floor( material.currentTile / material.tilesHorizontal );
+                //     material.texture.offset.y = currentRow / material.tilesVertical;
+                //   }
+                // }
+                // if(node.material.alphaMap !== undefined && node.material.alphaMap !== null) {
+                //   node.material.rotation = this.getOffset(node, 0.001, node.material.alphaMap.offset.x);
+                // }
+                this.addParallax(node);
+                break;
               break;
             case "brush_NeonPulse":
             case "NeonPulse":
+              node.time++;
               if(node.material.alphaMap !== undefined && node.material.alphaMap !== null) {
                 node.material.alphaMap.offset.x = this.getOffset(node, 0.001, node.material.alphaMap.offset.x);
-                // node.material.alphaMap.offset.y = this.getOffset(node, 0.001, node.material.alphaMap.offset.y);
               }
               break;
             case "brush_Light":
