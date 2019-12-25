@@ -324,8 +324,6 @@ export function registerComponent() {
               let textureFile = node.material.map.image.currentSrc;
               var texture = new THREE.TextureLoader().load(textureFile);
             }
-
-            console.log(texture);
             if (texture !== undefined) {
               material.alphaMap = texture;
             }
