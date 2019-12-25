@@ -178,7 +178,7 @@ export function registerComponent() {
           }
         }
       },
-      addParallax: function(node, mapType = 'alphaMap', increment = 0.02, clamp = 0.02) {
+      addParallax: function(node, mapType = 'alphaMap', increment=0.02, clamp=0.02) {
 
         if (node.material[mapType] !== null) {
           let position = this.getClampedIncrement(node, increment, node.material[mapType], clamp);
