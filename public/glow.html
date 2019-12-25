@@ -6,9 +6,11 @@
   <!-- <script src="./js/components/aframe-glow-component.js"></script> -->
 
   <script type="module">
-    import { registerComponent } from './js/components/storybox-material.js';
+    import { registerComponent as storyboxMaterial } from './js/components/storybox-material.js';
+    // import { registerComponent as gltfModel } from './js/components/gltf-model.js';
 
-    registerComponent();
+    storyboxMaterial();
+    // gltfModel();
   </script>
 
 </head>
@@ -21,7 +23,7 @@
 <!-- https://dl.dropboxusercontent.com/s/lk28ctuhdcesn4r/light.glb -->
 <!-- https://dl.dropboxusercontent.com/s/fo27qcdtb4q8bx4/bubbles.glb -->
 <body>
-  <a-scene id="scene-selector">
+  <a-scene id="scene-selector" gltf-model="dracoDecoderPath:./js/utilities/draco/">
     <a-assets timeout="60000">
       <a-asset-item
         id="u_tiltbrush_test"
