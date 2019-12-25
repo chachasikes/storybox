@@ -196,34 +196,34 @@ export function registerComponent() {
           }
       },
       updateChildMaterials: function(node) {
-        if (node !== undefined) {
-          let materialNameUnique = this.getUniqueMaterialName(node);
-          switch(materialNameUnique) {
-            case "brush_Smoke":
-            case "Smoke":
-                this.addParallax(node, 'alphaMap');
-                break;
-              break;
-            case "brush_NeonPulse":
-            case "NeonPulse":
-              node.time++;
-              if(node.material.alphaMap !== undefined && node.material.alphaMap !== null) {
-                node.material.alphaMap.offset.x = this.getOffset(node, 0.001, node.material.alphaMap.offset.x);
-              }
-              break;
-            case "brush_Light":
-            case "Light":
-
-              break;
-            case "brush_Bubbles":
-            case "Bubbles":
-              this.addParallax(node, 'alphaMap', 0.1, 0.1);
-              break;
-            default:
-
-              break;
-          }
-        }
+        // if (node !== undefined) {
+        //   let materialNameUnique = this.getUniqueMaterialName(node);
+        //   switch(materialNameUnique) {
+        //     case "brush_Smoke":
+        //     case "Smoke":
+        //         this.addParallax(node, 'alphaMap');
+        //         break;
+        //       break;
+        //     case "brush_NeonPulse":
+        //     case "NeonPulse":
+        //       node.time++;
+        //       if(node.material.alphaMap !== undefined && node.material.alphaMap !== null) {
+        //         node.material.alphaMap.offset.x = this.getOffset(node, 0.001, node.material.alphaMap.offset.x);
+        //       }
+        //       break;
+        //     case "brush_Light":
+        //     case "Light":
+        //
+        //       break;
+        //     case "brush_Bubbles":
+        //     case "Bubbles":
+        //       this.addParallax(node, 'alphaMap', 0.1, 0.1);
+        //       break;
+        //     default:
+        //
+        //       break;
+        //   }
+        // }
       },
       getOffset: function(node, increment, offset) {
         if (offset > 1) {
