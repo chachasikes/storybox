@@ -59,58 +59,90 @@ export function registerComponent() {
           el.removeEventListener(data.event, this.eventHandlerFn);
         }
       },
+      getUniqueMaterialName: function(node) {
+        let materialName = node.material.name;
+        return materialName.replace(/[0-9]/g, '').replace('.', '').replace('_COLOR_', '');
+      },
       assignChildMaterials: function(node, e) {
+        let material;
         if (node !== undefined) {
           node.time = 0;
           node.direction = 0;
-          // console.log(node.material.name);
-          let materialName = node.material.name;
-          let materialNameUnique = materialName.replace(/[0-9]/g, '').replace('.', '');
-          // console.log(materialNameUnique);
+          let materialNameUnique = this.getUniqueMaterialName(node);
           switch(materialNameUnique) {
             case "brush_Smoke":
             case "Smoke":
-            let material = this.smokeMaterial(node);
-                            console.log(material.alphaMap);
-            return material;
+            return this.smokeMaterial(node);
               break;
             case "brush_NeonPulse":
             case "NeonPulse":
               return this.neonPulseMaterial(node);
               break;
               //https://github.com/googlevr/tilt-brush-toolkit/tree/master/UnitySDK/Assets/TiltBrush/Assets/Brushes/Basic/Light
-            case "brush_Rainbow":
+
             case "Light":
             case "brush_Light":
-            case "cdbaaeecaefeed_brush_Light":
+            case "cdbaaeecaefeed_brush_Light": // Testing, Rift tiltbrush export
+              material = this.tiltbrushMaterial(node, {
+                  visible: true,
+                  emissive: true,
+                  transparent: true,
+                  alphaTest: 0.01,
+                  emissiveIntensity: 0.85,
+                  glow: true,
+                  side: 'double'
+                });
+              return material;
+              break;
+            case "Bubbles":
+            case "brush_Bubbles":
+                material = this.tiltbrushMaterial(node, {
+                  visible: true,
+                  emissive: false,
+                  transparent: true,
+                  alphaTest: 0.01,
+                  glow: false,
+                  side: 'double',
+                  float: true,
+                  colors: 'none',
+                  texture: new THREE.TextureLoader().load('./images/textures/tiltbrush/Bubbles/maintexture.png')
+                });
+              return material;
+              break;
+            case "brush_Rainbow":
             case "brush_Fire":
             case "brush_Electricity":
             case "brush_Comet":
             case "brush_Stars":
+            case "brush_Snow":
+            case "brush_Dots":
               return this.tiltbrushMaterial(node, {
                 visible: true,
                 emissive: true,
                 transparent: true,
                 alphaTest: 0.001,
                 emissiveIntensity: 0.9,
-                glow: true, side: 'back'
+                glow: true,
+                side: 'double',
+                float: true,
               });
               break;
-            case "Bubbles":
-            case "brush_Bubbles":
             case "brush_DiamondHull":
-            case "brush_Snow":
             case "brush_HyperGrid":
             case "brush_Embers":
             case "brush_Hypercolor":
             case "brush_Streamers":
             case "brush_Waveform":
-            case "brush_Dots":
+
             case "brush_ChromaticWave":
             case "brush_SoftHighlighter":
             case "brush_Highlighter":
             case "brush_VelvetInk":
-              return this.tiltbrushMaterial(node, {emissive: true, emissiveIntensity: 0.7, transparent: false});
+              return this.tiltbrushMaterial(node, {
+                emissive: true,
+                emissiveIntensity: 0.7,
+                transparent: false
+              });
               break;
             case "brush_Petal":
             case "brush_Lofted":
@@ -146,22 +178,13 @@ export function registerComponent() {
           }
         }
       },
-      addParallax: function(node) {
-        // console.log('test');
-        // on tick, reposition element towards the camera.
-        // var camera = document.querySelector('[camera]').object3D;
-        // this.camera = camera;
-        // console.log(this.camera.position);
-        // node.lookAt(this.camera.position);
-        // console.log(node);
+      addParallax: function(node, mapType = 'alphaMap', increment = 0.02, clamp = 0.02) {
 
-        let increment = this.getClampedIncrement(node, 0.02, node.material.alphaMap, 0.02);
-
-        node.material.alphaMap.offset.x = increment.x;
-        node.material.alphaMap.offset.y = increment.y;
-        // node.material.alphaMap.center = (increment,increment);
-
-        // node.material.alphaMap.rotation = increment;
+        if (node.material[mapType] !== null) {
+          let position = this.getClampedIncrement(node, increment, node.material[mapType], clamp);
+          node.material[mapType].offset.x = position.x;
+          node.material[mapType].offset.y = position.y;
+        }
       },
       getClampedIncrement: function(node, increment, map, max) {
           node.time++;
@@ -174,28 +197,11 @@ export function registerComponent() {
       },
       updateChildMaterials: function(node) {
         if (node !== undefined) {
-          switch(node.material.name) {
+          let materialNameUnique = this.getUniqueMaterialName(node);
+          switch(materialNameUnique) {
             case "brush_Smoke":
             case "Smoke":
-                // this.currentDisplayTime += this.time;
-                // if(node.material !== undefined) {
-                //   let material = node.material;
-                //   // console.log(material.currentDisplayTime, material.tileDisplayDuration);
-                //   while (material.currentDisplayTime > material.tileDisplayDuration) {
-                //     material.currentDisplayTime -= material.tileDisplayDuration;
-                //     material.currentTile++;
-                //     if (material.currentTile == material.numberOfTiles)
-                //       material.currentTile = 0;
-                //     var currentColumn = material.currentTile % material.tilesHorizontal;
-                //     material.texture.offset.x = currentColumn / material.tilesHorizontal;
-                //     var currentRow = Math.floor( material.currentTile / material.tilesHorizontal );
-                //     material.texture.offset.y = currentRow / material.tilesVertical;
-                //   }
-                // }
-                // if(node.material.alphaMap !== undefined && node.material.alphaMap !== null) {
-                //   node.material.rotation = this.getOffset(node, 0.001, node.material.alphaMap.offset.x);
-                // }
-                this.addParallax(node);
+                this.addParallax(node, 'alphaMap');
                 break;
               break;
             case "brush_NeonPulse":
@@ -211,6 +217,7 @@ export function registerComponent() {
               break;
             case "brush_Bubbles":
             case "Bubbles":
+              this.addParallax(node, 'alphaMap', 0.1, 0.1);
               break;
             default:
 
@@ -225,14 +232,45 @@ export function registerComponent() {
         let value = node.time * increment;
         return value;
       },
+      getSide: function(side) {
+        switch (side) {
+          case 'front':
+            return THREE.FrontSide;
+            break;
+          case 'back':
+            return THREE.BackSide;
+            break;
+          case 'double':
+            return THREE.DoubleSide;
+            break;
+          default:
+            return THREE.DoubleSide;
+            break;
+        }
+      },
+      getColors: function(colors) {
+        switch (colors) {
+          case 'vertex':
+            return THREE.VertexColors;
+            break;
+          case 'face':
+            return THREE.FaceColors;
+            break;
+          case 'none':
+            return THREE.NoColors;
+            break;
+          default:
+            return THREE.VertexColors;
+        }
+      },
       tiltbrushMaterial: function(node, options = {}, e) {
         if (options.glow === true) {
           var material = new THREE.MeshStandardMaterial({
             color: node.material.color,
             transparent: options.transparent ? options.transparent : false,
-            side: options.side ? options.side : 'front',
+            side: this.getSide(options.side),
             alphaTest: options.alphaTest ? options.alphaTest : 0.5,
-            depthWrite: false,
+            depthWrite: options.depthWrite ? options.depthWrite : false,
             opacity: options.opacity ? options.opacity : 1,
             roughness: options.roughness ? options.roughness : 1,
             name: node.material.name,
@@ -241,9 +279,14 @@ export function registerComponent() {
             visible: options.visible ? options.visible : true
           });
 
-          if (node.material.map !== undefined && node.material.map !== null) {
-            let textureFile = node.material.map.image.currentSrc;
-            var texture = new THREE.TextureLoader().load(textureFile);
+          if ((node.material.map !== undefined && node.material.map !== null) || options.texture !== undefined) {
+            if (options.texture !== undefined) {
+              texture = options.texture;
+            } else {
+              let textureFile = node.material.map.image.currentSrc;
+              var texture = new THREE.TextureLoader().load(textureFile);
+            }
+
             if (texture !== undefined) {
               material.map = texture;
               material.alphaMap = texture;
@@ -257,26 +300,32 @@ export function registerComponent() {
           }
 
 
-
           // this.glowMaterial(node); This would apply a cloned mesh with a slight glow effect.
           // What we need though is an emissive texture.
         } else {
           var material = new THREE.MeshStandardMaterial({
             color: node.material.color,
             transparent: options.transparent ? options.transparent : false,
-            side: options.side ? options.side : 'front',
-            alphaTest: options.alphaTest ? options.alphaTest : 1,
-            depthWrite: false,
+            side: this.getSide(options.side),
+            alphaTest: options.alphaTest ? options.alphaTest : 0.5,
+            depthWrite: options.depthWrite ? options.depthWrite : false,
             opacity: options.opacity ? options.opacity : 1,
             roughness: options.roughness ? options.roughness : 1,
             name: node.material.name,
-            vertexColors: THREE.VertexColors,
+            vertexColors: this.getColors(options.colors),
+            // blending: THREE.MultiplyBlending,
             visible: options.visible ? options.visible : true,
           });
 
-          if (node.material.map !== undefined && node.material.map !== null) {
-            let textureFile = node.material.map.image.currentSrc;
-            var texture = new THREE.TextureLoader().load(textureFile);
+          if ((node.material.map !== undefined && node.material.map !== null) || options.texture !== undefined) {
+            if (options.texture !== undefined) {
+              texture = options.texture;
+            } else {
+              let textureFile = node.material.map.image.currentSrc;
+              var texture = new THREE.TextureLoader().load(textureFile);
+            }
+
+            console.log(texture);
             if (texture !== undefined) {
               material.alphaMap = texture;
             }
@@ -289,6 +338,8 @@ export function registerComponent() {
           }
         }
 
+        // console.log(node.material);
+        // console.log(material);
       return material;
     },
     neonPulseMaterial: function(node) {
