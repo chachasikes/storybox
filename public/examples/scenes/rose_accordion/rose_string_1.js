@@ -5,6 +5,16 @@ export let Scene = {
   name: "Rose Accordion",
   duration: 300000,
   autoPlay: true,
+  final: {
+    playedAll: [
+      'rose_metal',
+      'four_am',
+      'rosy_peachy'
+    ],
+    target: [
+      'bloomed'
+    ]
+  },
   skybox: {
     sky: {
       color: "#ededed",
@@ -215,7 +225,7 @@ export let Scene = {
         eventName: 'fadeInObject',
         type: 'intersection-play',
         attribute: "gltf-model-opacity",
-        duration: "5000",
+        duration: "2000",
         from: "0",
         to: "1",
         repeat: true,
@@ -226,7 +236,9 @@ export let Scene = {
         round: false,
         proximity: {
           radius: 10
-        }
+        },
+        hit: 0,
+        play: true,
       }]
     }
   },
@@ -257,7 +269,7 @@ export let Scene = {
         eventName: 'fadeInObject',
         type: 'intersection-play',
         attribute: "gltf-model-opacity",
-        duration: "5000",
+        duration: "2000",
         from: "0",
         to: "1",
         repeat: true,
@@ -268,7 +280,9 @@ export let Scene = {
         round: false,
         proximity: {
           radius: 10
-        }
+        },
+        hit: 0,
+        play: true,
       }]
     }
   },
@@ -299,7 +313,7 @@ export let Scene = {
         eventName: 'fadeInObject',
         type: 'intersection-play',
         attribute: "gltf-model-opacity",
-        duration: "5000",
+        duration: "2000",
         from: "0",
         to: "1",
         repeat: true,
@@ -310,7 +324,9 @@ export let Scene = {
         round: false,
         proximity: {
           radius: 10
-        }
+        },
+        hit: 0,
+        play: true,
       }]
     }
   },

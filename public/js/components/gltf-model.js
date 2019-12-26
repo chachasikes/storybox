@@ -25,7 +25,7 @@ export function registerComponent() {
             void 0,
             function(e) {
               var r = e && e.message ? e.message : "Failed to load glTF model";
-            console.log(r), o.emit("model-error", { format: "gltf", src: t });
+              console.log(r), o.emit("model-error", { format: "gltf", src: t });
             }
           ));
       },

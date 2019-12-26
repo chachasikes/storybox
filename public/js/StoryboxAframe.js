@@ -499,9 +499,19 @@ export class StoryboxAframe {
           if (item.proximity !== undefined && item.proximity.radius !== undefined) {
             proximity = `data-proximity="true" data-proximity-radius="${item.proximity.radius}"`;
           }
+          let hit = ``;
+          if (item.hit !== undefined) {
+            hit = `data-hit=${item.hit}`;
+          }
+          let play = ``;
+          if (item.play !== undefined) {
+            play = `data-play=${item.play}`;
+          }
           // @TODO can add more behaviors here if needed (like rotating, moving, pulsing etc.)
           animation = `
             ${proximity}
+            ${hit}
+            ${play}
             animation="
               startEvents: ${item.id}-${item.eventName};
               property: ${item.attribute ? item.attribute : 'gltf-model-opacity'};
@@ -513,7 +523,7 @@ export class StoryboxAframe {
               enabled: ${item.enabled ? item.enabled : true};
               elasticity: ${item.elasticity ? item.elasticity : 400};
               loop: ${item.loop ? item.loop : false};
-              delay: ${item.delay ? item.delay : false};
+              delay: ${item.delay ? item.delay : 0};
               dir: ${item.dir ? item.dir : 'normal'};
               round: ${item.round ? item.round : false};
               " `;

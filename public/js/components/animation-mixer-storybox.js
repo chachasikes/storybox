@@ -65,6 +65,12 @@ export function registerComponent() {
           this.el.addEventListener('model-loaded', (e) => {
             this.load(e.detail.model);
           });
+          this.el.addEventListener("animationbegin", e => {
+            console.log('animation begin', e.detail);
+          });
+          this.el.addEventListener("animationcomplete", e => {
+            console.log('animation complete', e.detail);
+          });
         }
       },
 
@@ -91,6 +97,15 @@ export function registerComponent() {
         if (this.mixer) this.mixer.stopAllAction();
       },
 
+      checkPlayedAll: function() {
+        // let all = this.el.getAttribute('data-played-all'); // array
+        // @TODO check each data hit + played values & if completed,
+        // don't play again & play the target.
+      },
+      prompt: function() {
+        // @TODO if hit count is greater than + and played all is not done,
+        // Show a clue from list of clues
+      },
       update: function(prevData) {
         if (!prevData) return;
 
