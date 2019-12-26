@@ -1,0 +1,47 @@
+function fillWithPoints(geometry, count) {
+
+   var ray = new THREE.Ray()
+
+   var size = new THREE.Vector3();
+   geometry.computeBoundingBox();
+   let bbox = geometry.boundingBox;
+
+   let points = [];
+
+   var dir = new THREE.Vector3(1, 1, 1).normalize();
+   for (let i = 0; i < count; i++) {
+     let p = setRandomVector(bbox.min, bbox.max);
+     points.push(p);
+   }
+
+   function setRandomVector(min, max){
+     let v = new THREE.Vector3(
+       THREE.Math.randFloat(min.x, max.x),
+       THREE.Math.randFloat(min.y, max.y),
+       THREE.Math.randFloat(min.z, max.z)
+     );
+     if (!isInside(v)){return setRandomVector(min, max);}
+     return v;
+   }
+
+   function isInside(v){
+
+     ray.set(v, dir);
+     let counter = 0;
+
+     let pos = geometry.attributes.position;
+     let faces = pos.count / 3;
+     console.log(faces);
+     let vA = new THREE.Vector3(), vB = new THREE.Vector3(), vC = new THREE.Vector3();
+     for(let i = 0; i < faces; i++){
+       vA.fromBufferAttribute(pos, i * 3 + 0);
+       vB.fromBufferAttribute(pos, i * 3 + 1);
+       vC.fromBufferAttribute(pos, i * 3 + 2);
+       if (ray.intersectTriangle(vA, vB, vC)) counter++;
+     }
+
+     return counter % 2 == 1;
+   }
+
+   return new THREE.BufferGeometry().setFromPoints(points);
+ }

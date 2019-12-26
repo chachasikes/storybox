@@ -69,7 +69,7 @@ export function registerComponent() {
           node.time = 0;
           node.direction = 0;
           let materialNameUnique = this.getUniqueMaterialName(node);
-          console.log(materialNameUnique);
+          // console.log(materialNameUnique);
           switch(materialNameUnique) {
             case "brush_Smoke":
             case "Smoke":
@@ -80,7 +80,7 @@ export function registerComponent() {
               return this.neonPulseMaterial(node);
               break;
               //https://github.com/googlevr/tilt-brush-toolkit/tree/master/UnitySDK/Assets/TiltBrush/Assets/Brushes/Basic/Light
-
+                case "brush_Snow":
             case "Light":
             case "brush_Light":
             case "cdbaaeecaefeed_brush_Light": // Testing, Rift tiltbrush export
@@ -95,6 +95,7 @@ export function registerComponent() {
                 });
               return material;
               break;
+
             case "Bubbles":
             case "brush_Bubbles":
                 material = this.tiltbrushMaterial(node, {
@@ -110,12 +111,14 @@ export function registerComponent() {
                 });
               return material;
               break;
+            case "brush_Stars":
+
+              return this.pointMaterial(node);
+              break;
             case "brush_Rainbow":
             case "brush_Fire":
             case "brush_Electricity":
             case "brush_Comet":
-            case "brush_Stars":
-            case "brush_Snow":
             case "brush_Dots":
               return this.tiltbrushMaterial(node, {
                 visible: true,
@@ -201,7 +204,7 @@ export function registerComponent() {
           switch(materialNameUnique) {
             case "brush_Smoke":
             case "Smoke":
-                this.addParallax(node, 'alphaMap');
+                // this.addParallax(node, 'alphaMap');
                 break;
               break;
             case "brush_NeonPulse":
@@ -211,13 +214,20 @@ export function registerComponent() {
                 node.material.alphaMap.offset.x = this.getOffset(node, 0.001, node.material.alphaMap.offset.x);
               }
               break;
+            case "brush_Stars":
+              // node.time++;
+              // node.rotation.x += 0.05;
+              // node.rotation.y += 0.1;
+              break;
             case "brush_Light":
             case "Light":
 
               break;
+            case "brush_Stars":
+            case "brush_Snow":
             case "brush_Bubbles":
             case "Bubbles":
-              this.addParallax(node, 'alphaMap', 0.1, 0.1);
+              // this.addParallax(node, 'alphaMap', 0.1, 0.1);
               break;
             default:
 
@@ -388,6 +398,69 @@ export function registerComponent() {
 
       // material.map = texture;
       return material;
+    },
+    pointMaterial: function(node) {
+
+      let material = new THREE.PointsMaterial( {
+          map: node.material.map,
+          blending: THREE.AdditiveBlending,
+          depthTest: false,
+          transparent: true,
+          color: node.material.color,
+          size: 0.02,
+          sizeAttenuation: true,
+          opacity: 0.5
+        }
+      );
+      material.map.repeat.set( 0.5, 0.5 );
+      material.map.center.set( 1, 1 );
+
+      console.log(material.map);
+
+      this.pointMaterialUpdate(node);
+
+
+    	node.particles = new THREE.Points(node.geometry, material);
+
+      this.el.object3D.add(node.particles);
+
+      // for ( var i = 0; i < node.children.length; i ++ ) {
+      //     var object = node.children[ i ];
+      //     if ( object instanceof THREE.Points ) {
+      //       object.rotation.y = node.time * ( i < 4 ? i + 1 : - ( i + 1 ) );
+      //     }
+      //   }
+
+			// particles.rotation.x = Math.random() * 360;
+			// particles.rotation.y = Math.random() * 360;
+			// particles.rotation.z = Math.random() * 360;
+      // particles.scale.set(this.el.object3D.scale.x*this.data.glowScale, this.el.object3D.scale.y*this.data.glowScale, this.el.object3D.scale.z*this.data.glowScale);
+      //
+      // if (node !== null ) {
+      //  particles.position.set(node.position.x, node.position.y, node.position.z);
+      // }
+      // console.log(particles);
+      // this.el.object3D.add(particles);
+
+      return this.tiltbrushMaterial(node, {
+        visible: false,
+        emissive: true,
+        transparent: true,
+        alphaTest: 0.001,
+        emissiveIntensity: 0.9,
+        glow: true,
+        side: 'double',
+        float: true,
+      });
+    },
+    pointMaterialUpdate: function(node) {
+
+      var positions = node.geometry.attributes.position.array;
+      console.log(positions);
+
+
+
+
     },
     glowMaterial: function(node, options = {}, e) {
       var camera = document.querySelector('[camera]').object3D;
