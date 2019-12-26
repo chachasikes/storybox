@@ -25,7 +25,7 @@ export let Scene = {
       },
       rotation: {
         x: 0,
-        y: 0,
+        y: 90,
         z: 0
       },
       headProp: {
@@ -92,7 +92,7 @@ export let Scene = {
             collisionClass: "head",
             intersectTarget: "rose_metal",
             intersectAction: 'fadeInObject',
-            radius: 0.1,
+            radius: 0.4,
           },
           {
             type: "percentage",
@@ -107,7 +107,7 @@ export let Scene = {
             collisionClass: "head",
             intersectTarget: "rosy_peachy",
             intersectAction: 'fadeInObject',
-            radius: 0.1,
+            radius: 0.4,
           },
           {
             type: "percentage",
@@ -122,7 +122,7 @@ export let Scene = {
             collisionClass: "head",
             intersectTarget: "four_am",
             intersectAction: 'fadeInObject',
-            radius: 0.1,
+            radius: 0.4,
           }
         ],
         mesh: {
@@ -151,7 +151,7 @@ export let Scene = {
           },
           position: {
             x: 0,
-            y: 1,
+            y: 1.6,
             z: -0.4
           },
         },
@@ -193,12 +193,12 @@ export let Scene = {
       name: "Rose Metal",
       credit: "Sarah Chalek & Chacha Sikes",
       id: "rose_metal",
-      art: "https://www.dropbox.com/s/dsknrain4eopjt7/rose_metal.glb?dl=0",
-      opacity: 1,
+      art: "https://www.dropbox.com/s/aelwtoatbshexvf/rose-metal-lights.glb?dl=0",
+      opacity: 0,
       scale: {
-        x: 10,
-        y: 10,
-        z: 10
+        x: 1,
+        y: 1,
+        z: 1
       },
       rotation: {
         x: 0,
@@ -206,9 +206,9 @@ export let Scene = {
         z: 0
       },
       position: {
-        x: -15,
-        y: -15,
-        z: -15
+        x: 0,
+        y: 0,
+        z: 0
       },
       events: [{
         id: 'rose_metal',
@@ -235,12 +235,12 @@ export let Scene = {
       name: "Rosy Peachy",
       credit: "Sarah Chalek & Chacha Sikes",
       id: "rosy_peachy",
-      art: "https://www.dropbox.com/s/dsknrain4eopjt7/rose_metal.glb?dl=0",
-      opacity: 1,
+      art: "https://www.dropbox.com/s/1pp0vyfnhjz38k3/rosy-peachy.glb?dl=0",
+      opacity: 0,
       scale: {
-        x: 10,
-        y: 10,
-        z: 10
+        x: 1,
+        y: 1,
+        z: 1
       },
       rotation: {
         x: 0,
@@ -249,8 +249,8 @@ export let Scene = {
       },
       position: {
         x: 0,
-        y: -15,
-        z: -15
+        y: 0,
+        z: 0
       },
       events: [{
         id: 'rosy_peachy',
@@ -278,11 +278,11 @@ export let Scene = {
       credit: "Sarah Chalek & Chacha Sikes",
       id: "four_am",
       art: "https://www.dropbox.com/s/dsknrain4eopjt7/rose_metal.glb?dl=0",
-      opacity: 1,
+      opacity: 0,
       scale: {
-        x: 10,
-        y: 10,
-        z: 10
+        x: 1,
+        y: 1,
+        z: 1
       },
       rotation: {
         x: 0,
@@ -290,9 +290,9 @@ export let Scene = {
         z: 0
       },
       position: {
-        x: 15,
-        y: -15,
-        z: -15
+        x: 0,
+        y: 0,
+        z: 0
       },
       events: [{
         id: 'four_am',
@@ -317,9 +317,9 @@ export let Scene = {
   train_station: {
     mesh: {
       name: "Set",
-      credit: "Concept: Sarah Chalek & Immersive illustration: Chacha Sieks",
+      credit: "Concept: Sarah Chalek & Immersive illustration: Chacha Sikes",
       id: "train-station",
-      art: "https://www.dropbox.com/s/u3i0e93bi7uu82y/train_station.glb?dl=0",
+      art: "https://www.dropbox.com/s/bj6oj5sanv77kg6/train-station.glb?dl=0",
       opacity: 1,
       scale: {
         x: 1,
@@ -333,8 +333,8 @@ export let Scene = {
       },
       position: {
         x: 0,
-        y: -6,
-        z: -12
+        y: 0,
+        z: 0
       }
     },
   }

@@ -6,13 +6,13 @@ export const testPositions = [
       z: 0
     },
     left: {
-      x: -1,
-      y: -0.5,
+      x: -2,
+      y: 1.6,
       z: -1
     },
     right: {
-      x: 1,
-      y: 5,
+      x: 2,
+      y: 1.6,
       z: -1
     },
   },
@@ -23,12 +23,12 @@ export const testPositions = [
       z: 0
     },
     left: {
-      x: -0.2,
+      x: -1,
       y: 0.8,
       z: -1
     },
     right: {
-      x: 0.2,
+      x: 1,
       y: 0.8,
       z: -1
     }
