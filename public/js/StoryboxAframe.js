@@ -507,11 +507,20 @@ export class StoryboxAframe {
           if (item.play !== undefined) {
             play = `data-play=${item.play}`;
           }
+          let final = ``;
+          if (item.final !== undefined &&
+              item.final.playedAll !== undefined &&
+              item.final.playedAll.length > 0
+            ) {
+            final = `data-played-all=${item.final.playedAll.join(',')}`;
+          }
+
           // @TODO can add more behaviors here if needed (like rotating, moving, pulsing etc.)
           animation = `
             ${proximity}
             ${hit}
             ${play}
+            ${final}
             animation="
               startEvents: ${item.id}-${item.eventName};
               property: ${item.attribute ? item.attribute : 'gltf-model-opacity'};

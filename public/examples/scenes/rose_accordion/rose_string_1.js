@@ -5,16 +5,6 @@ export let Scene = {
   name: "Rose Accordion",
   duration: 300000,
   autoPlay: true,
-  final: {
-    playedAll: [
-      'rose_metal',
-      'four_am',
-      'rosy_peachy'
-    ],
-    target: [
-      'bloomed'
-    ]
-  },
   skybox: {
     sky: {
       color: "#ededed",
@@ -239,6 +229,16 @@ export let Scene = {
         },
         hit: 0,
         play: true,
+        final: {
+          playedAll: [
+            'rose_metal',
+            'four_am',
+            'rosy_peachy'
+          ],
+          target: [
+            'bloomed'
+          ]
+        },
       }]
     }
   },
@@ -283,6 +283,16 @@ export let Scene = {
         },
         hit: 0,
         play: true,
+        final: {
+          playedAll: [
+            'rose_metal',
+            'four_am',
+            'rosy_peachy'
+          ],
+          target: [
+            'bloomed'
+          ]
+        },
       }]
     }
   },
@@ -327,6 +337,16 @@ export let Scene = {
         },
         hit: 0,
         play: true,
+        final: {
+          playedAll: [
+            'rose_metal',
+            'four_am',
+            'rosy_peachy'
+          ],
+          target: [
+            'bloomed'
+          ]
+        },
       }]
     }
   },

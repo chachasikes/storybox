@@ -48,7 +48,13 @@ export function registerComponent() {
                 let proximity = this.calculateProximity(intersectTargetEl);
                 let status = this.calculateStatus(intersectTargetEl);
                 if (status === true) {
-                  this.stopAnimations(intersectTarget);
+                  let playedAll = intersectTargetEl.getAttribute('data-played-all');
+                  if (playedAll !== undefined && playedAll !== null) {
+                    playedAll = playedAll.split(',');
+                    console.log(playedAll);
+                    this.stopAnimations(intersectTarget, playedAll);
+                  }
+
                 // console.log(intersectTargetEl, `${intersectTarget}-${intersectAction}`);
                   intersectTargetEl.emit(`${intersectTarget}-${intersectAction}`);
                 }
@@ -58,14 +64,10 @@ export function registerComponent() {
           // vrlog("hit");
         });
       },
-      stopAnimations: function(id) {
+      stopAnimations: function(id, playedAll) {
         // let playedAll = el.getAttribute('data-played-all');
         // @TODO connect to elements.
-        let playedAll = [
-          'rose_metal',
-          'four_am',
-          'rosy_peachy'
-        ];
+
         playedAll.forEach(item_id => {
           console.log(item_id);
           let hit = Number(document.querySelector(`#${item_id}-gltf`).getAttribute('data-hit'));
